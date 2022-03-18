@@ -8,25 +8,5 @@
   // default formatter 설정 (esbenp.prettier-vscode: prettier)
   "editor.defaultFormatter": "dbaeumer.vscode-eslint",
   "editor.tabSize": 2,
-  "cSpell.words": [
-    "booktez",
-    "boostwidth",
-    "Drawerdefault",
-    "fromlogin",
-    "hasborder",
-    "isdisabled",
-    "isfilled",
-    "isopen",
-    "isrightpath",
-    "issingle",
-    "KAKAO",
-    "logocolor",
-    "logoicon",
-    "menuposition",
-    "opentoright",
-    "Pretendard",
-    "reducewidth",
-    "rightpath",
-    "signup"
-  ],
+  "cSpell.words": []
 }
