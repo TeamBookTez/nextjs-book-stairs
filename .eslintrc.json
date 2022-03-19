@@ -19,11 +19,12 @@
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
+    "project": "./tsconfig.json",
     "ecmaFeatures": {
       "jsx": true
     },
-    "ecmaVersion": "latest",
-    "sourceType": "module"
+    "ecmaVersion": "latest", // 사용할 ECMAScript 버전을 설정
+    "sourceType": "module" // parser의 export 형태를 설정
   },
   "plugins": [
     "react",
@@ -61,13 +62,20 @@
     "import/no-named-as-default": 0                    // default로 정의되지 않은 아이들을 불러왔음을 알려줌
   },
   "settings": {
+    "react": {
+      "version": "detect"
+    },
     "import/resolver": {
       "node": {
         "extensions": [".js", ".jsx", ".ts", ".tsx"]
       }
     },
-    "react": {
-        "version": "detect"
-      }
+    "import/parsers": { // 추가
+      "@typescript-eslint/parser": [
+        ".ts",
+        ".tsx",
+        ".js"
+      ]
+    }
   }
 }
