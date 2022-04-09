@@ -2,7 +2,7 @@ import { MainLayout } from "../../components/layout";
 
 export default function bookcase() {
   return (
-    <MainLayout>
+    <MainLayout pageName="서재">
       <div>bookcase</div>
     </MainLayout>
   );

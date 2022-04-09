@@ -2,19 +2,30 @@ import styled from "@emotion/styled";
 import { ReactNode } from "react";
 
 import { NavWrapper } from "../common";
+import { MainHeader } from "../main";
 
 interface LayoutProps {
+  pageName: string;
   children: ReactNode;
 }
 
-export default function Layout({ children }: LayoutProps) {
+export default function Layout(props: LayoutProps) {
+  const { pageName, children } = props;
+
   return (
-    <>
+    <StLayoutWrapper>
       <NavWrapper />
-      <StWrapper>{children}</StWrapper>
-    </>
+      <StWrapper>
+        <MainHeader>{pageName}</MainHeader>
+        {children}
+      </StWrapper>
+    </StLayoutWrapper>
   );
 }
+
+const StLayoutWrapper = styled.section`
+  background-color: #242424;
+`;
 
 const StWrapper = styled.main`
   position: relative;
