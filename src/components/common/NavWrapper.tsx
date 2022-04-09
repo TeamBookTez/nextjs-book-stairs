@@ -60,7 +60,10 @@ export default function NavWrapper() {
   );
 }
 
-const StAnchorWrapper = styled.a``;
+const StAnchorWrapper = styled.a`
+  display: flex;
+  align-items: center;
+`;
 
 const StSection = styled.section`
   position: fixed;
@@ -89,6 +92,8 @@ const StUl = styled.ul`
   display: flex;
   flex-direction: column;
   gap: 2.8rem;
+
+  padding-left: 2.2rem;
 `;
 
 const StItem = styled.li<{ color: string }>`
@@ -108,9 +113,6 @@ const StItem = styled.li<{ color: string }>`
 `;
 
 const StLink = styled(Link)`
-  display: flex;
-  align-items: center;
-
   width: 15.3rem;
 
   font-family: Pretendard;
