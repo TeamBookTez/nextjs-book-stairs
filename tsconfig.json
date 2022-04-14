@@ -13,6 +13,7 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",  // https://runebook.dev/ko/docs/typescript/jsx
+    "jsxImportSource": "@emotion/react",
     "incremental": true,
     "noFallthroughCasesInSwitch": true,
     "noImplicitAny": true,
