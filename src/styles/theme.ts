@@ -1,3 +1,5 @@
+import { Theme } from "@emotion/react";
+
 const colors = {
   orange000: "#FF3D00",
   orange100: "#FF4C00",
@@ -260,7 +262,7 @@ const fonts = {
 };
 
 // emotion의 theme 타입 지정
-const theme = {
+const theme: Theme = {
   colors,
   fonts,
 };

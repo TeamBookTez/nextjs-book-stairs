@@ -1,7 +1,7 @@
 import "@emotion/react";
 
 declare module "@emotion/react" {
-  export interface DefaultTheme {
+  export interface Theme {
     colors: {
       orange000: string;
       orange100: string;
