@@ -36,7 +36,7 @@ const StHeader = styled.header`
 `;
 
 const StHeading3 = styled.h3`
-  color: #242424;
+  color: ${({ theme }) => theme.colors.gray100};
   ${({ theme }) => theme.fonts.header3}
 `;
 
@@ -48,12 +48,12 @@ const StLink = styled.a`
   width: 8.8rem;
   height: 3.6rem;
 
-  border: 0.2rem solid #555555;
+  border: 0.2rem solid ${({ theme }) => theme.colors.gray300};
   border-radius: 2.4rem;
 
-  background-color: #ffffff;
+  background-color: ${({ theme }) => theme.colors.white};
 
-  color: #555555;
+  color: ${({ theme }) => theme.colors.gray300};
   ${({ theme }) => theme.fonts.button2};
 `;
 
