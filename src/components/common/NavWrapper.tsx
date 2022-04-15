@@ -81,11 +81,7 @@ const StSection = styled.section`
 const StNav = styled.nav`
   margin-top: 12.3rem;
 
-  font-family: Pretendard;
-  font-weight: 700;
-  font-size: 1.6rem;
-  line-height: 1.3;
-  letter-spacing: -0.1rem;
+  ${({ theme }) => theme.fonts.body5}
 `;
 
 const StUl = styled.ul`
@@ -115,9 +111,5 @@ const StItem = styled.li<{ color: string }>`
 const StLink = styled(Link)`
   width: 15.3rem;
 
-  font-family: Pretendard;
-  font-weight: 700;
-  font-size: 1.6rem;
-  line-height: 1.3;
-  letter-spacing: -0.1rem;
+  ${({ theme }) => theme.fonts.body5};
 `;
