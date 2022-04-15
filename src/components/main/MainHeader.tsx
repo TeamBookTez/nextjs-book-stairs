@@ -34,7 +34,7 @@ const StHeader = styled.header<{ bottom: string }>`
   justify-content: space-between;
 
   margin: 3.5rem 4rem ${(props) => props.bottom} 4rem;
-  color: #242424;
+  color: ${({ theme }) => theme.colors.gray100};
 `;
 
 const StHeading2 = styled.h2`
@@ -49,11 +49,11 @@ const StLoginBtn = styled(DefaultButton)<{ isMypage: string }>`
   width: 12rem;
   height: 4.6rem;
 
-  background-color: #242424;
+  background-color: ${({ theme }) => theme.colors.gray100};
 
   border-radius: 1rem;
 
-  color: #ffffff;
+  color: ${({ theme }) => theme.colors.white};
   ${({ theme }) => theme.fonts.button}
 `;
 
