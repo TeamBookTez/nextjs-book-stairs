@@ -37,22 +37,14 @@ const StTitle = styled.h3`
   margin-top: 4.4rem;
   margin-bottom: 1.6rem;
 
-  font-family: Pretendard;
-  font-weight: 800;
-  font-size: 2.4rem;
-  line-height: 1.3;
-  letter-spacing: -0.1rem;
+  ${({ theme }) => theme.fonts.header1}
 `;
 
 const StContent = styled.p`
   margin-bottom: 3.3rem;
   width: 41.5rem;
 
-  font-family: Pretendard;
-  font-weight: 500;
-  font-size: 1.8rem;
-  line-height: 1.3;
-  letter-spacing: -0.1rem;
+  ${({ theme }) => theme.fonts.body2}
 `;
 
 const StExampleLink = styled.a`
@@ -69,11 +61,7 @@ const StExampleLink = styled.a`
   background-color: #242424;
 
   color: #ffffff;
-  font-family: Pretendard;
-  font-weight: 700;
-  font-size: 1.8rem;
-  line-height: 1.3;
-  letter-spacing: -0.1rem;
+  ${({ theme }) => theme.fonts.button}
 `;
 
 const StImage = styled(Image)`
