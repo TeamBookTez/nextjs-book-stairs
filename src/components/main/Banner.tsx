@@ -29,7 +29,8 @@ const StWrapper = styled.section`
 
   margin: 0 4rem;
   border-radius: 2rem;
-  padding-left: 7.2rem;
+  padding-left: 7.2rem; // padding: 4.4 ratio 4 7.2 ?
+
   background-color: ${({ theme }) => theme.colors.white200};
 `;
 
