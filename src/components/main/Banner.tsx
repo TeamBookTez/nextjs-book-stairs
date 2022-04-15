@@ -30,7 +30,7 @@ const StWrapper = styled.section`
   margin: 0 4rem;
   border-radius: 2rem;
   padding-left: 7.2rem;
-  background-color: #f7f7f7;
+  background-color: ${({ theme }) => theme.colors.white200};
 `;
 
 const StTitle = styled.h3`
@@ -55,12 +55,12 @@ const StExampleLink = styled.a`
   width: 13.7rem;
   height: 4.6rem;
 
-  border: 0.2rem solid #555555;
+  border: 0.2rem solid ${({ theme }) => theme.colors.gray300};
   border-radius: 1rem;
 
-  background-color: #242424;
+  background-color: ${({ theme }) => theme.colors.gray100};
 
-  color: #ffffff;
+  color: ${({ theme }) => theme.colors.white};
   ${({ theme }) => theme.fonts.button}
 `;
 
