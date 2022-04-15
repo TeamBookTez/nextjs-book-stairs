@@ -38,11 +38,7 @@ const StHeader = styled.header<{ bottom: string }>`
 `;
 
 const StHeading2 = styled.h2`
-  font-family: Pretendard;
-  font-weight: 800;
-  font-size: 3rem;
-  line-height: 1.3;
-  letter-spacing: -0.1rem;
+  ${({ theme }) => theme.fonts.header0};
 
   z-index: 10;
 `;
@@ -57,12 +53,8 @@ const StLoginBtn = styled(DefaultButton)<{ isMypage: string }>`
 
   border-radius: 1rem;
 
-  font-family: Pretendard;
-  font-weight: 700;
-  font-size: 1.8rem;
-  line-height: 1.3;
-  letter-spacing: -0.1rem;
   color: #ffffff;
+  ${({ theme }) => theme.fonts.button}
 `;
 
 const StLoginLink = styled.a`
