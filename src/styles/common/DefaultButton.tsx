@@ -5,8 +5,7 @@ export const DefaultButton = styled.button`
   justify-content: center;
   align-items: center;
 
-  border: none;
-  background-color: #ff4c00;
+  background-color: ${({ theme }) => theme.colors.orange100};
 
-  color: #ffffff;
+  color: ${({ theme }) => theme.colors.white}; ;
 `;
