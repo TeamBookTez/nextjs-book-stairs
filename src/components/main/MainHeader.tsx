@@ -34,15 +34,11 @@ const StHeader = styled.header<{ bottom: string }>`
   justify-content: space-between;
 
   margin: 3.5rem 4rem ${(props) => props.bottom} 4rem;
-  color: #242424;
+  color: ${({ theme }) => theme.colors.gray100};
 `;
 
 const StHeading2 = styled.h2`
-  font-family: Pretendard;
-  font-weight: 800;
-  font-size: 3rem;
-  line-height: 1.3;
-  letter-spacing: -0.1rem;
+  ${({ theme }) => theme.fonts.header0};
 
   z-index: 10;
 `;
@@ -53,16 +49,12 @@ const StLoginBtn = styled(DefaultButton)<{ isMypage: string }>`
   width: 12rem;
   height: 4.6rem;
 
-  background-color: #242424;
+  background-color: ${({ theme }) => theme.colors.gray100};
 
   border-radius: 1rem;
 
-  font-family: Pretendard;
-  font-weight: 700;
-  font-size: 1.8rem;
-  line-height: 1.3;
-  letter-spacing: -0.1rem;
-  color: #ffffff;
+  color: ${({ theme }) => theme.colors.white};
+  ${({ theme }) => theme.fonts.button}
 `;
 
 const StLoginLink = styled.a`

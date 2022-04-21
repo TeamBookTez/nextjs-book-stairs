@@ -29,30 +29,23 @@ const StWrapper = styled.section`
 
   margin: 0 4rem;
   border-radius: 2rem;
-  padding-left: 7.2rem;
-  background-color: #f7f7f7;
+  padding-left: 7.2rem; // padding: 4.4 ratio 4 7.2 ?
+
+  background-color: ${({ theme }) => theme.colors.white200};
 `;
 
 const StTitle = styled.h3`
   margin-top: 4.4rem;
   margin-bottom: 1.6rem;
 
-  font-family: Pretendard;
-  font-weight: 800;
-  font-size: 2.4rem;
-  line-height: 1.3;
-  letter-spacing: -0.1rem;
+  ${({ theme }) => theme.fonts.header1}
 `;
 
 const StContent = styled.p`
   margin-bottom: 3.3rem;
   width: 41.5rem;
 
-  font-family: Pretendard;
-  font-weight: 500;
-  font-size: 1.8rem;
-  line-height: 1.3;
-  letter-spacing: -0.1rem;
+  ${({ theme }) => theme.fonts.body2}
 `;
 
 const StExampleLink = styled.a`
@@ -63,17 +56,13 @@ const StExampleLink = styled.a`
   width: 13.7rem;
   height: 4.6rem;
 
-  border: 0.2rem solid #555555;
+  border: 0.2rem solid ${({ theme }) => theme.colors.gray300};
   border-radius: 1rem;
 
-  background-color: #242424;
+  background-color: ${({ theme }) => theme.colors.gray100};
 
-  color: #ffffff;
-  font-family: Pretendard;
-  font-weight: 700;
-  font-size: 1.8rem;
-  line-height: 1.3;
-  letter-spacing: -0.1rem;
+  color: ${({ theme }) => theme.colors.white};
+  ${({ theme }) => theme.fonts.button}
 `;
 
 const StImage = styled(Image)`

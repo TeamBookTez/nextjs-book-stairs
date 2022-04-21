@@ -8,8 +8,8 @@ import NavHeader from "./NavHeader";
 export default function NavWrapper() {
   const { asPath } = useRouter();
 
-  const defaultColor = "#C1C1C1";
-  const highlightColor = "#FF4C00";
+  const defaultColor = "#C1C1C1"; // white500
+  const highlightColor = "#FF4C00"; // orange100
 
   const isCurrentPage = (pathName: string): string => {
     return asPath.startsWith(pathName) ? highlightColor : defaultColor;
@@ -71,9 +71,9 @@ const StSection = styled.section`
   bottom: 0;
   left: 0;
 
-  background-color: #242424;
+  background-color: ${({ theme }) => theme.colors.gray100};
   width: 17.5rem; //NAV_WRAPPER_WIDTH
-  color: #c1c1c1;
+  color: ${({ theme }) => theme.colors.white500};
 
   z-index: 10;
 `;
@@ -81,11 +81,7 @@ const StSection = styled.section`
 const StNav = styled.nav`
   margin-top: 12.3rem;
 
-  font-family: Pretendard;
-  font-weight: 700;
-  font-size: 1.6rem;
-  line-height: 1.3;
-  letter-spacing: -0.1rem;
+  ${({ theme }) => theme.fonts.body5}
 `;
 
 const StUl = styled.ul`
@@ -103,11 +99,12 @@ const StItem = styled.li<{ color: string }>`
 
   &:hover {
     a {
-      color: #ff4c00;
+      color: ${({ theme }) => theme.colors.orange100};
+    }
     }
 
     svg {
-      fill: #ff4c00;
+      fill: ${({ theme }) => theme.colors.orange100};
     }
   }
 `;
@@ -115,9 +112,5 @@ const StItem = styled.li<{ color: string }>`
 const StLink = styled(Link)`
   width: 15.3rem;
 
-  font-family: Pretendard;
-  font-weight: 700;
-  font-size: 1.6rem;
-  line-height: 1.3;
-  letter-spacing: -0.1rem;
+  ${({ theme }) => theme.fonts.body5};
 `;
