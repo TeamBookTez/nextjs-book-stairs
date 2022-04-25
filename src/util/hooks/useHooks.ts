@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 
-import { isLoginState } from "../atom";
+import { isLoginState } from "../lib/atom";
 
 export function useCheckLoginState() {
   const [isLoginLoading, setIsLoginLoading] = useState<boolean>(true);

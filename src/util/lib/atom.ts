@@ -1,7 +1,7 @@
 import { atom } from "recoil";
 import { recoilPersist } from "recoil-persist";
 
-import { NavigatingBookInfoState } from "./dataType";
+import { NavigatingBookInfoState } from "../dataType";
 
 const { persistAtom } = recoilPersist();
 
