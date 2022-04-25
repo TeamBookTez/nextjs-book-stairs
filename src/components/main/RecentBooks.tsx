@@ -36,12 +36,8 @@ const StHeader = styled.header`
 `;
 
 const StHeading3 = styled.h3`
-  font-family: Pretendard;
-  font-weight: 800;
-  font-size: 2.2rem;
-  line-height: 1.3;
-  letter-spacing: -0.1rem;
-  color: #242424;
+  color: ${({ theme }) => theme.colors.gray100};
+  ${({ theme }) => theme.fonts.header3}
 `;
 
 const StLink = styled.a`
@@ -52,17 +48,13 @@ const StLink = styled.a`
   width: 8.8rem;
   height: 3.6rem;
 
-  border: 0.2rem solid #555555;
+  border: 0.2rem solid ${({ theme }) => theme.colors.gray300};
   border-radius: 2.4rem;
 
-  background-color: #ffffff;
+  background-color: ${({ theme }) => theme.colors.white};
 
-  font-family: Pretendard;
-  font-weight: 600;
-  font-size: 1.4rem;
-  line-height: 1.3;
-  letter-spacing: -0.1rem;
-  color: #555555;
+  color: ${({ theme }) => theme.colors.gray300};
+  ${({ theme }) => theme.fonts.button2};
 `;
 
 const StBookWrapper = styled.section<{ isdefault: boolean }>`

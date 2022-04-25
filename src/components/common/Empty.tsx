@@ -45,36 +45,26 @@ const StImg = styled(Image)`
 `;
 
 const StH3 = styled.h3`
-  font-family: Pretendard;
-  font-weight: 800;
-  font-size: 2.2rem;
-  line-height: 1.3;
-  letter-spacing: -0.1rem;
-
   margin-bottom: 1rem;
+
+  ${({ theme }) => theme.fonts.header3}
 `;
 
 const StParagraph = styled.p`
   text-align: center;
 
   margin-bottom: 2.4rem;
-  font-family: Pretendard;
-  font-weight: 400;
-  font-size: 1.6rem;
-  line-height: 1.3;
-  letter-spacing: -0.1rem;
+
+  ${({ theme }) => theme.fonts.body6}
 `;
 
 const StAddBookBtn = styled(DefaultButton)`
   width: 13.7rem;
   height: 4.6rem;
 
-  font-family: Pretendard;
-  font-weight: 700;
-  font-size: 1.8rem;
-  line-height: 1.3;
-  letter-spacing: -0.1rem;
   border-radius: 1rem;
+
+  ${({ theme }) => theme.fonts.button}
 `;
 
 const StLink = styled.a`
