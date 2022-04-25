@@ -1,9 +1,11 @@
+// api
 export interface KAKAOParams {
   query: string;
   sort: string;
   size: number;
 }
 
+// 북노트
 export interface PostBody {
   email?: string;
   password?: string;
@@ -49,6 +51,7 @@ export interface PreNoteData {
   finishSt?: boolean;
 }
 
+// 서재
 export interface NavigatingBookInfoState {
   reviewId: string;
   title: string;
