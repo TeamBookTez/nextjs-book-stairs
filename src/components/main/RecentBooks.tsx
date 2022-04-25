@@ -7,7 +7,7 @@ import { useGetBookInfo } from "../../util/api";
 import { Empty, Loading } from "../common";
 
 export default function RecentBooks() {
-  const [isFulFilled, setIsFulFilled] = useState<boolean>(false);
+  const [isAnyBooks, setIsAnyBooks] = useState<boolean>(false);
   const { bookcaseInfo, isLoading, isError } = useGetBookInfo("/book");
 
   const isWideDesktopScreen = useMediaQuery({
@@ -20,9 +20,9 @@ export default function RecentBooks() {
 
   useEffect(() => {
     if (bookcaseInfo?.length && !isError) {
-      setIsFulFilled(true);
+      setIsAnyBooks(true);
     } else {
-      setIsFulFilled(false);
+      setIsAnyBooks(false);
     }
   }, [bookcaseInfo]);
 
@@ -34,14 +34,14 @@ export default function RecentBooks() {
         <>
           <StHeader>
             <StHeading3>최근 작성한 북노트</StHeading3>
-            {isFulFilled && (
+            {isAnyBooks && (
               <Link href="/main/bookcase">
                 <StLink>전체보기</StLink>
               </Link>
             )}
           </StHeader>
-          <StBookWrapper isdefault={!isFulFilled}>
-            {isFulFilled ? (
+          <StBookWrapper isdefault={!isAnyBooks}>
+            {isAnyBooks ? (
               bookcaseInfo &&
               bookcaseInfo
                 .slice(0, cntRecentBooks)
