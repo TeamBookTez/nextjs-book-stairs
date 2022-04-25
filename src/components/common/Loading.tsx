@@ -1,12 +1,12 @@
 import styled from "@emotion/styled";
 import Image from "next/image";
 
-import { GifLogo } from "../../../public/assets/images";
+import { GifLoading } from "../../../public/assets/images";
 
 export default function Loading() {
   return (
     <StLoadingWrapper>
-      <Image src={GifLogo} alt="로딩 중" width="200" height="200" />
+      <Image src={GifLoading} alt="로딩 중" width="200" height="200" />
     </StLoadingWrapper>
   );
 }
