@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-import { DefaultButton } from "../../styles/common/DefaultButton";
+import { DefaultButton } from "../common/styled/Button";
 
 interface MainHeaderProps {
   children: string;

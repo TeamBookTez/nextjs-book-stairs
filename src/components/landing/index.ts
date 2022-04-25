@@ -1,0 +1,16 @@
+export { default as LandingCard } from "./LandingCard";
+export { default as LandingFive } from "./LandingFive";
+export { default as LandingFooter } from "./LandingFooter";
+export { default as LandingFour } from "./LandingFour";
+export { default as LandingHeader } from "./LandingHeader";
+export { default as LandingOne } from "./LandingOne";
+export { default as LandingThree } from "./LandingThree";
+export { default as LandingTwo } from "./LandingTwo";
+export { default as MobileLandingCard } from "./MobileLandingCard";
+export { default as MobileLandingFive } from "./MobileLandingFive";
+export { default as MobileLandingFooter } from "./MobileLandingFooter";
+export { default as MobileLandingFour } from "./MobileLandingFour";
+export { default as MobileLandingHeader } from "./MobileLandingHeader";
+export { default as MobileLandingOne } from "./MobileLandingOne";
+export { default as MobileLandingThree } from "./MobileLandingThree";
+export { default as MobileLandingTwo } from "./MobileLandingTwo";

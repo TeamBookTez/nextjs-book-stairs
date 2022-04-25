@@ -4,8 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 
 import { ImgEmptyBook } from "../../../public/assets/images";
-import { DefaultButton } from "../../styles/common/DefaultButton";
-
+import { DefaultButton } from "./styled/Button";
 export default function Empty() {
   const { asPath } = useRouter();
 
