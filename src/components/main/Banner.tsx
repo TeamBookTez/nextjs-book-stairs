@@ -18,12 +18,16 @@ export default function Banner() {
           <StExampleLink>적용 사례</StExampleLink>
         </Link>
       </div>
-      <StImage src={ImgMainBanner} alt="일러스트" />
+      <StImageWrapper>
+        <Image src={ImgMainBanner} alt="일러스트" />
+      </StImageWrapper>
     </StWrapper>
   );
 }
 
 const StWrapper = styled.section`
+  position: relative;
+
   display: flex;
   justify-content: space-between;
 
@@ -64,7 +68,7 @@ const StExampleLink = styled.a`
   ${({ theme }) => theme.fonts.button}
 `;
 
-const StImage = styled(Image)`
+const StImageWrapper = styled.div`
   position: absolute;
   bottom: 0;
   right: 0;
