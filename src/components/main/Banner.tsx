@@ -19,7 +19,7 @@ export default function Banner() {
         </Link>
       </div>
       <StImageWrapper>
-        <Image src={ImgMainBanner} alt="일러스트" />
+        <Image src={ImgMainBanner} width="485" height="254" alt="일러스트" />
       </StImageWrapper>
     </StWrapper>
   );
