@@ -1,11 +1,29 @@
 import styled from "@emotion/styled";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
+import { useGetBookInfo } from "../../util/api";
 import { Empty } from "../common";
 
 export default function RecentBooks() {
   const [isFulFilled, setIsFulFilled] = useState<boolean>(false);
+  const { bookcaseInfo, isLoading, isError } = useGetBookInfo("/book");
+
+  const isWideDesktopScreen = useMediaQuery({
+    query: "(min-width: 1920px) ",
+  });
+  const isWideWideDesktopScreen = useMediaQuery({
+    query: "(min-width: 2560px) ",
+  });
+  const cntRecentBooks = isWideWideDesktopScreen ? 8 : isWideDesktopScreen ? 6 : 5;
+
+  useEffect(() => {
+    if (bookcaseInfo && bookcaseInfo.length && !isError) {
+      setIsFulFilled(true);
+    } else {
+      setIsFulFilled(false);
+    }
+  }, [bookcaseInfo]);
 
   return (
     <section>
@@ -19,7 +37,14 @@ export default function RecentBooks() {
           )}
         </StHeader>
         <StBookWrapper isdefault={!isFulFilled}>
-          <Empty />
+          {/* {isFulFilled ? (
+            bookcaseInfo &&
+            bookcaseInfo
+              .slice(0, cntRecentBooks)
+              .map((tempInfo, idx) => <BookCard key={idx} bookcaseInfo={tempInfo} pathKey="/book" />)
+          ) : (
+            <Empty />
+          )} */}
         </StBookWrapper>
       </>
     </section>
