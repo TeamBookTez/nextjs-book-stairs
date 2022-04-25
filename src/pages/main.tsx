@@ -8,7 +8,7 @@ import Banner from "../components/main/Banner";
 import useCheckLoginState from "../util/hooks/useCheckLoginState";
 import { isLoginState } from "../util/lib/atom";
 
-export default function main() {
+export default function Main() {
   const { isLogin, isLoginLoading } = useCheckLoginState();
   const setIsLogin = useSetRecoilState(isLoginState);
 
