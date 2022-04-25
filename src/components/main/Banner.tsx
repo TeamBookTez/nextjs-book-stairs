@@ -14,7 +14,7 @@ export default function Banner() {
           <br />
           북스테어즈를 똑똑하게 사용하는 방법을 보여드릴게요.
         </StContent>
-        <Link href="/example">
+        <Link href="/book-note/detail-example">
           <StExampleLink>적용 사례</StExampleLink>
         </Link>
       </div>
@@ -29,13 +29,12 @@ const StWrapper = styled.section`
 
   margin: 0 4rem;
   border-radius: 2rem;
-  padding-left: 7.2rem; // padding: 4.4 ratio 4 7.2 ?
+  padding: 4.4rem 65.7rem 4rem 7.2rem;
 
   background-color: ${({ theme }) => theme.colors.white200};
 `;
 
 const StTitle = styled.h3`
-  margin-top: 4.4rem;
   margin-bottom: 1.6rem;
 
   ${({ theme }) => theme.fonts.header1}
