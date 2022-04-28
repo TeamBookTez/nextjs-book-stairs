@@ -1,8 +1,8 @@
 import styled from "@emotion/styled";
 import Link from "next/link";
 
-import { LabelHidden } from "../../styles/common/LabelHidden";
 import { IcLogo, IcTitleLogo } from "../../styles/icons/NavHeaderIcons";
+import { LabelHidden } from "./styled/LabelHidden";
 
 interface NavHeaderProps {
   logoColor: string;
