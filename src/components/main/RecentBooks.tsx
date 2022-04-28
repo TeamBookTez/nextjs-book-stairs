@@ -1,29 +1,62 @@
 import styled from "@emotion/styled";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useMediaQuery } from "react-responsive";
 
-import { Empty } from "../common";
+import { useGetBookInfo } from "../../core/api";
+import { Empty, Loading } from "../common";
 
 export default function RecentBooks() {
-  const [isFulFilled, setIsFulFilled] = useState<boolean>(false);
+  const [isAnyBooks, setIsAnyBooks] = useState<boolean>(false);
+  const { bookcaseInfo, isLoading, isError } = useGetBookInfo("/book");
 
-  return (
-    <section>
-      <>
-        <StHeader>
-          <StHeading3>최근 작성한 북노트</StHeading3>
-          {isFulFilled && (
-            <Link href="/main/bookcase">
-              <StLink>전체보기</StLink>
-            </Link>
-          )}
-        </StHeader>
-        <StBookWrapper isdefault={!isFulFilled}>
-          <Empty />
-        </StBookWrapper>
-      </>
-    </section>
-  );
+  const isWideDesktopScreen = useMediaQuery({
+    query: "(min-width: 1920px) ",
+  });
+  const isWideWideDesktopScreen = useMediaQuery({
+    query: "(min-width: 2560px) ",
+  });
+  const cntRecentBooks = isWideWideDesktopScreen ? 8 : isWideDesktopScreen ? 6 : 5;
+
+  useEffect(() => {
+    if (bookcaseInfo?.length && !isError) {
+      setIsAnyBooks(true);
+    } else {
+      setIsAnyBooks(false);
+    }
+  }, [bookcaseInfo]);
+
+  if (isLoading) {
+    return <Loading />;
+  } else {
+    return (
+      <section>
+        <>
+          <StHeader>
+            <StHeading3>최근 작성한 북노트</StHeading3>
+            {isAnyBooks && (
+              <Link href="/main/bookcase">
+                <StLink>전체보기</StLink>
+              </Link>
+            )}
+          </StHeader>
+          <StBookWrapper isdefault={!isAnyBooks}>
+            {isAnyBooks ? (
+              bookcaseInfo &&
+              bookcaseInfo
+                .slice(0, cntRecentBooks)
+                .map(
+                  (tempInfo, idx) =>
+                    /*<BookCard key={idx 말고 id 값} bookcaseInfo={tempInfo} pathKey="/book" />*/ "북카드",
+                )
+            ) : (
+              <Empty />
+            )}
+          </StBookWrapper>
+        </>
+      </section>
+    );
+  }
 }
 
 const StHeader = styled.header`

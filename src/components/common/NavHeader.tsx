@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import Link from "next/link";
 
-import { IcLogo, IcTitleLogo } from "../../styles/icons/NavHeaderIcons";
+import { IcLogo, IcTitleLogo } from "../icons/NavHeaderIcons";
 import { LabelHidden } from "./styled/LabelHidden";
 
 interface NavHeaderProps {

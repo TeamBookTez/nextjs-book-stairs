@@ -14,28 +14,31 @@ export default function Banner() {
           <br />
           북스테어즈를 똑똑하게 사용하는 방법을 보여드릴게요.
         </StContent>
-        <Link href="/example">
+        <Link href="/book-note/detail-example">
           <StExampleLink>적용 사례</StExampleLink>
         </Link>
       </div>
-      <StImage src={ImgMainBanner} alt="일러스트" />
+      <StImageWrapper>
+        <Image src={ImgMainBanner} width="485" height="254" alt="일러스트" />
+      </StImageWrapper>
     </StWrapper>
   );
 }
 
 const StWrapper = styled.section`
+  position: relative;
+
   display: flex;
   justify-content: space-between;
 
   margin: 0 4rem;
   border-radius: 2rem;
-  padding-left: 7.2rem; // padding: 4.4 ratio 4 7.2 ?
+  padding: 4.4rem 65.7rem 4rem 7.2rem;
 
   background-color: ${({ theme }) => theme.colors.white200};
 `;
 
 const StTitle = styled.h3`
-  margin-top: 4.4rem;
   margin-bottom: 1.6rem;
 
   ${({ theme }) => theme.fonts.header1}
@@ -65,7 +68,7 @@ const StExampleLink = styled.a`
   ${({ theme }) => theme.fonts.button}
 `;
 
-const StImage = styled(Image)`
+const StImageWrapper = styled.div`
   position: absolute;
   bottom: 0;
   right: 0;
