@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-import { IcBookcase, IcHome, IcMypage, IcToBe } from "../../styles/icons/NavWrapperIcons";
+import { IcBookcase, IcHome, IcMypage, IcToBe } from "../icons/NavWrapperIcons";
 import NavHeader from "./NavHeader";
 
 export default function NavWrapper() {
