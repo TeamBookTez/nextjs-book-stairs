@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 
-import { useGetBookInfo } from "../../util/api";
+import { useGetBookInfo } from "../../core/api";
 import { Empty, Loading } from "../common";
 
 export default function RecentBooks() {

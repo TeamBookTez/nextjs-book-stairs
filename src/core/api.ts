@@ -1,8 +1,17 @@
+/*
+마지막 편집자: 22-04-28 joohaem
+변경사항 및 참고:
+  - 후에 관리가 불편하다면, 파일을 폴더로 묶어 page 별로 나누는 것 고려해주십시오!
+    
+고민점:
+  - 
+*/
+
 import useSWR from "swr";
 
-import { BookcaseInfo, KAKAOParams } from "./dataType";
-import { client, KAKAO } from "./lib/axios";
-
+import { KAKAOParams } from "../types";
+import { BookcaseInfo } from "../types/bookcase";
+import { client, KAKAO } from "./axios";
 export const searchBook = (params: KAKAOParams) => {
   return KAKAO.get("/v3/search/book", { params });
 };

@@ -5,8 +5,8 @@ import { Loading } from "../components/common";
 import { MainLayout } from "../components/layout";
 import { RecentBooks } from "../components/main";
 import Banner from "../components/main/Banner";
+import { isLoginState } from "../core/atom";
 import useCheckLoginState from "../util/hooks/useCheckLoginState";
-import { isLoginState } from "../util/lib/atom";
 
 export default function Main() {
   const { isLogin, isLoginLoading } = useCheckLoginState();
