@@ -1,6 +1,6 @@
 import useSWR from "swr";
 
-import { BookcaseInfo, KAKAOParams, PatchBody, PeriNoteData, PostBody, PreNoteData } from "./dataType";
+import { BookcaseInfo, KAKAOParams } from "./dataType";
 import { client, KAKAO } from "./lib/axios";
 
 export const searchBook = (params: KAKAOParams) => {
@@ -14,21 +14,6 @@ export const searchBook = (params: KAKAOParams) => {
 
 export const getData = (key: string, token?: string) => {
   return client(token).get(key);
-};
-
-// 제네릭으로 바꾸기
-export const postData = (key: string, postBody: PostBody, token?: string) => {
-  return client(token).post(key, postBody);
-};
-
-export const patchData = (token: string, key: string, patchBody: PatchBody | FormData) => {
-  return client(token).patch(key, patchBody);
-};
-
-export const patchBookNote = async (token: string, key: string, body: PreNoteData | PeriNoteData) => {
-  const { data } = await client(token).patch(key, body);
-
-  return data.data;
 };
 
 export const deleteData = (key: string, token: string | null) => {
