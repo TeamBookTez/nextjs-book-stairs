@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import Image from "next/image";
 
 import { ImgLandingBookcase } from "../../../public/assets/images";
 import { StLandingSectionH2, StLandingSectionWrapper } from "../common/styled/Landing";
@@ -30,7 +31,7 @@ const StParagraph = styled.p`
   ${({ theme }) => theme.fonts.body00}
 `;
 
-const StImgLandingBookcase = styled.img`
+const StImgLandingBookcase = styled(Image)`
   width: 58.3rem;
   height: 46.7rem;
 `;
