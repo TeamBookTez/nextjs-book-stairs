@@ -44,9 +44,9 @@ export default function Cards(props: CardsProps) {
     return (
       <StSection>
         <AddBookCard />
-        {/* {bookcaseInfo.map((bookcaseInfo: BookcaseInfo, idx: number) => (
+        {bookcaseInfo.map((bookcaseInfo: BookcaseInfo, idx: number) => (
           <BookCard key={idx} bookcaseInfo={bookcaseInfo} pathKey={pathKey} />
-        ))} */}
+        ))}
       </StSection>
     );
   }
