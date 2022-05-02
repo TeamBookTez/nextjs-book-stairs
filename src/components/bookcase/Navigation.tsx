@@ -1,5 +1,6 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
+import { useViewportScroll } from "framer-motion";
 import { useEffect, useState } from "react";
 
 interface NavigationProps {
@@ -9,23 +10,23 @@ interface NavigationProps {
 export default function Navigation(props: NavigationProps) {
   const { navIndex, onChangeNavIndex } = props;
 
-  // const { scrollY } = useViewportScroll();
   const [isScroll, setIsScroll] = useState<boolean>(false);
-  // const MAIN_HEADER_HEIGHT = 109;
+  const { scrollY } = useViewportScroll();
+  const MAIN_HEADER_HEIGHT = 109;
 
-  // useEffect(() => {
-  //   scrollY.onChange(() => {
-  //     if (scrollY.get() > MAIN_HEADER_HEIGHT) {
-  //       setIsScroll(true);
-  //     } else {
-  //       setIsScroll(false);
-  //     }
-  //   });
+  useEffect(() => {
+    scrollY.onChange(() => {
+      if (scrollY.get() > MAIN_HEADER_HEIGHT) {
+        setIsScroll(true);
+      } else {
+        setIsScroll(false);
+      }
+    });
 
-  //   return () => {
-  //     scrollY.clearListeners();
-  //   };
-  // }, [scrollY]);
+    return () => {
+      scrollY.clearListeners();
+    };
+  }, [scrollY]);
 
   return (
     <StNav isscroll={isScroll}>
