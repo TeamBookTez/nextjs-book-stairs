@@ -3,7 +3,7 @@ import { useSetRecoilState } from "recoil";
 
 import { Loading } from "../components/common";
 import { MainLayout } from "../components/layout";
-import { ServiceContent, UserContent } from "../components/myPage";
+import { ServiceContent, UserContent, WithdrawContent } from "../components/myPage";
 import { getData, patchFormData } from "../core/api";
 import { isLoginState } from "../core/atom";
 import LocalStorage from "../core/localStorage";
@@ -71,7 +71,7 @@ export default function MyPage() {
       ) : (
         <MainLayout pageName="마이페이지">
           <UserContent userInfo={userInfo} onImageChange={handleImageChange} />
-          <ServiceContent userInfo={userInfo}>{/* <WithdrawContent /> */}</ServiceContent>
+          <ServiceContent userInfo={userInfo}>{isLogin && <WithdrawContent />}</ServiceContent>
         </MainLayout>
       )}
     </>

@@ -26,6 +26,10 @@ export const getData = (key: string, token?: string) => {
   return client(token).get(key);
 };
 
+export const patchUserWithdraw = (token: string, key: string) => {
+  return client(token).patch(key);
+};
+
 export const patchFormData = (token: string, key: string, patchBody: FormData) => {
   return client(token).patch(key, patchBody);
 };
