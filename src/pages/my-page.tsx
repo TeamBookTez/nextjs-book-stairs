@@ -65,15 +65,15 @@ export default function MyPage() {
   };
 
   return (
-    <>
+    <MainLayout pageName="마이페이지">
       {isLoginLoading && isInfoLoading ? (
         <Loading />
       ) : (
-        <MainLayout pageName="마이페이지">
+        <>
           <UserContent userInfo={userInfo} onImageChange={handleImageChange} />
           <ServiceContent userInfo={userInfo}>{isLogin && <WithdrawContent />}</ServiceContent>
-        </MainLayout>
+        </>
       )}
-    </>
+    </MainLayout>
   );
 }

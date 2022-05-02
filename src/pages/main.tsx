@@ -17,17 +17,15 @@ export default function Main() {
   }, [isLogin]);
 
   return (
-    <>
+    <MainLayout pageName="메인">
       {isLoginLoading ? (
         <Loading />
       ) : (
         <>
-          <MainLayout pageName="메인">
-            <Banner />
-            <RecentBooks />
-          </MainLayout>
+          <Banner />
+          <RecentBooks />
         </>
       )}
-    </>
+    </MainLayout>
   );
 }

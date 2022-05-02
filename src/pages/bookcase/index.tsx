@@ -30,8 +30,14 @@ export default function Bookcase() {
 
   return (
     <MainLayout pageName="서재">
-      <Navigation navIndex={navIndex} onChangeNavIndex={handleChangeNavIndex} />
-      {/* <Cards navIndex={navIndex} /> */}
+      {isLoginLoading ? (
+        <Loading />
+      ) : (
+        <>
+          <Navigation navIndex={navIndex} onChangeNavIndex={handleChangeNavIndex} />
+          {/* <Cards navIndex={navIndex} /> */}
+        </>
+      )}
     </MainLayout>
   );
 }
