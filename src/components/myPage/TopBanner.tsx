@@ -1,9 +1,10 @@
 import styled from "@emotion/styled";
-import React from "react";
+import Image from "next/image";
+import React, { ImgHTMLAttributes } from "react";
 import { useRecoilValue } from "recoil";
 
 import { IcEditProfile } from "../../../public/assets/icons";
-import { ImgUser } from "../../../public/assets/images";
+import { ImgMypageBanner, ImgUser } from "../../../public/assets/images";
 import { isLoginState } from "../../core/atom";
 import { UserInfo } from "../../types/myPage";
 
@@ -14,15 +15,17 @@ interface TopBannerProps {
 
 export default function TopBanner(props: TopBannerProps) {
   const { userInfo, onImageChange } = props;
-  const { img, nickname, email } = userInfo;
+  const { email, img, nickname } = userInfo;
 
   const isLogin = useRecoilValue(isLoginState);
 
   return (
-    <StBanner>
+    <StBanner bannerImage={ImgMypageBanner.src}>
       <StProfile>
         <StProfileImgBox>
-          <StUserImgWrapper>{/* <Image src={isLogin ? img : ImgUser} alt="유저 이미지" /> */}</StUserImgWrapper>
+          <StUserImgWrapper>
+            <Image src={isLogin ? img : ImgUser} alt="유저" />
+          </StUserImgWrapper>
           <StIcEditProfile htmlFor="input-file">
             <StIcEditProfileImg />
           </StIcEditProfile>
@@ -37,7 +40,7 @@ export default function TopBanner(props: TopBannerProps) {
   );
 }
 
-const StBanner = styled.div`
+const StBanner = styled.div<{ bannerImage: string }>`
   position: relative;
 
   width: 100%;
@@ -48,7 +51,7 @@ const StBanner = styled.div`
   border-radius: 2rem 2rem 0 0;
 
   background-color: ${({ theme }) => theme.colors.white300};
-  /* background-image:  */
+  background-image: url(${(props) => props.bannerImage});
   background-position: right;
   background-repeat: no-repeat;
 `;

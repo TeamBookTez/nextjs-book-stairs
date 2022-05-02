@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
 import { useRecoilState } from "recoil";
@@ -32,18 +33,20 @@ export default function UserContent(props: UserContentProps) {
     router.push("/main");
   };
 
+  const logInNOutBtn = isLogin ? (
+    <StLogoutBtn onClick={handleLogout} id="btn_logout">
+      로그아웃
+    </StLogoutBtn>
+  ) : (
+    <Link href="/login" passHref>
+      <StLoginButton type="button">로그인</StLoginButton>
+    </Link>
+  );
+
   return (
     <StWrapper>
       <TopBanner userInfo={userInfo} onImageChange={onImageChange} />
-      {/* {isLogin ? (
-        <StLogoutBtn onClick={handleLogout} id="btn_logout">
-          로그아웃
-        </StLogoutBtn>
-      ) : (
-        <StLoginButton type="button">
-          <StLoginLink to="/login">로그인</StLoginLink>
-        </StLoginButton>
-      )} */}
+      {logInNOutBtn}
     </StWrapper>
   );
 }
