@@ -25,6 +25,10 @@ export const getData = (key: string, token?: string) => {
   return client(token).get(key);
 };
 
+export const patchFormData = (token: string, key: string, patchBody: FormData) => {
+  return client(token).patch(key, patchBody);
+};
+
 export const deleteData = (key: string, token: string | null) => {
   return client(token).delete(key);
 };
