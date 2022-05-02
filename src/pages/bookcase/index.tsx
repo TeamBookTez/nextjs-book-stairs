@@ -35,7 +35,7 @@ export default function Bookcase() {
       ) : (
         <>
           <Navigation navIndex={navIndex} onChangeNavIndex={handleChangeNavIndex} />
-          {/* <Cards navIndex={navIndex} /> */}
+          <Cards navIndex={navIndex} />
         </>
       )}
     </MainLayout>
