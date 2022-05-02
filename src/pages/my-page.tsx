@@ -5,13 +5,11 @@ import { Loading } from "../components/common";
 import { MainLayout } from "../components/layout";
 import { getData, patchFormData } from "../core/api";
 import { isLoginState } from "../core/atom";
+import LocalStorage from "../core/localStorage";
 import { UserInfo } from "../types/myPage";
 import useCheckLoginState from "../util/hooks/useCheckLoginState";
 
 export default function MyPage() {
-  const _token = localStorage.getItem("booktez-token");
-  const userToken = _token ? _token : "";
-
   const setIsLogin = useSetRecoilState(isLoginState);
   const { isLogin, isLoginLoading } = useCheckLoginState();
 
@@ -22,6 +20,8 @@ export default function MyPage() {
     reviewCount: 0,
   });
   const [isInfoLoading, setIsInfoLoading] = useState<boolean>(true);
+
+  const userToken = LocalStorage.getItem("booktez-token");
 
   useEffect(() => {
     setIsLogin(isLogin);

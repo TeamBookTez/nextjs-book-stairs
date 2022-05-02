@@ -3,16 +3,13 @@ import { useRecoilState } from "recoil";
 
 import { getData } from "../../core/api";
 import { isLoginState } from "../../core/atom";
+import LocalStorage from "../../core/localStorage";
 
 export default function useCheckLoginState() {
   const [isLoginLoading, setIsLoginLoading] = useState<boolean>(true);
   const [isLogin, setIsLogin] = useRecoilState<boolean>(isLoginState);
 
-  let userToken = "";
-
-  if (typeof window !== "undefined") {
-    userToken = localStorage.getItem("booktez-token") as string;
-  }
+  const userToken = LocalStorage.getItem("booktez-token");
   const API_PATH = "/auth/check";
 
   useEffect(() => {
