@@ -9,6 +9,7 @@
 고민점:
   - 
 */
+import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { useRouter } from "next/router";
 import { ImgHTMLAttributes } from "react";
@@ -19,7 +20,6 @@ import { DefaultButton } from "../common/styled/Button";
 
 interface StWrapperProps {
   landingImg: ImgHTMLAttributes<string>;
-  mobileLandingImg: ImgHTMLAttributes<string>;
 }
 
 export default function MobileLandingInfo() {
@@ -29,8 +29,12 @@ export default function MobileLandingInfo() {
     query: "(min-width: 1200px)",
   });
 
+  const isMobileScreen = useMediaQuery({
+    query: "(min-width: 641px)",
+  });
+
   return (
-    <StWrapper landingImg={ImgLandingMobileBanner} mobileLandingImg={ImgLandingTabletBanner}>
+    <StWrapper landingImg={isMobileScreen ? ImgLandingTabletBanner : ImgLandingMobileBanner}>
       <StTitle>
         진짜 독서가들을 위한
         <br />
@@ -54,7 +58,15 @@ const StWrapper = styled.section<StWrapperProps>`
   align-items: center;
 
   width: 100%;
-  height: 44.3rem;
+
+  ${(props) =>
+    props.landingImg === ImgLandingMobileBanner
+      ? css`
+          height: 45.1rem;
+        `
+      : css`
+          height: 44.3rem;
+        `}
 
   margin-top: 6rem;
 
@@ -62,11 +74,6 @@ const StWrapper = styled.section<StWrapperProps>`
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
-
-  @media (min-width: 641px) {
-    background-image: url(${(props) => props.mobileLandingImg.src});
-    height: 45.1rem;
-  }
 `;
 
 const StTitle = styled.h1`
