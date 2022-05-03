@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 
-import { LandingCardProps } from "./LandingCard";
+import { LandingCardProps } from "../../types/landing";
 
 export default function MobileLandingCard(props: LandingCardProps) {
   const { title, subTitle, children } = props;

@@ -1,12 +1,6 @@
 import styled from "@emotion/styled";
-import React from "react";
 
-export interface LandingCardProps {
-  title: string;
-  subTitle: string;
-  children: React.SVGProps<SVGSVGElement>;
-}
-
+import { LandingCardProps } from "../../types/landing";
 export default function LandingCard(props: LandingCardProps) {
   const { title, subTitle, children } = props;
 
