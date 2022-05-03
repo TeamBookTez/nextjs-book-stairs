@@ -11,7 +11,7 @@ export default function LandingFooter() {
           책을 통한 성장의 계단, <br />
           함께 오르실 분들을 기다립니다.{" "}
         </StH1>
-        <Link href="/main">
+        <Link href="/main" passHref>
           <StButton id="cta_bottom">북스테어즈 시작</StButton>
         </Link>
         <StIcFooter />

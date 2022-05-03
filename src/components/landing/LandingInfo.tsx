@@ -15,7 +15,7 @@ export default function LandingInfo() {
             <br />
             독서법을 만들어 갑니다
           </StTitle>
-          <Link href="/main">
+          <Link href="/main" passHref>
             <StButton id="cta_top">북스테어즈 시작</StButton>
           </Link>
         </StArticle>
