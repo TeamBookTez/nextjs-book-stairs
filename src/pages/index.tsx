@@ -31,12 +31,9 @@ const Landing: NextPage = () => {
   const setIsLogin = useSetRecoilState(isLoginState);
 
   useEffect(() => {
-    if (isLogin) {
-      setIsLogin(true);
-      router.push("/main");
-    } else {
-      setIsLogin(false);
-    }
+    setIsLogin(isLogin);
+
+    if (isLogin) router.push("/main");
   }, [isLogin]);
 
   return (
