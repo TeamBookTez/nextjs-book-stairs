@@ -22,7 +22,7 @@ interface StWrapperProps {
   mobileLandingImg: ImgHTMLAttributes<string>;
 }
 
-export default function MobileLandingOne() {
+export default function MobileLandingInfo() {
   const router = useRouter();
 
   const isMobileWithButtonScreen = useMediaQuery({

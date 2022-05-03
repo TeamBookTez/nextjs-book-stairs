@@ -3,7 +3,7 @@ import styled from "@emotion/styled";
 import { IcLandingIcon01, IcLandingIcon02, IcLandingIcon03 } from "../../../public/assets/icons";
 import { LandingCard } from ".";
 
-export default function LandingTwo() {
+export default function LandingMotivation() {
   return (
     <StWrapper>
       <StH2>책이 장벽으로 느껴졌던 적 없으신가요?</StH2>

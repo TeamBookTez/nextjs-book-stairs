@@ -4,7 +4,7 @@ import Image from "next/image";
 import { ImgLandingBookNote } from "../../../public/assets/images";
 import { StLandingSectionH2, StLandingSectionWrapper } from "../common/styled/Landing";
 
-export default function LandingFour() {
+export default function LandingExperiment() {
   return (
     <StSection>
       <div>

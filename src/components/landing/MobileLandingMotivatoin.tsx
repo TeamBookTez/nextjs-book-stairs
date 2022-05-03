@@ -4,7 +4,7 @@ import { IcLandingMobileIcon01, IcLandingMobileIcon02, IcLandingMobileIcon03 } f
 import { StMobileMain } from "../common/styled/MobileLanding";
 import MobileLandingCard from "./MobileLandingCard";
 
-export default function MobileLandingTwo() {
+export default function MobileLandingMotivation() {
   return (
     <>
       <StMobileMain>

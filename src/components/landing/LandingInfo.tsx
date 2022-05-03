@@ -5,7 +5,7 @@ import Link from "next/link";
 import { ImgLanding01 } from "../../../public/assets/images";
 import { DefaultButton } from "../common/styled/Button";
 
-export default function LandingOne() {
+export default function LandingInfo() {
   return (
     <>
       <StWrapper>

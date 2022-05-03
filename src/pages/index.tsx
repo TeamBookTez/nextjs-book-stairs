@@ -6,21 +6,21 @@ import { useSetRecoilState } from "recoil";
 
 import { Loading } from "../components/common";
 import {
-  LandingFive,
+  LandingExperiment,
   LandingFooter,
-  LandingFour,
   LandingHeader,
-  LandingOne,
-  LandingThree,
-  LandingTwo,
-  MobileLandingFive,
+  LandingInfo,
+  LandingMotivation,
+  LandingSuggestion,
+  LandingValidation,
+  MobileLandingExperiment,
   MobileLandingFooter,
-  MobileLandingFour,
   MobileLandingHeader,
-  MobileLandingOne,
-  MobileLandingThree,
-  MobileLandingTwo,
+  MobileLandingInfo,
+  MobileLandingSuggestion,
+  MobileLandingValidation,
 } from "../components/landing";
+import MobileLandingMotivation from "../components/landing/MobileLandingMotivatoin";
 import { isLoginState } from "../core/atom";
 import useCheckLoginState from "../util/hooks/useCheckLoginState";
 import { Desktop, Mobile } from "../util/hooks/useMediaQuery";
@@ -44,22 +44,22 @@ const Landing: NextPage = () => {
         <>
           <Mobile>
             <MobileLandingHeader />
-            <MobileLandingOne />
-            <MobileLandingTwo />
-            <MobileLandingThree />
-            <MobileLandingFour />
-            <MobileLandingFive />
+            <MobileLandingInfo />
+            <MobileLandingMotivation />
+            <MobileLandingSuggestion />
+            <MobileLandingExperiment />
+            <MobileLandingValidation />
             <MobileLandingFooter />
           </Mobile>
           <Desktop>
             <StLandingWrapper>
               <LandingHeader />
               <StMain>
-                <LandingOne />
-                <LandingTwo />
-                <LandingThree />
-                <LandingFour />
-                <LandingFive />
+                <LandingInfo />
+                <LandingMotivation />
+                <LandingSuggestion />
+                <LandingExperiment />
+                <LandingValidation />
               </StMain>
             </StLandingWrapper>
             <LandingFooter />
