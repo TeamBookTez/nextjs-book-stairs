@@ -6,7 +6,7 @@ const Mobile: React.FC = ({ children }) => {
     query: "(max-width: 1439px)",
   });
 
-  return <React.Fragment>{isMobileScreen && children}</React.Fragment>;
+  return <>{isMobileScreen && children}</>;
 };
 
 const Desktop: React.FC = ({ children }) => {
@@ -14,7 +14,7 @@ const Desktop: React.FC = ({ children }) => {
     query: "(min-width: 1440px) ",
   });
 
-  return <React.Fragment>{isDesktopScreen && children}</React.Fragment>;
+  return <>{isDesktopScreen && children}</>;
 };
 
 export { Desktop, Mobile };
