@@ -12,6 +12,7 @@ import useSWR from "swr";
 import { KAKAOParams } from "../types";
 import { BookcaseInfo } from "../types/bookcase";
 import { client, KAKAO } from "./axios";
+import LocalStorage from "./localStorage";
 export const searchBook = (params: KAKAOParams) => {
   return KAKAO.get("/v3/search/book", { params });
 };
@@ -25,13 +26,20 @@ export const getData = (key: string, token?: string) => {
   return client(token).get(key);
 };
 
+export const patchUserWithdraw = (token: string, key: string) => {
+  return client(token).patch(key);
+};
+
+export const patchFormData = (token: string, key: string, patchBody: FormData) => {
+  return client(token).patch(key, patchBody);
+};
+
 export const deleteData = (key: string, token: string | null) => {
   return client(token).delete(key);
 };
 
 const bookcaseFetcher = async (key: string): Promise<BookcaseInfo[]> => {
-  const _token = localStorage.getItem("booktez-token");
-  const userToken = _token ? _token : "";
+  const userToken = LocalStorage.getItem("booktez-token");
 
   if (!userToken) return [];
 

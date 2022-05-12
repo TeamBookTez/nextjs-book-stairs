@@ -60,7 +60,8 @@
     "react/react-in-jsx-scope": "off",              // import React from "react"가 필수였던 시기에 필요한 규칙
     "simple-import-sort/imports": "error",
     "simple-import-sort/exports": "error",
-    "import/no-named-as-default": 0                    // default로 정의되지 않은 아이들을 불러왔음을 알려줌
+    "import/no-named-as-default": 0,                    // default로 정의되지 않은 아이들을 불러왔음을 알려줌
+    "@typescript-eslint/no-empty-function": "off"       // 빈 함수 스코프 에러 제거
   },
   "settings": {
     "react": {
