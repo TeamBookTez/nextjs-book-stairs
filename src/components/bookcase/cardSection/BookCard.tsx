@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import Image from "next/image";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
@@ -7,7 +8,7 @@ import { IcBin } from "../../../../public/assets/icons";
 import { isLoginState, navigatingBookInfoState } from "../../../core/atom";
 import { BookcaseInfo } from "../../../types/bookcase";
 import { PopUpDelete } from "../../common";
-import { StBookCardImg } from "../../common/styled/Img";
+import { StBookCardImgWrapper } from "../../common/styled/Img";
 
 interface BookCardProps {
   bookcaseInfo: BookcaseInfo;
@@ -45,7 +46,7 @@ export default function BookCard(props: BookCardProps) {
   }
 
   // 홈에 대한 예외 처리
-  const handlePopUp = () => {
+  const handleTogglePopUp = () => {
     setIsPopUp((isPopUp) => !isPopUp);
   };
 
@@ -62,7 +63,9 @@ export default function BookCard(props: BookCardProps) {
     <StCardWrapper>
       <StBookCard onClick={moveBookNoteHandler}>
         <StImgWrapper>
-          <StBookCardImg src={thumbnail} alt={`도서 ${title}의 이미지`} />
+          <StBookCardImgWrapper>
+            <Image src={thumbnail} alt={`도서 ${title}의 이미지`} />
+          </StBookCardImgWrapper>
         </StImgWrapper>
         <StTextWrapper>
           <StTitleWrapper>
@@ -81,8 +84,8 @@ export default function BookCard(props: BookCardProps) {
           </StTitleWrapper>
         </StTextWrapper>
       </StBookCard>
-      <StIcBin onClick={handlePopUp} />
-      {isPopUp && <PopUpDelete onPopUp={handlePopUp} pathKey={pathKey} reviewId={reviewId} />}
+      <StIcBin onClick={handleTogglePopUp} />
+      {isPopUp && <PopUpDelete onTogglePopUp={handleTogglePopUp} pathKey={pathKey} reviewId={reviewId} />}
     </StCardWrapper>
   );
 }
@@ -96,7 +99,7 @@ const StCardWrapper = styled.div`
     background-color: ${({ theme }) => theme.colors.orange200};
     cursor: pointer;
   }
-  &:hover > svg {
+  & > svg {
     display: block;
   }
 `;

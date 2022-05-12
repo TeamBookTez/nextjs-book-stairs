@@ -9,13 +9,13 @@ import LocalStorage from "../../core/localStorage";
 import { StBtnCancel, StBtnDelete, StBtnWrapper, StDetail, StPopUp, StPopUpWrapper, StQuestion } from "./styled/PopUp";
 
 interface PopUpDeleteProps {
-  onPopUp: () => void;
+  onTogglePopUp: () => void;
   pathKey: string;
   reviewId: string;
 }
 
 export default function PopUpDelete(props: PopUpDeleteProps) {
-  const { onPopUp, pathKey, reviewId } = props;
+  const { onTogglePopUp, pathKey, reviewId } = props;
 
   const { mutate } = useSWRConfig();
   const router = useRouter();
@@ -25,7 +25,7 @@ export default function PopUpDelete(props: PopUpDeleteProps) {
   const handleDelete = async () => {
     await deleteData(`/review/${reviewId}`, userToken);
 
-    onPopUp();
+    onTogglePopUp();
     mutate(pathKey);
 
     if (router.pathname === "/book-note/detail-book-note") {
@@ -42,7 +42,7 @@ export default function PopUpDelete(props: PopUpDeleteProps) {
         <StQuestion>삭제하시겠어요?</StQuestion>
         <StDetail>삭제한 기록은 복구가 어려워요!</StDetail>
         <StBtnWrapper>
-          <StBtnCancel type="button" onClick={onPopUp}>
+          <StBtnCancel type="button" onClick={onTogglePopUp}>
             취소
           </StBtnCancel>
           <StBtnDelete id="btn_delete" type="button" onClick={handleDelete}>

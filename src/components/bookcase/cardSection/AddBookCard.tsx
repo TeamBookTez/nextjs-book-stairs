@@ -4,7 +4,7 @@ import Link from "next/link";
 
 import { ImgAddBooks } from "../../../../public/assets/images";
 import { DefaultButton } from "../../common/styled/Button";
-import { StBookCardImg } from "../../common/styled/Img";
+import { StBookCardImgWrapper } from "../../common/styled/Img";
 
 export default function AddBookCard() {
   return (
@@ -12,9 +12,9 @@ export default function AddBookCard() {
       <StAddCard>
         <StContent>
           <StImgWrapper>
-            <StBookCardImg>
+            <StBookCardImgWrapper>
               <Image src={ImgAddBooks} alt="다음 책을 쌓아볼까요?" />
-            </StBookCardImg>
+            </StBookCardImgWrapper>
           </StImgWrapper>
           <StCardHeader>다음 책을 읽어볼까요?</StCardHeader>
           <StCardDesc>또 하나의 지혜를 쌓아보세요.</StCardDesc>
