@@ -1,6 +1,6 @@
 import { Meta, Story } from "@storybook/react";
 
-import { LandingHeader } from "../components/landing";
+import LandingHeader from "./LandingHeader";
 
 // 스토리북의 폴더
 export default {
