@@ -1,8 +1,17 @@
+const bookcasePathKey = {
+  default: "/book",
+  pre: "/book/pre",
+  peri: "/book/peri",
+  post: "/book/post",
+} as const;
+
+export type BookcasePathKey = typeof bookcasePathKey[keyof typeof bookcasePathKey];
+
 export interface NavigatingBookInfoState {
   reviewId: string;
   title: string;
   fromUrl: string;
-  fromSt: number;
+  fromSt: BookcasePathKey;
 }
 
 export interface BookcaseInfo {
@@ -12,12 +21,3 @@ export interface BookcaseInfo {
   thumbnail: string;
   title: string;
 }
-
-const bookcasePathKey = {
-  default: "/book",
-  pre: "/book/pre",
-  peri: "/book/peri",
-  post: "/book/post",
-};
-
-export type BookcasePathKey = typeof bookcasePathKey[keyof typeof bookcasePathKey];
