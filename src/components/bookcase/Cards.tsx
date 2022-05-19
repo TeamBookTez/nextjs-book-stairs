@@ -1,5 +1,4 @@
 import styled from "@emotion/styled";
-import { useEffect, useState } from "react";
 
 import { useGetBookInfo } from "../../core/api";
 import { BookcaseInfo, BookcasePathKey } from "../../types/bookcase";
