@@ -7,6 +7,7 @@ import { useRecoilValue, useSetRecoilState } from "recoil";
 import { IcBin } from "../../../../public/assets/icons";
 import { isLoginState, navigatingBookInfoState } from "../../../core/atom";
 import { BookcaseInfo, BookcasePathKey } from "../../../types/bookcase";
+import { BookNoteUrlPath } from "../../../types/bookNote";
 import { PopUpDelete } from "../../common";
 import { StBookCardImgWrapper } from "../../common/styled/Img";
 
@@ -24,7 +25,8 @@ export default function BookCard(props: BookCardProps) {
   const setNavigatingBookInfo = useSetRecoilState(navigatingBookInfoState);
   const router = useRouter();
 
-  const reviewUrl = reviewSt === 2 ? "/book-note" : reviewSt === 3 ? "/book-note/peri" : "/book-note/detail-book-note";
+  const reviewUrl: BookNoteUrlPath =
+    reviewSt === 2 ? "/book-note" : reviewSt === 3 ? "/book-note/peri" : "/book-note/detail-book-note";
 
   // 홈에 대한 예외 처리
   const handleTogglePopUp = () => {
