@@ -25,8 +25,16 @@ export default function BookCard(props: BookCardProps) {
   const setNavigatingBookInfo = useSetRecoilState(navigatingBookInfoState);
   const router = useRouter();
 
-  const reviewUrl: BookNoteUrlPath =
-    reviewSt === 2 ? "/book-note" : reviewSt === 3 ? "/book-note/peri" : "/book-note/detail-book-note";
+  let reviewUrl: BookNoteUrlPath = "/book-note"; // reviewSt === 2
+
+  switch (reviewSt) {
+    case 3:
+      reviewUrl = "/book-note/peri";
+      break;
+    case 4:
+      reviewUrl = "/book-note/detail-book-note";
+      break;
+  }
 
   // 홈에 대한 예외 처리
   const handleTogglePopUp = () => {

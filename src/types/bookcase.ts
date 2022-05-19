@@ -17,7 +17,7 @@ export interface NavigatingBookInfoState {
 export interface BookcaseInfo {
   author: string[];
   reviewId: string;
-  reviewSt?: number;
+  reviewSt?: 2 | 3 | 4;
   thumbnail: string;
   title: string;
 }

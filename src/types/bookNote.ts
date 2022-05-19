@@ -19,13 +19,13 @@ export interface PeriNoteTreeNode {
 
 export interface PeriNoteData {
   answerThree: PeriNoteTreeNode;
-  reviewSt: number;
+  reviewSt: 2 | 3 | 4;
 }
 
 export interface PreNoteData {
   answerOne: string;
   answerTwo: string;
   questionList: string[];
-  reviewSt: number;
+  reviewSt: 2 | 3 | 4;
   finishSt?: boolean;
 }
