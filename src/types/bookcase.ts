@@ -14,10 +14,10 @@ export interface BookcaseInfo {
 }
 
 const bookcasePathKey = {
-  default: "/",
-  Pre: "/PRE",
-  Peri: "/PERI",
-  Post: "/POST",
+  default: "/book",
+  Pre: "/book/pre",
+  Peri: "/book/peri",
+  Post: "/book/post",
 };
 
 export type BookcasePathKey = typeof bookcasePathKey[keyof typeof bookcasePathKey];
