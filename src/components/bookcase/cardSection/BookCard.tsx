@@ -98,9 +98,10 @@ const StCardWrapper = styled.div`
   &:hover {
     background-color: ${({ theme }) => theme.colors.orange200};
     cursor: pointer;
-  }
-  & > svg {
-    display: block;
+
+    & > svg {
+      display: block;
+    }
   }
 `;
 
