@@ -6,19 +6,23 @@ interface BooksNumProps {
 
 export default function BookComment(props: BooksNumProps) {
   const { reviewCount } = props;
-  const nowComment = "지금까지";
+  const readComment =
+    reviewCount < 10 ? (
+      <>
+        <StNowcomment>지금까지</StNowcomment>
+        <StReadcomment>권 책을 읽었어요</StReadcomment>
+      </>
+    ) : (
+      <StReadcomment>
+        권의 {reviewCount < 100 && "\n"}
+        책을 읽었어요
+      </StReadcomment>
+    );
 
   return (
     <>
       <StBooksNum>{reviewCount}</StBooksNum>
-      <StWrapper>
-        {reviewCount < 10 && <StNowcomment>{nowComment}</StNowcomment>}
-        <StReadcomment>
-          권{reviewCount < 10 ? <>&nbsp;</> : <>의&nbsp;</>}
-          {10 <= reviewCount && reviewCount < 100 && <br />}
-          책을 읽었어요
-        </StReadcomment>
-      </StWrapper>
+      <StWrapper>{readComment}</StWrapper>
     </>
   );
 }
