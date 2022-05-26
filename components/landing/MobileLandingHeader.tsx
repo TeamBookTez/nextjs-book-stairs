@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import React from "react";
 
-import { IcLandingMobileHeader } from "../../../public/assets/icons";
+import { IcLandingMobileHeader } from "../../public/assets/icons";
 export default function MobileLandingHeader() {
   return (
     <StHeader>

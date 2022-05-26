@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import Image from "next/image";
 import Link from "next/link";
 
-import { ImgLanding01 } from "../../../public/assets/images";
+import { ImgLanding01 } from "../../public/assets/images";
 import { DefaultButton } from "../common/styled/Button";
 
 export default function LandingInfo() {

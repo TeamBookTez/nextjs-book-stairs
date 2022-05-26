@@ -3,8 +3,8 @@ import Image from "next/image";
 import React from "react";
 import { useRecoilValue } from "recoil";
 
-import { ImgReadNum } from "../../../public/assets/images";
 import { isLoginState } from "../../core/atom";
+import { ImgReadNum } from "../../public/assets/images";
 import { UserInfo } from "../../types/myPage";
 import myPageInformations from "../../util/myPageInformations";
 import { BookComment } from ".";

@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 
-import { IcLandingIcon01, IcLandingIcon02, IcLandingIcon03 } from "../../../public/assets/icons";
+import { IcLandingIcon01, IcLandingIcon02, IcLandingIcon03 } from "../../public/assets/icons";
 import { LandingCard } from ".";
 
 export default function LandingMotivation() {

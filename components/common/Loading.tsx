@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import Image from "next/image";
 
-import { GifLoading } from "../../../public/assets/images";
+import { GifLoading } from "../../public/assets/images";
 
 export default function Loading() {
   return (

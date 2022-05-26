@@ -3,9 +3,9 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { useSWRConfig } from "swr";
 
-import { ImgDeletePopUp } from "../../../public/assets/images";
 import { deleteData } from "../../core/api";
 import LocalStorage from "../../core/localStorage";
+import { ImgDeletePopUp } from "../../public/assets/images";
 import { BookcasePathKey } from "../../types/bookcase";
 import { StBtnCancel, StBtnDelete, StBtnWrapper, StDetail, StPopUp, StPopUpWrapper, StQuestion } from "./styled/PopUp";
 

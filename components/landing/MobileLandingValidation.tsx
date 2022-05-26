@@ -1,4 +1,4 @@
-import { IcLandingMobileFour02 } from "../../../public/assets/icons";
+import { IcLandingMobileFour02 } from "../../public/assets/icons";
 import { StBackgroundFour, StMobileBg, StMobileMain, StWrapperFour } from "../common/styled/MobileLanding";
 import { StH2Four, StParagraphFour } from "./MobileLandingExperiment";
 

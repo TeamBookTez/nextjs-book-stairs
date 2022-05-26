@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 
-import { IcLandingMobileFour01 } from "../../../public/assets/icons";
+import { IcLandingMobileFour01 } from "../../public/assets/icons";
 import { StBackgroundFour, StMobileBg, StMobileMain, StWrapperFour } from "../common/styled/MobileLanding";
 
 export default function MobileLandingExperiment() {

@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import Link from "next/link";
 
-import { IcLandingFooter, IcMainLogo } from "../../../public/assets/icons";
+import { IcLandingFooter, IcMainLogo } from "../../public/assets/icons";
 import { DefaultButton } from "../common/styled/Button";
 export default function LandingFooter() {
   return (

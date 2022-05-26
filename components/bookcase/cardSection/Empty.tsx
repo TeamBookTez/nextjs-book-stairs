@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import Image from "next/image";
 import Link from "next/link";
 
-import { ImgEmptyBook } from "../../../../public/assets/images";
+import { ImgEmptyBook } from "../../../public/assets/images";
 import { BookcasePathKey } from "../../../types/bookcase";
 import { DefaultButton } from "../../common/styled/Button";
 

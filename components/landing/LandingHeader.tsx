@@ -10,7 +10,7 @@
 import styled from "@emotion/styled";
 import { useRouter } from "next/router";
 
-import { IcMainLogo } from "../../../public/assets/icons";
+import { IcMainLogo } from "../../public/assets/icons";
 import { DefaultButton } from "../common/styled/Button";
 
 export default function LandingHeader() {

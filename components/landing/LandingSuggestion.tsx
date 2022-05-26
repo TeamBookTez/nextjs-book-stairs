@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import Image from "next/image";
 
-import { ImgLanding02 } from "../../../public/assets/images";
+import { ImgLanding02 } from "../../public/assets/images";
 import { StLandingSectionH2, StLandingSectionWrapper } from "../common/styled/Landing";
 
 export default function LandingThree() {

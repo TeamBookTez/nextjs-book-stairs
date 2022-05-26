@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import Image from "next/image";
 import Link from "next/link";
 
-import { ImgAddBooks } from "../../../../public/assets/images";
+import { ImgAddBooks } from "../../../public/assets/images";
 import { DefaultButton } from "../../common/styled/Button";
 import { StBookCardImgWrapper } from "../../common/styled/Img";
 

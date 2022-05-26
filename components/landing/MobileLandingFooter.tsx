@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import { useRouter } from "next/router";
 import { useMediaQuery } from "react-responsive";
 
-import { IcLandingMobileMark } from "../../../public/assets/icons";
+import { IcLandingMobileMark } from "../../public/assets/icons";
 import { DefaultButton } from "../common/styled/Button";
 
 export default function MobileLandingFooter() {

@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import Image from "next/image";
 
-import { ImgLandingBookcase } from "../../../public/assets/images";
+import { ImgLandingBookcase } from "../../public/assets/images";
 import { StLandingSectionH2, StLandingSectionWrapper } from "../common/styled/Landing";
 
 export default function LandingValidation() {

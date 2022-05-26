@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import Image from "next/image";
 import Link from "next/link";
 
-import { ImgMainBanner } from "../../../public/assets/images";
+import { ImgMainBanner } from "../../public/assets/images";
 
 export default function Banner() {
   return (

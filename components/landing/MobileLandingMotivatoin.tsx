@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 
-import { IcLandingMobileIcon01, IcLandingMobileIcon02, IcLandingMobileIcon03 } from "../../../public/assets/icons";
+import { IcLandingMobileIcon01, IcLandingMobileIcon02, IcLandingMobileIcon03 } from "../../public/assets/icons";
 import { StMobileMain } from "../common/styled/MobileLanding";
 import MobileLandingCard from "./MobileLandingCard";
 

@@ -4,8 +4,8 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 
-import { IcBin } from "../../../../public/assets/icons";
 import { isLoginState, navigatingBookInfoState } from "../../../core/atom";
+import { IcBin } from "../../../public/assets/icons";
 import { BookcaseInfo, BookcasePathKey } from "../../../types/bookcase";
 import { BookNoteUrlPath } from "../../../types/bookNote";
 import { PopUpDelete } from "../../common";

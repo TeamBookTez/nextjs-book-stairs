@@ -1,11 +1,11 @@
 import styled from "@emotion/styled";
 import Image from "next/image";
-import React, { ImgHTMLAttributes } from "react";
+import React from "react";
 import { useRecoilValue } from "recoil";
 
-import { IcEditProfile } from "../../../public/assets/icons";
-import { ImgMypageBanner, ImgUser } from "../../../public/assets/images";
 import { isLoginState } from "../../core/atom";
+import { IcEditProfile } from "../../public/assets/icons";
+import { ImgMypageBanner, ImgUser } from "../../public/assets/images";
 import { UserInfo } from "../../types/myPage";
 
 interface TopBannerProps {

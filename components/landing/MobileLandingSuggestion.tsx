@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 
-import { IcLandingMobileThree } from "../../../public/assets/icons";
+import { IcLandingMobileThree } from "../../public/assets/icons";
 import { StMobileMain } from "../common/styled/MobileLanding";
 
 export default function MobileLandingThree() {

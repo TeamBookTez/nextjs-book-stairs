@@ -15,7 +15,7 @@ import { useRouter } from "next/router";
 import { ImgHTMLAttributes } from "react";
 import { useMediaQuery } from "react-responsive";
 
-import { ImgLandingMobileBanner, ImgLandingTabletBanner } from "../../../public/assets/images";
+import { ImgLandingMobileBanner, ImgLandingTabletBanner } from "../../public/assets/images";
 import { DefaultButton } from "../common/styled/Button";
 
 interface StWrapperProps {
