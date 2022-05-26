@@ -6,17 +6,18 @@ import { useRecoilValue, useSetRecoilState } from "recoil";
 
 import { IcBin } from "../../../../public/assets/icons";
 import { isLoginState, navigatingBookInfoState } from "../../../core/atom";
-import { BookcaseInfo } from "../../../types/bookcase";
+import { BookcaseInfo, BookcasePathKey } from "../../../types/bookcase";
+import { BookNoteUrlPath } from "../../../types/bookNote";
 import { PopUpDelete } from "../../common";
 import { StBookCardImgWrapper } from "../../common/styled/Img";
 
 interface BookCardProps {
   bookcaseInfo: BookcaseInfo;
-  pathKey: string;
+  navIndex: BookcasePathKey;
 }
 
 export default function BookCard(props: BookCardProps) {
-  const { bookcaseInfo, pathKey } = props;
+  const { bookcaseInfo, navIndex } = props;
   const { author, reviewId, thumbnail, title, reviewSt } = bookcaseInfo;
 
   const [isPopUp, setIsPopUp] = useState(false);
@@ -24,24 +25,14 @@ export default function BookCard(props: BookCardProps) {
   const setNavigatingBookInfo = useSetRecoilState(navigatingBookInfoState);
   const router = useRouter();
 
-  const reviewUrl = reviewSt === 2 ? "/book-note" : reviewSt === 3 ? "/book-note/peri" : "/book-note/detail-book-note";
+  let reviewUrl: BookNoteUrlPath = "/book-note"; // reviewSt === 2
 
-  let fromSt = 0;
-
-  switch (pathKey) {
-    case "/book":
-      fromSt = 0;
+  switch (reviewSt) {
+    case 3:
+      reviewUrl = "/book-note/peri";
       break;
-    case "/book/pre":
-      fromSt = 1;
-      break;
-    case "/book/peri":
-      fromSt = 2;
-      break;
-    case "/book/post":
-      fromSt = 3;
-      break;
-    default:
+    case 4:
+      reviewUrl = "/book-note/detail-book-note";
       break;
   }
 
@@ -53,7 +44,7 @@ export default function BookCard(props: BookCardProps) {
   const moveBookNoteHandler = () => {
     if (!isLogin) return;
 
-    const tempNavigatingBookInfo = { reviewId, title, fromUrl: router.pathname, fromSt };
+    const tempNavigatingBookInfo = { reviewId, title, fromUrl: router.pathname, fromSt: navIndex };
 
     setNavigatingBookInfo(tempNavigatingBookInfo);
     router.push(reviewUrl);
@@ -85,7 +76,7 @@ export default function BookCard(props: BookCardProps) {
         </StTextWrapper>
       </StBookCard>
       <StIcBin onClick={handleTogglePopUp} />
-      {isPopUp && <PopUpDelete onTogglePopUp={handleTogglePopUp} pathKey={pathKey} reviewId={reviewId} />}
+      {isPopUp && <PopUpDelete onTogglePopUp={handleTogglePopUp} navIndex={navIndex} reviewId={reviewId} />}
     </StCardWrapper>
   );
 }
@@ -98,9 +89,10 @@ const StCardWrapper = styled.div`
   &:hover {
     background-color: ${({ theme }) => theme.colors.orange200};
     cursor: pointer;
-  }
-  & > svg {
-    display: block;
+
+    & > svg {
+      display: block;
+    }
   }
 `;
 

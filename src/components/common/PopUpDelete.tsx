@@ -6,16 +6,17 @@ import { useSWRConfig } from "swr";
 import { ImgDeletePopUp } from "../../../public/assets/images";
 import { deleteData } from "../../core/api";
 import LocalStorage from "../../core/localStorage";
+import { BookcasePathKey } from "../../types/bookcase";
 import { StBtnCancel, StBtnDelete, StBtnWrapper, StDetail, StPopUp, StPopUpWrapper, StQuestion } from "./styled/PopUp";
 
 interface PopUpDeleteProps {
   onTogglePopUp: () => void;
-  pathKey: string;
+  navIndex: BookcasePathKey;
   reviewId: string;
 }
 
 export default function PopUpDelete(props: PopUpDeleteProps) {
-  const { onTogglePopUp, pathKey, reviewId } = props;
+  const { onTogglePopUp, navIndex, reviewId } = props;
 
   const { mutate } = useSWRConfig();
   const router = useRouter();
@@ -26,7 +27,7 @@ export default function PopUpDelete(props: PopUpDeleteProps) {
     await deleteData(`/review/${reviewId}`, userToken);
 
     onTogglePopUp();
-    mutate(pathKey);
+    mutate(navIndex);
 
     if (router.pathname === "/book-note/detail-book-note") {
       router.push("/main/bookcase");

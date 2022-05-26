@@ -1,36 +1,18 @@
 import styled from "@emotion/styled";
-import { useEffect, useState } from "react";
 
 import { useGetBookInfo } from "../../core/api";
-import { BookcaseInfo } from "../../types/bookcase";
+import { BookcaseInfo, BookcasePathKey } from "../../types/bookcase";
 import { Loading } from "../common";
 import { AddBookCard, BookCard } from ".";
 import Empty from "./cardSection/Empty";
 
 interface CardsProps {
-  navIndex: number;
+  navIndex: BookcasePathKey;
 }
 
 export default function Cards(props: CardsProps) {
   const { navIndex } = props;
-  const [pathKey, setPathKey] = useState<string>("");
-  const { bookcaseInfo, isLoading, isError } = useGetBookInfo(pathKey);
-
-  useEffect(() => {
-    switch (navIndex) {
-      case 1:
-        setPathKey("/book/pre");
-        break;
-      case 2:
-        setPathKey("/book/peri");
-        break;
-      case 3:
-        setPathKey("/book/post");
-        break;
-      default:
-        setPathKey("/book");
-    }
-  }, [navIndex]);
+  const { bookcaseInfo, isLoading, isError } = useGetBookInfo(navIndex);
 
   if (isLoading) {
     return <Loading />;
@@ -45,7 +27,7 @@ export default function Cards(props: CardsProps) {
       <StSection>
         <AddBookCard />
         {bookcaseInfo.map((bookcaseInfo: BookcaseInfo, idx: number) => (
-          <BookCard key={idx} bookcaseInfo={bookcaseInfo} pathKey={pathKey} />
+          <BookCard key={idx} bookcaseInfo={bookcaseInfo} navIndex={navIndex} />
         ))}
       </StSection>
     );

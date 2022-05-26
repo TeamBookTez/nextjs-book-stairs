@@ -3,29 +3,30 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { ImgEmptyBook } from "../../../../public/assets/images";
+import { BookcasePathKey } from "../../../types/bookcase";
 import { DefaultButton } from "../../common/styled/Button";
 
 interface EmptyProps {
-  navIndex: number;
+  navIndex: BookcasePathKey;
 }
 
 export default function Empty(props: EmptyProps) {
   const { navIndex } = props;
 
-  const allOrPre = navIndex <= 1;
+  const isNavIndexDefaultOrPre = navIndex === "/book" || navIndex === "/book/pre";
 
   return (
     <StArticle>
       <StImgWrapper>
         <Image src={ImgEmptyBook} alt="빈 폴더 이미지" />
       </StImgWrapper>
-      <StH3>{allOrPre ? "아직 읽은 책이 없어요." : "이 단계의 책이 없어요."}</StH3>
+      <StH3>{isNavIndexDefaultOrPre ? "아직 읽은 책이 없어요." : "이 단계의 책이 없어요."}</StH3>
 
       <StParagraph>
         북스테어즈만의 독서법을 통해
         <br /> 지식을 얻고 독서의 매력을 느껴보세요
       </StParagraph>
-      {allOrPre && (
+      {isNavIndexDefaultOrPre && (
         <Link href="/bookcase/add-book" passHref>
           <StAddBookBtn>+ 책 추가</StAddBookBtn>
         </Link>
