@@ -1,8 +1,8 @@
 import styled from "@emotion/styled";
 import Image from "next/image";
 
-import { ImgDevice } from "../../public/assets/images";
 import { MainLayout } from "../components/layout";
+import { ImgDevice } from "../public/assets/images";
 
 export default function toBe() {
   return (
