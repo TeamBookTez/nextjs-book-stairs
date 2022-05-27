@@ -1,12 +1,12 @@
 import styled from "@emotion/styled";
 
-import { BookNoteHeader, Navigator, SavePoint } from "../../../components/bookNote";
+import { BookNoteHeader, Navigation, SavePoint } from "../../../components/bookNote";
 
 export default function index() {
   return (
     <StNoteModalWrapper>
       <BookNoteHeader>
-        <Navigator />
+        <Navigation />
         <SavePoint />
       </BookNoteHeader>
     </StNoteModalWrapper>
