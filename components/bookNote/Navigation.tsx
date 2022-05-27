@@ -1,38 +1,45 @@
 import styled from "@emotion/styled";
 
-export default function Navigator() {
-  const navIndex = 0;
-  const onChangeNavIndex = () => {
-    //   onSetIsSave(true);
-    //   if (navIndex) {
-    //     setTimeout(() => {
-    //       onSetIsSave(false);
-    //       navigate("");
-    //       onNav(0);
-    //     }, 0);
-    //   }
-    //   if (!navIndex && !isPrevented) {
-    //     setTimeout(() => {
-    //       onSetIsSave(false);
-    //       navigate("peri");
-    //       onNav(1);
-    //     }, 0);
-    //   }
-    //   onSetDrawerAsDefault();
+import { BookNotePathKey } from "../../types/bookNote";
+
+interface NavigationProps {
+  navIndex: BookNotePathKey;
+  onClickNavList: (idx: BookNotePathKey) => void;
+}
+
+export default function Navigation(props: NavigationProps) {
+  const { navIndex, onClickNavList } = props;
+
+  const handleNavIndex = (idx: BookNotePathKey) => {
+    // onSetIsSave(true);
+    // if (navIndex === "pre") {
+    // setTimeout(() => {
+    //   onSetIsSave(false);
+    //   onNav(0);
+    // }, 0);
+    // }
+    // if (navIndex === "peri" && !isPrevented) {
+    // setTimeout(() => {
+    // onSetIsSave(false);
+    // onNav(1);
+    // }, 0);
+    // }
+    // onSetDrawerAsDefault();
+    onClickNavList(idx);
   };
 
   return (
     <StNav>
       <StUl>
-        <StList onClick={onChangeNavIndex} active={navIndex === 0}>
+        <StList onClick={() => handleNavIndex("pre")} active={navIndex === "pre"}>
           독서 전
         </StList>
-        <StList onClick={onChangeNavIndex} active={navIndex === 0}>
+        <StList onClick={() => handleNavIndex("peri")} active={navIndex === "peri"}>
           독서 중
         </StList>
       </StUl>
       <StBottomLine>
-        <StOrangLine index={0} />
+        <StOrangLine index={navIndex === "pre" ? 0 : 1} />
       </StBottomLine>
     </StNav>
   );

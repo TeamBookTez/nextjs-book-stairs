@@ -1,12 +1,20 @@
 import styled from "@emotion/styled";
+import { useState } from "react";
 
 import { BookNoteHeader, Navigation, SavePoint } from "../../../components/bookNote";
+import { BookNotePathKey } from "../../../types/bookNote";
 
 export default function index() {
+  const [navIndex, setNavIndex] = useState<BookNotePathKey>("pre");
+
+  const handleNavIndex = (idx: BookNotePathKey) => {
+    setNavIndex(idx);
+  };
+
   return (
     <StNoteModalWrapper>
       <BookNoteHeader>
-        <Navigation />
+        <Navigation navIndex={navIndex} onClickNavList={handleNavIndex} />
         <SavePoint />
       </BookNoteHeader>
     </StNoteModalWrapper>

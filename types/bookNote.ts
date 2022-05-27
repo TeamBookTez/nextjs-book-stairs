@@ -1,10 +1,9 @@
-const bookNoteUrlPath = {
-  default: "/book-note",
-  peri: "/book-note/peri",
-  detail: "/book-note/detail-book-note",
+const bookNotePathKey = {
+  pre: "pre",
+  peri: "peri",
 } as const;
 
-export type BookNoteUrlPath = typeof bookNoteUrlPath[keyof typeof bookNoteUrlPath];
+export type BookNotePathKey = typeof bookNotePathKey[keyof typeof bookNotePathKey];
 
 export interface PeriNoteTreeNode {
   type: string;
