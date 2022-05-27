@@ -1,6 +1,8 @@
 import styled from "@emotion/styled";
 import React from "react";
+import { useRecoilValue } from "recoil";
 
+import { navigatingBookInfoState } from "../../core/atom";
 import { IcCancelWhite } from "../../public/assets/icons";
 import { PopUpExit } from "../common";
 
@@ -11,11 +13,14 @@ interface BookNoteHeaderProps {
 export default function BookNoteHeader(props: BookNoteHeaderProps) {
   const { children } = props;
 
+  const navigatingBookInfo = useRecoilValue(navigatingBookInfoState);
+  const { title } = navigatingBookInfo;
+
   return (
     <>
       {false && <PopUpExit />}
       <StIcCancelWhite onClick={() => {}} />
-      <StBookTitle>...title...</StBookTitle>
+      <StBookTitle>{title}</StBookTitle>
       <StNavWrapper>{children}</StNavWrapper>
     </>
   );
