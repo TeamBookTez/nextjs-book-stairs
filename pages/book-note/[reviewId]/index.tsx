@@ -1,3 +1,13 @@
+/*
+마지막 편집자: 22-05-27 joohaem
+변경사항 및 참고:
+  - 
+    
+고민점:
+  - url 을 state 관리로 바꿈으로써,
+    bookcaseInfo 의 reviewSt 를 통해 pre, peri 를 나누어주어야 함
+*/
+
 import styled from "@emotion/styled";
 import { useState } from "react";
 
