@@ -14,7 +14,7 @@ import { useState } from "react";
 import { BookNoteHeader, Navigation, SavePoint } from "../../../components/bookNote";
 import { BookNotePathKey } from "../../../types/bookNote";
 
-export default function index() {
+export default function Index() {
   const [navIndex, setNavIndex] = useState<BookNotePathKey>("pre");
 
   const handleNavIndex = (idx: BookNotePathKey) => {
