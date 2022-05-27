@@ -1,3 +1,18 @@
+/*
+마지막 편집자: 22-05-27 joohaem
+변경사항 및 참고:
+  {isSave && (
+    <StSave>
+      <StIcCheckSave />
+      작성한 내용이 저장되었어요.
+    </StSave>
+  )}
+  {isLogin && <StIcSave onClick={() => setIsSave(true)} id="btn_save" />}
+    
+고민점:
+  - 
+*/
+
 import styled from "@emotion/styled";
 
 import { IcCheckSave, IcSave } from "../../public/assets/icons";
