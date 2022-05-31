@@ -20,7 +20,7 @@ export default function BookNoteHeader(props: BookNoteHeaderProps) {
     <>
       {false && <PopUpExit />}
       <StIcCancelWhite onClick={() => {}} />
-      <StBookTitle>{title}</StBookTitle>
+      <StBookTitle>{title}asdasdsadadas</StBookTitle>
       <StNavWrapper>{children}</StNavWrapper>
     </>
   );

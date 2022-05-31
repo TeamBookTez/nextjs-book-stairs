@@ -41,16 +41,18 @@ export default function PreNoteThirdArticle() {
 }
 
 const StAddButton = styled.button<{ disabled: boolean }>`
+  width: calc(100% - 5rem);
+
   margin-right: 9.1rem;
+  padding: 1.35rem 2.4rem;
+
   border: 0.2rem solid ${({ theme }) => theme.colors.white400};
   border-radius: 0.8rem;
-  padding: 1.35rem 2.4rem;
-  background-color: ${({ theme }) => theme.colors.white200};
 
-  width: calc(100% - 5rem);
-  color: ${({ disabled, theme }) => (!disabled ? theme.colors.gray100 : theme.colors.white500)};
+  background-color: ${({ theme }) => theme.colors.white200};
   text-align: start;
   ${({ theme }) => theme.fonts.body4}
+  color: ${({ disabled, theme }) => (!disabled ? theme.colors.gray100 : theme.colors.white500)};
 
   ${({ disabled }) =>
     disabled &&

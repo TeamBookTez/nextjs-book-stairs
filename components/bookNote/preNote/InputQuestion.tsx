@@ -45,6 +45,7 @@ const StWrapper = styled.div`
 const StIcon = styled(IcDelete)`
   width: 2.8rem;
   height: 2.8rem;
+
   margin-left: 2.5rem;
 
   &:hover {
@@ -53,12 +54,13 @@ const StIcon = styled(IcDelete)`
 `;
 
 const StInput = styled.input`
+  width: 100%;
+
   margin-bottom: 1rem;
-  border: 0.2rem solid ${({ theme }) => theme.colors.white400};
-  border-radius: 0.8rem;
   padding: 1.35rem 2.4rem;
 
-  width: 100%;
+  border: 0.2rem solid ${({ theme }) => theme.colors.white400};
+  border-radius: 0.8rem;
 
   color: ${({ theme }) => theme.colors.gray400};
   ${({ theme }) => theme.fonts.body4}

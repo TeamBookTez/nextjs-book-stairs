@@ -19,16 +19,18 @@ export default function ExampleDrawerBtn(props: ExampleDrawerBtnProps) {
 }
 
 const StButton = styled.button`
+  min-width: 8.7rem;
+  height: 4.2rem;
+
   display: flex;
   align-items: center;
   justify-content: space-between;
 
-  border-radius: 0.8rem;
   padding: 1.05rem 2.1rem;
-  background-color: ${({ theme }) => theme.colors.white300};
 
-  min-width: 8.7rem;
-  height: 4.2rem;
+  border-radius: 0.8rem;
+
+  background-color: ${({ theme }) => theme.colors.white300};
 
   ${({ theme }) => theme.fonts.body5}
 `;

@@ -24,12 +24,13 @@ const StLinkWrapper = styled.section`
   bottom: 0;
   left: 0;
 
+  height: 25.9rem;
+
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 
-  height: 25.9rem;
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.2) -9.07%, rgba(194, 195, 204, 0.85) 100%);
 `;
 

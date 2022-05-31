@@ -35,11 +35,14 @@ export default function PreNoteFormContainer(props: PreNoteFormContainerProps) {
   );
 }
 const StFormContainer = styled.section`
+  width: 100%;
+
+  padding: 2.1rem 3rem 2.6rem 3rem;
+
   border: 0.1rem solid transparent;
   border-radius: 1.6rem;
-  padding: 2.1rem 3rem 2.6rem 3rem;
+
   background-color: ${({ theme }) => theme.colors.white};
-  width: 100%;
 
   &:focus-within {
     border-color: ${({ theme }) => theme.colors.orange100};
@@ -51,13 +54,15 @@ const StHeader = styled.header`
   align-items: center;
   justify-content: space-between;
 
-  border-bottom: 0.1rem solid ${({ theme }) => theme.colors.white400};
   padding-bottom: 2rem;
+
+  border-bottom: 0.1rem solid ${({ theme }) => theme.colors.white400};
 `;
 
 const StHeaderLeft = styled.h3`
   display: flex;
   align-items: center;
+
   ${({ theme }) => theme.fonts.header4}
 `;
 

@@ -33,36 +33,39 @@ export default function PreNote() {
 }
 
 const StNoteForm = styled.form`
+  width: 100%;
+  max-height: fit-content;
+
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-
-  width: 100%;
-  max-height: fit-content;
 `;
 
 const StFormWrapper = styled.section`
+  width: 100%;
+
   display: flex;
   flex-direction: column;
   gap: 12.8rem;
-
-  width: 100%;
 `;
 
 const StFormHead = styled.h2`
-  padding: 4.5rem 0 4.5rem 2rem;
   width: 100%;
+
+  padding: 4.5rem 0 4.5rem 2rem;
 
   ${({ theme }) => theme.fonts.header3};
 `;
 
 const StTextarea = styled.textarea`
-  border: none;
   width: 100%;
   height: 15.4rem;
+
+  resize: none;
+  border: none;
+
   color: ${({ theme }) => theme.colors.gray100};
   ${({ theme }) => theme.fonts.body4}
-  resize: none;
 
   &::placeholder {
     color: ${({ theme }) => theme.colors.white500};
@@ -71,12 +74,14 @@ const StTextarea = styled.textarea`
 `;
 
 const StNextBtn = styled(DefaultButton)`
+  width: 32.5rem;
+
   margin-top: 10rem;
   padding: 1.6rem 13rem;
-  border-radius: 1rem;
-  background-color: ${({ disabled, theme }) => (disabled ? theme.colors.white400 : theme.colors.orange100)};
 
-  width: 32.5rem;
+  border-radius: 1rem;
+
+  background-color: ${({ disabled, theme }) => (disabled ? theme.colors.white400 : theme.colors.orange100)};
   color: ${({ disabled, theme }) => (disabled ? theme.colors.gray300 : theme.colors.white)};
   ${({ theme }) => theme.fonts.button};
 
