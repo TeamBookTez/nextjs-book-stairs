@@ -2,6 +2,7 @@ import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 
 import { DefaultButton } from "../../common/styled/Button";
+import LinkToSignUpSection from "./LinkToSignUpSection";
 import PreNoteFormContainer from "./PreNoteFormContainer";
 
 export default function PreNote() {
@@ -11,6 +12,8 @@ export default function PreNote() {
       <StFormWrapper>
         <PreNoteFormContainer />
         <PreNoteFormContainer />
+        {/* 로그인 ? 질문3 : 회원가입 */}
+        <LinkToSignUpSection />
       </StFormWrapper>
       <StNextBtn type="button">다음 계단</StNextBtn>
     </StNoteForm>
