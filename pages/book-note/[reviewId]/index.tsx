@@ -5,13 +5,14 @@
     
 고민점:
   - url 을 state 관리로 바꿈으로써,
-    bookcaseInfo 의 reviewSt 를 통해 pre, peri 를 나누어주어야 함
+    bookcaseInfo 의 reviewSt 를 통해 pre, peri 를 나누어주어야 함 (원래는 통합)
 */
 
 import styled from "@emotion/styled";
 import { useState } from "react";
 
 import { BookNoteHeader, Navigation, SavePoint } from "../../../components/bookNote";
+import PreNote from "../../../components/bookNote/preNote/PreNote";
 import { BookNotePathKey } from "../../../types/bookNote";
 
 export default function Index() {
@@ -27,6 +28,7 @@ export default function Index() {
         <Navigation navIndex={navIndex} onClickNavList={handleNavIndex} />
         <SavePoint />
       </BookNoteHeader>
+      <PreNote />
     </StNoteModalWrapper>
   );
 }
