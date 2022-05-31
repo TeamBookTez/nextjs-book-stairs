@@ -1,9 +1,16 @@
 import styled from "@emotion/styled";
+import React from "react";
 
 import ExampleDrawerBtn from "../ExampleDrawerBtn";
 import StepUpBtn from "../StepUpBtn";
 
-export default function PreNoteFormContainer() {
+interface PreNoteFormContainerProps {
+  children: React.ReactNode;
+}
+
+export default function PreNoteFormContainer(props: PreNoteFormContainerProps) {
+  const { children } = props;
+
   const question = "QQQQQQQQQQQQQQ";
   const drawre열자 = (idx: number) => {
     console.log("열려라 얍");
@@ -22,14 +29,12 @@ export default function PreNoteFormContainer() {
         </StHeaderLeft>
         <ExampleDrawerBtn idx={1} onOpenDrawer={drawre열자} />
       </StHeader>
-      <StTextareaWrapper>
-        <StTextarea placeholder="답변을 입력해주세요." />
-      </StTextareaWrapper>
+      <StArticleWrapper>{children}</StArticleWrapper>
     </StFormContainer>
     // 원래 여기 Step Up Modal On & Off
   );
 }
-const StFormContainer = styled.article`
+const StFormContainer = styled.section`
   border: 0.1rem solid transparent;
   border-radius: 1.6rem;
   padding: 2.1rem 3rem 2.6rem 3rem;
@@ -56,20 +61,6 @@ const StHeaderLeft = styled.h3`
   ${({ theme }) => theme.fonts.header4}
 `;
 
-const StTextareaWrapper = styled.div`
+const StArticleWrapper = styled.article`
   padding: 2.6rem 1.4rem;
-`;
-
-const StTextarea = styled.textarea`
-  border: none;
-  width: 100%;
-  height: 15.4rem;
-  color: ${({ theme }) => theme.colors.gray100};
-  ${({ theme }) => theme.fonts.body4}
-  resize: none;
-
-  &::placeholder {
-    color: ${({ theme }) => theme.colors.white500};
-    ${({ theme }) => theme.fonts.body4}
-  }
 `;
