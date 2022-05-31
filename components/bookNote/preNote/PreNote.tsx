@@ -2,12 +2,16 @@ import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 
 import { DefaultButton } from "../../common/styled/Button";
+import PreNoteFormContainer from "./PreNoteFormContainer";
 
 export default function PreNote() {
   return (
     <StNoteForm onSubmit={(e) => e.preventDefault()}>
       <StFormHead>책을 넘기기 전 독서전략을 세워보아요.</StFormHead>
-      <StFormWrapper></StFormWrapper>
+      <StFormWrapper>
+        <PreNoteFormContainer />
+        <PreNoteFormContainer />
+      </StFormWrapper>
       <StNextBtn type="button">다음 계단</StNextBtn>
     </StNoteForm>
   );
