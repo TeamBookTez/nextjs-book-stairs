@@ -14,18 +14,20 @@ import { useEffect, useState } from "react";
 import { BookNoteHeader, DrawerWrapper, Navigation, PreNote, SavePoint } from "../../../components/bookNote";
 import { BookNotePathKey } from "../../../types/bookNote";
 
+export type DrawerIdx = 1 | 2 | 3 | 4;
+
 export default function Index() {
   const [navIndex, setNavIndex] = useState<BookNotePathKey>("pre");
 
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
-  const [drawerIdx, setDrawerIdx] = useState(1);
+  const [drawerIdx, setDrawerIdx] = useState<DrawerIdx>(1);
   const [isDrawerdefault, setIsDrawerdefault] = useState(true);
 
   const handleNavIndex = (idx: BookNotePathKey) => {
     setNavIndex(idx);
   };
 
-  const handleOpenDrawer = (i: number) => {
+  const handleOpenDrawer = (i: DrawerIdx) => {
     setIsDrawerdefault(false);
     setIsDrawerOpen(true);
     setDrawerIdx(i);
