@@ -12,7 +12,17 @@ import { css, keyframes } from "@emotion/react";
 import styled from "@emotion/styled";
 import { useEffect, useState } from "react";
 
-import { BookNoteHeader, DrawerWrapper, ExitModal, Navigation, PreNote, SavePoint } from "../../../components/bookNote";
+import {
+  BookNoteHeader,
+  DrawerWrapper,
+  ExitModal,
+  Navigation,
+  PreNote,
+  SavePoint,
+  StepUpLayout,
+} from "../../../components/bookNote";
+import { StBookModalWrapper } from "../../../components/common/styled/BookModalWrapper";
+import { stepUpContentArray } from "../../../core/bookNote/exampleData";
 import { BookNotePathKey } from "../../../types/bookNote";
 
 export type DrawerIdx = 1 | 2 | 3 | 4;
@@ -22,8 +32,10 @@ export default function Index() {
 
   const [isOpenedExitModal, setIsOpenExitModal] = useState<boolean>(false);
 
-  const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
+  const [isOpenedStepUpModal, setIsOpenStepUpModal] = useState<boolean>(false);
+
   const [drawerIdx, setDrawerIdx] = useState<DrawerIdx>(1);
+  const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const [isDrawerdefault, setIsDrawerdefault] = useState(true);
   const drawerWidthValue = navIndex === "peri" ? 60 : 39;
 
@@ -33,6 +45,10 @@ export default function Index() {
 
   const handleExitModal = () => {
     setIsOpenExitModal((prevIsOpened) => !prevIsOpened);
+  };
+
+  const toggleStepUpModal = () => {
+    setIsOpenStepUpModal((prevIsOpened) => !prevIsOpened);
   };
 
   const handleOpenDrawer = (i: DrawerIdx) => {
@@ -66,8 +82,6 @@ export default function Index() {
 
   return (
     <StBookNoteContainer isopen={isDrawerOpen} isdefault={isDrawerdefault} width={drawerWidthValue}>
-      {isOpenedExitModal && <ExitModal onClickCancelBtn={handleExitModal} />}
-
       <BookNoteHeader onClickExitBtn={handleExitModal}>
         <Navigation navIndex={navIndex} onClickNavList={handleNavIndex} onSetDrawerAsDefault={handleDrawerDefault} />
         <SavePoint />
@@ -79,6 +93,12 @@ export default function Index() {
       />
 
       {isDrawerOpen && <DrawerWrapper drawerIdx={drawerIdx} onCloseDrawer={handleCloseDrawer} />}
+      {isOpenedExitModal && <ExitModal onClickCancelBtn={handleExitModal} />}
+      {isOpenedStepUpModal && (
+        <StStepModalWrapper>
+          <StepUpLayout onToggleModal={toggleStepUpModal} stepUpContent={stepUpContentArray[drawerIdx - 1]} />
+        </StStepModalWrapper>
+      )}
     </StBookNoteContainer>
   );
 }
@@ -131,4 +151,13 @@ const StBookNoteContainer = styled.main<{
           animation: ${boostwidth(width)} 300ms linear 1;
           animation-fill-mode: forwards;
         `}
+`;
+
+const StStepModalWrapper = styled(StBookModalWrapper)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 20;
+
+  background-color: rgba(55, 56, 62, 0.8);
 `;

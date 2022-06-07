@@ -28,3 +28,20 @@ export interface PreNoteData {
   reviewSt: 2 | 3 | 4;
   finishSt?: boolean;
 }
+
+type StaticImageData = {
+  src: string;
+  height: number;
+  width: number;
+  placeholder?: string;
+};
+
+export interface StepUpContent {
+  id: number;
+  lifeQuote: string;
+  public: string;
+  header: string;
+  desc: string;
+  imgUrl: StaticImageData;
+  imgAlt: string;
+}

@@ -29,7 +29,6 @@ export default function PreNoteFormContainer(props: PreNoteFormContainerProps) {
       </StHeader>
       <StArticleWrapper>{children}</StArticleWrapper>
     </StFormContainer>
-    // 원래 여기 Step Up Modal On & Off
   );
 }
 const StFormContainer = styled.section`
