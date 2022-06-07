@@ -9,7 +9,7 @@
 */
 
 import styled from "@emotion/styled";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { BookNoteHeader, DrawerWrapper, Navigation, PreNote, SavePoint } from "../../../components/bookNote";
 import { BookNotePathKey } from "../../../types/bookNote";
@@ -35,6 +35,21 @@ export default function Index() {
     setIsDrawerOpen(false);
   };
 
+  const preventClose = (e: BeforeUnloadEvent) => {
+    e.preventDefault();
+    e.returnValue = ""; //deprecated
+  };
+
+  useEffect(() => {
+    (() => {
+      window.addEventListener("beforeunload", preventClose);
+    })();
+
+    return () => {
+      window.removeEventListener("beforeunload", preventClose);
+    };
+  }, []);
+
   return (
     <StBookNoteContainer>
       <BookNoteHeader>
@@ -42,7 +57,8 @@ export default function Index() {
         <SavePoint />
       </BookNoteHeader>
       <PreNote />
-      {/* <DrawerWrapper idx={drawerIdx} isOpen={isDrawerOpen} onCloseDrawer={handleCloseDrawer} /> */}
+
+      {isDrawerOpen && <DrawerWrapper drawerIdx={drawerIdx} onCloseDrawer={handleCloseDrawer} />}
     </StBookNoteContainer>
   );
 }
