@@ -1,5 +1,6 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
+import { useEffect } from "react";
 
 import { DrawerIdx } from "../../../pages/book-note/[reviewId]";
 import { DefaultButton } from "../../common/styled/Button";
@@ -8,14 +9,30 @@ import PreNoteFormContainer from "./PreNoteFormContainer";
 import PreNoteThirdArticle from "./PreNoteThirdArticle";
 
 interface PreNoteProps {
+  handleExitModal: () => void;
   handleOpenDrawer: (i: DrawerIdx) => void;
   handleCloseDrawer: () => void;
 }
 
 export default function PreNote(props: PreNoteProps) {
-  const { handleOpenDrawer, handleCloseDrawer } = props;
+  const { handleExitModal, handleOpenDrawer, handleCloseDrawer } = props;
 
   const isLogin = true;
+
+  const preventGoBack = () => {
+    history.pushState(null, "", location.href);
+    handleExitModal();
+  };
+
+  useEffect(() => {
+    history.pushState(null, "", location.href);
+    window.addEventListener("popstate", preventGoBack);
+
+    return () => {
+      window.removeEventListener("popstate", preventGoBack);
+      handleCloseDrawer();
+    };
+  }, []);
 
   return (
     <StNoteForm onSubmit={(e) => e.preventDefault()}>

@@ -1,32 +1,24 @@
 import styled from "@emotion/styled";
-import React, { useState } from "react";
+import React from "react";
 import { useRecoilValue } from "recoil";
 
 import { navigatingBookInfoState } from "../../core/atom";
 import { IcCancelWhite } from "../../public/assets/icons";
-import ExitModal from "./ExitModal";
 
 interface BookNoteHeaderProps {
+  onClickExitBtn: () => void;
   children: React.ReactNode;
 }
 
 export default function BookNoteHeader(props: BookNoteHeaderProps) {
-  const { children } = props;
+  const { onClickExitBtn, children } = props;
 
   const navigatingBookInfo = useRecoilValue(navigatingBookInfoState);
   const { title } = navigatingBookInfo;
 
-  const [isOpenedExitModal, setIsOpenExitModal] = useState<boolean>(false);
-
-  const handleExitModal = () => {
-    setIsOpenExitModal((prevIsOpened) => !prevIsOpened);
-  };
-
   return (
     <>
-      {isOpenedExitModal && <ExitModal onClickCancelBtn={handleExitModal} />}
-
-      <StIcCancelWhite onClick={handleExitModal} />
+      <StIcCancelWhite onClick={onClickExitBtn} />
       <StBookTitle>{title}asdasdsadadas</StBookTitle>
       <StNavWrapper>{children}</StNavWrapper>
     </>

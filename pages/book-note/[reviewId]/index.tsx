@@ -12,13 +12,15 @@ import { css, keyframes } from "@emotion/react";
 import styled from "@emotion/styled";
 import { useEffect, useState } from "react";
 
-import { BookNoteHeader, DrawerWrapper, Navigation, PreNote, SavePoint } from "../../../components/bookNote";
+import { BookNoteHeader, DrawerWrapper, ExitModal, Navigation, PreNote, SavePoint } from "../../../components/bookNote";
 import { BookNotePathKey } from "../../../types/bookNote";
 
 export type DrawerIdx = 1 | 2 | 3 | 4;
 
 export default function Index() {
   const [navIndex, setNavIndex] = useState<BookNotePathKey>("pre");
+
+  const [isOpenedExitModal, setIsOpenExitModal] = useState<boolean>(false);
 
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const [drawerIdx, setDrawerIdx] = useState<DrawerIdx>(1);
@@ -27,6 +29,10 @@ export default function Index() {
 
   const handleNavIndex = (idx: BookNotePathKey) => {
     setNavIndex(idx);
+  };
+
+  const handleExitModal = () => {
+    setIsOpenExitModal((prevIsOpened) => !prevIsOpened);
   };
 
   const handleOpenDrawer = (i: DrawerIdx) => {
@@ -60,11 +66,17 @@ export default function Index() {
 
   return (
     <StBookNoteContainer isopen={isDrawerOpen} isdefault={isDrawerdefault} width={drawerWidthValue}>
-      <BookNoteHeader>
+      {isOpenedExitModal && <ExitModal onClickCancelBtn={handleExitModal} />}
+
+      <BookNoteHeader onClickExitBtn={handleExitModal}>
         <Navigation navIndex={navIndex} onClickNavList={handleNavIndex} onSetDrawerAsDefault={handleDrawerDefault} />
         <SavePoint />
       </BookNoteHeader>
-      <PreNote handleOpenDrawer={handleOpenDrawer} handleCloseDrawer={handleCloseDrawer} />
+      <PreNote
+        handleExitModal={handleExitModal}
+        handleOpenDrawer={handleOpenDrawer}
+        handleCloseDrawer={handleCloseDrawer}
+      />
 
       {isDrawerOpen && <DrawerWrapper drawerIdx={drawerIdx} onCloseDrawer={handleCloseDrawer} />}
     </StBookNoteContainer>
