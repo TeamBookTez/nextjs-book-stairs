@@ -25,7 +25,7 @@ import { StBookModalWrapper } from "../../../components/common/styled/BookModalW
 import { stepUpContentArray } from "../../../core/bookNote/exampleData";
 import { BookNotePathKey } from "../../../types/bookNote";
 
-export type DrawerIdx = 1 | 2 | 3 | 4;
+export type StepUpNDrawerIdx = 1 | 2 | 3 | 4;
 
 export default function Index() {
   const [navIndex, setNavIndex] = useState<BookNotePathKey>("pre");
@@ -34,7 +34,7 @@ export default function Index() {
 
   const [isOpenedStepUpModal, setIsOpenStepUpModal] = useState<boolean>(false);
 
-  const [drawerIdx, setDrawerIdx] = useState<DrawerIdx>(1);
+  const [stepUpNDrawerIdx, setStepUpNDrawerIdx] = useState<StepUpNDrawerIdx>(1);
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const [isDrawerdefault, setIsDrawerdefault] = useState(true);
   const drawerWidthValue = navIndex === "peri" ? 60 : 39;
@@ -43,23 +43,23 @@ export default function Index() {
     setNavIndex(idx);
   };
 
-  const handleExitModal = () => {
+  const toggleExitModal = () => {
     setIsOpenExitModal((prevIsOpened) => !prevIsOpened);
   };
 
-  const handleOpenStepUpModal = (i: DrawerIdx) => {
+  const handleOpenStepUpModal = (i: StepUpNDrawerIdx) => {
     setIsOpenStepUpModal(true);
-    setDrawerIdx(i);
+    setStepUpNDrawerIdx(i);
   };
 
   const handleCloseStepUpModal = () => {
     setIsOpenStepUpModal(false);
   };
 
-  const handleOpenDrawer = (i: DrawerIdx) => {
+  const handleOpenDrawer = (i: StepUpNDrawerIdx) => {
     setIsDrawerdefault(false);
     setIsDrawerOpen(true);
-    setDrawerIdx(i);
+    setStepUpNDrawerIdx(i);
   };
 
   const handleCloseDrawer = () => {
@@ -87,24 +87,24 @@ export default function Index() {
 
   return (
     <StBookNoteContainer isopen={isDrawerOpen} isdefault={isDrawerdefault} width={drawerWidthValue}>
-      <BookNoteHeader onClickExitBtn={handleExitModal}>
+      <BookNoteHeader onClickExitBtn={toggleExitModal}>
         <Navigation navIndex={navIndex} onClickNavList={handleNavIndex} onSetDrawerAsDefault={handleDrawerDefault} />
         <SavePoint />
       </BookNoteHeader>
       <PreNote
-        handleExitModal={handleExitModal}
+        toggleExitModal={toggleExitModal}
         handleOpenStepUpModal={handleOpenStepUpModal}
         handleOpenDrawer={handleOpenDrawer}
         handleCloseDrawer={handleCloseDrawer}
       />
 
-      {isDrawerOpen && <DrawerWrapper drawerIdx={drawerIdx} onCloseDrawer={handleCloseDrawer} />}
-      {isOpenedExitModal && <ExitModal onClickCancelBtn={handleExitModal} />}
+      {isDrawerOpen && <DrawerWrapper stepUpNDrawerIdx={stepUpNDrawerIdx} onCloseDrawer={handleCloseDrawer} />}
+      {isOpenedExitModal && <ExitModal onClickCancelBtn={toggleExitModal} />}
       {isOpenedStepUpModal && (
         <StStepModalWrapper>
           <StepUpLayout
             handleCloseStepUpModal={handleCloseStepUpModal}
-            stepUpContent={stepUpContentArray[drawerIdx - 1]}
+            stepUpContent={stepUpContentArray[stepUpNDrawerIdx - 1]}
           />
         </StStepModalWrapper>
       )}

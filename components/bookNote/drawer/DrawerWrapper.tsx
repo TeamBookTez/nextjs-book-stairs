@@ -7,14 +7,14 @@ import PeriNoteExample from "./PeriNoteExample";
 import PreNoteQa from "./PreNoteQa";
 
 interface DrawerWrapperProps {
-  drawerIdx: number;
+  stepUpNDrawerIdx: number;
   onCloseDrawer: () => void;
 }
 
 export default function DrawerWrapper(props: DrawerWrapperProps) {
-  const { drawerIdx, onCloseDrawer } = props;
+  const { stepUpNDrawerIdx, onCloseDrawer } = props;
 
-  const drawerWidth = drawerIdx === 4 ? 60 : 39;
+  const drawerWidth = stepUpNDrawerIdx === 4 ? 60 : 39;
 
   return (
     <AnimatePresence>
@@ -23,17 +23,17 @@ export default function DrawerWrapper(props: DrawerWrapperProps) {
         initial={{ transform: `translateX(${drawerWidth}rem)` }}
         animate={{ transform: "translateX(0rem)" }}
         exit={{ transform: `translateX(${drawerWidth}rem)` }}
-        drawerIdx={drawerIdx}>
-        <DrawerHeader drawerIdx={drawerIdx} onCloseDrawer={onCloseDrawer} />
-        <StArticle drawerIdx={drawerIdx}>
-          {drawerIdx === 4 ? <PeriNoteExample /> : <PreNoteQa drawerIdx={drawerIdx} />}
+        stepUpNDrawerIdx={stepUpNDrawerIdx}>
+        <DrawerHeader stepUpNDrawerIdx={stepUpNDrawerIdx} onCloseDrawer={onCloseDrawer} />
+        <StArticle stepUpNDrawerIdx={stepUpNDrawerIdx}>
+          {stepUpNDrawerIdx === 4 ? <PeriNoteExample /> : <PreNoteQa stepUpNDrawerIdx={stepUpNDrawerIdx} />}
         </StArticle>
       </StDrawerWrapper>
     </AnimatePresence>
   );
 }
 
-const StDrawerWrapper = styled(motion.section)<{ drawerIdx: number }>`
+const StDrawerWrapper = styled(motion.section)<{ stepUpNDrawerIdx: number }>`
   overflow-y: scroll;
   overflow-x: hidden;
 
@@ -52,8 +52,8 @@ const StDrawerWrapper = styled(motion.section)<{ drawerIdx: number }>`
   padding: 3.3rem 3.3rem 5.4rem 3.3rem;
   background-color: ${({ theme }) => theme.colors.white};
 
-  width: ${({ drawerIdx }) => (drawerIdx === 4 ? "60rem" : "39rem")};
-  /* height: ${({ drawerIdx }) => (drawerIdx === 4 ? "141.5rem" : "90rem")}; */
+  width: ${({ stepUpNDrawerIdx }) => (stepUpNDrawerIdx === 4 ? "60rem" : "39rem")};
+  /* height: ${({ stepUpNDrawerIdx }) => (stepUpNDrawerIdx === 4 ? "141.5rem" : "90rem")}; */
   min-height: 100vh;
 
   & > svg {
@@ -64,22 +64,22 @@ const StDrawerWrapper = styled(motion.section)<{ drawerIdx: number }>`
   }
 `;
 
-const StArticle = styled.article<{ drawerIdx: number }>`
+const StArticle = styled.article<{ stepUpNDrawerIdx: number }>`
   height: 100%;
 
   display: flex;
   flex-direction: column;
-  ${({ drawerIdx }) =>
-    drawerIdx === 4
+  ${({ stepUpNDrawerIdx }) =>
+    stepUpNDrawerIdx === 4
       ? css`
           align-items: flex-start;
         `
       : ""}
 
   border-radius: 2rem;
-  padding: ${({ drawerIdx }) => (drawerIdx === 4 ? "4rem 1.5rem" : "3.2rem")};
+  padding: ${({ stepUpNDrawerIdx }) => (stepUpNDrawerIdx === 4 ? "4rem 1.5rem" : "3.2rem")};
   background-color: ${({ theme }) => theme.colors.white200};
 
-  width: ${({ drawerIdx }) => (drawerIdx === 4 ? "53.4rem" : "32.4rem")};
-  min-height: ${({ drawerIdx }) => (drawerIdx === 4 ? "104.3rem" : "53.4rem")};
+  width: ${({ stepUpNDrawerIdx }) => (stepUpNDrawerIdx === 4 ? "53.4rem" : "32.4rem")};
+  min-height: ${({ stepUpNDrawerIdx }) => (stepUpNDrawerIdx === 4 ? "104.3rem" : "53.4rem")};
 `;

@@ -2,27 +2,27 @@ import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { useEffect } from "react";
 
-import { DrawerIdx } from "../../../pages/book-note/[reviewId]";
+import { StepUpNDrawerIdx } from "../../../pages/book-note/[reviewId]";
 import { DefaultButton } from "../../common/styled/Button";
 import LinkToSignUpSection from "./LinkToSignUpSection";
 import PreNoteFormContainer from "./PreNoteFormContainer";
 import PreNoteThirdArticle from "./PreNoteThirdArticle";
 
 interface PreNoteProps {
-  handleExitModal: () => void;
-  handleOpenStepUpModal: (i: DrawerIdx) => void;
-  handleOpenDrawer: (i: DrawerIdx) => void;
+  toggleExitModal: () => void;
+  handleOpenStepUpModal: (i: StepUpNDrawerIdx) => void;
+  handleOpenDrawer: (i: StepUpNDrawerIdx) => void;
   handleCloseDrawer: () => void;
 }
 
 export default function PreNote(props: PreNoteProps) {
-  const { handleExitModal, handleOpenStepUpModal, handleOpenDrawer, handleCloseDrawer } = props;
+  const { toggleExitModal, handleOpenStepUpModal, handleOpenDrawer, handleCloseDrawer } = props;
 
   const isLogin = true;
 
   const preventGoBack = () => {
     history.pushState(null, "", location.href);
-    handleExitModal();
+    toggleExitModal();
   };
 
   useEffect(() => {

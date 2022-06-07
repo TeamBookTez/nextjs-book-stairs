@@ -5,22 +5,22 @@ import { IcBooks, IcLeftArrow } from "../../../public/assets/icons";
 import { ImgDrawer, ImgDrawerSmall } from "../../../public/assets/images";
 
 interface DrawerHeaderProps {
-  drawerIdx: number;
+  stepUpNDrawerIdx: number;
   onCloseDrawer: () => void;
 }
 
 export default function DrawerHeader(props: DrawerHeaderProps) {
-  const { drawerIdx, onCloseDrawer } = props;
+  const { stepUpNDrawerIdx, onCloseDrawer } = props;
 
   return (
     <>
       <StIcWrapper>
         <StIcLeftArrow onClick={onCloseDrawer} />
       </StIcWrapper>
-      {drawerIdx === 4 ? (
-        <StImg src={ImgDrawer} drawerIdx={drawerIdx} />
+      {stepUpNDrawerIdx === 4 ? (
+        <StImg src={ImgDrawer} stepUpNDrawerIdx={stepUpNDrawerIdx} />
       ) : (
-        <StImg src={ImgDrawerSmall} drawerIdx={drawerIdx} />
+        <StImg src={ImgDrawerSmall} stepUpNDrawerIdx={stepUpNDrawerIdx} />
       )}
       <StTitleWrapper>
         <IcBooks />
@@ -41,9 +41,9 @@ const StIcLeftArrow = styled(IcLeftArrow)`
   }
 `;
 
-const StImg = styled(Image)<{ drawerIdx: number }>`
-  width: ${({ drawerIdx }) => (drawerIdx === 4 ? "53.4rem" : "32.4rem")};
-  height: ${({ drawerIdx }) => (drawerIdx === 4 ? "12.5rem" : "11.9rem")};
+const StImg = styled(Image)<{ stepUpNDrawerIdx: number }>`
+  width: ${({ stepUpNDrawerIdx }) => (stepUpNDrawerIdx === 4 ? "53.4rem" : "32.4rem")};
+  height: ${({ stepUpNDrawerIdx }) => (stepUpNDrawerIdx === 4 ? "12.5rem" : "11.9rem")};
 
   margin-bottom: 3.8rem;
   border-radius: 1.6rem;
