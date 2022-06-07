@@ -8,6 +8,7 @@
     bookcaseInfo 의 reviewSt 를 통해 pre, peri 를 나누어주어야 함 (원래는 통합)
 */
 
+import { css, keyframes } from "@emotion/react";
 import styled from "@emotion/styled";
 import { useEffect, useState } from "react";
 
@@ -22,6 +23,7 @@ export default function Index() {
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const [drawerIdx, setDrawerIdx] = useState<DrawerIdx>(1);
   const [isDrawerdefault, setIsDrawerdefault] = useState(true);
+  const drawerWidthValue = navIndex === "peri" ? 60 : 39;
 
   const handleNavIndex = (idx: BookNotePathKey) => {
     setNavIndex(idx);
@@ -35,6 +37,10 @@ export default function Index() {
 
   const handleCloseDrawer = () => {
     setIsDrawerOpen(false);
+  };
+
+  const handleDrawerDefault = () => {
+    setIsDrawerdefault(true);
   };
 
   const preventClose = (e: BeforeUnloadEvent) => {
@@ -53,19 +59,45 @@ export default function Index() {
   }, []);
 
   return (
-    <StBookNoteContainer>
+    <StBookNoteContainer isopen={isDrawerOpen} isdefault={isDrawerdefault} width={drawerWidthValue}>
       <BookNoteHeader>
-        <Navigation navIndex={navIndex} onClickNavList={handleNavIndex} />
+        <Navigation navIndex={navIndex} onClickNavList={handleNavIndex} onSetDrawerAsDefault={handleDrawerDefault} />
         <SavePoint />
       </BookNoteHeader>
-      <PreNote />
+      <PreNote handleOpenDrawer={handleOpenDrawer} handleCloseDrawer={handleCloseDrawer} />
 
-      {true && <DrawerWrapper drawerIdx={drawerIdx} onCloseDrawer={handleCloseDrawer} />}
+      {isDrawerOpen && <DrawerWrapper drawerIdx={drawerIdx} onCloseDrawer={handleCloseDrawer} />}
     </StBookNoteContainer>
   );
 }
 
-const StBookNoteContainer = styled.main`
+const reducewidth = (width: number) => keyframes`
+  0% {
+    width: 100%;
+    padding-right: 9.5rem;
+  }
+  100% {
+    width: calc(100% - ${width}rem);
+    padding-right: 3.4rem;
+}
+`;
+
+const boostwidth = (width: number) => keyframes`
+  0% {
+    width: calc(100% - ${width}rem);
+    padding-right: 3.4rem;
+  }
+  100% {
+    width: 100%;
+    padding-right: 9.5rem;
+}
+`;
+
+const StBookNoteContainer = styled.main<{
+  isopen: boolean;
+  isdefault: boolean;
+  width: number;
+}>`
   position: relative;
   display: flex;
   flex-direction: column;
@@ -75,4 +107,16 @@ const StBookNoteContainer = styled.main`
   background-color: ${({ theme }) => theme.colors.white200};
 
   min-height: 100vh;
+
+  ${({ isopen, isdefault, width }) =>
+    isopen
+      ? css`
+          animation: ${reducewidth(width)} 300ms linear 1;
+          animation-fill-mode: forwards;
+        `
+      : !isdefault &&
+        css`
+          animation: ${boostwidth(width)} 300ms linear 1;
+          animation-fill-mode: forwards;
+        `}
 `;

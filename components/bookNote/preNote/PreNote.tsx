@@ -1,26 +1,34 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 
+import { DrawerIdx } from "../../../pages/book-note/[reviewId]";
 import { DefaultButton } from "../../common/styled/Button";
 import LinkToSignUpSection from "./LinkToSignUpSection";
 import PreNoteFormContainer from "./PreNoteFormContainer";
 import PreNoteThirdArticle from "./PreNoteThirdArticle";
 
-export default function PreNote() {
+interface PreNoteProps {
+  handleOpenDrawer: (i: DrawerIdx) => void;
+  handleCloseDrawer: () => void;
+}
+
+export default function PreNote(props: PreNoteProps) {
+  const { handleOpenDrawer, handleCloseDrawer } = props;
+
   const isLogin = true;
 
   return (
     <StNoteForm onSubmit={(e) => e.preventDefault()}>
       <StFormHead>책을 넘기기 전 독서전략을 세워보아요.</StFormHead>
       <StFormWrapper>
-        <PreNoteFormContainer>
+        <PreNoteFormContainer onClickOpenDrawer={() => handleOpenDrawer(1)}>
           <StTextarea placeholder="답변을 입력해주세요." />
         </PreNoteFormContainer>
-        <PreNoteFormContainer>
+        <PreNoteFormContainer onClickOpenDrawer={() => handleOpenDrawer(2)}>
           <StTextarea placeholder="답변을 입력해주세요." />
         </PreNoteFormContainer>
         {isLogin ? (
-          <PreNoteFormContainer>
+          <PreNoteFormContainer onClickOpenDrawer={() => handleOpenDrawer(3)}>
             <PreNoteThirdArticle />
           </PreNoteFormContainer>
         ) : (

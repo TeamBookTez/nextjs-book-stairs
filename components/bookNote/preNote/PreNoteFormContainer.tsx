@@ -1,20 +1,19 @@
 import styled from "@emotion/styled";
 import React from "react";
 
+import { DrawerIdx } from "../../../pages/book-note/[reviewId]";
 import ExampleDrawerBtn from "../ExampleDrawerBtn";
 import StepUpBtn from "../StepUpBtn";
 
 interface PreNoteFormContainerProps {
+  onClickOpenDrawer: () => void;
   children: React.ReactNode;
 }
 
 export default function PreNoteFormContainer(props: PreNoteFormContainerProps) {
-  const { children } = props;
+  const { onClickOpenDrawer, children } = props;
 
   const question = "QQQQQQQQQQQQQQ";
-  const drawre열자 = (idx: number) => {
-    console.log("열려라 얍");
-  };
 
   return (
     <StFormContainer>
@@ -27,7 +26,7 @@ export default function PreNoteFormContainer(props: PreNoteFormContainerProps) {
             }}
           />
         </StHeaderLeft>
-        <ExampleDrawerBtn idx={1} onOpenDrawer={drawre열자} />
+        <ExampleDrawerBtn idx={1} onOpenDrawer={onClickOpenDrawer} />
       </StHeader>
       <StArticleWrapper>{children}</StArticleWrapper>
     </StFormContainer>

@@ -5,10 +5,11 @@ import { BookNotePathKey } from "../../types/bookNote";
 interface NavigationProps {
   navIndex: BookNotePathKey;
   onClickNavList: (idx: BookNotePathKey) => void;
+  onSetDrawerAsDefault: () => void;
 }
 
 export default function Navigation(props: NavigationProps) {
-  const { navIndex, onClickNavList } = props;
+  const { navIndex, onClickNavList, onSetDrawerAsDefault } = props;
 
   const handleNavIndex = (idx: BookNotePathKey) => {
     // onSetIsSave(true);
