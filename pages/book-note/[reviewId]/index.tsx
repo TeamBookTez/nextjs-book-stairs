@@ -58,7 +58,7 @@ export default function Index() {
       </BookNoteHeader>
       <PreNote />
 
-      {isDrawerOpen && <DrawerWrapper drawerIdx={drawerIdx} onCloseDrawer={handleCloseDrawer} />}
+      {true && <DrawerWrapper drawerIdx={drawerIdx} onCloseDrawer={handleCloseDrawer} />}
     </StBookNoteContainer>
   );
 }
