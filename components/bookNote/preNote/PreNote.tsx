@@ -10,12 +10,13 @@ import PreNoteThirdArticle from "./PreNoteThirdArticle";
 
 interface PreNoteProps {
   handleExitModal: () => void;
+  handleOpenStepUpModal: (i: DrawerIdx) => void;
   handleOpenDrawer: (i: DrawerIdx) => void;
   handleCloseDrawer: () => void;
 }
 
 export default function PreNote(props: PreNoteProps) {
-  const { handleExitModal, handleOpenDrawer, handleCloseDrawer } = props;
+  const { handleExitModal, handleOpenStepUpModal, handleOpenDrawer, handleCloseDrawer } = props;
 
   const isLogin = true;
 
@@ -38,14 +39,20 @@ export default function PreNote(props: PreNoteProps) {
     <StNoteForm onSubmit={(e) => e.preventDefault()}>
       <StFormHead>책을 넘기기 전 독서전략을 세워보아요.</StFormHead>
       <StFormWrapper>
-        <PreNoteFormContainer onClickOpenDrawer={() => handleOpenDrawer(1)}>
+        <PreNoteFormContainer
+          onClickStepUpBtn={() => handleOpenStepUpModal(1)}
+          onClickOpenDrawer={() => handleOpenDrawer(1)}>
           <StTextarea placeholder="답변을 입력해주세요." />
         </PreNoteFormContainer>
-        <PreNoteFormContainer onClickOpenDrawer={() => handleOpenDrawer(2)}>
+        <PreNoteFormContainer
+          onClickStepUpBtn={() => handleOpenStepUpModal(2)}
+          onClickOpenDrawer={() => handleOpenDrawer(2)}>
           <StTextarea placeholder="답변을 입력해주세요." />
         </PreNoteFormContainer>
         {isLogin ? (
-          <PreNoteFormContainer onClickOpenDrawer={() => handleOpenDrawer(3)}>
+          <PreNoteFormContainer
+            onClickStepUpBtn={() => handleOpenStepUpModal(3)}
+            onClickOpenDrawer={() => handleOpenDrawer(3)}>
             <PreNoteThirdArticle />
           </PreNoteFormContainer>
         ) : (

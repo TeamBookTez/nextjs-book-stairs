@@ -5,12 +5,13 @@ import ExampleDrawerBtn from "../ExampleDrawerBtn";
 import StepUpBtn from "../StepUpBtn";
 
 interface PreNoteFormContainerProps {
+  onClickStepUpBtn: () => void;
   onClickOpenDrawer: () => void;
   children: React.ReactNode;
 }
 
 export default function PreNoteFormContainer(props: PreNoteFormContainerProps) {
-  const { onClickOpenDrawer, children } = props;
+  const { onClickStepUpBtn, onClickOpenDrawer, children } = props;
 
   const question = "QQQQQQQQQQQQQQ";
 
@@ -19,11 +20,7 @@ export default function PreNoteFormContainer(props: PreNoteFormContainerProps) {
       <StHeader>
         <StHeaderLeft>
           {question}
-          <StepUpBtn
-            onToggleModal={() => {
-              console.log("스텝업 나와라 얍");
-            }}
-          />
+          <StepUpBtn onClickStepUpBtn={onClickStepUpBtn} />
         </StHeaderLeft>
         <ExampleDrawerBtn idx={1} onOpenDrawer={onClickOpenDrawer} />
       </StHeader>

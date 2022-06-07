@@ -47,8 +47,13 @@ export default function Index() {
     setIsOpenExitModal((prevIsOpened) => !prevIsOpened);
   };
 
-  const toggleStepUpModal = () => {
-    setIsOpenStepUpModal((prevIsOpened) => !prevIsOpened);
+  const handleOpenStepUpModal = (i: DrawerIdx) => {
+    setIsOpenStepUpModal(true);
+    setDrawerIdx(i);
+  };
+
+  const handleCloseStepUpModal = () => {
+    setIsOpenStepUpModal(false);
   };
 
   const handleOpenDrawer = (i: DrawerIdx) => {
@@ -88,6 +93,7 @@ export default function Index() {
       </BookNoteHeader>
       <PreNote
         handleExitModal={handleExitModal}
+        handleOpenStepUpModal={handleOpenStepUpModal}
         handleOpenDrawer={handleOpenDrawer}
         handleCloseDrawer={handleCloseDrawer}
       />
@@ -96,7 +102,10 @@ export default function Index() {
       {isOpenedExitModal && <ExitModal onClickCancelBtn={handleExitModal} />}
       {isOpenedStepUpModal && (
         <StStepModalWrapper>
-          <StepUpLayout onToggleModal={toggleStepUpModal} stepUpContent={stepUpContentArray[drawerIdx - 1]} />
+          <StepUpLayout
+            handleCloseStepUpModal={handleCloseStepUpModal}
+            stepUpContent={stepUpContentArray[drawerIdx - 1]}
+          />
         </StStepModalWrapper>
       )}
     </StBookNoteContainer>

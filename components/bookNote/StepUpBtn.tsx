@@ -4,14 +4,14 @@ import React from "react";
 import { IcCheck } from "../../public/assets/icons";
 
 interface StepUpBtnProps {
-  onToggleModal: () => void;
+  onClickStepUpBtn: () => void;
 }
 
 export default function StepUpBtn(props: StepUpBtnProps) {
-  const { onToggleModal } = props;
+  const { onClickStepUpBtn } = props;
 
   return (
-    <StButton type="button" onClick={onToggleModal}>
+    <StButton type="button" onClick={onClickStepUpBtn}>
       <StIcon />
       Step Up
     </StButton>

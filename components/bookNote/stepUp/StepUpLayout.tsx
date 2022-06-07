@@ -8,11 +8,11 @@ import StepUpContentWrapper from "./StepUpContentWrapper";
 
 interface StepUpProps {
   stepUpContent: StepUpContent[];
-  onToggleModal: () => void;
+  handleCloseStepUpModal: () => void;
 }
 
 export default function StepUpLayout(props: StepUpProps) {
-  const { stepUpContent, onToggleModal } = props;
+  const { stepUpContent, handleCloseStepUpModal } = props;
   const [contentIndex, setContentIndex] = useState<number>(0);
   const maxIndex = stepUpContent.length - 1;
 
@@ -38,7 +38,7 @@ export default function StepUpLayout(props: StepUpProps) {
 
   return (
     <StModalBox>
-      <StModalIcCancel onClick={onToggleModal} />
+      <StModalIcCancel onClick={handleCloseStepUpModal} />
       <StepUpContentWrapper content={stepUpContent[contentIndex]} />
 
       {stepUpContent.length > 1 && (
