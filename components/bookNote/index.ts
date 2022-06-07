@@ -1,3 +1,15 @@
 export { default as BookNoteHeader } from "./BookNoteHeader";
+export { default as DrawerWrapper } from "./DrawerWrapper";
+export { default as ExampleDrawerBtn } from "./ExampleDrawerBtn";
+export { default as ExitModal } from "./ExitModal";
 export { default as Navigation } from "./Navigation";
+export { default as InputQuestion } from "./preNote/InputQuestion";
+export { default as LinkToSignUpSection } from "./preNote/LinkToSignUpSection";
+export { default as PreNote } from "./preNote/PreNote";
+export { default as PreNoteFormContainer } from "./preNote/PreNoteFormContainer";
+export { default as PreNoteThirdArticle } from "./preNote/PreNoteThirdArticle";
 export { default as SavePoint } from "./SavePoint";
+export { default as CarouselDots } from "./stepUp/CarouselDots";
+export { default as StepUpContentWrapper } from "./stepUp/StepUpContentWrapper";
+export { default as StepUpLayout } from "./stepUp/StepUpLayout";
+export { default as StepUpBtn } from "./StepUpBtn";

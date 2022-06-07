@@ -11,9 +11,7 @@
 import styled from "@emotion/styled";
 import { useState } from "react";
 
-import { BookNoteHeader, Navigation, SavePoint } from "../../../components/bookNote";
-import DrawerWrapper from "../../../components/bookNote/DrawerWrapper";
-import PreNote from "../../../components/bookNote/preNote/PreNote";
+import { BookNoteHeader, DrawerWrapper, Navigation, PreNote, SavePoint } from "../../../components/bookNote";
 import { BookNotePathKey } from "../../../types/bookNote";
 
 export default function Index() {
