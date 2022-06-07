@@ -12,15 +12,29 @@ import styled from "@emotion/styled";
 import { useState } from "react";
 
 import { BookNoteHeader, Navigation, SavePoint } from "../../../components/bookNote";
-import ExitModal from "../../../components/bookNote/ExitModal";
+import DrawerWrapper from "../../../components/bookNote/DrawerWrapper";
 import PreNote from "../../../components/bookNote/preNote/PreNote";
 import { BookNotePathKey } from "../../../types/bookNote";
 
 export default function Index() {
   const [navIndex, setNavIndex] = useState<BookNotePathKey>("pre");
 
+  const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
+  const [drawerIdx, setDrawerIdx] = useState(1);
+  const [isDrawerdefault, setIsDrawerdefault] = useState(true);
+
   const handleNavIndex = (idx: BookNotePathKey) => {
     setNavIndex(idx);
+  };
+
+  const handleOpenDrawer = (i: number) => {
+    setIsDrawerdefault(false);
+    setIsDrawerOpen(true);
+    setDrawerIdx(i);
+  };
+
+  const handleCloseDrawer = () => {
+    setIsDrawerOpen(false);
   };
 
   return (
@@ -30,6 +44,7 @@ export default function Index() {
         <SavePoint />
       </BookNoteHeader>
       <PreNote />
+      {/* <DrawerWrapper idx={drawerIdx} isOpen={isDrawerOpen} onCloseDrawer={handleCloseDrawer} /> */}
     </StBookNoteContainer>
   );
 }
