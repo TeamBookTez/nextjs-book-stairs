@@ -12,6 +12,7 @@ import styled from "@emotion/styled";
 import { useState } from "react";
 
 import { BookNoteHeader, Navigation, SavePoint } from "../../../components/bookNote";
+import ExitModal from "../../../components/bookNote/ExitModal";
 import PreNote from "../../../components/bookNote/preNote/PreNote";
 import { BookNotePathKey } from "../../../types/bookNote";
 
@@ -23,17 +24,17 @@ export default function Index() {
   };
 
   return (
-    <StNoteModalWrapper>
+    <StBookNoteContainer>
       <BookNoteHeader>
         <Navigation navIndex={navIndex} onClickNavList={handleNavIndex} />
         <SavePoint />
       </BookNoteHeader>
       <PreNote />
-    </StNoteModalWrapper>
+    </StBookNoteContainer>
   );
 }
 
-const StNoteModalWrapper = styled.section`
+const StBookNoteContainer = styled.main`
   position: relative;
   display: flex;
   flex-direction: column;
