@@ -15,7 +15,7 @@ export const navigatingBookInfoState = atom<NavigatingBookInfoState>({
     reviewId: "-1",
     title: "",
     fromUrl: "",
-    fromSt: "/book",
+    fromSt: "/main",
   },
   effects_UNSTABLE: [persistAtom],
 });

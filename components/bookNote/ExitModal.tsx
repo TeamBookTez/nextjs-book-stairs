@@ -1,3 +1,14 @@
+/*
+마지막 편집자: 22-06-07 joohaem
+변경사항 및 참고:
+  - 
+    
+고민점:
+  - 현재 "나가기" 버튼을 누르면, "navigatingBookInfo"의 "fromUrl"로
+    서재 전/중/후로 url 이동을 하는데,
+    url을 합쳐놓은 상태이기 때문에 새로운 정보 확인이 필요함
+*/
+
 import styled from "@emotion/styled";
 import Image from "next/image";
 import Link from "next/link";
