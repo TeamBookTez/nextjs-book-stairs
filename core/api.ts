@@ -11,6 +11,7 @@ import useSWR from "swr";
 
 import { KAKAOParams } from "../types";
 import { BookcaseInfo } from "../types/bookcase";
+import { PeriNoteData, PreNoteData } from "../types/bookNote";
 import { client, KAKAO } from "./axios";
 import LocalStorage from "./localStorage";
 export const searchBook = (params: KAKAOParams) => {
@@ -28,6 +29,12 @@ export const getData = (key: string, token?: string) => {
 
 export const patchUserWithdraw = (token: string, key: string) => {
   return client(token).patch(key);
+};
+
+export const saveBookNote = async (token: string, key: string, body: PreNoteData | PeriNoteData) => {
+  const { data } = await client(token).patch(key, body);
+
+  return data.data;
 };
 
 export const patchFormData = (token: string, key: string, patchBody: FormData) => {

@@ -1,12 +1,3 @@
-/*
-마지막 편집자: 22-04-28 q-bit-junior
-변경사항 및 참고:
-  - 소령님이나 주함님께서 Button -> DefaultButton 으로 수정하셨던 부분
-  그대로 이용하겠습니다!
-    
-고민점:
-  - 
-*/
 import styled from "@emotion/styled";
 
 export const DefaultButton = styled.button`

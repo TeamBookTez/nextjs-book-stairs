@@ -109,8 +109,9 @@ export const resetStyle = css`
     line-height: 1;
   }
 
+  ul,
   ol,
-  ul {
+  li {
     list-style: none;
   }
 

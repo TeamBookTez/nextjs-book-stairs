@@ -7,7 +7,6 @@ import { useRecoilValue, useSetRecoilState } from "recoil";
 import { isLoginState, navigatingBookInfoState } from "../../../core/atom";
 import { IcBin } from "../../../public/assets/icons";
 import { BookcaseInfo, BookcasePathKey } from "../../../types/bookcase";
-import { BookNoteUrlPath } from "../../../types/bookNote";
 import { PopUpDelete } from "../../common";
 import { StBookCardImgWrapper } from "../../common/styled/Img";
 
@@ -18,23 +17,12 @@ interface BookCardProps {
 
 export default function BookCard(props: BookCardProps) {
   const { bookcaseInfo, navIndex } = props;
-  const { author, reviewId, thumbnail, title, reviewSt } = bookcaseInfo;
+  const { author, reviewId, thumbnail, title } = bookcaseInfo;
 
   const [isPopUp, setIsPopUp] = useState(false);
   const isLogin = useRecoilValue(isLoginState);
   const setNavigatingBookInfo = useSetRecoilState(navigatingBookInfoState);
   const router = useRouter();
-
-  let reviewUrl: BookNoteUrlPath = "/book-note"; // reviewSt === 2
-
-  switch (reviewSt) {
-    case 3:
-      reviewUrl = "/book-note/peri";
-      break;
-    case 4:
-      reviewUrl = "/book-note/detail-book-note";
-      break;
-  }
 
   // 홈에 대한 예외 처리
   const handleTogglePopUp = () => {
@@ -47,7 +35,7 @@ export default function BookCard(props: BookCardProps) {
     const tempNavigatingBookInfo = { reviewId, title, fromUrl: router.pathname, fromSt: navIndex };
 
     setNavigatingBookInfo(tempNavigatingBookInfo);
-    router.push(reviewUrl);
+    router.push(`book-note/${reviewId}`);
   };
 
   return (

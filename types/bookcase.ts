@@ -1,5 +1,6 @@
 const bookcasePathKey = {
-  default: "/book",
+  default: "/main",
+  all: "/book",
   pre: "/book/pre",
   peri: "/book/peri",
   post: "/book/post",

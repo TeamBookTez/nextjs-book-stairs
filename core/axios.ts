@@ -3,7 +3,7 @@ import axios from "axios";
 export const KAKAO = axios.create({
   baseURL: "https://dapi.kakao.com",
   headers: {
-    Authorization: `KakaoAK ${process.env.REACT_APP_KAKAO_API_KEY}`,
+    Authorization: `KakaoAK ${process.env.NEXT_PUBLIC_KAKAO_API_KEY}`,
   },
 });
 
@@ -22,7 +22,7 @@ export const client = (token?: string | null) => {
   }
 
   return axios.create({
-    baseURL: `${process.env.REACT_APP_BASE_URL}`,
+    baseURL: `${process.env.NEXT_PUBLIC_BASE_URL}`,
     headers,
   });
 };

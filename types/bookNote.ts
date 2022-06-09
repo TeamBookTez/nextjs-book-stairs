@@ -1,10 +1,9 @@
-const bookNoteUrlPath = {
-  default: "/book-note",
-  peri: "/book-note/peri",
-  detail: "/book-note/detail-book-note",
+const bookNotePathKey = {
+  pre: "pre",
+  peri: "peri",
 } as const;
 
-export type BookNoteUrlPath = typeof bookNoteUrlPath[keyof typeof bookNoteUrlPath];
+export type BookNotePathKey = typeof bookNotePathKey[keyof typeof bookNotePathKey];
 
 export interface PeriNoteTreeNode {
   type: string;
@@ -28,4 +27,21 @@ export interface PreNoteData {
   questionList: string[];
   reviewSt: 2 | 3 | 4;
   finishSt?: boolean;
+}
+
+type StaticImageData = {
+  src: string;
+  height: number;
+  width: number;
+  placeholder?: string;
+};
+
+export interface StepUpContent {
+  id: number;
+  lifeQuote: string;
+  public: string;
+  header: string;
+  desc: string;
+  imgUrl: StaticImageData;
+  imgAlt: string;
 }

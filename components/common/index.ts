@@ -8,7 +8,6 @@ export { default as Loading } from "./Loading";
 export { default as NavHeader } from "./NavHeader";
 export { default as NavWrapper } from "./NavWrapper";
 export { default as PopUpDelete } from "./PopUpDelete";
-export { default as PopUpExit } from "./PopUpExit";
 // 하위 폴더인 styled에 있는 것들은 뻈습니다!
 // export { default as BookModalWrapper } from "./styled/BookModalWrapper";
 // export { default as Button } from "./styled/Button";
