@@ -1,7 +1,7 @@
 /*
 마지막 편집자: 22-06-09 joohaem
 변경사항 및 참고:
-  - 
+  - 모듈 import 가 많아지네요 ! indexing 작업도 해야겠습니다 하하
     
 고민점:
   - handleChangeReview 의 내로잉을 if 분기처리를 통해 해주었는데, 비효율적이라고 생각이 듭니다
@@ -31,18 +31,18 @@ interface PreNoteProps {
   handleOpenStepUpModal: (i: StepUpNDrawerIdx) => void;
   handleOpenDrawer: (i: StepUpNDrawerIdx) => void;
   handleCloseDrawer: () => void;
-  isPrevent: boolean;
+  isPrevented: boolean;
   handlePrevent: (shouldPrevent: boolean) => void;
 }
 
-type ReviewKey = "answerOne" | "answerTwo" | "questionList";
+export type ReviewKey = "answerOne" | "answerTwo" | "questionList";
 // type ReviewHandling =
 //   | { key: "answerOne"; value: string }
 //   | { key: "answerTwo"; value: string }
 //   | { key: "questionList"; value: string[] };
 
 export default function PreNote(props: PreNoteProps) {
-  const { toggleExitModal, handleOpenStepUpModal, handleOpenDrawer, handleCloseDrawer, isPrevent, handlePrevent } =
+  const { toggleExitModal, handleOpenStepUpModal, handleOpenDrawer, handleCloseDrawer, isPrevented, handlePrevent } =
     props;
 
   const navigatingBookInfo = useRecoilValue<NavigatingBookInfoState>(navigatingBookInfoState);
@@ -147,7 +147,12 @@ export default function PreNote(props: PreNoteProps) {
             idx={3}
             onClickStepUpBtn={() => handleOpenStepUpModal(3)}
             onClickOpenDrawer={() => handleOpenDrawer(3)}>
-            <PreNoteThirdArticle />
+            <PreNoteThirdArticle
+              questionList={data.questionList}
+              onChangeReview={handleChangeReview}
+              isPrevented={isPrevented}
+              isFilledOnlyThree={isFilledOnlyThree}
+            />
           </PreNoteFormContainer>
         ) : (
           <LinkToSignUpSection />

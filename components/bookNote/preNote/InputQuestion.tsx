@@ -3,11 +3,18 @@ import React from "react";
 
 import { IcDelete } from "../../../public/assets/icons";
 
-export default function InputQuestion() {
-  const isPrevented = true;
-  const onAddInput = () => {
-    console.log("onAddInput");
-  };
+interface InputQuestionProps {
+  idx: number;
+  value: string;
+  onChangeValue: (e: React.ChangeEvent<HTMLInputElement>, idx: number) => void;
+  onDelete: (idx: number) => void;
+  isPrevented: boolean;
+  isAdded: boolean;
+  onAddInput: () => void;
+}
+
+export default function InputQuestion(props: InputQuestionProps) {
+  const { idx, value, onChangeValue, onDelete, isPrevented, isAdded, onAddInput } = props;
 
   const addInputByEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (!isPrevented) return;
@@ -21,18 +28,12 @@ export default function InputQuestion() {
     <StWrapper>
       <StInput
         placeholder="질문 입력"
-        // value={value}
-        // onChange={(e) => onChangeValue(e, idx)}
-        // autoFocus={isAdded}
+        value={value}
+        onChange={(e) => onChangeValue(e, idx)}
+        autoFocus={isAdded}
         onKeyPress={addInputByEnter}
       />
-      {isPrevented && (
-        <StIcon
-          onClick={() => {
-            console.log("onDelete(idx)");
-          }}
-        />
-      )}
+      {isPrevented && <StIcon onClick={() => onDelete(idx)} />}
     </StWrapper>
   );
 }

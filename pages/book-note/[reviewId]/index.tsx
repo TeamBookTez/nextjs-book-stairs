@@ -116,7 +116,7 @@ export default function Index() {
         handleOpenStepUpModal={handleOpenStepUpModal}
         handleOpenDrawer={handleOpenDrawer}
         handleCloseDrawer={handleCloseDrawer}
-        isPrevent={isPrevented}
+        isPrevented={isPrevented}
         handlePrevent={handlePrevent}
       />
 

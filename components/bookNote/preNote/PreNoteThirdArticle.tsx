@@ -1,14 +1,47 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
+import React, { useState } from "react";
 
 import InputQuestion from "./InputQuestion";
+import { ReviewKey } from "./PreNote";
 
-export default function PreNoteThirdArticle() {
-  const isPrevented = true;
+interface PreNoteThirdArticleProps {
+  questionList: string[];
+  onChangeReview: (key: ReviewKey, value: string | string[]) => void;
+  isPrevented: boolean;
+  isFilledOnlyThree: boolean;
+}
+
+export default function PreNoteThirdArticle(props: PreNoteThirdArticleProps) {
+  const { questionList, onChangeReview, isPrevented, isFilledOnlyThree } = props;
+
+  const [isAdded, setIsAdded] = useState<boolean>(false);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>, idx: number) => {
+    setIsAdded(true);
+    const modified = [...questionList];
+
+    modified[idx] = e.target.value;
+    onChangeReview("questionList", modified);
+  };
+
+  const handleDelete = (idx: number) => {
+    const newArray = [...questionList];
+
+    newArray.splice(idx, 1);
+    onChangeReview("questionList", newArray);
+  };
+
+  const handleAddInput = () => {
+    if (!isFilledOnlyThree) return;
+
+    onChangeReview("questionList", [...questionList, ""]);
+    setIsAdded(true);
+  };
 
   return (
     <>
-      {/* {questionList &&
+      {questionList &&
         questionList.map((question, idx) => (
           <InputQuestion
             key={idx}
@@ -20,19 +53,9 @@ export default function PreNoteThirdArticle() {
             isAdded={isAdded}
             onAddInput={handleAddInput}
           />
-        ))} */}
-      <InputQuestion />
-      <InputQuestion />
-      <InputQuestion />
-      <InputQuestion />
-      <InputQuestion />
+        ))}
       {isPrevented && (
-        <StAddButton
-          type="button"
-          disabled={false}
-          onClick={() => {
-            console.log("handleAddInput");
-          }}>
+        <StAddButton type="button" disabled={!isFilledOnlyThree} onClick={handleAddInput}>
           + 질문추가
         </StAddButton>
       )}
