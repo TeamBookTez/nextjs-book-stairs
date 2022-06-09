@@ -1,8 +1,15 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { useRecoilValue } from "recoil";
 
+import { navigatingBookInfoState } from "../../../core/atom";
+import LocalStorage from "../../../core/localStorage";
 import { StepUpNDrawerIdx } from "../../../pages/book-note/[reviewId]";
+import { NavigatingBookInfoState } from "../../../types/bookcase";
+import { PreNoteData } from "../../../types/bookNote";
+import useCheckLoginState from "../../../util/hooks/useCheckLoginState";
+import useFetchBookNote from "../../../util/hooks/useFetchBookNote";
 import { DefaultButton } from "../../common/styled/Button";
 import LinkToSignUpSection from "./LinkToSignUpSection";
 import PreNoteFormContainer from "./PreNoteFormContainer";
@@ -15,10 +22,46 @@ interface PreNoteProps {
   handleCloseDrawer: () => void;
 }
 
+type ReviewKey = "answerOne" | "answerTwo" | "questionList";
+
 export default function PreNote(props: PreNoteProps) {
   const { toggleExitModal, handleOpenStepUpModal, handleOpenDrawer, handleCloseDrawer } = props;
 
-  const isLogin = true;
+  const navigatingBookInfo = useRecoilValue<NavigatingBookInfoState>(navigatingBookInfoState);
+  const { reviewId } = navigatingBookInfo;
+
+  const { isLogin } = useCheckLoginState();
+
+  const { data, setData, isLoading } = useFetchBookNote<PreNoteData>(
+    LocalStorage.getItem("booktez-token"),
+    `/review/${reviewId}/pre`,
+    {
+      answerOne: "",
+      answerTwo: "",
+      questionList: [""],
+      reviewSt: 2,
+      finishSt: false,
+    },
+  );
+
+  const [isFilled, setIsFilled] = useState<boolean>(false);
+
+  const handleChangeReview = (key: ReviewKey, value: string | string[]): void => {
+    setData((currentNote) => {
+      const newData = { ...currentNote };
+
+      if (typeof value === "string") {
+        if (key === "answerOne") newData.answerOne = value;
+        if (key === "answerOne") newData.answerTwo = value;
+      } else {
+        newData.questionList = value;
+      }
+
+      return newData;
+    });
+  };
+
+  // --------------------------------------------------------------------------
 
   const preventGoBack = () => {
     history.pushState(null, "", location.href);
@@ -43,13 +86,21 @@ export default function PreNote(props: PreNoteProps) {
           idx={1}
           onClickStepUpBtn={() => handleOpenStepUpModal(1)}
           onClickOpenDrawer={() => handleOpenDrawer(1)}>
-          <StTextarea placeholder="답변을 입력해주세요." />
+          <StTextarea
+            placeholder="답변을 입력해주세요."
+            value={data.answerOne}
+            onChange={(e) => handleChangeReview("answerOne", e.target.value)}
+          />
         </PreNoteFormContainer>
         <PreNoteFormContainer
           idx={2}
           onClickStepUpBtn={() => handleOpenStepUpModal(2)}
           onClickOpenDrawer={() => handleOpenDrawer(2)}>
-          <StTextarea placeholder="답변을 입력해주세요." />
+          <StTextarea
+            placeholder="답변을 입력해주세요."
+            value={data.answerOne}
+            onChange={(e) => handleChangeReview("answerTwo", e.target.value)}
+          />
         </PreNoteFormContainer>
         {isLogin ? (
           <PreNoteFormContainer
@@ -62,7 +113,9 @@ export default function PreNote(props: PreNoteProps) {
           <LinkToSignUpSection />
         )}
       </StFormWrapper>
-      <StNextBtn type="button">다음 계단</StNextBtn>
+      <StNextBtn type="button" disabled={!isFilled || data.questionList.length === 0}>
+        다음 계단
+      </StNextBtn>
     </StNoteForm>
   );
 }
