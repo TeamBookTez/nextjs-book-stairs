@@ -1,3 +1,14 @@
+/*
+마지막 편집자: 22-06-09 joohaem
+변경사항 및 참고:
+  - 
+    
+고민점:
+  - handleChangeReview 의 내로잉을 if 분기처리를 통해 해주었는데, 비효율적이라고 생각이 듭니다
+    ReviewHandling 타입을 통해 넘겨주면 될 것 같으나 
+    index에 string 값으로 접근하는 것이 불가하기 때문인지 에러가 계속 납니다
+*/
+
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { useEffect, useState } from "react";
@@ -20,12 +31,19 @@ interface PreNoteProps {
   handleOpenStepUpModal: (i: StepUpNDrawerIdx) => void;
   handleOpenDrawer: (i: StepUpNDrawerIdx) => void;
   handleCloseDrawer: () => void;
+  isPrevent: boolean;
+  handlePrevent: (shouldPrevent: boolean) => void;
 }
 
 type ReviewKey = "answerOne" | "answerTwo" | "questionList";
+// type ReviewHandling =
+//   | { key: "answerOne"; value: string }
+//   | { key: "answerTwo"; value: string }
+//   | { key: "questionList"; value: string[] };
 
 export default function PreNote(props: PreNoteProps) {
-  const { toggleExitModal, handleOpenStepUpModal, handleOpenDrawer, handleCloseDrawer } = props;
+  const { toggleExitModal, handleOpenStepUpModal, handleOpenDrawer, handleCloseDrawer, isPrevent, handlePrevent } =
+    props;
 
   const navigatingBookInfo = useRecoilValue<NavigatingBookInfoState>(navigatingBookInfoState);
   const { reviewId } = navigatingBookInfo;
@@ -45,6 +63,7 @@ export default function PreNote(props: PreNoteProps) {
   );
 
   const [isFilled, setIsFilled] = useState<boolean>(false);
+  const [isFilledOnlyThree, setIsFilledOnlyThree] = useState<boolean>(false);
 
   const handleChangeReview = (key: ReviewKey, value: string | string[]): void => {
     setData((currentNote) => {
@@ -52,7 +71,7 @@ export default function PreNote(props: PreNoteProps) {
 
       if (typeof value === "string") {
         if (key === "answerOne") newData.answerOne = value;
-        if (key === "answerOne") newData.answerTwo = value;
+        if (key === "answerTwo") newData.answerTwo = value;
       } else {
         newData.questionList = value;
       }
@@ -60,6 +79,27 @@ export default function PreNote(props: PreNoteProps) {
       return newData;
     });
   };
+
+  useEffect(() => {
+    if (data.reviewSt > 2) {
+      handlePrevent(false);
+      setIsFilled(true);
+      setIsFilledOnlyThree(true);
+    } else {
+      handlePrevent(true);
+    }
+
+    if (data.answerOne && data.answerTwo && !data.questionList.includes("")) {
+      setIsFilled(true);
+      setIsFilledOnlyThree(true);
+    } else if (!data.questionList.includes("")) {
+      setIsFilled(false);
+      setIsFilledOnlyThree(true);
+    } else {
+      setIsFilled(false);
+      setIsFilledOnlyThree(false);
+    }
+  }, [data]);
 
   // --------------------------------------------------------------------------
 
@@ -98,7 +138,7 @@ export default function PreNote(props: PreNoteProps) {
           onClickOpenDrawer={() => handleOpenDrawer(2)}>
           <StTextarea
             placeholder="답변을 입력해주세요."
-            value={data.answerOne}
+            value={data.answerTwo}
             onChange={(e) => handleChangeReview("answerTwo", e.target.value)}
           />
         </PreNoteFormContainer>

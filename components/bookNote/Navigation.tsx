@@ -4,12 +4,13 @@ import { BookNotePathKey } from "../../types/bookNote";
 
 interface NavigationProps {
   navIndex: BookNotePathKey;
+  isPrevented: boolean;
   onClickNavList: (idx: BookNotePathKey) => void;
   onSetDrawerAsDefault: () => void;
 }
 
 export default function Navigation(props: NavigationProps) {
-  const { navIndex, onClickNavList, onSetDrawerAsDefault } = props;
+  const { navIndex, isPrevented, onClickNavList, onSetDrawerAsDefault } = props;
 
   const handleNavIndex = (idx: BookNotePathKey) => {
     // onSetIsSave(true);

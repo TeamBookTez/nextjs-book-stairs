@@ -35,7 +35,7 @@ export default function Index() {
   const [navIndex, setNavIndex] = useState<BookNotePathKey>("pre");
 
   // const [isSave, setIsSave] = useState<boolean>(false);
-  // const [isPrevented, setIsPrevented] = useState<boolean>(false);
+  const [isPrevented, setIsPrevented] = useState<boolean>(false);
 
   const [isOpenedExitModal, setIsOpenExitModal] = useState<boolean>(false);
 
@@ -48,6 +48,12 @@ export default function Index() {
 
   const handleNavIndex = (idx: BookNotePathKey) => {
     setNavIndex(idx);
+  };
+
+  // reviewSt가 2라면 peri로 이동할 수 없게 하기
+  // 모든 답변이 채워지지 않으면 다음 단계로 이동할 수 없게 하기
+  const handlePrevent = (shouldPrevent: boolean) => {
+    setIsPrevented(shouldPrevent);
   };
 
   const toggleExitModal = () => {
@@ -97,7 +103,12 @@ export default function Index() {
   return (
     <StBookNoteContainer isopen={isDrawerOpen} isdefault={isDrawerdefault} width={drawerWidthValue}>
       <BookNoteHeader onClickExitBtn={toggleExitModal}>
-        <Navigation navIndex={navIndex} onClickNavList={handleNavIndex} onSetDrawerAsDefault={handleDrawerDefault} />
+        <Navigation
+          navIndex={navIndex}
+          isPrevented={isPrevented}
+          onClickNavList={handleNavIndex}
+          onSetDrawerAsDefault={handleDrawerDefault}
+        />
         {isLogin && <SavePoint />}
       </BookNoteHeader>
       <PreNote
@@ -105,6 +116,8 @@ export default function Index() {
         handleOpenStepUpModal={handleOpenStepUpModal}
         handleOpenDrawer={handleOpenDrawer}
         handleCloseDrawer={handleCloseDrawer}
+        isPrevent={isPrevented}
+        handlePrevent={handlePrevent}
       />
 
       {isDrawerOpen && <DrawerWrapper stepUpNDrawerIdx={stepUpNDrawerIdx} onCloseDrawer={handleCloseDrawer} />}
