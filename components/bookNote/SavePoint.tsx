@@ -26,7 +26,7 @@ export default function SavePoint() {
           작성한 내용이 저장되었어요.
         </StSave>
       )}
-      {true && <StIcSave onClick={() => {}} id="btn_save" />}
+      <StIcSave onClick={() => {}} id="btn_save" />
     </>
   );
 }

@@ -30,7 +30,7 @@ import useCheckLoginState from "../../../util/hooks/useCheckLoginState";
 export type StepUpNDrawerIdx = 1 | 2 | 3 | 4;
 
 export default function Index() {
-  const { isLoginLoading } = useCheckLoginState();
+  const { isLogin, isLoginLoading } = useCheckLoginState();
 
   const [navIndex, setNavIndex] = useState<BookNotePathKey>("pre");
 
@@ -98,7 +98,7 @@ export default function Index() {
     <StBookNoteContainer isopen={isDrawerOpen} isdefault={isDrawerdefault} width={drawerWidthValue}>
       <BookNoteHeader onClickExitBtn={toggleExitModal}>
         <Navigation navIndex={navIndex} onClickNavList={handleNavIndex} onSetDrawerAsDefault={handleDrawerDefault} />
-        <SavePoint />
+        {isLogin && <SavePoint />}
       </BookNoteHeader>
       <PreNote
         toggleExitModal={toggleExitModal}
