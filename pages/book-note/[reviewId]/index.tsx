@@ -21,14 +21,21 @@ import {
   SavePoint,
   StepUpLayout,
 } from "../../../components/bookNote";
+import { Loading } from "../../../components/common";
 import { StBookModalWrapper } from "../../../components/common/styled/BookModalWrapper";
 import { stepUpContentArray } from "../../../core/bookNote/exampleData";
 import { BookNotePathKey } from "../../../types/bookNote";
+import useCheckLoginState from "../../../util/hooks/useCheckLoginState";
 
 export type StepUpNDrawerIdx = 1 | 2 | 3 | 4;
 
 export default function Index() {
+  const { isLoginLoading } = useCheckLoginState();
+
   const [navIndex, setNavIndex] = useState<BookNotePathKey>("pre");
+
+  // const [isSave, setIsSave] = useState<boolean>(false);
+  // const [isPrevented, setIsPrevented] = useState<boolean>(false);
 
   const [isOpenedExitModal, setIsOpenExitModal] = useState<boolean>(false);
 
@@ -84,6 +91,8 @@ export default function Index() {
       window.removeEventListener("beforeunload", preventClose);
     };
   }, []);
+
+  if (isLoginLoading) return <Loading />;
 
   return (
     <StBookNoteContainer isopen={isDrawerOpen} isdefault={isDrawerdefault} width={drawerWidthValue}>
