@@ -16,17 +16,26 @@
 import styled from "@emotion/styled";
 
 import { IcCheckSave, IcSave } from "../../public/assets/icons";
+import { BookNotePathKey } from "../../types/bookNote";
 
-export default function SavePoint() {
+interface SavePointProps {
+  navIndex: BookNotePathKey;
+  isSaveAlarmTime: boolean;
+  handleSaveAlarmTime: (isSave: boolean) => void;
+}
+
+export default function SavePoint(props: SavePointProps) {
+  const { isSaveAlarmTime, handleSaveAlarmTime } = props;
+
   return (
     <>
-      {false && (
+      {isSaveAlarmTime && (
         <StSave>
           <StIcCheckSave />
           작성한 내용이 저장되었어요.
         </StSave>
       )}
-      <StIcSave onClick={() => {}} id="btn_save" />
+      <StIcSave onClick={() => handleSaveAlarmTime(true)} id="btn_save" />
     </>
   );
 }

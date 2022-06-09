@@ -21,6 +21,7 @@ import { NavigatingBookInfoState } from "../../../types/bookcase";
 import { PreNoteData } from "../../../types/bookNote";
 import useCheckLoginState from "../../../util/hooks/useCheckLoginState";
 import useFetchBookNote from "../../../util/hooks/useFetchBookNote";
+import { Loading } from "../../common";
 import { DefaultButton } from "../../common/styled/Button";
 import LinkToSignUpSection from "./LinkToSignUpSection";
 import PreNoteFormContainer from "./PreNoteFormContainer";
@@ -117,6 +118,8 @@ export default function PreNote(props: PreNoteProps) {
       handleCloseDrawer();
     };
   }, []);
+
+  if (isLoading) return <Loading />;
 
   return (
     <StNoteForm onSubmit={(e) => e.preventDefault()}>

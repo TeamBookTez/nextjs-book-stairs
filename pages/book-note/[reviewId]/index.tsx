@@ -34,7 +34,7 @@ export default function Index() {
 
   const [navIndex, setNavIndex] = useState<BookNotePathKey>("pre");
 
-  // const [isSave, setIsSave] = useState<boolean>(false);
+  const [isSaveAlarmTime, setIsSaveAlarmTime] = useState<boolean>(false);
   const [isPrevented, setIsPrevented] = useState<boolean>(false);
 
   const [isOpenedExitModal, setIsOpenExitModal] = useState<boolean>(false);
@@ -54,6 +54,10 @@ export default function Index() {
   // 모든 답변이 채워지지 않으면 다음 단계로 이동할 수 없게 하기
   const handlePrevent = (shouldPrevent: boolean) => {
     setIsPrevented(shouldPrevent);
+  };
+
+  const handleSaveAlarmTime = (isSave: boolean) => {
+    setIsSaveAlarmTime(isSave);
   };
 
   const toggleExitModal = () => {
@@ -109,7 +113,9 @@ export default function Index() {
           onClickNavList={handleNavIndex}
           onSetDrawerAsDefault={handleDrawerDefault}
         />
-        {isLogin && <SavePoint />}
+        {isLogin && (
+          <SavePoint navIndex={navIndex} isSaveAlarmTime={isSaveAlarmTime} handleSaveAlarmTime={handleSaveAlarmTime} />
+        )}
       </BookNoteHeader>
       <PreNote
         toggleExitModal={toggleExitModal}
