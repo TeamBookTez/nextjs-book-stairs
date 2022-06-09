@@ -1,19 +1,34 @@
 import styled from "@emotion/styled";
 import React from "react";
 
+import LocalStorage from "../../../core/localStorage";
 import ExampleDrawerBtn from "../ExampleDrawerBtn";
 import StepUpBtn from "../StepUpBtn";
 
 interface PreNoteFormContainerProps {
+  idx: 1 | 2 | 3;
   onClickStepUpBtn: () => void;
   onClickOpenDrawer: () => void;
   children: React.ReactNode;
 }
 
-export default function PreNoteFormContainer(props: PreNoteFormContainerProps) {
-  const { onClickStepUpBtn, onClickOpenDrawer, children } = props;
+function getQuestionByIdx(idx: 1 | 2 | 3, nickname?: string) {
+  switch (idx) {
+    case 1:
+      return `${nickname ? `${nickname} ` : "익명의 독서가"}님은 이 책에 어떤 기대를 하고 계신가요?`;
+    case 2:
+      return "이 책의 핵심 메시지는 무엇일까요? 그 중 어느 부분들이 기대를 만족시킬 수 있을까요?";
+    case 3:
+      return "가장 관심가는 주제부터 질문 리스트를 만들어보세요!";
+  }
+}
 
-  const question = "QQQQQQQQQQQQQQ";
+export default function PreNoteFormContainer(props: PreNoteFormContainerProps) {
+  const { idx, onClickStepUpBtn, onClickOpenDrawer, children } = props;
+
+  const isLogin = true;
+
+  const question = isLogin ? getQuestionByIdx(idx) : getQuestionByIdx(idx, LocalStorage.getItem("booktez-nickname"));
 
   return (
     <StFormContainer>

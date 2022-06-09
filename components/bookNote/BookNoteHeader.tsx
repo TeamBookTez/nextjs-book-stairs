@@ -19,7 +19,7 @@ export default function BookNoteHeader(props: BookNoteHeaderProps) {
   return (
     <>
       <StIcCancelWhite onClick={onClickExitBtn} />
-      <StBookTitle>{title}asdasdsadadas</StBookTitle>
+      <StBookTitle>{title}</StBookTitle>
       <StNavWrapper>{children}</StNavWrapper>
     </>
   );

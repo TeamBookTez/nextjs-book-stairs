@@ -13,7 +13,7 @@ export const navigatingBookInfoState = atom<NavigatingBookInfoState>({
   key: "navigatingBookInfoState",
   default: {
     reviewId: "-1",
-    title: "",
+    title: "들꽃의 노래",
     fromUrl: "",
     fromSt: "/main",
   },

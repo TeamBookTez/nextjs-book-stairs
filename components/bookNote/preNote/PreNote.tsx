@@ -40,17 +40,20 @@ export default function PreNote(props: PreNoteProps) {
       <StFormHead>책을 넘기기 전 독서전략을 세워보아요.</StFormHead>
       <StFormWrapper>
         <PreNoteFormContainer
+          idx={1}
           onClickStepUpBtn={() => handleOpenStepUpModal(1)}
           onClickOpenDrawer={() => handleOpenDrawer(1)}>
           <StTextarea placeholder="답변을 입력해주세요." />
         </PreNoteFormContainer>
         <PreNoteFormContainer
+          idx={2}
           onClickStepUpBtn={() => handleOpenStepUpModal(2)}
           onClickOpenDrawer={() => handleOpenDrawer(2)}>
           <StTextarea placeholder="답변을 입력해주세요." />
         </PreNoteFormContainer>
         {isLogin ? (
           <PreNoteFormContainer
+            idx={3}
             onClickStepUpBtn={() => handleOpenStepUpModal(3)}
             onClickOpenDrawer={() => handleOpenDrawer(3)}>
             <PreNoteThirdArticle />
