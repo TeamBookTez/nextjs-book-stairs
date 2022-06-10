@@ -1,12 +1,11 @@
 /*
-마지막 편집자: 22-06-09 joohaem
+마지막 편집자: 22-06-10 joohaem
 변경사항 및 참고:
   - 모듈 import 가 많아지네요 ! indexing 작업도 해야겠습니다 하하
     
 고민점:
-  - handleChangeReview 의 내로잉을 if 분기처리를 통해 해주었는데, 비효율적이라고 생각이 듭니다
-    ReviewHandling 타입을 통해 넘겨주면 될 것 같으나 
-    index에 string 값으로 접근하는 것이 불가하기 때문인지 에러가 계속 납니다
+  - 
+  
 */
 
 import { css } from "@emotion/react";
@@ -36,12 +35,6 @@ interface PreNoteProps {
   handlePrevent: (shouldPrevent: boolean) => void;
 }
 
-export type ReviewKey = "answerOne" | "answerTwo" | "questionList";
-// type ReviewHandling =
-//   | { key: "answerOne"; value: string }
-//   | { key: "answerTwo"; value: string }
-//   | { key: "questionList"; value: string[] };
-
 export default function PreNote(props: PreNoteProps) {
   const { toggleExitModal, handleOpenStepUpModal, handleOpenDrawer, handleCloseDrawer, isPrevented, handlePrevent } =
     props;
@@ -66,16 +59,11 @@ export default function PreNote(props: PreNoteProps) {
   const [isFilled, setIsFilled] = useState<boolean>(false);
   const [isFilledOnlyThree, setIsFilledOnlyThree] = useState<boolean>(false);
 
-  const handleChangeReview = (key: ReviewKey, value: string | string[]): void => {
+  const handleChangeReview = <K extends keyof typeof data, V extends typeof data[K]>(key: K, value: V): void => {
     setData((currentNote) => {
       const newData = { ...currentNote };
 
-      if (typeof value === "string") {
-        if (key === "answerOne") newData.answerOne = value;
-        if (key === "answerTwo") newData.answerTwo = value;
-      } else {
-        newData.questionList = value;
-      }
+      newData[key] = value;
 
       return newData;
     });
