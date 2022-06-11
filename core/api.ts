@@ -41,6 +41,12 @@ export const patchFormData = (token: string, key: string, patchBody: FormData) =
   return client(token).patch(key, patchBody);
 };
 
+export const patchBookNote = async (token: string, key: string, body: PreNoteData | PeriNoteData) => {
+  const { data } = await client(token).patch(key, body);
+
+  return data.data;
+};
+
 export const deleteData = (key: string, token: string | null) => {
   return client(token).delete(key);
 };

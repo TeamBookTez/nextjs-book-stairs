@@ -112,6 +112,7 @@ export default function Index() {
         handleCloseDrawer={handleCloseDrawer}
         isPrevented={isPrevented}
         handlePrevent={handlePrevent}
+        handleNavIndex={handleNavIndex}
       />
     ) : (
       <div>페리노트</div>

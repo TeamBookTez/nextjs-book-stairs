@@ -17,13 +17,14 @@ import { navigatingBookInfoState } from "../../../core/atom";
 import LocalStorage from "../../../core/localStorage";
 import { StepUpNDrawerIdx } from "../../../pages/book-note/[reviewId]";
 import { NavigatingBookInfoState } from "../../../types/bookcase";
-import { PreNoteData } from "../../../types/bookNote";
+import { BookNotePathKey, PreNoteData } from "../../../types/bookNote";
 import useCheckLoginState from "../../../util/hooks/useCheckLoginState";
 import useFetchBookNote from "../../../util/hooks/useFetchBookNote";
 import { Loading } from "../../common";
 import { DefaultButton } from "../../common/styled/Button";
 import LinkToSignUpSection from "./LinkToSignUpSection";
 import PreNoteFormContainer from "./PreNoteFormContainer";
+import PreNotePostSection from "./PreNotePostSection";
 import PreNoteThirdArticle from "./PreNoteThirdArticle";
 
 interface PreNoteProps {
@@ -33,11 +34,19 @@ interface PreNoteProps {
   handleCloseDrawer: () => void;
   isPrevented: boolean;
   handlePrevent: (shouldPrevent: boolean) => void;
+  handleNavIndex: (idx: BookNotePathKey) => void;
 }
 
 export default function PreNote(props: PreNoteProps) {
-  const { toggleExitModal, handleOpenStepUpModal, handleOpenDrawer, handleCloseDrawer, isPrevented, handlePrevent } =
-    props;
+  const {
+    toggleExitModal,
+    handleOpenStepUpModal,
+    handleOpenDrawer,
+    handleCloseDrawer,
+    isPrevented,
+    handlePrevent,
+    handleNavIndex,
+  } = props;
 
   const navigatingBookInfo = useRecoilValue<NavigatingBookInfoState>(navigatingBookInfoState);
   const { reviewId } = navigatingBookInfo;
@@ -107,6 +116,8 @@ export default function PreNote(props: PreNoteProps) {
     };
   }, []);
 
+  // --------------------------------------------------------------------------
+
   if (isLoading) return <Loading />;
 
   return (
@@ -149,9 +160,13 @@ export default function PreNote(props: PreNoteProps) {
           <LinkToSignUpSection />
         )}
       </StFormWrapper>
-      <StNextBtn type="button" disabled={!isFilled || data.questionList.length === 0}>
-        다음 계단
-      </StNextBtn>
+
+      <PreNotePostSection
+        bookNoteData={data}
+        isFilled={isFilled}
+        handlePrevent={handlePrevent}
+        handleNavIndex={handleNavIndex}
+      />
     </StNoteForm>
   );
 }
