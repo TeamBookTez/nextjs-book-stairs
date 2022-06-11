@@ -3,6 +3,7 @@
 변경사항 및 참고:
   - ableGoPeri 뭔지 확인해야 함
   - flushSync 확인해야 함
+  - any 고쳐야 함
     
 고민점:
   - 
@@ -81,7 +82,6 @@ export default function PreNotePostSection(props: PreNotePostSectionProps) {
       }
     }
 
-    // call stack이 비워질 때 바로 실행할 수 있도록
     flushSync(() => {
       handlePrevent(false);
       setIsOpenedModal(false);
