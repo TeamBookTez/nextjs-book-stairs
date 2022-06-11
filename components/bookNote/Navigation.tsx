@@ -1,3 +1,12 @@
+/*
+마지막 편집자: 22-06-11 joohaem
+변경사항 및 참고:
+  - 
+    
+고민점:
+  - sibling 컴포넌트 북노트의 data를 저장하기 기능을 추가해야 함
+*/
+
 import styled from "@emotion/styled";
 
 import { BookNotePathKey } from "../../types/bookNote";
@@ -5,38 +14,31 @@ import { BookNotePathKey } from "../../types/bookNote";
 interface NavigationProps {
   navIndex: BookNotePathKey;
   isPrevented: boolean;
-  onClickNavList: (idx: BookNotePathKey) => void;
+  handleNavIndex: (idx: BookNotePathKey) => void;
   onSetDrawerAsDefault: () => void;
 }
 
 export default function Navigation(props: NavigationProps) {
-  const { navIndex, isPrevented, onClickNavList, onSetDrawerAsDefault } = props;
+  const { navIndex, isPrevented, handleNavIndex, onSetDrawerAsDefault } = props;
 
-  const handleNavIndex = (idx: BookNotePathKey) => {
+  const onClickNavList = (idx: BookNotePathKey) => {
+    onSetDrawerAsDefault();
     // onSetIsSave(true);
-    // if (navIndex === "pre") {
-    // setTimeout(() => {
-    //   onSetIsSave(false);
-    //   onNav(0);
-    // }, 0);
-    // }
-    // if (navIndex === "peri" && !isPrevented) {
+    if (navIndex === "peri" && isPrevented) return;
+
     // setTimeout(() => {
     // onSetIsSave(false);
-    // onNav(1);
     // }, 0);
-    // }
-    // onSetDrawerAsDefault();
-    onClickNavList(idx);
+    handleNavIndex(idx);
   };
 
   return (
     <StNav>
       <StUl>
-        <StList onClick={() => handleNavIndex("pre")} active={navIndex === "pre"}>
+        <StList onClick={() => onClickNavList("pre")} active={navIndex === "pre"}>
           독서 전
         </StList>
-        <StList onClick={() => handleNavIndex("peri")} active={navIndex === "peri"}>
+        <StList onClick={() => onClickNavList("peri")} active={navIndex === "peri"}>
           독서 중
         </StList>
       </StUl>

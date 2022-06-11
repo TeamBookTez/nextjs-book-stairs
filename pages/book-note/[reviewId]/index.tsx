@@ -1,10 +1,11 @@
 /*
-마지막 편집자: 22-05-27 joohaem
+마지막 편집자: 22-06-11 joohaem
 변경사항 및 참고:
   - 
-    
+
 고민점:
   - url 을 state 관리로 바꿈으로써,
+    useEffect로
     bookcaseInfo 의 reviewSt 를 통해 pre, peri 를 나누어주어야 함 (원래는 통합)
 */
 
@@ -102,21 +103,8 @@ export default function Index() {
     };
   }, []);
 
-  if (isLoginLoading) return <Loading />;
-
-  return (
-    <StBookNoteContainer isopen={isDrawerOpen} isdefault={isDrawerdefault} width={drawerWidthValue}>
-      <BookNoteHeader onClickExitBtn={toggleExitModal}>
-        <Navigation
-          navIndex={navIndex}
-          isPrevented={isPrevented}
-          onClickNavList={handleNavIndex}
-          onSetDrawerAsDefault={handleDrawerDefault}
-        />
-        {isLogin && (
-          <SavePoint navIndex={navIndex} isSaveAlarmTime={isSaveAlarmTime} handleSaveAlarmTime={handleSaveAlarmTime} />
-        )}
-      </BookNoteHeader>
+  const bookNoteComponent =
+    navIndex === "pre" ? (
       <PreNote
         toggleExitModal={toggleExitModal}
         handleOpenStepUpModal={handleOpenStepUpModal}
@@ -125,6 +113,27 @@ export default function Index() {
         isPrevented={isPrevented}
         handlePrevent={handlePrevent}
       />
+    ) : (
+      <div>페리노트</div>
+    );
+
+  if (isLoginLoading) return <Loading />;
+
+  return (
+    <StBookNoteContainer isopen={isDrawerOpen} isdefault={isDrawerdefault} width={drawerWidthValue}>
+      <BookNoteHeader onClickExitBtn={toggleExitModal}>
+        <Navigation
+          navIndex={navIndex}
+          isPrevented={isPrevented}
+          handleNavIndex={handleNavIndex}
+          onSetDrawerAsDefault={handleDrawerDefault}
+        />
+        {isLogin && (
+          <SavePoint navIndex={navIndex} isSaveAlarmTime={isSaveAlarmTime} handleSaveAlarmTime={handleSaveAlarmTime} />
+        )}
+      </BookNoteHeader>
+
+      {bookNoteComponent}
 
       {isDrawerOpen && <DrawerWrapper stepUpNDrawerIdx={stepUpNDrawerIdx} onCloseDrawer={handleCloseDrawer} />}
       {isOpenedExitModal && <ExitModal onClickCancelBtn={toggleExitModal} />}
