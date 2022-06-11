@@ -3,11 +3,10 @@ import styled from "@emotion/styled";
 import React, { useState } from "react";
 
 import InputQuestion from "./InputQuestion";
-import { ReviewKey } from "./PreNote";
 
 interface PreNoteThirdArticleProps {
   questionList: string[];
-  onChangeReview: (key: ReviewKey, value: string | string[]) => void;
+  onChangeReview: any;
   isPrevented: boolean;
   isFilledOnlyThree: boolean;
 }
