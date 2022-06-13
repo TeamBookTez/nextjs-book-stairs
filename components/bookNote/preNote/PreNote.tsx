@@ -13,11 +13,12 @@ import styled from "@emotion/styled";
 import { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 
+import { patchBookNote } from "../../../core/api";
 import { navigatingBookInfoState } from "../../../core/atom";
 import LocalStorage from "../../../core/localStorage";
 import { StepUpNDrawerIdx } from "../../../pages/book-note/[reviewId]";
 import { NavigatingBookInfoState } from "../../../types/bookcase";
-import { BookNotePathKey, PreNoteData } from "../../../types/bookNote";
+import { BookNotePathKey, PreNoteData, SavingData } from "../../../types/bookNote";
 import useCheckLoginState from "../../../util/hooks/useCheckLoginState";
 import useFetchBookNote from "../../../util/hooks/useFetchBookNote";
 import { Loading } from "../../common";
@@ -35,6 +36,8 @@ interface PreNoteProps {
   isPrevented: boolean;
   handlePrevent: (shouldPrevent: boolean) => void;
   handleNavIndex: (idx: BookNotePathKey) => void;
+  savingData: SavingData;
+  handleSavingData: (obj: SavingData) => void;
 }
 
 export default function PreNote(props: PreNoteProps) {
@@ -46,6 +49,8 @@ export default function PreNote(props: PreNoteProps) {
     isPrevented,
     handlePrevent,
     handleNavIndex,
+    savingData,
+    handleSavingData,
   } = props;
 
   const navigatingBookInfo = useRecoilValue<NavigatingBookInfoState>(navigatingBookInfoState);
@@ -67,6 +72,8 @@ export default function PreNote(props: PreNoteProps) {
 
   const [isFilled, setIsFilled] = useState<boolean>(false);
   const [isFilledOnlyThree, setIsFilledOnlyThree] = useState<boolean>(false);
+
+  const userToken = LocalStorage.getItem("booktez-token");
 
   const handleChangeReview = <K extends keyof typeof data, V extends typeof data[K]>(key: K, value: V): void => {
     setData((currentNote) => {
@@ -98,6 +105,21 @@ export default function PreNote(props: PreNoteProps) {
       setIsFilledOnlyThree(false);
     }
   }, [data]);
+
+  // 네비게이션 바 클릭 시 or 저장하기 버튼 클릭 시 isPending: true
+  useEffect(() => {
+    if (savingData.isPending === true) {
+      const _savingData = { isPending: false, isError: false };
+
+      try {
+        patchBookNote(userToken, `/review/${reviewId}/pre`, data);
+      } catch {
+        _savingData.isError = true;
+      } finally {
+        handleSavingData(_savingData);
+      }
+    }
+  }, [savingData.isPending]);
 
   // --------------------------------------------------------------------------
 

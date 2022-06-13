@@ -116,6 +116,8 @@ export default function Index() {
         isPrevented={isPrevented}
         handlePrevent={handlePrevent}
         handleNavIndex={handleNavIndex}
+        savingData={savingData}
+        handleSavingData={handleSavingData}
       />
     ) : (
       <div>페리노트</div>
@@ -130,6 +132,7 @@ export default function Index() {
           navIndex={navIndex}
           isPrevented={isPrevented}
           handleNavIndex={handleNavIndex}
+          handleSavingData={handleSavingData}
           onSetDrawerAsDefault={handleDrawerDefault}
         />
         {isLogin && <SavePoint navIndex={navIndex} savingData={savingData} handleSavingData={handleSavingData} />}
