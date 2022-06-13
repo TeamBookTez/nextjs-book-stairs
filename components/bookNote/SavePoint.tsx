@@ -14,10 +14,11 @@
 */
 
 import styled from "@emotion/styled";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import { IcCheckSave, IcSave } from "../../public/assets/icons";
 import { BookNotePathKey, SavingData } from "../../types/bookNote";
+import useToast from "../../util/hooks/useToast";
 
 interface SavePointProps {
   navIndex: BookNotePathKey;
@@ -27,16 +28,19 @@ interface SavePointProps {
 
 export default function SavePoint(props: SavePointProps) {
   const { savingData, handleSavingData } = props;
+  const { isToastAlertTime, setIsToastAlertTime } = useToast();
 
   useEffect(() => {
     if (savingData.isPending === false && savingData.isError === false) {
-      // 토스트 띄우기
+      setIsToastAlertTime(true);
+    } else {
+      setIsToastAlertTime(false);
     }
   }, [savingData]);
 
   return (
     <>
-      {true && (
+      {isToastAlertTime && (
         <StSave>
           <StIcCheckSave />
           작성한 내용이 저장되었어요.
