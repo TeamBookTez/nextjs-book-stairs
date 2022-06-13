@@ -1,6 +1,8 @@
 /*
 마지막 편집자: 22-06-13 joohaem
 변경사항 및 참고:
+  - 로그인 구현 후에 test 하면서 다시 살펴보겠습니다 !!
+  
   - ableGoPeri : peri로 넘어가기 전에 pre 데이터 제대로 patch 되었는지 확인 용도
   - flushSync 확인해야 함
   
