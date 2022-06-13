@@ -5,7 +5,7 @@
   - flushSync 확인해야 함
   
   고민점:
-  - any ... 후
+  - 
 
 */
 
@@ -13,14 +13,13 @@ import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import Image from "next/image";
 import { useState } from "react";
-import { flushSync } from "react-dom";
 import { useRecoilValue } from "recoil";
 
 import { patchBookNote } from "../../../core/api";
 import { navigatingBookInfoState } from "../../../core/atom";
 import LocalStorage from "../../../core/localStorage";
 import { ImgPreBook } from "../../../public/assets/images";
-import { BookNotePathKey, PeriNoteTreeNode, PreNoteData } from "../../../types/bookNote";
+import { BookNotePathKey, PreNoteData } from "../../../types/bookNote";
 import { DefaultButton } from "../../common/styled/Button";
 import {
   StBtnCancel,
