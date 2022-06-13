@@ -9,25 +9,25 @@
 
 import styled from "@emotion/styled";
 
-import { BookNotePathKey, SavingData } from "../../types/bookNote";
+import { BookNotePathKey, SavingProgress } from "../../types/bookNote";
 
 interface NavigationProps {
   navIndex: BookNotePathKey;
   isPrevented: boolean;
   handleNavIndex: (idx: BookNotePathKey) => void;
-  handleSavingData: (obj: SavingData) => void;
+  handleSavingProgress: (obj: SavingProgress) => void;
   onSetDrawerAsDefault: () => void;
 }
 
 export default function Navigation(props: NavigationProps) {
-  const { navIndex, isPrevented, handleNavIndex, handleSavingData, onSetDrawerAsDefault } = props;
+  const { navIndex, isPrevented, handleNavIndex, handleSavingProgress, onSetDrawerAsDefault } = props;
 
   const onClickNavList = (idx: BookNotePathKey) => {
     onSetDrawerAsDefault();
 
     if (navIndex === "peri" && isPrevented) return;
 
-    handleSavingData({ isPending: true, isError: false });
+    handleSavingProgress({ isPending: true, isError: false });
     handleNavIndex(idx);
   };
 

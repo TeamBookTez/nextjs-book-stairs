@@ -18,7 +18,7 @@ import { navigatingBookInfoState } from "../../../core/atom";
 import LocalStorage from "../../../core/localStorage";
 import { StepUpNDrawerIdx } from "../../../pages/book-note/[reviewId]";
 import { NavigatingBookInfoState } from "../../../types/bookcase";
-import { BookNotePathKey, PreNoteData, SavingData } from "../../../types/bookNote";
+import { BookNotePathKey, PreNoteData, SavingProgress } from "../../../types/bookNote";
 import useCheckLoginState from "../../../util/hooks/useCheckLoginState";
 import useFetchBookNote from "../../../util/hooks/useFetchBookNote";
 import { Loading } from "../../common";
@@ -36,8 +36,8 @@ interface PreNoteProps {
   isPrevented: boolean;
   handlePrevent: (shouldPrevent: boolean) => void;
   handleNavIndex: (idx: BookNotePathKey) => void;
-  savingData: SavingData;
-  handleSavingData: (obj: SavingData) => void;
+  savingProgress: SavingProgress;
+  handleSavingProgress: (obj: SavingProgress) => void;
 }
 
 export default function PreNote(props: PreNoteProps) {
@@ -49,8 +49,8 @@ export default function PreNote(props: PreNoteProps) {
     isPrevented,
     handlePrevent,
     handleNavIndex,
-    savingData,
-    handleSavingData,
+    savingProgress,
+    handleSavingProgress,
   } = props;
 
   const navigatingBookInfo = useRecoilValue<NavigatingBookInfoState>(navigatingBookInfoState);
@@ -108,18 +108,18 @@ export default function PreNote(props: PreNoteProps) {
 
   // 네비게이션 바 클릭 시 or 저장하기 버튼 클릭 시 isPending: true
   useEffect(() => {
-    if (savingData.isPending === true) {
-      const _savingData = { isPending: false, isError: false };
+    if (savingProgress.isPending === true) {
+      const _savingProgress = { isPending: false, isError: false };
 
       try {
         patchBookNote(userToken, `/review/${reviewId}/pre`, data);
       } catch {
-        _savingData.isError = true;
+        _savingProgress.isError = true;
       } finally {
-        handleSavingData(_savingData);
+        handleSavingProgress(_savingProgress);
       }
     }
-  }, [savingData.isPending]);
+  }, [savingProgress.isPending]);
 
   // --------------------------------------------------------------------------
 

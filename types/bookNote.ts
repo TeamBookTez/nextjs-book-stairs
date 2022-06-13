@@ -46,7 +46,7 @@ export interface StepUpContent {
   imgAlt: string;
 }
 
-export interface SavingData {
+export interface SavingProgress {
   isPending: boolean;
   isError: boolean;
 }

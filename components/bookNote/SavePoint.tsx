@@ -17,26 +17,26 @@ import styled from "@emotion/styled";
 import { useEffect, useState } from "react";
 
 import { IcCheckSave, IcSave } from "../../public/assets/icons";
-import { BookNotePathKey, SavingData } from "../../types/bookNote";
+import { BookNotePathKey, SavingProgress } from "../../types/bookNote";
 import useToast from "../../util/hooks/useToast";
 
 interface SavePointProps {
   navIndex: BookNotePathKey;
-  savingData: SavingData;
-  handleSavingData: (obj: SavingData) => void;
+  savingProgress: SavingProgress;
+  handleSavingProgress: (obj: SavingProgress) => void;
 }
 
 export default function SavePoint(props: SavePointProps) {
-  const { savingData, handleSavingData } = props;
+  const { savingProgress, handleSavingProgress } = props;
   const { isToastAlertTime, setIsToastAlertTime } = useToast();
 
   useEffect(() => {
-    if (savingData.isPending === false && savingData.isError === false) {
+    if (savingProgress.isPending === false && savingProgress.isError === false) {
       setIsToastAlertTime(true);
     } else {
       setIsToastAlertTime(false);
     }
-  }, [savingData]);
+  }, [savingProgress]);
 
   return (
     <>
@@ -46,7 +46,7 @@ export default function SavePoint(props: SavePointProps) {
           작성한 내용이 저장되었어요.
         </StSave>
       )}
-      <StIcSave onClick={() => handleSavingData({ isPending: true, isError: false })} id="btn_save" />
+      <StIcSave onClick={() => handleSavingProgress({ isPending: true, isError: false })} id="btn_save" />
     </>
   );
 }
