@@ -1,12 +1,12 @@
 /*
-마지막 편집자: 22-06-11 joohaem
+마지막 편집자: 22-06-13 joohaem
 변경사항 및 참고:
-  - ableGoPeri 뭔지 확인해야 함
+  - ableGoPeri : peri로 넘어가기 전에 pre 데이터 제대로 patch 되었는지 확인 용도
   - flushSync 확인해야 함
-  - any 고쳐야 함
-    
-고민점:
-  - 
+  
+  고민점:
+  - any ... 후
+
 */
 
 import { css } from "@emotion/react";
@@ -48,45 +48,51 @@ export default function PreNotePostSection(props: PreNotePostSectionProps) {
 
   const [isOpenedModal, setIsOpenedModal] = useState<boolean>(false);
 
-  const [ableGoPeri, setAbleGoPeri] = useState<boolean>(true);
+  // const [ableGoPeri, setAbleGoPeri] = useState<boolean>(true);
 
   const handleSubmit = async () => {
-    setAbleGoPeri(true);
+    // setAbleGoPeri(true);
 
-    if (!bookNoteData.finishSt) {
-      patchBookNote(userToken, `/review/${reviewId}/pre`, { ...bookNoteData, reviewSt: 3 });
-    } else {
-      patchBookNote(userToken, `/review/${reviewId}/pre`, bookNoteData);
-    }
-
-    if (bookNoteData.reviewSt === 2) {
-      const questionFromPre: PeriNoteTreeNode[] = [];
-
-      bookNoteData.questionList.map((content) => {
-        questionFromPre.push({ type: "question", content, children: [{ type: "answer", content: "", children: [] }] });
-      });
-
-      setAbleGoPeri(false);
-      const resData = await patchBookNote(userToken, `review/${reviewId}/peri`, {
-        answerThree: {
-          type: "Root",
-          content: "root",
-          children: questionFromPre,
-        },
-        reviewSt: 3,
-        finishSt: false,
-      });
-
-      if (resData) {
-        setAbleGoPeri(true);
+    try {
+      if (!bookNoteData.finishSt) {
+        // 수정 중이 아니라면, 독서중으로
+        patchBookNote(userToken, `/review/${reviewId}/pre`, { ...bookNoteData, reviewSt: 3 });
+      } else {
+        patchBookNote(userToken, `/review/${reviewId}/pre`, bookNoteData);
       }
-    }
 
-    flushSync(() => {
+      // flushSync(() => {
       handlePrevent(false);
       setIsOpenedModal(false);
-      if (ableGoPeri) handleNavIndex("peri");
-    });
+      // if (ableGoPeri) handleNavIndex("peri");
+      handleNavIndex("peri");
+      // });
+    } catch (err) {
+      console.log(err); // 토스트 알림이 필요할랑가 ..
+    }
+
+    // if (bookNoteData.reviewSt === 2) {
+    //   const questionFromPre: PeriNoteTreeNode[] = [];
+
+    //   bookNoteData.questionList.map((content) => {
+    //     questionFromPre.push({ type: "question", content, children: [{ type: "answer", content: "", children: [] }] });
+    //   });
+
+    //   // setAbleGoPeri(false);
+    //   const resData = await patchBookNote(userToken, `review/${reviewId}/peri`, {
+    //     answerThree: {
+    //       type: "Root",
+    //       content: "root",
+    //       children: questionFromPre,
+    //     },
+    //     reviewSt: 3,
+    //     finishSt: false,
+    //   });
+
+    //   if (resData) {
+    //     setAbleGoPeri(true);
+    //   }
+    // }
   };
 
   return (
