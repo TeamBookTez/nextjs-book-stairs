@@ -8,9 +8,9 @@ interface IsLogin {
 }
 
 export default function useUser() {
-  const { data } = useSWR<AxiosResponse<Response<IsLogin>>>("/auth/check", baseInstance.get);
+  const { data, isValidating } = useSWR<AxiosResponse<Response<IsLogin>>>("/auth/check", baseInstance.get);
 
-  if (data === undefined) return false;
+  if (data === undefined) return { isLogin: false, isLoginLoading: isValidating };
 
-  return data?.data.data.isLogin;
+  return { isLogin: data?.data.data.isLogin, isLoginLoading: isValidating };
 }
