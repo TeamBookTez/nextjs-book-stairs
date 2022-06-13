@@ -7,12 +7,14 @@
   - 
 */
 
+import { UseFormSetError } from "react-hook-form";
 import useSWR from "swr";
 
 import { KAKAOParams } from "../types";
 import { BookcaseInfo } from "../types/bookcase";
 import { PeriNoteData, PreNoteData } from "../types/bookNote";
-import { client, KAKAO } from "./axios";
+import { UserData } from "../types/login";
+import { baseInstance, client, KAKAO } from "./axios";
 import LocalStorage from "./localStorage";
 export const searchBook = (params: KAKAOParams) => {
   return KAKAO.get("/v3/search/book", { params });
@@ -68,3 +70,26 @@ export function useGetBookInfo(key: string) {
     isError: error,
   };
 }
+
+export const login = async (loginFormData: UserData, setError: UseFormSetError<UserData>) => {
+  try {
+    const {
+      data: { data },
+    } = await baseInstance.post("/auth/login", loginFormData);
+
+    LocalStorage.setItem("booktez-token", data.token);
+    LocalStorage.setItem("booktez-nickname", data.nickname);
+    LocalStorage.setItem("booktez-email", data.email);
+  } catch (err) {
+    // if (axios.isAxiosError(err)) {
+    //   const errorData = err.response?.data;
+    //   const errorField = errorData.status === 404 ? "email" : "password";
+    //   setError(errorField, {
+    //     type: "server",
+    //     message: errorData.message,
+    //   });
+    // }
+  }
+
+  return null;
+};

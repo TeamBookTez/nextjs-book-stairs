@@ -7,11 +7,13 @@ const KAKAO_API_KEY = process.env.NEXT_PUBLIC_KAKAO_API_KEY;
 
 const getAccessToken = LocalStorage.getItem("booktez-token");
 
-export interface Response<T> {
-  data: T;
+export interface AxiosResponse {
   message: string;
   status: number;
   success: boolean;
+}
+export interface Response<T> extends AxiosResponse {
+  data: T;
 }
 
 export const baseInstance = axios.create({
