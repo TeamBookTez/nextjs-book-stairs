@@ -45,3 +45,8 @@ export interface StepUpContent {
   imgUrl: StaticImageData;
   imgAlt: string;
 }
+
+export interface SavingData {
+  isPending: boolean;
+  isError: boolean;
+}

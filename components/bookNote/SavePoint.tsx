@@ -14,28 +14,35 @@
 */
 
 import styled from "@emotion/styled";
+import { useEffect } from "react";
 
 import { IcCheckSave, IcSave } from "../../public/assets/icons";
-import { BookNotePathKey } from "../../types/bookNote";
+import { BookNotePathKey, SavingData } from "../../types/bookNote";
 
 interface SavePointProps {
   navIndex: BookNotePathKey;
-  isSaveAlarmTime: boolean;
-  handleSaveAlarmTime: (isSave: boolean) => void;
+  savingData: SavingData;
+  handleSavingData: (obj: SavingData) => void;
 }
 
 export default function SavePoint(props: SavePointProps) {
-  const { isSaveAlarmTime, handleSaveAlarmTime } = props;
+  const { savingData, handleSavingData } = props;
+
+  useEffect(() => {
+    if (savingData.isPending === false && savingData.isError === false) {
+      // 토스트 띄우기
+    }
+  }, [savingData]);
 
   return (
     <>
-      {isSaveAlarmTime && (
+      {true && (
         <StSave>
           <StIcCheckSave />
           작성한 내용이 저장되었어요.
         </StSave>
       )}
-      <StIcSave onClick={() => handleSaveAlarmTime(true)} id="btn_save" />
+      <StIcSave onClick={() => handleSavingData({ isPending: true, isError: false })} id="btn_save" />
     </>
   );
 }

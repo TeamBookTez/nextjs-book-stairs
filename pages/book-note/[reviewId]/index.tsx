@@ -1,7 +1,10 @@
 /*
-마지막 편집자: 22-06-11 joohaem
+마지막 편집자: 22-06-13 joohaem
 변경사항 및 참고:
-  - 
+  - savingData ::
+    isPending이 true 일 때 저장하기가 실행됩니다
+    결과에 따라 isPending이 false가 되고, isError를 조작합니다
+    isPending이 false가 되고, isError가 false 일 때 저장 완료 토스트가 n초간 나옵니다
 
 고민점:
   - url 을 state 관리로 바꿈으로써,
@@ -25,7 +28,7 @@ import {
 import { Loading } from "../../../components/common";
 import { StBookModalWrapper } from "../../../components/common/styled/BookModalWrapper";
 import { stepUpContentArray } from "../../../core/bookNote/exampleData";
-import { BookNotePathKey } from "../../../types/bookNote";
+import { BookNotePathKey, SavingData } from "../../../types/bookNote";
 import useCheckLoginState from "../../../util/hooks/useCheckLoginState";
 
 export type StepUpNDrawerIdx = 1 | 2 | 3 | 4;
@@ -35,7 +38,7 @@ export default function Index() {
 
   const [navIndex, setNavIndex] = useState<BookNotePathKey>("pre");
 
-  const [isSaveAlarmTime, setIsSaveAlarmTime] = useState<boolean>(false);
+  const [savingData, setSavingData] = useState<SavingData>({ isPending: false, isError: false });
   const [isPrevented, setIsPrevented] = useState<boolean>(false);
 
   const [isOpenedExitModal, setIsOpenExitModal] = useState<boolean>(false);
@@ -57,8 +60,8 @@ export default function Index() {
     setIsPrevented(shouldPrevent);
   };
 
-  const handleSaveAlarmTime = (isSave: boolean) => {
-    setIsSaveAlarmTime(isSave);
+  const handleSavingData = (obj: SavingData) => {
+    setSavingData({ ...obj });
   };
 
   const toggleExitModal = () => {
@@ -129,9 +132,7 @@ export default function Index() {
           handleNavIndex={handleNavIndex}
           onSetDrawerAsDefault={handleDrawerDefault}
         />
-        {isLogin && (
-          <SavePoint navIndex={navIndex} isSaveAlarmTime={isSaveAlarmTime} handleSaveAlarmTime={handleSaveAlarmTime} />
-        )}
+        {isLogin && <SavePoint navIndex={navIndex} savingData={savingData} handleSavingData={handleSavingData} />}
       </BookNoteHeader>
 
       {bookNoteComponent}
