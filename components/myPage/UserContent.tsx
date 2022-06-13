@@ -2,26 +2,23 @@ import styled from "@emotion/styled";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
-import { useRecoilState } from "recoil";
 import { useSWRConfig } from "swr";
 
-import { isLoginState } from "../../core/atom";
 import LocalStorage from "../../core/localStorage";
 import { UserInfo } from "../../types/myPage";
 import { DefaultButton } from "../common/styled/Button";
 import { TopBanner } from ".";
 
 interface UserContentProps {
-  userInfo: UserInfo;
-  onImageChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  userInfo: UserInfo | undefined;
+  onImageChange: (_e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export default function UserContent(props: UserContentProps) {
   const router = useRouter();
-  // const navigate = useNavigate();
   const { userInfo, onImageChange } = props;
+  const isLogin = userInfo !== undefined;
 
-  const [isLogin, setIsLogin] = useRecoilState(isLoginState);
   const { mutate } = useSWRConfig();
 
   const handleLogout = () => {
@@ -29,7 +26,6 @@ export default function UserContent(props: UserContentProps) {
     LocalStorage.removeItem("booktez-nickname");
     LocalStorage.removeItem("booktez-email");
     mutate("/book");
-    setIsLogin(false);
     router.push("/main");
   };
 

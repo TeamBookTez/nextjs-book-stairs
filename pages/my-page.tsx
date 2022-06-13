@@ -1,29 +1,15 @@
-import React, { useEffect, useState } from "react";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import React from "react";
 import { useSWRConfig } from "swr";
 
 import { Loading } from "../components/common";
 import { MainLayout } from "../components/layout";
 import { ServiceContent, UserContent, WithdrawContent } from "../components/myPage";
-import { getData, patchFormData } from "../core/api";
-import { isLoginState } from "../core/atom";
 import { baseInstance } from "../core/axios";
-import LocalStorage from "../core/localStorage";
-import { UserInfo } from "../types/myPage";
-import useUser from "../util/hooks/useUser";
 import useUserInfo from "../util/hooks/useUserInfo";
-// import useCheckLoginState from "../util/hooks/useCheckLoginState";
 
 export default function MyPage() {
-  const isLogin = useUser();
   const { userInfo, isLoading } = useUserInfo();
-
-  // const [userInfo, setUserInfo] = useState<UserInfo>({
-  //   email: "",
-  //   img: "",
-  //   nickname: "",
-  //   reviewCount: 0,
-  // });
+  const isLogin = userInfo !== undefined;
 
   const { mutate } = useSWRConfig();
 
@@ -36,7 +22,7 @@ export default function MyPage() {
 
     formData.append("img", imgFile);
 
-    const { data } = await baseInstance.patch("/user/img", formData);
+    await baseInstance.patch("/user/img", formData);
   };
 
   const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
