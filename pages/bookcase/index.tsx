@@ -7,14 +7,12 @@ import { Loading } from "../../components/common";
 import { MainLayout } from "../../components/layout";
 import { isLoginState, navigatingBookInfoState } from "../../core/atom";
 import { BookcasePathKey } from "../../types/bookcase";
-// import useCheckLoginState from "../../util/hooks/useCheckLoginState";
 
 export default function Bookcase() {
   const navigatingBookInfo = useRecoilValue(navigatingBookInfoState);
   const { fromSt } = navigatingBookInfo;
 
   const [navIndex, setNavIndex] = useState<BookcasePathKey>(fromSt);
-  // const { isLogin, isLoginLoading } = useCheckLoginState();
   const isLogin = useRecoilValue(isLoginState);
   const isLoginLoading = false;
   // 여기까지 임시 코드
