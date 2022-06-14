@@ -8,7 +8,8 @@
 */
 import useSWR from "swr";
 
-import { baseInstance, Response } from "../../core/axios";
+import { baseInstance } from "../../core/axios";
+import { Response } from "../../types";
 import { UserInfo } from "../../types/myPage";
 
 const userInfoFetcher = async (key: string): Promise<Response<UserInfo>> => {
