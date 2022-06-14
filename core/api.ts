@@ -14,37 +14,29 @@ import { KAKAOParams } from "../types";
 import { BookcaseInfo } from "../types/bookcase";
 import { PeriNoteData, PreNoteData } from "../types/bookNote";
 import { UserData } from "../types/login";
-import { baseInstance, client, KAKAO } from "./axios";
+import { baseInstance, kakaoInstance } from "./axios";
 import LocalStorage from "./localStorage";
+
 export const searchBook = (params: KAKAOParams) => {
-  return KAKAO.get("/v3/search/book", { params });
+  return kakaoInstance.get("/v3/search/book", { params });
 };
 
-// headers에 들어갈 내용의 예시
-// "Content-Type": "application/json",
-// "Content-Type": "multipart/form-data"
-// "Authorization": "토큰"
-
 export const getData = (key: string, token?: string) => {
-  return client(token).get(key);
+  return baseInstance.get(key);
 };
 
 export const patchUserWithdraw = (token: string, key: string) => {
-  return client(token).patch(key);
+  return baseInstance.patch(key);
 };
 
 export const saveBookNote = async (token: string, key: string, body: PreNoteData | PeriNoteData) => {
-  const { data } = await client(token).patch(key, body);
+  const { data } = await baseInstance.patch(key, body);
 
   return data.data;
 };
 
-export const patchFormData = (token: string, key: string, patchBody: FormData) => {
-  return client(token).patch(key, patchBody);
-};
-
 export const deleteData = (key: string, token: string | null) => {
-  return client(token).delete(key);
+  return baseInstance.delete(key);
 };
 
 const bookcaseFetcher = async (key: string): Promise<BookcaseInfo[]> => {
