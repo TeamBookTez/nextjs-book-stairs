@@ -1,19 +1,11 @@
-/*
-마지막 편집자: 22-06-14 soryeongk
-변경사항 및 참고:
-  - 로그인처럼 로그아웃도 따로 분리해서 사용하는 경우가 많지만 우리는 로그아웃이 여기밖에 없으니 이대로 하겠습니답
-    
-고민점:
-  - 
-*/
 import styled from "@emotion/styled";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
 import { useSWRConfig } from "swr";
 
-import LocalStorage from "../../core/localStorage";
 import { UserInfo } from "../../types/myPage";
+import { clearLocalStorage } from "../../util/clearLocalStorage";
 import { DefaultButton } from "../common/styled/Button";
 import { TopBanner } from ".";
 
@@ -30,9 +22,7 @@ export default function UserContent(props: UserContentProps) {
   const { mutate } = useSWRConfig();
 
   const handleLogout = () => {
-    LocalStorage.removeItem("booktez-token");
-    LocalStorage.removeItem("booktez-nickname");
-    LocalStorage.removeItem("booktez-email");
+    clearLocalStorage();
 
     mutate("/book");
 
