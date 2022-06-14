@@ -23,11 +23,9 @@ export default function WithdrawContentConfirm(props: WithdrawContentConfirmProp
 
   const [isError, setIsError] = useState<boolean>(false);
 
-  const userToken = LocalStorage.getItem("booktez-token");
-
   const withdrawUserNInformation = async () => {
     try {
-      await patchUserWithdraw(userToken, "/auth/withdraw");
+      await patchUserWithdraw("/auth/withdraw");
 
       LocalStorage.removeItem("booktez-token");
       LocalStorage.removeItem("booktez-nickname");

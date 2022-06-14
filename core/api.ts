@@ -23,7 +23,7 @@ export const getData = (key: string) => {
   return baseInstance.get(key);
 };
 
-export const patchUserWithdraw = (token: string, key: string) => {
+export const patchUserWithdraw = (key: string) => {
   return baseInstance.patch(key);
 };
 
