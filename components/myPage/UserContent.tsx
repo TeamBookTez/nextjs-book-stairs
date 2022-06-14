@@ -39,11 +39,13 @@ export default function UserContent(props: UserContentProps) {
     router.push("/main");
   };
 
-  const logInNOutBtn = isLogin ? (
+  const logoutBtn = (
     <StLogoutBtn onClick={handleLogout} id="btn_logout">
       로그아웃
     </StLogoutBtn>
-  ) : (
+  );
+
+  const loginBtn = (
     <Link href="/login" passHref>
       <StLoginButton type="button">로그인</StLoginButton>
     </Link>
@@ -52,7 +54,7 @@ export default function UserContent(props: UserContentProps) {
   return (
     <StWrapper>
       <TopBanner userInfo={userInfo} onImageChange={onImageChange} />
-      {logInNOutBtn}
+      {isLogin ? logoutBtn : loginBtn}
     </StWrapper>
   );
 }
