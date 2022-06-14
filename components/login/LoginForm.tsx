@@ -3,6 +3,7 @@ import styled from "@emotion/styled";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useSWRConfig } from "swr";
 
 import { login } from "../../core/api";
 import { UserData } from "../../types/login";
@@ -29,8 +30,12 @@ export default function LoginForm() {
     },
   });
 
+  const { mutate } = useSWRConfig();
+
   const submitForm = async (loginFormData: UserData) => {
     const errorData = await login(loginFormData, setError);
+
+    mutate("/auth/check");
 
     if (errorData === null) {
       router.push("/main");

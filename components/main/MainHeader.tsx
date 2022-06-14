@@ -1,5 +1,4 @@
 import styled from "@emotion/styled";
-import Link from "next/link";
 import { useRouter } from "next/router";
 
 interface MainHeaderProps {
@@ -10,19 +9,15 @@ interface MainHeaderProps {
 
 export default function MainHeader(props: MainHeaderProps) {
   const { isLogin, pageName } = props;
-  const { asPath } = useRouter();
+  const router = useRouter();
 
-  const bookcaseBottom = asPath.startsWith("/bookcase") ? "0.4rem" : "3.5rem";
-  const displayAttr = asPath === "/my-page" || asPath === "/to-be" ? "none" : "flex";
+  const bookcaseBottom = router.asPath.startsWith("/bookcase") ? "0.4rem" : "3.5rem";
+  const isLoginBtnHidden = router.asPath === "/my-page" || router.asPath === "/to-be";
 
   return (
     <StHeader bottom={bookcaseBottom}>
       <StHeading2>{pageName}</StHeading2>
-      {isLogin && (
-        <StLoginLink displayattr={displayAttr} href="/login" passHref>
-          로그인
-        </StLoginLink>
-      )}
+      {!isLogin && !isLoginBtnHidden && <StLoginBtn onClick={() => router.push("/login")}>로그인</StLoginBtn>}
     </StHeader>
   );
 }
@@ -41,8 +36,8 @@ const StHeading2 = styled.h2`
   z-index: 10;
 `;
 
-const StLoginLink = styled(Link)<{ displayattr: string }>`
-  display: ${(props) => props.displayattr};
+const StLoginBtn = styled.button`
+  display: flex;
   justify-content: center;
   align-items: center;
 

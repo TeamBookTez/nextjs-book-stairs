@@ -42,7 +42,8 @@ const bookcaseFetcher = async (key: string): Promise<BookcaseInfo[]> => {
 };
 
 export function useGetBookInfo(key: string) {
-  const { data, error } = useSWR(key, bookcaseFetcher);
+  const urlKey = key === "/main" ? "" : key;
+  const { data, error } = useSWR(urlKey, bookcaseFetcher);
 
   return {
     bookcaseInfo: data,

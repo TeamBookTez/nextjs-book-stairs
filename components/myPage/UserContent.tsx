@@ -24,7 +24,7 @@ export default function UserContent(props: UserContentProps) {
   const handleLogout = () => {
     clearLocalStorage();
 
-    mutate("/book");
+    mutate("/auth/check");
 
     router.push("/main");
   };
