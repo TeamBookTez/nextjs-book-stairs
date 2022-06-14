@@ -3,6 +3,7 @@ import { useSWRConfig } from "swr";
 
 import { Loading } from "../components/common";
 import { MainLayout } from "../components/layout";
+import { MainHeader } from "../components/main";
 import { ServiceContent, UserContent, WithdrawContent } from "../components/myPage";
 import { baseInstance } from "../core/axios";
 import useUserInfo from "../util/hooks/useUserInfo";
@@ -30,8 +31,10 @@ export default function MyPage() {
     mutate("/user/myInfo");
   };
 
+  const mainHeader = <MainHeader isLogin={isLogin} pageName="마이페이지" />;
+
   return (
-    <MainLayout pageName="마이페이지">
+    <MainLayout header={mainHeader}>
       {isLoading ? (
         <Loading />
       ) : (

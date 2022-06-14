@@ -1,14 +1,15 @@
 import { Loading } from "../components/common";
 import { MainLayout } from "../components/layout";
-import { RecentBooks } from "../components/main";
+import { MainHeader, RecentBooks } from "../components/main";
 import Banner from "../components/main/Banner";
 import useUser from "../util/hooks/useUser";
 
 export default function Main() {
-  const { isLoginLoading } = useUser();
+  const { isLogin, isLoginLoading } = useUser();
+  const mainHeader = <MainHeader isLogin={isLogin} pageName="메인" />;
 
   return (
-    <MainLayout pageName="메인">
+    <MainLayout header={mainHeader}>
       {isLoginLoading ? (
         <Loading />
       ) : (
