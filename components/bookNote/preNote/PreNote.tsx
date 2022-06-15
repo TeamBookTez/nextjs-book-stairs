@@ -19,7 +19,6 @@ import LocalStorage from "../../../core/localStorage";
 import { StepUpNDrawerIdx } from "../../../pages/book-note/[reviewId]";
 import { NavigatingBookInfoState } from "../../../types/bookcase";
 import { BookNotePathKey, PreNoteData, SavingProgress } from "../../../types/bookNote";
-import useCheckLoginState from "../../../util/hooks/useCheckLoginState";
 import useFetchBookNote from "../../../util/hooks/useFetchBookNote";
 import { Loading } from "../../common";
 import { DefaultButton } from "../../common/styled/Button";
@@ -29,6 +28,7 @@ import PreNotePostSection from "./PreNotePostSection";
 import PreNoteThirdArticle from "./PreNoteThirdArticle";
 
 interface PreNoteProps {
+  isLogin: boolean;
   toggleExitModal: () => void;
   handleOpenStepUpModal: (i: StepUpNDrawerIdx) => void;
   handleOpenDrawer: (i: StepUpNDrawerIdx) => void;
@@ -42,6 +42,7 @@ interface PreNoteProps {
 
 export default function PreNote(props: PreNoteProps) {
   const {
+    isLogin,
     toggleExitModal,
     handleOpenStepUpModal,
     handleOpenDrawer,
@@ -55,8 +56,6 @@ export default function PreNote(props: PreNoteProps) {
 
   const navigatingBookInfo = useRecoilValue<NavigatingBookInfoState>(navigatingBookInfoState);
   const { reviewId } = navigatingBookInfo;
-
-  const { isLogin } = useCheckLoginState();
 
   const { data, setData, isLoading } = useFetchBookNote<PreNoteData>(
     LocalStorage.getItem("booktez-token"),
@@ -72,8 +71,6 @@ export default function PreNote(props: PreNoteProps) {
 
   const [isFilled, setIsFilled] = useState<boolean>(false);
   const [isFilledOnlyThree, setIsFilledOnlyThree] = useState<boolean>(false);
-
-  const userToken = LocalStorage.getItem("booktez-token");
 
   const handleChangeReview = <K extends keyof typeof data, V extends typeof data[K]>(key: K, value: V): void => {
     setData((currentNote) => {
@@ -147,6 +144,7 @@ export default function PreNote(props: PreNoteProps) {
       <StFormHead>책을 넘기기 전 독서전략을 세워보아요.</StFormHead>
       <StFormWrapper>
         <PreNoteFormContainer
+          isLogin={isLogin}
           idx={1}
           onClickStepUpBtn={() => handleOpenStepUpModal(1)}
           onClickOpenDrawer={() => handleOpenDrawer(1)}>
@@ -157,6 +155,7 @@ export default function PreNote(props: PreNoteProps) {
           />
         </PreNoteFormContainer>
         <PreNoteFormContainer
+          isLogin={isLogin}
           idx={2}
           onClickStepUpBtn={() => handleOpenStepUpModal(2)}
           onClickOpenDrawer={() => handleOpenDrawer(2)}>
@@ -168,6 +167,7 @@ export default function PreNote(props: PreNoteProps) {
         </PreNoteFormContainer>
         {isLogin ? (
           <PreNoteFormContainer
+            isLogin={isLogin}
             idx={3}
             onClickStepUpBtn={() => handleOpenStepUpModal(3)}
             onClickOpenDrawer={() => handleOpenDrawer(3)}>

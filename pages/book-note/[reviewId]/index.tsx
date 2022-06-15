@@ -29,12 +29,12 @@ import { Loading } from "../../../components/common";
 import { StBookModalWrapper } from "../../../components/common/styled/BookModalWrapper";
 import { stepUpContentArray } from "../../../core/bookNote/exampleData";
 import { BookNotePathKey, SavingProgress } from "../../../types/bookNote";
-import useCheckLoginState from "../../../util/hooks/useCheckLoginState";
+import useUser from "../../../util/hooks/useUser";
 
 export type StepUpNDrawerIdx = 1 | 2 | 3 | 4;
 
 export default function Index() {
-  const { isLogin, isLoginLoading } = useCheckLoginState();
+  const { isLogin, isLoginLoading } = useUser();
 
   const [navIndex, setNavIndex] = useState<BookNotePathKey>("pre");
 
@@ -109,6 +109,7 @@ export default function Index() {
   const bookNoteComponent =
     navIndex === "pre" ? (
       <PreNote
+        isLogin={isLogin}
         toggleExitModal={toggleExitModal}
         handleOpenStepUpModal={handleOpenStepUpModal}
         handleOpenDrawer={handleOpenDrawer}
