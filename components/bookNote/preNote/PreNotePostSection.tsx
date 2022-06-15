@@ -45,55 +45,24 @@ export default function PreNotePostSection(props: PreNotePostSectionProps) {
 
   const navigatingBookInfo = useRecoilValue(navigatingBookInfoState);
   const { reviewId } = navigatingBookInfo;
-  const userToken = LocalStorage.getItem("booktez-token");
 
   const [isOpenedModal, setIsOpenedModal] = useState<boolean>(false);
 
-  // const [ableGoPeri, setAbleGoPeri] = useState<boolean>(true);
-
   const handleSubmit = async () => {
-    // setAbleGoPeri(true);
-
     try {
-      if (!bookNoteData.finishSt) {
-        // 수정 중이 아니라면, 독서중으로
-        patchBookNote(`/review/${reviewId}/pre`, { ...bookNoteData, reviewSt: 3 });
+      if (bookNoteData.reviewSt === 2) {
+        // 독서 전 상태라면, 독서 중 상태로 변경
+        await patchBookNote(`/review/${reviewId}/pre`, { ...bookNoteData, reviewSt: 3 });
       } else {
-        patchBookNote(`/review/${reviewId}/pre`, bookNoteData);
+        await patchBookNote(`/review/${reviewId}/pre`, bookNoteData);
       }
 
-      // flushSync(() => {
       handlePrevent(false);
       setIsOpenedModal(false);
-      // if (ableGoPeri) handleNavIndex("peri");
       handleNavIndex("peri");
-      // });
     } catch (err) {
       console.log(err); // 토스트 알림이 필요할랑가 ..
     }
-
-    // if (bookNoteData.reviewSt === 2) {
-    //   const questionFromPre: PeriNoteTreeNode[] = [];
-
-    //   bookNoteData.questionList.map((content) => {
-    //     questionFromPre.push({ type: "question", content, children: [{ type: "answer", content: "", children: [] }] });
-    //   });
-
-    //   // setAbleGoPeri(false);
-    //   const resData = await patchBookNote(`review/${reviewId}/peri`, {
-    //     answerThree: {
-    //       type: "Root",
-    //       content: "root",
-    //       children: questionFromPre,
-    //     },
-    //     reviewSt: 3,
-    //     finishSt: false,
-    //   });
-
-    //   if (resData) {
-    //     setAbleGoPeri(true);
-    //   }
-    // }
   };
 
   return (
