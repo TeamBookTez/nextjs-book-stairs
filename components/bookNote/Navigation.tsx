@@ -25,7 +25,7 @@ export default function Navigation(props: NavigationProps) {
   const onClickNavList = (idx: BookNotePathKey) => {
     onSetDrawerAsDefault();
 
-    if (navIndex === "peri" && isPrevented) return;
+    if (idx === "peri" && isPrevented) return;
 
     handleSavingProgress({ isPending: true, isError: false });
     handleNavIndex(idx);
