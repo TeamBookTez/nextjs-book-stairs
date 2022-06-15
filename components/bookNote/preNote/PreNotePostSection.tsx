@@ -1,10 +1,7 @@
 /*
-마지막 편집자: 22-06-13 joohaem
+마지막 편집자: 22-06-15 joohaem
 변경사항 및 참고:
-  - 로그인 구현 후에 test 하면서 다시 살펴보겠습니다 !!
-  
-  - ableGoPeri : peri로 넘어가기 전에 pre 데이터 제대로 patch 되었는지 확인 용도
-  - flushSync 확인해야 함
+  - 
   
   고민점:
   - 
@@ -19,7 +16,6 @@ import { useRecoilValue } from "recoil";
 
 import { patchBookNote } from "../../../core/api";
 import { navigatingBookInfoState } from "../../../core/atom";
-import LocalStorage from "../../../core/localStorage";
 import { ImgPreBook } from "../../../public/assets/images";
 import { BookNotePathKey, PreNoteData } from "../../../types/bookNote";
 import { DefaultButton } from "../../common/styled/Button";
@@ -57,6 +53,7 @@ export default function PreNotePostSection(props: PreNotePostSectionProps) {
         await patchBookNote(`/review/${reviewId}/pre`, bookNoteData);
       }
 
+      // flushsync 필요하면 사용해야 함!
       handlePrevent(false);
       setIsOpenedModal(false);
       handleNavIndex("peri");
