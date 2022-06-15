@@ -11,13 +11,14 @@ export const baseInstance = axios.create({
   baseURL: `${BASE_URL}`,
   headers: {
     "Content-Type": "application/json",
+    Authorization: getAccessToken,
   },
 });
 
-baseInstance.interceptors.request.use((config) => ({
-  ...config.headers,
-  Authorization: getAccessToken,
-}));
+// baseInstance.interceptors.request.use((config) => ({
+//   ...config.headers,
+//   Authorization: getAccessToken,
+// }));
 
 export const kakaoInstance = axios.create({
   baseURL: "https://dapi.kakao.com",
