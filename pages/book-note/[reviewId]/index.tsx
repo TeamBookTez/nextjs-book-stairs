@@ -21,13 +21,14 @@ import {
   DrawerWrapper,
   ExitModal,
   Navigation,
-  PreNote,
   SavePoint,
   StepUpLayout,
 } from "../../../components/bookNote";
+import PeriNote from "../../../components/bookNote/periNote/PeriNote";
+import { PreNote } from "../../../components/bookNote/preNote";
 import { Loading } from "../../../components/common";
 import { StBookModalWrapper } from "../../../components/common/styled/BookModalWrapper";
-import { stepUpContentArray } from "../../../core/bookNote/exampleData";
+import { periNoteStepUp, stepUpContentArray } from "../../../core/bookNote/exampleData";
 import { BookNotePathKey, SavingProgress } from "../../../types/bookNote";
 import useUser from "../../../util/hooks/useUser";
 
@@ -121,7 +122,7 @@ export default function Index() {
         handleSavingProgress={handleSavingProgress}
       />
     ) : (
-      <div>페리노트</div>
+      <PeriNote />
     );
 
   if (isLoginLoading) return <Loading />;
@@ -149,7 +150,7 @@ export default function Index() {
         <StStepModalWrapper>
           <StepUpLayout
             handleCloseStepUpModal={handleCloseStepUpModal}
-            stepUpContent={stepUpContentArray[stepUpNDrawerIdx - 1]}
+            stepUpContent={navIndex === "pre" ? stepUpContentArray[stepUpNDrawerIdx - 1] : periNoteStepUp}
           />
         </StStepModalWrapper>
       )}
