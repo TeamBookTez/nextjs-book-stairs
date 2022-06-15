@@ -40,6 +40,14 @@ interface PreNoteProps {
   handleSavingProgress: (obj: SavingProgress) => void;
 }
 
+const initialPreNoteData: PreNoteData = {
+  answerOne: "",
+  answerTwo: "",
+  questionList: [""],
+  reviewSt: 2,
+  finishSt: false,
+};
+
 export default function PreNote(props: PreNoteProps) {
   const {
     isLogin,
@@ -60,13 +68,7 @@ export default function PreNote(props: PreNoteProps) {
   const { data, setData, isLoading } = useFetchBookNote<PreNoteData>(
     LocalStorage.getItem("booktez-token"),
     `/review/${reviewId}/pre`,
-    {
-      answerOne: "",
-      answerTwo: "",
-      questionList: [""],
-      reviewSt: 2,
-      finishSt: false,
-    },
+    initialPreNoteData,
   );
 
   const [isFilled, setIsFilled] = useState<boolean>(false);
@@ -104,8 +106,9 @@ export default function PreNote(props: PreNoteProps) {
   }, [data]);
 
   // 네비게이션 바 클릭 시 or 저장하기 버튼 클릭 시 isPending: true
+  // 처음 data 를 fetch 하기 전 initialData 가 곧바로 저장되는 현상을 막아줌
   useEffect(() => {
-    if (savingProgress.isPending === true) {
+    if (data !== initialPreNoteData && savingProgress.isPending === true) {
       const _savingProgress = { isPending: false, isError: false };
 
       try {
