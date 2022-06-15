@@ -2,21 +2,20 @@ import styled from "@emotion/styled";
 import { ReactNode } from "react";
 
 import { NavWrapper } from "../common";
-import { MainHeader } from "../main";
 
 interface LayoutProps {
-  pageName: string;
+  header: ReactNode;
   children: ReactNode;
 }
 
 export default function Layout(props: LayoutProps) {
-  const { pageName, children } = props;
+  const { header, children } = props;
 
   return (
     <StLayoutWrapper>
       <NavWrapper />
       <StWrapper>
-        <MainHeader>{pageName}</MainHeader>
+        {header}
         {children}
       </StWrapper>
     </StLayoutWrapper>

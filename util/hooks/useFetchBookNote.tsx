@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { client } from "../../core/axios";
+import { baseInstance } from "../../core/axios";
 
 export default function useFetchBookNote<T>(token: string, key: string, initialState: T) {
   const [data, setData] = useState<T>(initialState);
@@ -11,7 +11,7 @@ export default function useFetchBookNote<T>(token: string, key: string, initialS
       try {
         const {
           data: { data },
-        } = await client(token).get(key);
+        } = await baseInstance.get(key);
 
         setData(data);
       } finally {

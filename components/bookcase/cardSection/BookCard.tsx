@@ -2,11 +2,12 @@ import styled from "@emotion/styled";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 
-import { isLoginState, navigatingBookInfoState } from "../../../core/atom";
+import { navigatingBookInfoState } from "../../../core/atom";
 import { IcBin } from "../../../public/assets/icons";
 import { BookcaseInfo, BookcasePathKey } from "../../../types/bookcase";
+import useUser from "../../../util/hooks/useUser";
 import { PopUpDelete } from "../../common";
 import { StBookCardImgWrapper } from "../../common/styled/Img";
 
@@ -18,11 +19,12 @@ interface BookCardProps {
 export default function BookCard(props: BookCardProps) {
   const { bookcaseInfo, navIndex } = props;
   const { author, reviewId, thumbnail, title } = bookcaseInfo;
+  const { isLogin } = useUser();
 
   const [isPopUp, setIsPopUp] = useState(false);
-  const isLogin = useRecoilValue(isLoginState);
-  const setNavigatingBookInfo = useSetRecoilState(navigatingBookInfoState);
   const router = useRouter();
+
+  const setNavigatingBookInfo = useSetRecoilState(navigatingBookInfoState);
 
   // 홈에 대한 예외 처리
   const handleTogglePopUp = () => {

@@ -1,26 +1,15 @@
-import { useEffect } from "react";
-import { useRecoilValue, useSetRecoilState } from "recoil";
-
 import { Loading } from "../components/common";
 import { MainLayout } from "../components/layout";
-import { RecentBooks } from "../components/main";
+import { MainHeader, RecentBooks } from "../components/main";
 import Banner from "../components/main/Banner";
-import { isLoginState } from "../core/atom";
-// import useCheckLoginState from "../util/hooks/useCheckLoginState";
+import useUser from "../util/hooks/useUser";
 
 export default function Main() {
-  // const { isLogin, isLoginLoading } = useCheckLoginState();
-  const isLogin = useRecoilValue(isLoginState);
-  const isLoginLoading = false;
-  // 여기까지 임시 코드
-  const setIsLogin = useSetRecoilState(isLoginState);
-
-  useEffect(() => {
-    setIsLogin(isLogin);
-  }, [isLogin]);
+  const { isLogin, isLoginLoading } = useUser();
+  const mainHeader = <MainHeader isLogin={isLogin} pageName="메인" />;
 
   return (
-    <MainLayout pageName="메인">
+    <MainLayout header={mainHeader}>
       {isLoginLoading ? (
         <Loading />
       ) : (

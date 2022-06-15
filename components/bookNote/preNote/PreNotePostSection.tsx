@@ -57,9 +57,9 @@ export default function PreNotePostSection(props: PreNotePostSectionProps) {
     try {
       if (!bookNoteData.finishSt) {
         // 수정 중이 아니라면, 독서중으로
-        patchBookNote(userToken, `/review/${reviewId}/pre`, { ...bookNoteData, reviewSt: 3 });
+        patchBookNote(`/review/${reviewId}/pre`, { ...bookNoteData, reviewSt: 3 });
       } else {
-        patchBookNote(userToken, `/review/${reviewId}/pre`, bookNoteData);
+        patchBookNote(`/review/${reviewId}/pre`, bookNoteData);
       }
 
       // flushSync(() => {
@@ -80,7 +80,7 @@ export default function PreNotePostSection(props: PreNotePostSectionProps) {
     //   });
 
     //   // setAbleGoPeri(false);
-    //   const resData = await patchBookNote(userToken, `review/${reviewId}/peri`, {
+    //   const resData = await patchBookNote(`review/${reviewId}/peri`, {
     //     answerThree: {
     //       type: "Root",
     //       content: "root",

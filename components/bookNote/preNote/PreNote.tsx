@@ -112,7 +112,7 @@ export default function PreNote(props: PreNoteProps) {
       const _savingProgress = { isPending: false, isError: false };
 
       try {
-        patchBookNote(userToken, `/review/${reviewId}/pre`, data);
+        patchBookNote(`/review/${reviewId}/pre`, data);
       } catch {
         _savingProgress.isError = true;
       } finally {

@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import { useState } from "react";
 
 import { patchUserWithdraw } from "../../core/api";
-import LocalStorage from "../../core/localStorage";
+import { clearLocalStorage } from "../../util/clearLocalStorage";
 import {
   StBtnCancel,
   StBtnDelete,
@@ -23,15 +23,11 @@ export default function WithdrawContentConfirm(props: WithdrawContentConfirmProp
 
   const [isError, setIsError] = useState<boolean>(false);
 
-  const userToken = LocalStorage.getItem("booktez-token");
-
   const withdrawUserNInformation = async () => {
     try {
-      await patchUserWithdraw(userToken, "/auth/withdraw");
+      await patchUserWithdraw("/auth/withdraw");
 
-      LocalStorage.removeItem("booktez-token");
-      LocalStorage.removeItem("booktez-nickname");
-      LocalStorage.removeItem("booktez-email");
+      clearLocalStorage();
       openCompletePopupActive();
       closeConfirmPopupActive();
     } catch (err) {

@@ -2,11 +2,14 @@ import styled from "@emotion/styled";
 import Image from "next/image";
 
 import { MainLayout } from "../components/layout";
+import { MainHeader } from "../components/main";
 import { ImgDevice } from "../public/assets/images";
 
 export default function toBe() {
+  const mainHeader = <MainHeader pageName="준비중" />;
+
   return (
-    <MainLayout pageName="준비중">
+    <MainLayout header={mainHeader}>
       <StSection>
         <Starticle>
           <div>
