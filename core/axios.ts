@@ -5,23 +5,30 @@ import LocalStorage from "./localStorage";
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 const KAKAO_API_KEY = process.env.NEXT_PUBLIC_KAKAO_API_KEY;
 
-const getAccessToken = LocalStorage.getItem("booktez-token");
-
-export const baseInstance = axios.create({
+const baseInstance = axios.create({
   baseURL: `${BASE_URL}`,
   headers: {
     "Content-Type": "application/json",
+    Authorization: LocalStorage.getItem("booktez-token"),
   },
 });
 
-baseInstance.interceptors.request.use((config) => ({
-  ...config.headers,
-  Authorization: getAccessToken,
-}));
+baseInstance.interceptors.response.use(
+  (response) => {
+    return response.data;
+  },
+  (error) => {
+    if (axios.isAxiosError(error)) {
+      return error.response?.data;
+    }
+  },
+);
 
-export const kakaoInstance = axios.create({
+const kakaoInstance = axios.create({
   baseURL: "https://dapi.kakao.com",
   headers: {
     Authorization: `KakaoAK ${KAKAO_API_KEY}`,
   },
 });
+
+export { baseInstance, kakaoInstance };
