@@ -33,13 +33,9 @@ export default function LoginForm() {
   const { mutate } = useSWRConfig();
 
   const submitForm = async (loginFormData: UserData) => {
-    const errorData = await login(loginFormData, setError);
-
+    await login(loginFormData);
     mutate("/auth/check");
-
-    if (errorData === null) {
-      router.push("/main");
-    }
+    router.push("/main");
   };
 
   const toggleSightPwd = (isSight: boolean) => {

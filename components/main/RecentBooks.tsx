@@ -8,7 +8,7 @@ import { Empty, Loading } from "../common";
 
 export default function RecentBooks() {
   const [isAnyBooks, setIsAnyBooks] = useState<boolean>(false);
-  const { bookcaseInfo, isLoading, isError } = useGetBookInfo("/book");
+  const { bookcaseInfo, isLoading } = useGetBookInfo("/book");
 
   const isWideDesktopScreen = useMediaQuery({
     query: "(min-width: 1920px) ",
@@ -19,7 +19,7 @@ export default function RecentBooks() {
   const cntRecentBooks = isWideWideDesktopScreen ? 8 : isWideDesktopScreen ? 6 : 5;
 
   useEffect(() => {
-    if (bookcaseInfo?.length && !isError) {
+    if (bookcaseInfo && bookcaseInfo?.length) {
       setIsAnyBooks(true);
     } else {
       setIsAnyBooks(false);

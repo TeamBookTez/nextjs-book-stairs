@@ -7,7 +7,6 @@
 고민점:
   - 
 */
-import { AxiosResponse } from "axios";
 import useSWR from "swr";
 
 import { baseInstance } from "../../core/axios";
@@ -18,10 +17,9 @@ interface IsLogin {
 }
 
 export default function useUser() {
-  const options = { revalidateOnFocus: false };
-  const { data, isValidating } = useSWR<AxiosResponse<Response<IsLogin>>>("/auth/check", baseInstance.get, options);
+  const { data, isValidating } = useSWR<Response<IsLogin>>("/auth/check", baseInstance.get);
 
   if (data === undefined) return { isLogin: false, isLoginLoading: isValidating };
 
-  return { isLogin: data?.data.data.isLogin, isLoginLoading: isValidating };
+  return { isLogin: data.data.isLogin, isLoginLoading: isValidating };
 }

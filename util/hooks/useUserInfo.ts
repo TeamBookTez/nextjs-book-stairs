@@ -10,16 +10,16 @@ import useSWR from "swr";
 
 import { baseInstance } from "../../core/axios";
 import { Response } from "../../types";
-import { UserInfo } from "../../types/myPage";
 
-const userInfoFetcher = async (key: string): Promise<Response<UserInfo>> => {
-  const { data } = await baseInstance.get(key);
-
-  return data;
-};
+interface MyInfo {
+  email: string;
+  img: string;
+  nickname: string;
+  reviewCount: number;
+}
 
 export default function useUserInfo() {
-  const { data, error } = useSWR("/user/myInfo", userInfoFetcher);
+  const { data, error } = useSWR<Response<MyInfo>>("/user/myInfo", baseInstance.get);
 
   return {
     userInfo: data?.data,
