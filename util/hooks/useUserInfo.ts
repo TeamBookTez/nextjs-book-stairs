@@ -5,6 +5,7 @@
     
 고민점:
   - revalidate option으로 focusing할 때마다 업데이트하는 것은 막을까 싶습니다. 마이페이지의 내용이 자주 업데이트되는 것은 아니라서..! 요청이 계속 오가는 것이 마음에 걸립니다.
+  - useSWR에서 어떤건 isValidating을 넣고 뭐는 error만 넣는 등 통일이 안되어있어서 제대로 된 기준을 좀 확립해보겠습니답
 */
 import useSWR from "swr";
 
