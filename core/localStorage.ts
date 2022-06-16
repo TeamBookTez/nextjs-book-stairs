@@ -20,6 +20,18 @@ class LocalStorage {
       localStorage.removeItem(key);
     }
   }
+
+  static setUserSession(token: string, nickname: string, email: string) {
+    this.setItem("booktez-token", token);
+    this.setItem("booktez-nickname", nickname);
+    this.setItem("booktez-email", email);
+  }
+
+  static clearUserSession() {
+    this.removeItem("booktez-token");
+    this.removeItem("booktez-nickname");
+    this.removeItem("booktez-email");
+  }
 }
 
 export default LocalStorage;

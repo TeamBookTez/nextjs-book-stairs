@@ -4,8 +4,8 @@ import { useRouter } from "next/router";
 import React from "react";
 import { useSWRConfig } from "swr";
 
+import LocalStorage from "../../core/localStorage";
 import { UserInfo } from "../../types/myPage";
-import { clearLocalStorage } from "../../util/clearLocalStorage";
 import { DefaultButton } from "../common/styled/Button";
 import { TopBanner } from ".";
 
@@ -22,7 +22,7 @@ export default function UserContent(props: UserContentProps) {
   const { mutate } = useSWRConfig();
 
   const handleLogout = () => {
-    clearLocalStorage();
+    LocalStorage.clearUserSession();
 
     mutate("/auth/check");
 

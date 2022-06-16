@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import { useState } from "react";
 
 import { patchUserWithdraw } from "../../core/api";
-import { clearLocalStorage } from "../../util/clearLocalStorage";
+import LocalStorage from "../../core/localStorage";
 import {
   StBtnCancel,
   StBtnDelete,
@@ -27,7 +27,7 @@ export default function WithdrawContentConfirm(props: WithdrawContentConfirmProp
     try {
       await patchUserWithdraw("/auth/withdraw");
 
-      clearLocalStorage();
+      LocalStorage.clearUserSession();
       openCompletePopupActive();
       closeConfirmPopupActive();
     } catch (err) {
