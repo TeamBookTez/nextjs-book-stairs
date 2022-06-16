@@ -12,14 +12,16 @@ import styled from "@emotion/styled";
 
 import { StepUpNDrawerIdx } from "../../../pages/book-note/[reviewId]";
 import { DefaultButton } from "../../common/styled/Button";
+import ExampleDrawerBtn from "../ExampleDrawerBtn";
 import StepUpBtn from "../StepUpBtn";
 
 interface PeriNoteProps {
   handleOpenStepUpModal: (i: StepUpNDrawerIdx) => void;
+  handleOpenDrawer: (i: StepUpNDrawerIdx) => void;
 }
 
 export default function PeriNote(props: PeriNoteProps) {
-  const { handleOpenStepUpModal } = props;
+  const { handleOpenStepUpModal, handleOpenDrawer } = props;
 
   // fetch
   // handling data
@@ -61,7 +63,7 @@ export default function PeriNote(props: PeriNoteProps) {
           <StLabel>질문 리스트를 구조화하며 책을 읽어보세요.</StLabel>
           <StepUpBtn onClickStepUpBtn={() => handleOpenStepUpModal(4)} />
         </StLabelContainer>
-        {/* <ExButton idx={4} onOpenDrawer={handleOpenDrawer} /> */}
+        <ExampleDrawerBtn idx={4} onOpenDrawer={() => handleOpenDrawer(4)} />
       </StLabelWrapper>
       {/* {data.answerThree?.children &&
         data.answerThree.children.map((node, idx) => (
