@@ -14,28 +14,39 @@
 */
 
 import styled from "@emotion/styled";
+import { useEffect } from "react";
 
 import { IcCheckSave, IcSave } from "../../public/assets/icons";
-import { BookNotePathKey } from "../../types/bookNote";
+import { BookNotePathKey, SavingProgress } from "../../types/bookNote";
+import useToast from "../../util/hooks/useToast";
 
 interface SavePointProps {
   navIndex: BookNotePathKey;
-  isSaveAlarmTime: boolean;
-  handleSaveAlarmTime: (isSave: boolean) => void;
+  savingProgress: SavingProgress;
+  handleSavingProgress: (obj: SavingProgress) => void;
 }
 
 export default function SavePoint(props: SavePointProps) {
-  const { isSaveAlarmTime, handleSaveAlarmTime } = props;
+  const { savingProgress, handleSavingProgress } = props;
+  const { isToastAlertTime, setIsToastAlertTime } = useToast();
+
+  useEffect(() => {
+    if (savingProgress.isPending === false && savingProgress.isError === false) {
+      setIsToastAlertTime(true);
+    } else {
+      setIsToastAlertTime(false);
+    }
+  }, [savingProgress]);
 
   return (
     <>
-      {isSaveAlarmTime && (
+      {isToastAlertTime && (
         <StSave>
           <StIcCheckSave />
           작성한 내용이 저장되었어요.
         </StSave>
       )}
-      <StIcSave onClick={() => handleSaveAlarmTime(true)} id="btn_save" />
+      <StIcSave onClick={() => handleSavingProgress({ isPending: true, isError: false })} id="btn_save" />
     </>
   );
 }

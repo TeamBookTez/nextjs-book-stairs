@@ -12,7 +12,7 @@ export default function IcSight(props: IcSightProps) {
 
   const toggleSightPwd = () => {
     onToggleSightPwd(!isPwdSight);
-  }
+  };
 
   return (
     <StSvg

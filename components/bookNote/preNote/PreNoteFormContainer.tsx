@@ -2,11 +2,11 @@ import styled from "@emotion/styled";
 import React from "react";
 
 import LocalStorage from "../../../core/localStorage";
-import useCheckLoginState from "../../../util/hooks/useCheckLoginState";
 import ExampleDrawerBtn from "../ExampleDrawerBtn";
 import StepUpBtn from "../StepUpBtn";
 
 interface PreNoteFormContainerProps {
+  isLogin: boolean;
   idx: 1 | 2 | 3;
   onClickStepUpBtn: () => void;
   onClickOpenDrawer: () => void;
@@ -25,9 +25,7 @@ function getQuestionByIdx(idx: 1 | 2 | 3, nickname?: string) {
 }
 
 export default function PreNoteFormContainer(props: PreNoteFormContainerProps) {
-  const { idx, onClickStepUpBtn, onClickOpenDrawer, children } = props;
-
-  const { isLogin } = useCheckLoginState();
+  const { isLogin, idx, onClickStepUpBtn, onClickOpenDrawer, children } = props;
 
   const question = isLogin ? getQuestionByIdx(idx, LocalStorage.getItem("booktez-nickname")) : getQuestionByIdx(idx);
 

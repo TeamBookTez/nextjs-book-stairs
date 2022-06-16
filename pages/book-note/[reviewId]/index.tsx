@@ -1,10 +1,14 @@
 /*
-마지막 편집자: 22-05-27 joohaem
+마지막 편집자: 22-06-13 joohaem
 변경사항 및 참고:
-  - 
-    
+  - savingProgress ::
+    isPending이 true 일 때 저장하기가 실행됩니다
+    결과에 따라 isPending이 false가 되고, isError를 조작합니다
+    isPending이 false가 되고, isError가 false 일 때 저장 완료 토스트가 n초간 나옵니다
+
 고민점:
   - url 을 state 관리로 바꿈으로써,
+    useEffect로
     bookcaseInfo 의 reviewSt 를 통해 pre, peri 를 나누어주어야 함 (원래는 통합)
 */
 
@@ -17,24 +21,25 @@ import {
   DrawerWrapper,
   ExitModal,
   Navigation,
-  PreNote,
   SavePoint,
   StepUpLayout,
 } from "../../../components/bookNote";
+import PeriNote from "../../../components/bookNote/periNote/PeriNote";
+import { PreNote } from "../../../components/bookNote/preNote";
 import { Loading } from "../../../components/common";
 import { StBookModalWrapper } from "../../../components/common/styled/BookModalWrapper";
-import { stepUpContentArray } from "../../../core/bookNote/exampleData";
-import { BookNotePathKey } from "../../../types/bookNote";
-import useCheckLoginState from "../../../util/hooks/useCheckLoginState";
+import { periNoteStepUp, stepUpContentArray } from "../../../core/bookNote/exampleData";
+import { BookNotePathKey, SavingProgress } from "../../../types/bookNote";
+import useUser from "../../../util/hooks/useUser";
 
 export type StepUpNDrawerIdx = 1 | 2 | 3 | 4;
 
 export default function Index() {
-  const { isLogin, isLoginLoading } = useCheckLoginState();
+  const { isLogin, isLoginLoading } = useUser();
 
   const [navIndex, setNavIndex] = useState<BookNotePathKey>("pre");
 
-  const [isSaveAlarmTime, setIsSaveAlarmTime] = useState<boolean>(false);
+  const [savingProgress, setSavingProgress] = useState<SavingProgress>({ isPending: false, isError: false });
   const [isPrevented, setIsPrevented] = useState<boolean>(false);
 
   const [isOpenedExitModal, setIsOpenExitModal] = useState<boolean>(false);
@@ -56,8 +61,8 @@ export default function Index() {
     setIsPrevented(shouldPrevent);
   };
 
-  const handleSaveAlarmTime = (isSave: boolean) => {
-    setIsSaveAlarmTime(isSave);
+  const handleSavingProgress = (obj: SavingProgress) => {
+    setSavingProgress({ ...obj });
   };
 
   const toggleExitModal = () => {
@@ -102,6 +107,24 @@ export default function Index() {
     };
   }, []);
 
+  const bookNoteComponent =
+    navIndex === "pre" ? (
+      <PreNote
+        isLogin={isLogin}
+        toggleExitModal={toggleExitModal}
+        handleOpenStepUpModal={handleOpenStepUpModal}
+        handleOpenDrawer={handleOpenDrawer}
+        handleCloseDrawer={handleCloseDrawer}
+        isPrevented={isPrevented}
+        handlePrevent={handlePrevent}
+        handleNavIndex={handleNavIndex}
+        savingProgress={savingProgress}
+        handleSavingProgress={handleSavingProgress}
+      />
+    ) : (
+      <PeriNote handleOpenStepUpModal={handleOpenStepUpModal} handleOpenDrawer={handleOpenDrawer} />
+    );
+
   if (isLoginLoading) return <Loading />;
 
   return (
@@ -110,21 +133,16 @@ export default function Index() {
         <Navigation
           navIndex={navIndex}
           isPrevented={isPrevented}
-          onClickNavList={handleNavIndex}
+          handleNavIndex={handleNavIndex}
+          handleSavingProgress={handleSavingProgress}
           onSetDrawerAsDefault={handleDrawerDefault}
         />
         {isLogin && (
-          <SavePoint navIndex={navIndex} isSaveAlarmTime={isSaveAlarmTime} handleSaveAlarmTime={handleSaveAlarmTime} />
+          <SavePoint navIndex={navIndex} savingProgress={savingProgress} handleSavingProgress={handleSavingProgress} />
         )}
       </BookNoteHeader>
-      <PreNote
-        toggleExitModal={toggleExitModal}
-        handleOpenStepUpModal={handleOpenStepUpModal}
-        handleOpenDrawer={handleOpenDrawer}
-        handleCloseDrawer={handleCloseDrawer}
-        isPrevented={isPrevented}
-        handlePrevent={handlePrevent}
-      />
+
+      {bookNoteComponent}
 
       {isDrawerOpen && <DrawerWrapper stepUpNDrawerIdx={stepUpNDrawerIdx} onCloseDrawer={handleCloseDrawer} />}
       {isOpenedExitModal && <ExitModal onClickCancelBtn={toggleExitModal} />}
@@ -132,7 +150,7 @@ export default function Index() {
         <StStepModalWrapper>
           <StepUpLayout
             handleCloseStepUpModal={handleCloseStepUpModal}
-            stepUpContent={stepUpContentArray[stepUpNDrawerIdx - 1]}
+            stepUpContent={navIndex === "pre" ? stepUpContentArray[stepUpNDrawerIdx - 1] : periNoteStepUp}
           />
         </StStepModalWrapper>
       )}

@@ -11,6 +11,7 @@ import useSWR from "swr";
 
 import { KAKAOParams, Response } from "../types";
 import { BookcaseInfo } from "../types/bookcase";
+import { PeriNoteData, PreNoteData } from "../types/bookNote";
 import { UserData } from "../types/login";
 import { baseInstance, kakaoInstance } from "./axios";
 import LocalStorage from "./localStorage";
@@ -25,6 +26,12 @@ export const getData = (key: string) => {
 
 export const patchUserWithdraw = (key: string) => {
   return baseInstance.patch(key);
+};
+
+export const patchBookNote = async (key: string, body: PreNoteData | PeriNoteData) => {
+  const { data } = await baseInstance.patch(key, body);
+
+  return data.data;
 };
 
 export const deleteData = (key: string) => {
