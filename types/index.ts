@@ -5,11 +5,12 @@ export interface KAKAOParams {
   size: number;
 }
 
-export interface AxiosResponse {
+export interface ResponseDto {
   message: string;
   status: number;
   success: boolean;
 }
-export interface Response<T> extends AxiosResponse {
+
+export interface Response<T> extends ResponseDto {
   data: T;
 }

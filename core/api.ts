@@ -6,10 +6,10 @@
 고민점:
   - 
 */
-import { UseFormSetError } from "react-hook-form";
+import axios from "axios";
 import useSWR from "swr";
 
-import { KAKAOParams } from "../types";
+import { KAKAOParams, Response } from "../types";
 import { BookcaseInfo } from "../types/bookcase";
 import { UserData } from "../types/login";
 import { baseInstance, kakaoInstance } from "./axios";
@@ -31,46 +31,29 @@ export const deleteData = (key: string) => {
   return baseInstance.delete(key);
 };
 
-const bookcaseFetcher = async (key: string): Promise<BookcaseInfo[]> => {
-  const {
-    data: {
-      data: { books },
-    },
-  } = await getData(key);
-
-  return books;
-};
-
 export function useGetBookInfo(key: string) {
   const urlKey = key === "/main" ? "" : key;
-  const { data, error } = useSWR(urlKey, bookcaseFetcher);
+  const { data, isValidating } = useSWR<Response<BookcaseInfo[]>>(urlKey, baseInstance.get);
 
   return {
-    bookcaseInfo: data,
-    isLoading: !error && !data,
-    isError: error,
+    bookcaseInfo: data?.data,
+    isLoading: isValidating,
   };
 }
 
-export const login = async (loginFormData: UserData, setError: UseFormSetError<UserData>) => {
+export const login = async (loginFormData: UserData) => {
   try {
-    const {
-      data: { data },
-    } = await baseInstance.post("/auth/login", loginFormData);
+    const { data } = await baseInstance.post("/auth/login", loginFormData);
 
-    LocalStorage.setItem("booktez-token", data.token);
-    LocalStorage.setItem("booktez-nickname", data.nickname);
-    LocalStorage.setItem("booktez-email", data.email);
+    LocalStorage.setUserSession(data.token, data.nickname, data.email);
   } catch (err) {
-    // if (axios.isAxiosError(err)) {
-    //   const errorData = err.response?.data;
-    //   const errorField = errorData.status === 404 ? "email" : "password";
-    //   setError(errorField, {
-    //     type: "server",
-    //     message: errorData.message,
-    //   });
-    // }
+    if (axios.isAxiosError(err)) {
+      // const errorData: AxiosResponse = err.response?.data;
+      // const errorField = errorData.status === 404 ? "email" : "password";
+      // setError(errorField, {
+      //   type: "server",
+      //   message: errorData.message,
+      // });
+    }
   }
-
-  return null;
 };
