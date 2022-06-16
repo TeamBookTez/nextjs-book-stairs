@@ -4,7 +4,6 @@ import { useRouter } from "next/router";
 import { useSWRConfig } from "swr";
 
 import { deleteData } from "../../core/api";
-import LocalStorage from "../../core/localStorage";
 import { ImgDeletePopUp } from "../../public/assets/images";
 import { BookcasePathKey } from "../../types/bookcase";
 import { StBtnCancel, StBtnDelete, StBtnWrapper, StDetail, StPopUp, StPopUpWrapper, StQuestion } from "./styled/PopUp";
@@ -21,10 +20,8 @@ export default function PopUpDelete(props: PopUpDeleteProps) {
   const { mutate } = useSWRConfig();
   const router = useRouter();
 
-  const userToken = LocalStorage.getItem("booktez-token");
-
   const handleDelete = async () => {
-    await deleteData(`/review/${reviewId}`, userToken);
+    await deleteData(`/review/${reviewId}`);
 
     onTogglePopUp();
     mutate(navIndex);

@@ -2,12 +2,20 @@ import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import React, { useState } from "react";
 
+import { PreNoteData } from "../../../types/bookNote";
 import InputQuestion from "./InputQuestion";
-import { ReviewKey } from "./PreNote";
+
+const preNoteData: PreNoteData = {
+  answerOne: "",
+  answerTwo: "",
+  questionList: [""],
+  reviewSt: 2,
+  finishSt: false,
+};
 
 interface PreNoteThirdArticleProps {
   questionList: string[];
-  onChangeReview: (key: ReviewKey, value: string | string[]) => void;
+  onChangeReview: <K extends keyof typeof preNoteData, V extends typeof preNoteData[K]>(key: K, value: V) => void;
   isPrevented: boolean;
   isFilledOnlyThree: boolean;
 }

@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import Image from "next/image";
 
-import { StepUpContent } from "../../../core/bookNote/exampleData";
+import { StepUpContent } from "../../../types/bookNote";
 
 interface StepUpContentWrapperProps {
   content: StepUpContent;

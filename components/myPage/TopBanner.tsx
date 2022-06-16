@@ -1,40 +1,45 @@
 import styled from "@emotion/styled";
 import Image from "next/image";
 import React from "react";
-import { useRecoilValue } from "recoil";
 
-import { isLoginState } from "../../core/atom";
 import { IcEditProfile } from "../../public/assets/icons";
 import { ImgMypageBanner, ImgUser } from "../../public/assets/images";
 import { UserInfo } from "../../types/myPage";
 
 interface TopBannerProps {
-  userInfo: UserInfo;
+  userInfo: UserInfo | undefined;
   onImageChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export default function TopBanner(props: TopBannerProps) {
   const { userInfo, onImageChange } = props;
-  const { email, img, nickname } = userInfo;
-
-  const isLogin = useRecoilValue(isLoginState);
+  const isLogin = userInfo !== undefined;
 
   return (
     <StBanner bannerImage={ImgMypageBanner.src}>
       <StProfile>
         <StProfileImgBox>
-          <StUserImgWrapper>
-            <Image src={isLogin ? img : ImgUser} alt="유저" />
-          </StUserImgWrapper>
-          <StIcEditProfile htmlFor="input-file">
-            <StIcEditProfileImg />
-          </StIcEditProfile>
-          <StFileInput id="input-file" type="file" onChange={onImageChange} accept="image/jpg, image/png, image/jpeg" />
+          <StUserImg src={isLogin ? userInfo.img : ImgUser} alt="유저" width={172} height={172} />
+          {isLogin && (
+            <>
+              <StIcEditProfile htmlFor="input-file">
+                <StIcEditProfileImg />
+              </StIcEditProfile>
+              <StFileInput
+                id="input-file"
+                type="file"
+                onChange={onImageChange}
+                accept="image/jpg, image/png, image/jpeg"
+              />
+            </>
+          )}
         </StProfileImgBox>
-        <StProfileContent>
-          <StUserName>{nickname}</StUserName>
-          <StEmail>{email}</StEmail>
-        </StProfileContent>
+        {isLogin && (
+          <StProfileContent>
+            <StUserName>{userInfo.nickname}</StUserName>
+            <StEmail>{userInfo.email}</StEmail>
+          </StProfileContent>
+        )}
       </StProfile>
     </StBanner>
   );
@@ -87,18 +92,9 @@ const StFileInput = styled.input`
   display: none;
 `;
 
-const StUserImgWrapper = styled.div`
-  width: 17.2rem;
-  height: 17.2rem;
-
+const StUserImg = styled(Image)`
   border: 0.6rem solid ${({ theme }) => theme.colors.white};
   border-radius: 50%;
-
-  & > img {
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-  }
 `;
 
 const StProfileContent = styled.div`

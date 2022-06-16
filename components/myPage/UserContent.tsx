@@ -2,42 +2,40 @@ import styled from "@emotion/styled";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
-import { useRecoilState } from "recoil";
 import { useSWRConfig } from "swr";
 
-import { isLoginState } from "../../core/atom";
-import LocalStorage from "../../core/localStorage";
 import { UserInfo } from "../../types/myPage";
+import { clearLocalStorage } from "../../util/clearLocalStorage";
 import { DefaultButton } from "../common/styled/Button";
 import { TopBanner } from ".";
 
 interface UserContentProps {
-  userInfo: UserInfo;
+  userInfo: UserInfo | undefined;
   onImageChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export default function UserContent(props: UserContentProps) {
-  const router = useRouter();
-  // const navigate = useNavigate();
   const { userInfo, onImageChange } = props;
+  const isLogin = userInfo !== undefined;
 
-  const [isLogin, setIsLogin] = useRecoilState(isLoginState);
+  const router = useRouter();
   const { mutate } = useSWRConfig();
 
   const handleLogout = () => {
-    LocalStorage.removeItem("booktez-token");
-    LocalStorage.removeItem("booktez-nickname");
-    LocalStorage.removeItem("booktez-email");
-    mutate("/book");
-    setIsLogin(false);
+    clearLocalStorage();
+
+    mutate("/auth/check");
+
     router.push("/main");
   };
 
-  const logInNOutBtn = isLogin ? (
+  const logoutBtn = (
     <StLogoutBtn onClick={handleLogout} id="btn_logout">
       로그아웃
     </StLogoutBtn>
-  ) : (
+  );
+
+  const loginBtn = (
     <Link href="/login" passHref>
       <StLoginButton type="button">로그인</StLoginButton>
     </Link>
@@ -46,7 +44,7 @@ export default function UserContent(props: UserContentProps) {
   return (
     <StWrapper>
       <TopBanner userInfo={userInfo} onImageChange={onImageChange} />
-      {logInNOutBtn}
+      {isLogin ? logoutBtn : loginBtn}
     </StWrapper>
   );
 }

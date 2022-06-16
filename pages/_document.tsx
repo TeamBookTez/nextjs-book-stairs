@@ -11,7 +11,7 @@ class MyDocument extends Document {
     return (
       <Html>
         <Head>
-          <script
+          {/* <script
             dangerouslySetInnerHTML={{
               __html: `(function(w, d, s, l, i) {
               w[l] = w[l] || [];
@@ -27,7 +27,7 @@ class MyDocument extends Document {
                   f.parentNode.insertBefore(j,f);
             })(window, document, 'script', 'dataLayer', 'GTM-N89967S');`,
             }}
-          />
+          /> */}
           <link
             rel="stylesheet"
             type="text/css"

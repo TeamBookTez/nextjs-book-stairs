@@ -1,8 +1,6 @@
 import styled from "@emotion/styled";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
-import { useRecoilValue, useSetRecoilState } from "recoil";
 
 import { Loading } from "../components/common";
 import {
@@ -21,23 +19,14 @@ import {
   MobileLandingValidation,
 } from "../components/landing";
 import MobileLandingMotivation from "../components/landing/MobileLandingMotivatoin";
-import { isLoginState } from "../core/atom";
-// import useCheckLoginState from "../util/hooks/useCheckLoginState";
 import { Desktop, Mobile } from "../util/hooks/useMediaQuery";
+import useUser from "../util/hooks/useUser";
 
 const Landing: NextPage = () => {
   const router = useRouter();
-  // const { isLogin, isLoginLoading } = useCheckLoginState();
-  const isLogin = useRecoilValue(isLoginState);
-  const isLoginLoading = false;
-  // 여기까지 임시 코드
-  const setIsLogin = useSetRecoilState(isLoginState);
+  const { isLogin, isLoginLoading } = useUser();
 
-  useEffect(() => {
-    setIsLogin(isLogin);
-
-    if (isLogin) router.push("/main");
-  }, [isLogin]);
+  if (isLogin) router.push("/main");
 
   return (
     <>

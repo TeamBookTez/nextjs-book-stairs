@@ -1,35 +1,30 @@
-import { useEffect, useState } from "react";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useState } from "react";
+import { useRecoilValue } from "recoil";
 
 import Cards from "../../components/bookcase/Cards";
 import Navigation from "../../components/bookcase/Navigation";
 import { Loading } from "../../components/common";
 import { MainLayout } from "../../components/layout";
-import { isLoginState, navigatingBookInfoState } from "../../core/atom";
+import { MainHeader } from "../../components/main";
+import { navigatingBookInfoState } from "../../core/atom";
 import { BookcasePathKey } from "../../types/bookcase";
-// import useCheckLoginState from "../../util/hooks/useCheckLoginState";
+import useUser from "../../util/hooks/useUser";
 
 export default function Bookcase() {
   const navigatingBookInfo = useRecoilValue(navigatingBookInfoState);
   const { fromSt } = navigatingBookInfo;
 
+  const { isLogin, isLoginLoading } = useUser();
   const [navIndex, setNavIndex] = useState<BookcasePathKey>(fromSt);
-  // const { isLogin, isLoginLoading } = useCheckLoginState();
-  const isLogin = useRecoilValue(isLoginState);
-  const isLoginLoading = false;
-  // 여기까지 임시 코드
-  const setIsLogin = useSetRecoilState(isLoginState);
 
   const handleChangeNavIndex = (idx: BookcasePathKey) => {
     setNavIndex(idx);
   };
 
-  useEffect(() => {
-    setIsLogin(isLogin);
-  }, [isLogin]);
+  const mainHeader = <MainHeader isLogin={isLogin} pageName="서재" />;
 
   return (
-    <MainLayout pageName="서재">
+    <MainLayout header={mainHeader}>
       {isLoginLoading ? (
         <Loading />
       ) : (

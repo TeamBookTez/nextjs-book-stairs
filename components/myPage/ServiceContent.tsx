@@ -1,24 +1,20 @@
 import styled from "@emotion/styled";
 import Image from "next/image";
 import React from "react";
-import { useRecoilValue } from "recoil";
 
-import { isLoginState } from "../../core/atom";
 import { ImgReadNum } from "../../public/assets/images";
 import { UserInfo } from "../../types/myPage";
-import myPageInformations from "../../util/myPageInformations";
+import referralLinkList from "../../util/referralLinkList";
 import { BookComment } from ".";
 
 interface ServiceContentProps {
-  userInfo: UserInfo;
+  userInfo: UserInfo | undefined;
   children: React.ReactNode;
 }
 
 export default function ServiceContent(props: ServiceContentProps) {
   const { userInfo, children } = props;
-  const { reviewCount } = userInfo;
-
-  const isLogin = useRecoilValue(isLoginState);
+  const isLogin = userInfo !== undefined;
 
   return (
     <StWrapper>
@@ -28,12 +24,12 @@ export default function ServiceContent(props: ServiceContentProps) {
             <Image src={ImgReadNum} alt="읽은 책 수" />
           </StImgWrapper>
           <StContentWrapper>
-            <BookComment reviewCount={reviewCount} />
+            <BookComment reviewCount={userInfo.reviewCount} />
           </StContentWrapper>
         </StCountBook>
       )}
       <StServiceWrapper>
-        {myPageInformations.map((info) => (
+        {referralLinkList.map((info) => (
           <StServiceInfo key={info.title}>
             <a href={info.href} target="_blank" rel="noopner noreferrer">
               <StInfoTitle>{info.title}</StInfoTitle>

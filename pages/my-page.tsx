@@ -1,57 +1,20 @@
-import React, { useEffect, useState } from "react";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import React from "react";
+import { useSWRConfig } from "swr";
 
 import { Loading } from "../components/common";
 import { MainLayout } from "../components/layout";
+import { MainHeader } from "../components/main";
 import { ServiceContent, UserContent, WithdrawContent } from "../components/myPage";
-import { getData, patchFormData } from "../core/api";
-import { isLoginState } from "../core/atom";
-import LocalStorage from "../core/localStorage";
-import { UserInfo } from "../types/myPage";
-// import useCheckLoginState from "../util/hooks/useCheckLoginState";
+import { baseInstance } from "../core/axios";
+import useUserInfo from "../util/hooks/useUserInfo";
 
 export default function MyPage() {
-  // const { isLogin, isLoginLoading } = useCheckLoginState();
-  const isLogin = useRecoilValue(isLoginState);
-  const isLoginLoading = false;
-  // 여기까지 임시 코드
-  const setIsLogin = useSetRecoilState(isLoginState);
+  const { userInfo, isLoading } = useUserInfo();
+  const isLogin = userInfo !== undefined;
 
-  const [userInfo, setUserInfo] = useState<UserInfo>({
-    email: "",
-    img: "",
-    nickname: "",
-    reviewCount: 0,
-  });
-  const [isInfoLoading, setIsInfoLoading] = useState<boolean>(true);
+  const { mutate } = useSWRConfig();
 
-  const userToken = LocalStorage.getItem("booktez-token");
-
-  useEffect(() => {
-    setIsLogin(isLogin);
-  }, [isLogin]);
-
-  useEffect(() => {
-    getInfo("/user/myInfo", userToken);
-  }, []);
-
-  const getInfo = async (key: string, token: string) => {
-    try {
-      const { data } = await getData(key, token);
-
-      if (data.success) {
-        setUserInfo(data.data);
-      } else {
-        setIsLogin(false);
-      }
-    } catch (err) {
-      setIsLogin(false);
-    } finally {
-      setIsInfoLoading(false);
-    }
-  };
-
-  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const patchProfileImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (isLogin === false) return;
     if (e.target.files === null) return;
 
@@ -60,16 +23,19 @@ export default function MyPage() {
 
     formData.append("img", imgFile);
 
-    const { data } = await patchFormData(userToken, "/user/img", formData);
-
-    if (data.success) {
-      getInfo("/user/myInfo", userToken);
-    }
+    await baseInstance.patch("/user/img", formData);
   };
 
+  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    await patchProfileImage(e);
+    mutate("/user/myInfo");
+  };
+
+  const mainHeader = <MainHeader isLogin={isLogin} pageName="마이페이지" />;
+
   return (
-    <MainLayout pageName="마이페이지">
-      {isLoginLoading && isInfoLoading ? (
+    <MainLayout header={mainHeader}>
+      {isLoading ? (
         <Loading />
       ) : (
         <>

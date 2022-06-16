@@ -1,4 +1,12 @@
-const myPageInformations = [
+/*
+마지막 편집자: 22-06-13 soryeongk
+변경사항 및 참고:
+  - information은 복수형을 가지지 않는다는 점 && 마이페이지에 들어갈 관련 링크라는 점에서 파일명과 변수명을 모두 referralLinkLists에서 referralLinkList로 변경했습니다.
+    
+고민점:
+  - 
+*/
+const referralLinkList = [
   {
     href: "https://rose-prepared-583.notion.site/6e6807cf2fff4effbd108057e611d5b9",
     title: "개인정보 처리 방침",
@@ -21,4 +29,4 @@ const myPageInformations = [
   },
 ];
 
-export default myPageInformations;
+export default referralLinkList;
