@@ -122,7 +122,7 @@ export default function Index() {
         handleSavingProgress={handleSavingProgress}
       />
     ) : (
-      <PeriNote />
+      <PeriNote handleOpenStepUpModal={handleOpenStepUpModal} />
     );
 
   if (isLoginLoading) return <Loading />;
