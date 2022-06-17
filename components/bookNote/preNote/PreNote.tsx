@@ -85,7 +85,7 @@ export default function PreNote(props: PreNoteProps) {
   };
 
   useEffect(() => {
-    if (data.reviewSt > 2) {
+    if (data && data.reviewSt > 2) {
       handlePrevent(false);
       setIsFilled(true);
       setIsFilledOnlyThree(true);
@@ -93,10 +93,10 @@ export default function PreNote(props: PreNoteProps) {
       handlePrevent(true);
     }
 
-    if (data.answerOne && data.answerTwo && !data.questionList.includes("")) {
+    if (data && data.answerOne && data.answerTwo && !data.questionList.includes("")) {
       setIsFilled(true);
       setIsFilledOnlyThree(true);
-    } else if (!data.questionList.includes("")) {
+    } else if (data && !data.questionList.includes("")) {
       setIsFilled(false);
       setIsFilledOnlyThree(true);
     } else {
