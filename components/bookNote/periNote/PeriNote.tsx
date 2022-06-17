@@ -2,6 +2,7 @@
 마지막 편집자: 22-06-18 joohaem
 변경사항 및 참고:
   - TopQuestionContainer 안에 TopAnswerContainer 안에 ChildQANode
+  - toggleMenu 살펴보기
     
 고민점:
   - 
@@ -9,6 +10,7 @@
 
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
+import { useEffect, useState } from "react";
 
 import { StepUpNDrawerIdx } from "../../../pages/book-note/[reviewId]";
 import { PeriNoteData } from "../../../types/bookNote";
@@ -37,10 +39,11 @@ export default function PeriNote(props: PeriNoteProps) {
 
   const { data, setData, isLoading } = useFetchBookNote<PeriNoteData>(`/review/${reviewId}/peri`, initialPeriNoteData);
 
-  console.log(data);
   // handling data
   // handling saving progress
   // prevent refresh
+
+  const [isPreventedPeriNote, setIsPreventedPeriNote] = useState({ addQuestion: true, isCompleted: true });
 
   function toggleMenu(e: React.MouseEvent<HTMLFormElement, MouseEvent>) {
     // as를 없애고 싶다
@@ -70,29 +73,48 @@ export default function PeriNote(props: PeriNoteProps) {
     }
   }
 
+  useEffect(() => {
+    // 모든 질문 리스트가 지워졌을 경우에는 질문 리스트 추가만 가능하게 하고, 작성완료는 불가하게 함
+    if (!data.answerThree.children.length) {
+      setIsPreventedPeriNote({ addQuestion: false, isCompleted: true });
+    } else {
+      // 질문이 모두 채워져 있으면 addQuestion의 isPrevented를 false
+      if (data.answerThree.children.every((nodeList) => nodeList.content !== "")) {
+        // 질문이 모두 채워진 상태에서 답변이 채워지면 모두 false
+        if (data.answerThree.children.every((nodeList) => nodeList.children.every((node) => node.content !== ""))) {
+          setIsPreventedPeriNote({ addQuestion: false, isCompleted: false });
+        } else {
+          // 답변만 비워있으면 isCompleted만 true
+          setIsPreventedPeriNote({ addQuestion: false, isCompleted: true });
+        }
+      } else {
+        // 질문이 비워져있으면 둘 다 true;
+        setIsPreventedPeriNote({ addQuestion: true, isCompleted: true });
+      }
+    }
+  }, [data.answerThree]);
+
   return (
     <StNoteForm onClick={toggleMenu}>
       <HeaderLabel handleOpenStepUpModal={handleOpenStepUpModal} handleOpenDrawer={handleOpenDrawer} />
 
       {data.answerThree?.children &&
-        data.answerThree.children.map((node, idx) => (
-          <StArticle key={`input-${idx}`}>
-            <TopQuestionContainer />
-          </StArticle>
-        ))}
+        data.answerThree.children.map((node, idx) => <TopQuestionContainer key={`questionList-${idx}`} />)}
 
+      {/* 컴포넌트 분리 */}
       {/* <StAddChildButton
         type="button"
-        disabled={isPrevented.addQuestion}
+        disabled={isPreventedPeriNote.addQuestion}
         onClick={() => handleAddChild([], data.answerThree.children.length, true)}>
         질문 리스트 추가
       </StAddChildButton> */}
 
+      {/* 컴포넌트 분리 */}
       {/* type을 submit으로 변경하면 페이지를 이동하는 것에 초점을 둬서 제대로 작동하지 않음  */}
       {/* <StSubmitButton
-        type="button"
+        type="button"  
         onClick={submitPeriNote}
-        disabled={isPrevented.isCompleted}
+        disabled={isPreventedPeriNote.isCompleted}
         id="btn_complete_reading">
         작성 완료
       </StSubmitButton> */}
@@ -107,19 +129,6 @@ const StNoteForm = styled.form`
   width: 100%;
 
   max-height: fit-content;
-`;
-
-const StArticle = styled.article`
-  position: relative;
-
-  margin-top: 3rem;
-
-  &:focus-within {
-    & > fieldset {
-      border-bottom: 0.1rem solid ${({ theme }) => theme.colors.white400};
-      border-color: ${({ theme }) => theme.colors.orange100};
-    }
-  }
 `;
 
 const StAddChildButton = styled(DefaultButton)<{ disabled: boolean }>`

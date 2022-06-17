@@ -30,7 +30,7 @@ interface PreNoteProps {
   handleOpenStepUpModal: (i: StepUpNDrawerIdx) => void;
   handleOpenDrawer: (i: StepUpNDrawerIdx) => void;
   handleCloseDrawer: () => void;
-  isPrevented: boolean;
+  isPreventedPreNote: boolean;
   handlePrevent: (shouldPrevent: boolean) => void;
   handleNavIndex: (idx: BookNotePathKey) => void;
   savingProgress: SavingProgress;
@@ -53,7 +53,7 @@ export default function PreNote(props: PreNoteProps) {
     handleOpenStepUpModal,
     handleOpenDrawer,
     handleCloseDrawer,
-    isPrevented,
+    isPreventedPreNote,
     handlePrevent,
     handleNavIndex,
     savingProgress,
@@ -168,7 +168,7 @@ export default function PreNote(props: PreNoteProps) {
             <PreNoteThirdArticle
               questionList={data.questionList}
               onChangeReview={handleChangeReview}
-              isPrevented={isPrevented}
+              isPreventedPreNote={isPreventedPreNote}
               isFilledOnlyThree={isFilledOnlyThree}
             />
           </PreNoteFormContainer>

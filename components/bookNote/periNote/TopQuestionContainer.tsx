@@ -1,3 +1,5 @@
+import styled from "@emotion/styled";
+
 import { FormController, PeriNoteTreeNode } from "../../../types/bookNote";
 
 interface TopQuestionContainerProps {
@@ -12,5 +14,18 @@ interface TopQuestionContainerProps {
 export default function TopQuestionContainer() {
   // const { path, node, onAddChild, onSetContent, onDeleteChild, formController } = props;
 
-  return <div>TopQuestionContainer</div>;
+  return <StArticle>TopQuestionContainer</StArticle>;
 }
+
+const StArticle = styled.article`
+  position: relative;
+
+  margin-top: 3rem;
+
+  &:focus-within {
+    & > fieldset {
+      border-bottom: 0.1rem solid ${({ theme }) => theme.colors.white400};
+      border-color: ${({ theme }) => theme.colors.orange100};
+    }
+  }
+`;

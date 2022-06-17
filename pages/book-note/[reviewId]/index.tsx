@@ -44,7 +44,7 @@ export default function Index() {
   const [navIndex, setNavIndex] = useState<BookNotePathKey>("pre");
 
   const [savingProgress, setSavingProgress] = useState<SavingProgress>({ isPending: false, isError: false });
-  const [isPrevented, setIsPrevented] = useState<boolean>(false);
+  const [isPreventedPreNote, setIsPreventedPreNote] = useState<boolean>(false);
 
   const [isOpenedExitModal, setIsOpenExitModal] = useState<boolean>(false);
 
@@ -62,7 +62,7 @@ export default function Index() {
   // reviewSt가 2라면 peri로 navigate 할 수 없게 하기
   // 모든 답변이 채워지지 않으면 다음 단계로 이동할 수 없게 하기
   const handlePrevent = (shouldPrevent: boolean) => {
-    setIsPrevented(shouldPrevent);
+    setIsPreventedPreNote(shouldPrevent);
   };
 
   const handleSavingProgress = (obj: SavingProgress) => {
@@ -120,7 +120,7 @@ export default function Index() {
         handleOpenStepUpModal={handleOpenStepUpModal}
         handleOpenDrawer={handleOpenDrawer}
         handleCloseDrawer={handleCloseDrawer}
-        isPrevented={isPrevented}
+        isPreventedPreNote={isPreventedPreNote}
         handlePrevent={handlePrevent}
         handleNavIndex={handleNavIndex}
         savingProgress={savingProgress}
@@ -137,7 +137,7 @@ export default function Index() {
       <BookNoteHeader onClickExitBtn={toggleExitModal}>
         <Navigation
           navIndex={navIndex}
-          isPrevented={isPrevented}
+          isPreventedPreNote={isPreventedPreNote}
           handleNavIndex={handleNavIndex}
           handleSavingProgress={handleSavingProgress}
           onSetDrawerAsDefault={handleDrawerDefault}
