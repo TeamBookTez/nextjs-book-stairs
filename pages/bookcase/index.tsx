@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { useRecoilValue } from "recoil";
 
+import { NoCards } from "../../components/bookcase";
 import Cards from "../../components/bookcase/Cards";
 import Navigation from "../../components/bookcase/Navigation";
 import { Loading } from "../../components/common";
 import { MainLayout } from "../../components/layout";
 import { MainHeader } from "../../components/main";
+import { useGetBookInfo } from "../../core/api";
 import { navigatingBookInfoState } from "../../core/atom";
 import { BookcasePathKey } from "../../types/bookcase";
 import useUser from "../../util/hooks/useUser";
@@ -16,6 +18,7 @@ export default function Bookcase() {
 
   const { isLogin, isLoginLoading } = useUser();
   const [navIndex, setNavIndex] = useState<BookcasePathKey>(fromSt);
+  const { bookcaseInfo, isLoading, isError } = useGetBookInfo(navIndex);
 
   const handleChangeNavIndex = (idx: BookcasePathKey) => {
     setNavIndex(idx);
@@ -30,7 +33,13 @@ export default function Bookcase() {
       ) : (
         <>
           <Navigation navIndex={navIndex} onChangeNavIndex={handleChangeNavIndex} />
-          <Cards navIndex={navIndex} />
+          {isLoading ? (
+            <Loading />
+          ) : !bookcaseInfo || isError || bookcaseInfo.length === 0 ? (
+            <NoCards navIndex={navIndex} />
+          ) : (
+            <Cards navIndex={navIndex} bookcaseInfo={bookcaseInfo} />
+          )}
         </>
       )}
     </MainLayout>
