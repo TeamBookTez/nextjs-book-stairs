@@ -1,3 +1,5 @@
+import { UseFormRegister, UseFormSetFocus } from "react-hook-form";
+
 const bookNotePathKey = {
   pre: "pre",
   peri: "peri",
@@ -49,4 +51,9 @@ export interface StepUpContent {
 export interface SavingProgress {
   isPending: boolean;
   isError: boolean;
+}
+
+export interface FormController {
+  register: UseFormRegister<FormData>;
+  setFocus: UseFormSetFocus<FormData>;
 }

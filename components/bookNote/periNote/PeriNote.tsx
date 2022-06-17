@@ -15,6 +15,7 @@ import { PeriNoteData } from "../../../types/bookNote";
 import useFetchBookNote from "../../../util/hooks/useFetchBookNote";
 import { DefaultButton } from "../../common/styled/Button";
 import { HeaderLabel } from ".";
+import PriorQuestion from "./PriorQuestion";
 
 interface PeriNoteProps {
   reviewId: string;
@@ -34,7 +35,7 @@ const initialPeriNoteData: PeriNoteData = {
 export default function PeriNote(props: PeriNoteProps) {
   const { reviewId, handleOpenStepUpModal, handleOpenDrawer } = props;
 
-  const { data, setData, isLoading } = useFetchBookNote<PeriNoteData>(`/review/${reviewId}/pre`, initialPeriNoteData);
+  const { data, setData, isLoading } = useFetchBookNote<PeriNoteData>(`/review/${reviewId}/peri`, initialPeriNoteData);
 
   console.log(data);
   // handling data
@@ -73,19 +74,12 @@ export default function PeriNote(props: PeriNoteProps) {
     <StNoteForm onClick={toggleMenu}>
       <HeaderLabel handleOpenStepUpModal={handleOpenStepUpModal} handleOpenDrawer={handleOpenDrawer} />
 
-      {/* {data.answerThree?.children &&
+      {data.answerThree?.children &&
         data.answerThree.children.map((node, idx) => (
           <StArticle key={`input-${idx}`}>
-            <PriorQuestion
-              path={[idx]}
-              node={node}
-              onAddChild={handleAddChild}
-              onSetContent={handleSetContent}
-              onDeleteChild={handleDeleteChild}
-              formController={{ register, setFocus }}
-            />
+            <PriorQuestion />
           </StArticle>
-        ))} */}
+        ))}
 
       {/* <StAddChildButton
         type="button"

@@ -1,13 +1,3 @@
-/*
-마지막 편집자: 22-06-15 joohaem
-변경사항 및 참고:
-  - 
-  
-  고민점:
-  - 
-
-*/
-
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import Image from "next/image";
@@ -17,7 +7,7 @@ import { useRecoilValue } from "recoil";
 import { patchBookNote } from "../../../core/api";
 import { navigatingBookInfoState } from "../../../core/atom";
 import { ImgPreBook } from "../../../public/assets/images";
-import { BookNotePathKey, PreNoteData } from "../../../types/bookNote";
+import { BookNotePathKey, PeriNoteTreeNode, PreNoteData } from "../../../types/bookNote";
 import { DefaultButton } from "../../common/styled/Button";
 import {
   StBtnCancel,
@@ -47,9 +37,30 @@ export default function PreNotePostSection(props: PreNotePostSectionProps) {
   const handleSubmit = async () => {
     try {
       if (bookNoteData.reviewSt === 2) {
-        // 독서 전 상태라면, 독서 중 상태로 변경
+        // 독서 전 상태라면, 독서 중 상태로 변경하고 질문리스트를 독서 중으로 넘겨준다
         await patchBookNote(`/review/${reviewId}/pre`, { ...bookNoteData, reviewSt: 3 });
+
+        const questionFromPre: PeriNoteTreeNode[] = [];
+
+        bookNoteData.questionList.map((content) => {
+          questionFromPre.push({
+            type: "question",
+            content,
+            children: [{ type: "answer", content: "", children: [] }],
+          });
+        });
+
+        await patchBookNote(`review/${reviewId}/peri`, {
+          answerThree: {
+            type: "Root",
+            content: "root",
+            children: questionFromPre,
+          },
+          reviewSt: 3,
+          finishSt: false,
+        });
       } else {
+        // 독서 전 상태가 아니라면, 독서 전 데이터만 수정한다
         await patchBookNote(`/review/${reviewId}/pre`, bookNoteData);
       }
 
