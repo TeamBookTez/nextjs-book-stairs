@@ -1,6 +1,6 @@
 import { FormController, PeriNoteTreeNode } from "../../../types/bookNote";
 
-interface PriorQuestionProps {
+interface TopQuestionContainerProps {
   path: number[];
   node: PeriNoteTreeNode;
   onAddChild: (path: number[], currentIndex: number, isQuestion: boolean) => void;
@@ -9,8 +9,8 @@ interface PriorQuestionProps {
   formController: FormController;
 }
 
-export default function PriorQuestion() {
+export default function TopQuestionContainer() {
   // const { path, node, onAddChild, onSetContent, onDeleteChild, formController } = props;
 
-  return <div>PriorQuestion</div>;
+  return <div>TopQuestionContainer</div>;
 }

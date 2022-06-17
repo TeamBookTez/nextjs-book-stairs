@@ -1,7 +1,7 @@
 /*
-마지막 편집자: 22-06-15 joohaem
+마지막 편집자: 22-06-18 joohaem
 변경사항 및 참고:
-  - toggleMenu
+  - TopQuestionContainer 안에 TopAnswerContainer 안에 ChildQANode
     
 고민점:
   - 
@@ -15,7 +15,7 @@ import { PeriNoteData } from "../../../types/bookNote";
 import useFetchBookNote from "../../../util/hooks/useFetchBookNote";
 import { DefaultButton } from "../../common/styled/Button";
 import { HeaderLabel } from ".";
-import PriorQuestion from "./PriorQuestion";
+import TopQuestionContainer from "./TopQuestionContainer";
 
 interface PeriNoteProps {
   reviewId: string;
@@ -77,7 +77,7 @@ export default function PeriNote(props: PeriNoteProps) {
       {data.answerThree?.children &&
         data.answerThree.children.map((node, idx) => (
           <StArticle key={`input-${idx}`}>
-            <PriorQuestion />
+            <TopQuestionContainer />
           </StArticle>
         ))}
 
