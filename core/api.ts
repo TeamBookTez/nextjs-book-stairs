@@ -39,12 +39,15 @@ export const deleteData = (key: string) => {
 };
 
 export function useGetBookInfo(key: string) {
-  const urlKey = key === "/main" ? "" : key;
-  const { data, isValidating } = useSWR<Response<BookcaseInfo[]>>(urlKey, baseInstance.get);
+  const urlKey = key === "/main" ? "/book" : key;
+  const { data, error } = useSWR<Response<{ books: BookcaseInfo[] }>>(urlKey, baseInstance.get);
+
+  console.log(data, error);
 
   return {
-    bookcaseInfo: data?.data,
-    isLoading: isValidating,
+    bookcaseInfo: data?.data.books,
+    isLoading: !error && !data,
+    isError: error,
   };
 }
 
