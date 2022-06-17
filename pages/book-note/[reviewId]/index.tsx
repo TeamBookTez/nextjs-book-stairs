@@ -59,7 +59,7 @@ export default function Index() {
     setNavIndex(idx);
   };
 
-  // reviewSt가 2라면 peri로 이동할 수 없게 하기
+  // reviewSt가 2라면 peri로 navigate 할 수 없게 하기
   // 모든 답변이 채워지지 않으면 다음 단계로 이동할 수 없게 하기
   const handlePrevent = (shouldPrevent: boolean) => {
     setIsPrevented(shouldPrevent);
