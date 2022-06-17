@@ -12,8 +12,7 @@ import styled from "@emotion/styled";
 
 import { StepUpNDrawerIdx } from "../../../pages/book-note/[reviewId]";
 import { DefaultButton } from "../../common/styled/Button";
-import ExampleDrawerBtn from "../ExampleDrawerBtn";
-import StepUpBtn from "../StepUpBtn";
+import { HeaderLabel } from ".";
 
 interface PeriNoteProps {
   handleOpenStepUpModal: (i: StepUpNDrawerIdx) => void;
@@ -58,13 +57,8 @@ export default function PeriNote(props: PeriNoteProps) {
 
   return (
     <StNoteForm onClick={toggleMenu}>
-      <StLabelWrapper>
-        <StLabelContainer>
-          <StLabel>질문 리스트를 구조화하며 책을 읽어보세요.</StLabel>
-          <StepUpBtn onClickStepUpBtn={() => handleOpenStepUpModal(4)} />
-        </StLabelContainer>
-        <ExampleDrawerBtn idx={4} onOpenDrawer={() => handleOpenDrawer(4)} />
-      </StLabelWrapper>
+      <HeaderLabel handleOpenStepUpModal={handleOpenStepUpModal} handleOpenDrawer={handleOpenDrawer} />
+
       {/* {data.answerThree?.children &&
         data.answerThree.children.map((node, idx) => (
           <StArticle key={`input-${idx}`}>
@@ -78,12 +72,14 @@ export default function PeriNote(props: PeriNoteProps) {
             />
           </StArticle>
         ))} */}
+
       {/* <StAddChildButton
         type="button"
         disabled={isPrevented.addQuestion}
         onClick={() => handleAddChild([], data.answerThree.children.length, true)}>
         질문 리스트 추가
       </StAddChildButton> */}
+
       {/* type을 submit으로 변경하면 페이지를 이동하는 것에 초점을 둬서 제대로 작동하지 않음  */}
       {/* <StSubmitButton
         type="button"
@@ -105,12 +101,6 @@ const StNoteForm = styled.form`
   max-height: fit-content;
 `;
 
-const StLabelWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-  padding: 4.6rem 0 1.6rem 2rem;
-`;
-
 const StArticle = styled.article`
   position: relative;
 
@@ -122,17 +112,6 @@ const StArticle = styled.article`
       border-color: ${({ theme }) => theme.colors.orange100};
     }
   }
-`;
-
-const StLabelContainer = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
-const StLabel = styled.label`
-  margin-left: 2rem;
-  ${({ theme }) => theme.fonts.header3}
-  color: ${({ theme }) => theme.colors.gray100};
 `;
 
 const StAddChildButton = styled(DefaultButton)<{ disabled: boolean }>`
