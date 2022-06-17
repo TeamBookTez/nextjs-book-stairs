@@ -23,7 +23,7 @@ export default function HeaderLabel(props: HeaderLabelProps) {
   );
 }
 
-const StLabelWrapper = styled.div`
+const StLabelWrapper = styled.header`
   display: flex;
   justify-content: space-between;
   padding: 4.6rem 0 1.6rem 2rem;
@@ -34,7 +34,7 @@ const StLabelContainer = styled.div`
   align-items: center;
 `;
 
-const StLabel = styled.label`
+const StLabel = styled.h2`
   margin-left: 2rem;
   ${({ theme }) => theme.fonts.header3}
   color: ${({ theme }) => theme.colors.gray100};

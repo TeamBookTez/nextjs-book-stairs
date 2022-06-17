@@ -36,6 +36,7 @@ export default function PeriNote(props: PeriNoteProps) {
 
   const { data, setData, isLoading } = useFetchBookNote<PeriNoteData>(`/review/${reviewId}/pre`, initialPeriNoteData);
 
+  console.log(data);
   // handling data
   // handling saving progress
   // prevent refresh
