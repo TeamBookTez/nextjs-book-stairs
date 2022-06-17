@@ -11,18 +11,31 @@ import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 
 import { StepUpNDrawerIdx } from "../../../pages/book-note/[reviewId]";
+import { PeriNoteData } from "../../../types/bookNote";
+import useFetchBookNote from "../../../util/hooks/useFetchBookNote";
 import { DefaultButton } from "../../common/styled/Button";
 import { HeaderLabel } from ".";
 
 interface PeriNoteProps {
+  reviewId: string;
   handleOpenStepUpModal: (i: StepUpNDrawerIdx) => void;
   handleOpenDrawer: (i: StepUpNDrawerIdx) => void;
 }
 
-export default function PeriNote(props: PeriNoteProps) {
-  const { handleOpenStepUpModal, handleOpenDrawer } = props;
+const initialPeriNoteData: PeriNoteData = {
+  answerThree: {
+    type: "ROOT",
+    content: "root",
+    children: [{ type: "question", content: "", children: [{ type: "answer", content: "", children: [] }] }],
+  },
+  reviewSt: 3,
+};
 
-  // fetch
+export default function PeriNote(props: PeriNoteProps) {
+  const { reviewId, handleOpenStepUpModal, handleOpenDrawer } = props;
+
+  const { data, setData, isLoading } = useFetchBookNote<PeriNoteData>(`/review/${reviewId}/pre`, initialPeriNoteData);
+
   // handling data
   // handling saving progress
   // prevent refresh

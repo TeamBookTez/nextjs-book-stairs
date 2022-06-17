@@ -15,6 +15,7 @@
 import { css, keyframes } from "@emotion/react";
 import styled from "@emotion/styled";
 import { useEffect, useState } from "react";
+import { useRecoilValue } from "recoil";
 
 import {
   BookNoteHeader,
@@ -28,7 +29,9 @@ import PeriNote from "../../../components/bookNote/periNote/PeriNote";
 import { PreNote } from "../../../components/bookNote/preNote";
 import { Loading } from "../../../components/common";
 import { StBookModalWrapper } from "../../../components/common/styled/BookModalWrapper";
+import { navigatingBookInfoState } from "../../../core/atom";
 import { periNoteStepUp, stepUpContentArray } from "../../../core/bookNote/exampleData";
+import { NavigatingBookInfoState } from "../../../types/bookcase";
 import { BookNotePathKey, SavingProgress } from "../../../types/bookNote";
 import useUser from "../../../util/hooks/useUser";
 
@@ -36,6 +39,7 @@ export type StepUpNDrawerIdx = 1 | 2 | 3 | 4;
 
 export default function Index() {
   const { isLogin, isLoginLoading } = useUser();
+  const { reviewId } = useRecoilValue<NavigatingBookInfoState>(navigatingBookInfoState);
 
   const [navIndex, setNavIndex] = useState<BookNotePathKey>("pre");
 
@@ -111,6 +115,7 @@ export default function Index() {
     navIndex === "pre" ? (
       <PreNote
         isLogin={isLogin}
+        reviewId={reviewId}
         toggleExitModal={toggleExitModal}
         handleOpenStepUpModal={handleOpenStepUpModal}
         handleOpenDrawer={handleOpenDrawer}
@@ -122,7 +127,7 @@ export default function Index() {
         handleSavingProgress={handleSavingProgress}
       />
     ) : (
-      <PeriNote handleOpenStepUpModal={handleOpenStepUpModal} handleOpenDrawer={handleOpenDrawer} />
+      <PeriNote reviewId={reviewId} handleOpenStepUpModal={handleOpenStepUpModal} handleOpenDrawer={handleOpenDrawer} />
     );
 
   if (isLoginLoading) return <Loading />;

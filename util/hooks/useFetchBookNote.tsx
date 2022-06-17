@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 import { baseInstance } from "../../core/axios";
 
-export default function useFetchBookNote<T>(token: string, key: string, initialState: T) {
+export default function useFetchBookNote<T>(key: string, initialState: T) {
   const [data, setData] = useState<T>(initialState);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 

@@ -11,13 +11,9 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { useEffect, useState } from "react";
-import { useRecoilValue } from "recoil";
 
 import { patchBookNote } from "../../../core/api";
-import { navigatingBookInfoState } from "../../../core/atom";
-import LocalStorage from "../../../core/localStorage";
 import { StepUpNDrawerIdx } from "../../../pages/book-note/[reviewId]";
-import { NavigatingBookInfoState } from "../../../types/bookcase";
 import { BookNotePathKey, PreNoteData, SavingProgress } from "../../../types/bookNote";
 import useFetchBookNote from "../../../util/hooks/useFetchBookNote";
 import { Loading } from "../../common";
@@ -29,6 +25,7 @@ import PreNoteThirdArticle from "./PreNoteThirdArticle";
 
 interface PreNoteProps {
   isLogin: boolean;
+  reviewId: string;
   toggleExitModal: () => void;
   handleOpenStepUpModal: (i: StepUpNDrawerIdx) => void;
   handleOpenDrawer: (i: StepUpNDrawerIdx) => void;
@@ -51,6 +48,7 @@ const initialPreNoteData: PreNoteData = {
 export default function PreNote(props: PreNoteProps) {
   const {
     isLogin,
+    reviewId,
     toggleExitModal,
     handleOpenStepUpModal,
     handleOpenDrawer,
@@ -62,14 +60,7 @@ export default function PreNote(props: PreNoteProps) {
     handleSavingProgress,
   } = props;
 
-  const navigatingBookInfo = useRecoilValue<NavigatingBookInfoState>(navigatingBookInfoState);
-  const { reviewId } = navigatingBookInfo;
-
-  const { data, setData, isLoading } = useFetchBookNote<PreNoteData>(
-    LocalStorage.getItem("booktez-token"),
-    `/review/${reviewId}/pre`,
-    initialPreNoteData,
-  );
+  const { data, setData, isLoading } = useFetchBookNote<PreNoteData>(`/review/${reviewId}/pre`, initialPreNoteData);
 
   const [isFilled, setIsFilled] = useState<boolean>(false);
   const [isFilledOnlyThree, setIsFilledOnlyThree] = useState<boolean>(false);
