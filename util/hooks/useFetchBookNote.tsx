@@ -9,9 +9,7 @@ export default function useFetchBookNote<T>(token: string, key: string, initialS
   useEffect(() => {
     (async function () {
       try {
-        const {
-          data: { data },
-        } = await baseInstance.get(key);
+        const { data } = await baseInstance.get(key);
 
         setData(data);
       } finally {
