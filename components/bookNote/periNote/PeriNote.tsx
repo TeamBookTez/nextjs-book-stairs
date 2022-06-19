@@ -27,7 +27,7 @@ interface PeriNoteProps {
 
 const initialPeriNoteData: PeriNoteData = {
   answerThree: {
-    type: "ROOT",
+    type: "Root",
     content: "root",
     children: [{ type: "question", content: "", children: [{ type: "answer", content: "", children: [] }] }],
   },
