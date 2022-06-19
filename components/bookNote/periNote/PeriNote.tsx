@@ -199,13 +199,12 @@ export default function PeriNote(props: PeriNoteProps) {
           />
         ))}
 
-      {/* 컴포넌트 분리 */}
-      {/* <StAddChildButton
+      <StAddChildButton
         type="button"
         disabled={isPreventedPeriNote.addQuestion}
         onClick={() => handleAddChild([], data.answerThree.children.length, true)}>
         질문 리스트 추가
-      </StAddChildButton> */}
+      </StAddChildButton>
 
       {/* 컴포넌트 분리 */}
       {/* type을 submit으로 변경하면 페이지를 이동하는 것에 초점을 둬서 제대로 작동하지 않음  */}
