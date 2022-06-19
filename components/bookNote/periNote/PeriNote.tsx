@@ -2,7 +2,7 @@
 마지막 편집자: 22-06-18 joohaem
 변경사항 및 참고:
   - TopQuestionContainer 안에 TopAnswerContainer 안에 ChildQANode
-  - toggleMenu 살펴보기
+  - toggleMenu 살펴보기 (더보기 메뉴 DOM 접근?)
     
 고민점:
   - 
