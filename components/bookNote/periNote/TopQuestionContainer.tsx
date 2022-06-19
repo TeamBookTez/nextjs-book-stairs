@@ -1,8 +1,9 @@
 import styled from "@emotion/styled";
+import { useEffect, useRef } from "react";
 import TextareaAutosize from "react-textarea-autosize";
 
 import { IcPeriQuestion } from "../../../public/assets/icons";
-import { FormController, PeriNoteTreeNode } from "../../../types/bookNote";
+import { PeriNoteTreeNode } from "../../../types/bookNote";
 import { StAddAnswerButton, StMenuBtn } from "../../common/styled/Button";
 import { StMoreIcon } from "../../common/styled/Icon";
 import { StMenuWrapper } from "../../common/styled/MenuWrapper";
@@ -13,11 +14,35 @@ interface TopQuestionContainerProps {
   onAddChild: (path: number[], currentIndex: number, isQuestion: boolean) => void;
   onSetContent: (value: string, path: number[]) => void;
   onDeleteChild: (path: number[]) => void;
-  formController: FormController;
 }
 
-export default function TopQuestionContainer() {
-  // const { path, node, onAddChild, onSetContent, onDeleteChild, formController } = props;
+export default function TopQuestionContainer(props: TopQuestionContainerProps) {
+  const { path, node, onAddChild, onSetContent, onDeleteChild } = props;
+
+  // 답변 추가 시 사용되는 변수라서 isQuestion false인 것
+  const isQuestion = false;
+  // 큰 답변 추가시 사용되는 index는 현재 큰질문의 index가 아닌 답변의 개수
+  const currentIndex = node.children.length - 1;
+
+  const textAreaRef = useRef<HTMLTextAreaElement>(null);
+
+  const handleContent = (e: React.ChangeEvent<HTMLTextAreaElement>, pathArray: number[]) => {
+    if (e.target.value !== "\n") {
+      onSetContent(e.target.value, pathArray);
+    }
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>, pathArray: number[]) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      onAddChild(pathArray, currentIndex, isQuestion);
+    }
+  };
+
+  useEffect(() => {
+    if (textAreaRef.current) {
+      textAreaRef.current.focus();
+    }
+  }, []);
 
   return (
     <StArticle>
@@ -26,24 +51,18 @@ export default function TopQuestionContainer() {
           <StQuestionIcon />
         </legend>
         <StInput
-        // ref={textAreaRef}
-        // value={node.content}
-        // placeholder="질문을 입력해주세요."
-        // onChange={(e) => handleContent(e, path)}
-        // onKeyPress={(e) => handleKeyPress(e, path)}
+          ref={textAreaRef}
+          value={node.content}
+          placeholder="질문을 입력해주세요."
+          onChange={(e) => handleContent(e, path)}
+          onKeyPress={(e) => handleKeyPress(e, path)}
         />
-        <StAddAnswerButton
-          type="button"
-          // onClick={() => onAddChild(path, currentIndex, isQuestion)}
-        >
+        <StAddAnswerButton type="button" onClick={() => onAddChild(path, currentIndex, isQuestion)}>
           답변
         </StAddAnswerButton>
         <StMoreIcon className="icn_more" />
         <StMenuWrapper menuposition="isPriQ">
-          <StMenuBtn
-            type="button"
-            //  onClick={() => onDeleteChild(path)}
-          >
+          <StMenuBtn type="button" onClick={() => onDeleteChild(path)}>
             삭제
           </StMenuBtn>
         </StMenuWrapper>

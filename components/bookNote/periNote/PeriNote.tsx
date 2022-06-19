@@ -3,6 +3,7 @@
 변경사항 및 참고:
   - TopQuestionContainer 안에 TopAnswerContainer 안에 ChildQANode
   - toggleMenu 살펴보기 (더보기 메뉴 DOM 접근?)
+  - deepCopyTree --> immer.js 로 변경
     
 고민점:
   - 
@@ -11,9 +12,11 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 
 import { StepUpNDrawerIdx } from "../../../pages/book-note/[reviewId]";
 import { PeriNoteData } from "../../../types/bookNote";
+import { deepCopyTree, getNodeByPath } from "../../../util/bookNoteTree";
 import useFetchBookNote from "../../../util/hooks/useFetchBookNote";
 import { DefaultButton } from "../../common/styled/Button";
 import { HeaderLabel } from ".";
@@ -23,6 +26,10 @@ interface PeriNoteProps {
   reviewId: string;
   handleOpenStepUpModal: (i: StepUpNDrawerIdx) => void;
   handleOpenDrawer: (i: StepUpNDrawerIdx) => void;
+}
+
+interface UseForm {
+  [key: string]: string;
 }
 
 const initialPeriNoteData: PeriNoteData = {
@@ -39,11 +46,93 @@ export default function PeriNote(props: PeriNoteProps) {
 
   const { data, setData, isLoading } = useFetchBookNote<PeriNoteData>(`/review/${reviewId}/peri`, initialPeriNoteData);
 
+  const { getValues, register, setFocus } = useForm<UseForm>();
+
   // handling data
   // handling saving progress
   // prevent refresh
 
   const [isPreventedPeriNote, setIsPreventedPeriNote] = useState({ addQuestion: true, isCompleted: true });
+
+  const handleAddChild = (path: number[], currentIndex: number, isQuestion: boolean) => {
+    if (isQuestion) {
+      addQuestion(path);
+    } else {
+      addAnswer(path, currentIndex);
+    }
+  };
+
+  const addQuestion = (path: number[]) => {
+    // 깊은 복사 후 위치를 찾아 새로운 node를 추가하고 root를 set에 넘김
+    const newRoot = deepCopyTree(data.answerThree);
+    const current = getNodeByPath(newRoot, path);
+
+    current.children.push({
+      type: "question",
+      content: "",
+      children: [
+        {
+          type: "answer",
+          content: "",
+          children: [],
+        },
+      ],
+    });
+
+    setData({ ...data, answerThree: newRoot });
+  };
+
+  const addAnswer = (path: number[], currentIndex: number) => {
+    const newRoot = saveStatelessPeriNoteData();
+    const current = getNodeByPath(newRoot, path);
+
+    current.children.splice(currentIndex + 1, 0, {
+      type: "answer",
+      content: "",
+      children: [],
+    });
+
+    setData({ ...data, answerThree: newRoot });
+  };
+
+  const saveStatelessPeriNoteData = () => {
+    const obj = getValues();
+
+    const keys = Object.keys(obj);
+    const newRoot = deepCopyTree(data.answerThree);
+
+    keys.map((key) => {
+      const value = obj[key];
+      const pathKey = key.split(",").map((k) => parseInt(k));
+
+      const current = getNodeByPath(newRoot, pathKey);
+
+      current.content = value;
+    });
+
+    // data state에도 저장
+    setData((current) => ({ ...current, answerThree: newRoot }));
+
+    return newRoot;
+  };
+
+  const handleSetContent = (value: string, path: number[]) => {
+    const newRoot = deepCopyTree(data.answerThree);
+    const current = getNodeByPath(newRoot, path);
+
+    current.content = value;
+
+    setData({ ...data, answerThree: newRoot });
+  };
+
+  const handleDeleteChild = (path: number[]) => {
+    const newRoot = deepCopyTree(data.answerThree);
+    // 삭제할 때는 자신의 부모를 찾아서 children을 제거
+    const parent = getNodeByPath(newRoot, path.slice(0, -1));
+
+    parent.children.splice(path[path.length - 1], 1);
+    setData({ ...data, answerThree: newRoot });
+  };
 
   function toggleMenu(e: React.MouseEvent<HTMLFormElement, MouseEvent>) {
     // as를 없애고 싶다
@@ -99,7 +188,16 @@ export default function PeriNote(props: PeriNoteProps) {
       <HeaderLabel handleOpenStepUpModal={handleOpenStepUpModal} handleOpenDrawer={handleOpenDrawer} />
 
       {data.answerThree?.children &&
-        data.answerThree.children.map((node, idx) => <TopQuestionContainer key={`questionList-${idx}`} />)}
+        data.answerThree.children.map((node, idx) => (
+          <TopQuestionContainer
+            key={`questionList-${idx}`}
+            path={[idx]}
+            node={node}
+            onAddChild={handleAddChild}
+            onSetContent={handleSetContent}
+            onDeleteChild={handleDeleteChild}
+          />
+        ))}
 
       {/* 컴포넌트 분리 */}
       {/* <StAddChildButton
