@@ -39,14 +39,9 @@ export default function TopQuestionContainer(props: TopQuestionContainerProps) {
     }
   };
 
-  const addTopAnswer = () => {
-    onAddTopAnswer(path, currentIndex);
-  };
-
   const handleKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
-      // 답변 추가 시 사용되는 변수라서 isQuestion = false인 것
-      addTopAnswer();
+      onAddTopAnswer(path, currentIndex);
     }
   };
 
@@ -71,7 +66,7 @@ export default function TopQuestionContainer(props: TopQuestionContainerProps) {
           onChange={handleContent}
           onKeyPress={handleKeyPress}
         />
-        <StAddAnswerButton type="button" onClick={addTopAnswer}>
+        <StAddAnswerButton type="button" onClick={() => onAddTopAnswer(path, currentIndex)}>
           답변
         </StAddAnswerButton>
         <StMoreIcon className="icn_more" />

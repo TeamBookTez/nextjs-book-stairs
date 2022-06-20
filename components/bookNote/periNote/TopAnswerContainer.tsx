@@ -21,6 +21,27 @@ interface TopAnswerContainerProps {
 export default function TopAnswerContainer(props: TopAnswerContainerProps) {
   const { index, path, node, onSetContent, onAddChild, onDeleteChild } = props;
 
+  const textAreaRef = useRef<HTMLTextAreaElement>(null);
+
+  const handleChangeSetContent = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    if (e.target.value !== "\n") {
+      onSetContent(e.target.value, path);
+    }
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      // add answer (+ index 추가 인자)
+      onAddChild(path, index);
+    }
+  };
+
+  useEffect(() => {
+    if (textAreaRef.current) {
+      textAreaRef.current.focus();
+    }
+  }, []);
+
   if (node.type !== "answer") return <></>;
 
   return (
@@ -30,24 +51,18 @@ export default function TopAnswerContainer(props: TopAnswerContainerProps) {
           <StAnswerIcon />
         </legend>
         <StInput
-        // ref={textAreaRef}
-        // value={node.content}
-        // placeholder={"답변을 입력해주세요."}
-        // onChange={(e) => handleChangeSetContent(e, path)}
-        // onKeyPress={(e) => handleKeyPress(e, path, index, isQuestion)}
+          ref={textAreaRef}
+          value={node.content}
+          placeholder={"답변을 입력해주세요."}
+          onChange={handleChangeSetContent}
+          onKeyPress={handleKeyPress}
         />
         <StMore className="icn_more" />
         <StMenuWrapper menuposition="isTopOfQA">
-          <StMenuBtn
-            type="button"
-            //  onClick={() => handleClickAddChild(path, index, !isQuestion)}
-          >
+          <StMenuBtn type="button" onClick={() => onAddChild(path)}>
             꼬리질문 추가
           </StMenuBtn>
-          <StMenuBtn
-            type="button"
-            //  onClick={() => handleClickDeleteChild(path)}
-          >
+          <StMenuBtn type="button" onClick={() => onDeleteChild(path)}>
             삭제
           </StMenuBtn>
         </StMenuWrapper>
