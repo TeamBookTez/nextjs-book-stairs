@@ -191,7 +191,7 @@ export default function PeriNote(props: PeriNoteProps) {
           />
           {topQuestionNode.children.map((topAnswerNode, topAnswerIdx) => (
             <TopAnswerContainer
-              key={`topAnswerContainer-${topQuestionIdx}`}
+              key={`topAnswerContainer-${topAnswerIdx}`}
               index={topAnswerIdx}
               path={[topQuestionIdx, topAnswerIdx]}
               node={topAnswerNode}
@@ -200,7 +200,7 @@ export default function PeriNote(props: PeriNoteProps) {
               onSetContent={handleSetContent}>
               {topAnswerNode.children.map((childQANode, childQAIdx) => (
                 <ChildQANode
-                  key={`childQANode-${topAnswerIdx}-${childQAIdx}`}
+                  key={`childQANode-${childQAIdx}`}
                   path={[topQuestionIdx, topAnswerIdx, childQAIdx]}
                   index={childQAIdx}
                   node={childQANode}

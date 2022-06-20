@@ -46,8 +46,8 @@ export default function TopAnswerContainer(props: TopAnswerContainerProps) {
   if (node.type !== "answer") return <></>;
 
   return (
-    <StFieldset>
-      <StAnswerWrapper hasborder={node.children.length > 0}>
+    <StAnswerWrapper>
+      <StFieldset hasborder={node.children.length > 0}>
         <legend>
           <StAnswerIcon />
         </legend>
@@ -67,13 +67,13 @@ export default function TopAnswerContainer(props: TopAnswerContainerProps) {
             삭제
           </StMenuBtn>
         </StMenuWrapper>
-      </StAnswerWrapper>
+      </StFieldset>
       {children}
-    </StFieldset>
+    </StAnswerWrapper>
   );
 }
 
-const StFieldset = styled.fieldset`
+const StAnswerWrapper = styled.article`
   position: relative;
 
   padding: 2.6rem 2.8rem;
@@ -84,7 +84,7 @@ const StFieldset = styled.fieldset`
   background-color: ${({ theme }) => theme.colors.white};
 `;
 
-const StAnswerWrapper = styled.div<{ hasborder: boolean }>`
+const StFieldset = styled.fieldset<{ hasborder: boolean }>`
   display: flex;
   align-items: center;
   justify-content: space-between;
