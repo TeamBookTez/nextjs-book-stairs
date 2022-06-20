@@ -9,7 +9,7 @@
 
 import styled from "@emotion/styled";
 import { useEffect, useRef } from "react";
-import TextareaAutosize from "react-textarea-autosize";
+import reactTextareaAutosize from "react-textarea-autosize";
 
 import { IcPeriQuestion } from "../../../public/assets/icons";
 import { PeriNoteTreeNode } from "../../../types/bookNote";
@@ -119,7 +119,7 @@ const StQuestionIcon = styled(IcPeriQuestion)`
   left: 0.8rem;
 `;
 
-const StInput = styled(TextareaAutosize)`
+const StInput = styled(reactTextareaAutosize)`
   flex: 1;
   margin: 0;
   min-height: 2.6rem;
