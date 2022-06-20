@@ -2,11 +2,12 @@
 마지막 편집자: 22-06-18 joohaem
 변경사항 및 참고:
   - TopQuestionContainer 안에 TopAnswerContainer 안에 ChildQANode
+
   - toggleMenu 살펴보기 (더보기 메뉴 DOM 접근?) / StMoreIcon (.icn_more) - StMenuWrapper (.isPriQ)
   - deepCopyTree --> immer.js 로 변경
     
 고민점:
-  - 
+  - 로그인 loading -> initial data 표시 -> fetching loading 단계로 로딩이 이루어지는데, 통합이 필요할 것 같습니다,!
 */
 
 import { css } from "@emotion/react";
@@ -18,6 +19,7 @@ import { StepUpNDrawerIdx } from "../../../pages/book-note/[reviewId]";
 import { PeriNoteData } from "../../../types/bookNote";
 import { deepCopyTree, getNodeByPath } from "../../../util/bookNoteTree";
 import useFetchBookNote from "../../../util/hooks/useFetchBookNote";
+import { Loading } from "../../common";
 import { DefaultButton } from "../../common/styled/Button";
 import { HeaderLabel } from ".";
 import TopAnswerContainer from "./TopAnswerContainer";
@@ -37,7 +39,13 @@ const initialPeriNoteData: PeriNoteData = {
   answerThree: {
     type: "Root",
     content: "root",
-    children: [{ type: "question", content: "", children: [{ type: "answer", content: "", children: [] }] }],
+    children: [
+      {
+        type: "question",
+        content: "",
+        children: [{ type: "answer", content: "", children: [] }],
+      },
+    ],
   },
   reviewSt: 3,
 };
@@ -79,6 +87,7 @@ export default function PeriNote(props: PeriNoteProps) {
     setData({ ...data, answerThree: newRoot });
   };
 
+  // add answer 혹은 save(submit) 시에 useForm으로 관리했던 객체 업데이트
   const saveStatelessPeriNoteData = () => {
     const obj = getValues();
 
@@ -167,35 +176,35 @@ export default function PeriNote(props: PeriNoteProps) {
     }
   }, [data.answerThree]);
 
+  if (isLoading) return <Loading />;
+
   return (
     <StNoteForm onClick={toggleMenu}>
       <HeaderLabel handleOpenStepUpModal={handleOpenStepUpModal} handleOpenDrawer={handleOpenDrawer} />
 
       {/* 컴포넌트 분리 */}
-      {data.answerThree?.children &&
-        data.answerThree.children.map((topQuestionNode, topQuestionIdx) => (
-          <React.Fragment key={`questionList-${topQuestionIdx}`}>
-            <TopQuestionContainer
-              path={[topQuestionIdx]}
-              node={topQuestionNode}
+      {data.answerThree.children.map((topQuestionNode, topQuestionIdx) => (
+        <React.Fragment key={`questionList-${topQuestionIdx}`}>
+          <TopQuestionContainer
+            path={[topQuestionIdx]}
+            node={topQuestionNode}
+            onSetContent={handleSetContent}
+            onAddTopAnswer={handleAddChild}
+            onDeleteChild={handleDeleteChild}
+          />
+          {topQuestionNode.children.map((topAnswerNode, topAnswerIdx) => (
+            <TopAnswerContainer
+              key={topAnswerIdx}
+              index={topAnswerIdx}
+              path={[topQuestionIdx, topAnswerIdx]}
+              node={topAnswerNode}
               onSetContent={handleSetContent}
-              onAddTopAnswer={handleAddChild}
+              onAddChild={handleAddChild}
               onDeleteChild={handleDeleteChild}
             />
-            {topQuestionNode.children &&
-              topQuestionNode.children.map((topAnswerNode, topAnswerIdx) => (
-                <TopAnswerContainer
-                  key={topAnswerIdx}
-                  index={topAnswerIdx}
-                  path={[topQuestionIdx, topAnswerIdx]}
-                  node={topAnswerNode}
-                  onSetContent={handleSetContent}
-                  onAddChild={handleAddChild}
-                  onDeleteChild={handleDeleteChild}
-                />
-              ))}
-          </React.Fragment>
-        ))}
+          ))}
+        </React.Fragment>
+      ))}
 
       <StAddChildButton type="button" disabled={isPreventedPeriNote.addQuestion} onClick={() => handleAddChild([])}>
         질문 리스트 추가

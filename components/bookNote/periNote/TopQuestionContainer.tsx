@@ -56,6 +56,8 @@ export default function TopQuestionContainer(props: TopQuestionContainerProps) {
     }
   }, []);
 
+  if (node.type !== "question") return <></>;
+
   return (
     <StArticle>
       <StFieldset>
