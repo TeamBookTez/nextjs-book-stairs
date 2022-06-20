@@ -1,3 +1,12 @@
+/*
+마지막 편집자: 22-06-20 joohaem
+변경사항 및 참고:
+  - path: [0], [1], [2], ...
+    
+고민점:
+  - 
+*/
+
 import styled from "@emotion/styled";
 import { useEffect, useRef } from "react";
 import TextareaAutosize from "react-textarea-autosize";
@@ -11,30 +20,33 @@ import { StMenuWrapper } from "../../common/styled/MenuWrapper";
 interface TopQuestionContainerProps {
   path: number[];
   node: PeriNoteTreeNode;
-  onAddChild: (path: number[], currentIndex: number, isQuestion: boolean) => void;
   onSetContent: (value: string, path: number[]) => void;
+  onAddChild: (path: number[], currentIndex: number, isQuestion: boolean) => void;
   onDeleteChild: (path: number[]) => void;
 }
 
 export default function TopQuestionContainer(props: TopQuestionContainerProps) {
-  const { path, node, onAddChild, onSetContent, onDeleteChild } = props;
+  const { path, node, onSetContent, onAddChild, onDeleteChild } = props;
 
-  // 답변 추가 시 사용되는 변수라서 isQuestion false인 것
-  const isQuestion = false;
   // 큰 답변 추가시 사용되는 index는 현재 큰질문의 index가 아닌 답변의 개수
   const currentIndex = node.children.length - 1;
 
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
-  const handleContent = (e: React.ChangeEvent<HTMLTextAreaElement>, pathArray: number[]) => {
+  const handleContent = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     if (e.target.value !== "\n") {
-      onSetContent(e.target.value, pathArray);
+      onSetContent(e.target.value, path);
     }
   };
 
-  const handleKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>, pathArray: number[]) => {
+  const addTopAnswer = () => {
+    onAddChild(path, currentIndex, false);
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
-      onAddChild(pathArray, currentIndex, isQuestion);
+      // 답변 추가 시 사용되는 변수라서 isQuestion = false인 것
+      addTopAnswer();
     }
   };
 
@@ -54,10 +66,10 @@ export default function TopQuestionContainer(props: TopQuestionContainerProps) {
           ref={textAreaRef}
           value={node.content}
           placeholder="질문을 입력해주세요."
-          onChange={(e) => handleContent(e, path)}
-          onKeyPress={(e) => handleKeyPress(e, path)}
+          onChange={handleContent}
+          onKeyPress={handleKeyPress}
         />
-        <StAddAnswerButton type="button" onClick={() => onAddChild(path, currentIndex, isQuestion)}>
+        <StAddAnswerButton type="button" onClick={addTopAnswer}>
           답변
         </StAddAnswerButton>
         <StMoreIcon className="icn_more" />

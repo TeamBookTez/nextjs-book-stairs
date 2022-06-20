@@ -2,7 +2,7 @@
 마지막 편집자: 22-06-18 joohaem
 변경사항 및 참고:
   - TopQuestionContainer 안에 TopAnswerContainer 안에 ChildQANode
-  - toggleMenu 살펴보기 (더보기 메뉴 DOM 접근?)
+  - toggleMenu 살펴보기 (더보기 메뉴 DOM 접근?) / StMoreIcon (.icn_more) - StMenuWrapper (.isPriQ)
   - deepCopyTree --> immer.js 로 변경
     
 고민점:
@@ -47,10 +47,6 @@ export default function PeriNote(props: PeriNoteProps) {
   const { data, setData, isLoading } = useFetchBookNote<PeriNoteData>(`/review/${reviewId}/peri`, initialPeriNoteData);
 
   const { getValues, register, setFocus } = useForm<UseForm>();
-
-  // handling data
-  // handling saving progress
-  // prevent refresh
 
   const [isPreventedPeriNote, setIsPreventedPeriNote] = useState({ addQuestion: true, isCompleted: true });
 
@@ -193,8 +189,8 @@ export default function PeriNote(props: PeriNoteProps) {
             key={`questionList-${idx}`}
             path={[idx]}
             node={node}
-            onAddChild={handleAddChild}
             onSetContent={handleSetContent}
+            onAddChild={handleAddChild}
             onDeleteChild={handleDeleteChild}
           />
         ))}
