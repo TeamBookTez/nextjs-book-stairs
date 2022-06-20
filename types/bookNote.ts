@@ -53,7 +53,11 @@ export interface SavingProgress {
   isError: boolean;
 }
 
+// react-hook-form의 useForm type (string of path)
+export interface UseForm {
+  [key: string]: string;
+}
 export interface FormController {
-  register: UseFormRegister<FormData>;
-  setFocus: UseFormSetFocus<FormData>;
+  register: UseFormRegister<UseForm>;
+  setFocus: UseFormSetFocus<UseForm>;
 }

@@ -16,12 +16,13 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 import { StepUpNDrawerIdx } from "../../../pages/book-note/[reviewId]";
-import { PeriNoteData } from "../../../types/bookNote";
+import { PeriNoteData, UseForm } from "../../../types/bookNote";
 import { deepCopyTree, getNodeByPath } from "../../../util/bookNoteTree";
 import useFetchBookNote from "../../../util/hooks/useFetchBookNote";
 import { Loading } from "../../common";
 import { DefaultButton } from "../../common/styled/Button";
 import { HeaderLabel } from ".";
+import ChildQANode from "./ChildQANode";
 import TopAnswerContainer from "./TopAnswerContainer";
 import TopQuestionContainer from "./TopQuestionContainer";
 
@@ -29,10 +30,6 @@ interface PeriNoteProps {
   reviewId: string;
   handleOpenStepUpModal: (i: StepUpNDrawerIdx) => void;
   handleOpenDrawer: (i: StepUpNDrawerIdx) => void;
-}
-
-interface UseForm {
-  [key: string]: string;
 }
 
 const initialPeriNoteData: PeriNoteData = {
@@ -188,20 +185,31 @@ export default function PeriNote(props: PeriNoteProps) {
           <TopQuestionContainer
             path={[topQuestionIdx]}
             node={topQuestionNode}
-            onSetContent={handleSetContent}
             onAddTopAnswer={handleAddChild}
             onDeleteChild={handleDeleteChild}
+            onSetContent={handleSetContent}
           />
           {topQuestionNode.children.map((topAnswerNode, topAnswerIdx) => (
             <TopAnswerContainer
-              key={topAnswerIdx}
+              key={`topAnswerContainer-${topQuestionIdx}`}
               index={topAnswerIdx}
               path={[topQuestionIdx, topAnswerIdx]}
               node={topAnswerNode}
-              onSetContent={handleSetContent}
               onAddChild={handleAddChild}
               onDeleteChild={handleDeleteChild}
-            />
+              onSetContent={handleSetContent}>
+              {topAnswerNode.children.map((childQANode, childQAIdx) => (
+                <ChildQANode
+                  key={`childQANode-${topAnswerIdx}-${childQAIdx}`}
+                  path={[topQuestionIdx, topAnswerIdx, childQAIdx]}
+                  index={childQAIdx}
+                  node={childQANode}
+                  onAddChild={handleAddChild}
+                  onDeleteChild={handleDeleteChild}
+                  formController={{ register, setFocus }}
+                />
+              ))}
+            </TopAnswerContainer>
           ))}
         </React.Fragment>
       ))}
