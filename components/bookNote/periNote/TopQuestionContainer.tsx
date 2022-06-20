@@ -75,7 +75,7 @@ export default function TopQuestionContainer(props: TopQuestionContainerProps) {
           답변
         </StAddAnswerButton>
         <StMoreIcon className="icn_more" />
-        <StMenuWrapper menuposition="isPriQ">
+        <StMenuWrapper menuposition="isTopOfQA">
           <StMenuBtn type="button" onClick={() => onDeleteChild(path)}>
             삭제
           </StMenuBtn>

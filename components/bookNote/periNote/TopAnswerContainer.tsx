@@ -37,7 +37,7 @@ export default function TopAnswerContainer(props: TopAnswerContainerProps) {
         // onKeyPress={(e) => handleKeyPress(e, path, index, isQuestion)}
         />
         <StMore className="icn_more" />
-        <StMenuWrapper menuposition={"isPriQ"}>
+        <StMenuWrapper menuposition="isTopOfQA">
           <StMenuBtn
             type="button"
             //  onClick={() => handleClickAddChild(path, index, !isQuestion)}
