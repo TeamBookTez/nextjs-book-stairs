@@ -4,13 +4,13 @@ interface TopAnswerContainerProps {
   index: number;
   path: number[];
   node: PeriNoteTreeNode;
-  onAddChild: (path: number[], index: number, isQuestion: boolean) => void;
   onSetContent: (value: string, path: number[]) => void;
+  onAddChild: (path: number[], index?: number) => void;
   onDeleteChild: (path: number[]) => void;
 }
 
 export default function TopAnswerContainer(props: TopAnswerContainerProps) {
-  const { index, path, node, onAddChild, onSetContent, onDeleteChild } = props;
+  const { index, path, node, onSetContent, onAddChild, onDeleteChild } = props;
 
   return <div>TopAnswerContainer</div>;
 }

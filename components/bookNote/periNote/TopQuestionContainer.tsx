@@ -21,12 +21,12 @@ interface TopQuestionContainerProps {
   path: number[];
   node: PeriNoteTreeNode;
   onSetContent: (value: string, path: number[]) => void;
-  onAddChild: (path: number[], currentIndex: number, isQuestion: boolean) => void;
+  onAddTopAnswer: (path: number[], currentIndex: number) => void;
   onDeleteChild: (path: number[]) => void;
 }
 
 export default function TopQuestionContainer(props: TopQuestionContainerProps) {
-  const { path, node, onSetContent, onAddChild, onDeleteChild } = props;
+  const { path, node, onSetContent, onAddTopAnswer, onDeleteChild } = props;
 
   // 큰 답변 추가시 사용되는 index는 현재 큰질문의 index가 아닌 답변의 개수
   const currentIndex = node.children.length - 1;
@@ -40,7 +40,7 @@ export default function TopQuestionContainer(props: TopQuestionContainerProps) {
   };
 
   const addTopAnswer = () => {
-    onAddChild(path, currentIndex, false);
+    onAddTopAnswer(path, currentIndex);
   };
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {

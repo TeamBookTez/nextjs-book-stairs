@@ -51,43 +51,30 @@ export default function PeriNote(props: PeriNoteProps) {
 
   const [isPreventedPeriNote, setIsPreventedPeriNote] = useState({ addQuestion: true, isCompleted: true });
 
-  const handleAddChild = (path: number[], currentIndex: number, isQuestion: boolean) => {
-    if (isQuestion) {
-      addQuestion(path);
+  const handleAddChild = (path: number[], currentIndex?: number) => {
+    // currentIndex가 있으면 "answer", 없으면 "question" 추가
+    const newRoot = currentIndex ? saveStatelessPeriNoteData() : deepCopyTree(data.answerThree);
+    const current = getNodeByPath(newRoot, path);
+
+    if (currentIndex) {
+      current.children.splice(currentIndex + 1, 0, {
+        type: "answer",
+        content: "",
+        children: [],
+      });
     } else {
-      addAnswer(path, currentIndex);
+      current.children.push({
+        type: "question",
+        content: "",
+        children: [
+          {
+            type: "answer",
+            content: "",
+            children: [],
+          },
+        ],
+      });
     }
-  };
-
-  const addQuestion = (path: number[]) => {
-    // 깊은 복사 후 위치를 찾아 새로운 node를 추가하고 root를 set에 넘김
-    const newRoot = deepCopyTree(data.answerThree);
-    const current = getNodeByPath(newRoot, path);
-
-    current.children.push({
-      type: "question",
-      content: "",
-      children: [
-        {
-          type: "answer",
-          content: "",
-          children: [],
-        },
-      ],
-    });
-
-    setData({ ...data, answerThree: newRoot });
-  };
-
-  const addAnswer = (path: number[], currentIndex: number) => {
-    const newRoot = saveStatelessPeriNoteData();
-    const current = getNodeByPath(newRoot, path);
-
-    current.children.splice(currentIndex + 1, 0, {
-      type: "answer",
-      content: "",
-      children: [],
-    });
 
     setData({ ...data, answerThree: newRoot });
   };
@@ -192,7 +179,7 @@ export default function PeriNote(props: PeriNoteProps) {
               path={[topQuestionIdx]}
               node={topQuestionNode}
               onSetContent={handleSetContent}
-              onAddChild={handleAddChild}
+              onAddTopAnswer={handleAddChild}
               onDeleteChild={handleDeleteChild}
             />
             {topQuestionNode.children &&
@@ -210,10 +197,7 @@ export default function PeriNote(props: PeriNoteProps) {
           </React.Fragment>
         ))}
 
-      <StAddChildButton
-        type="button"
-        disabled={isPreventedPeriNote.addQuestion}
-        onClick={() => handleAddChild([], data.answerThree.children.length, true)}>
+      <StAddChildButton type="button" disabled={isPreventedPeriNote.addQuestion} onClick={() => handleAddChild([])}>
         질문 리스트 추가
       </StAddChildButton>
 
