@@ -11,7 +11,7 @@
 
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 import { StepUpNDrawerIdx } from "../../../pages/book-note/[reviewId]";
@@ -20,6 +20,7 @@ import { deepCopyTree, getNodeByPath } from "../../../util/bookNoteTree";
 import useFetchBookNote from "../../../util/hooks/useFetchBookNote";
 import { DefaultButton } from "../../common/styled/Button";
 import { HeaderLabel } from ".";
+import TopAnswerContainer from "./TopAnswerContainer";
 import TopQuestionContainer from "./TopQuestionContainer";
 
 interface PeriNoteProps {
@@ -183,16 +184,30 @@ export default function PeriNote(props: PeriNoteProps) {
     <StNoteForm onClick={toggleMenu}>
       <HeaderLabel handleOpenStepUpModal={handleOpenStepUpModal} handleOpenDrawer={handleOpenDrawer} />
 
+      {/* 컴포넌트 분리 */}
       {data.answerThree?.children &&
-        data.answerThree.children.map((node, idx) => (
-          <TopQuestionContainer
-            key={`questionList-${idx}`}
-            path={[idx]}
-            node={node}
-            onSetContent={handleSetContent}
-            onAddChild={handleAddChild}
-            onDeleteChild={handleDeleteChild}
-          />
+        data.answerThree.children.map((topQuestionNode, topQuestionIdx) => (
+          <React.Fragment key={`questionList-${topQuestionIdx}`}>
+            <TopQuestionContainer
+              path={[topQuestionIdx]}
+              node={topQuestionNode}
+              onSetContent={handleSetContent}
+              onAddChild={handleAddChild}
+              onDeleteChild={handleDeleteChild}
+            />
+            {topQuestionNode.children &&
+              topQuestionNode.children.map((topAnswerNode, topAnswerIdx) => (
+                <TopAnswerContainer
+                  key={topAnswerIdx}
+                  index={topAnswerIdx}
+                  path={[topQuestionIdx, topAnswerIdx]}
+                  node={topAnswerNode}
+                  onSetContent={handleSetContent}
+                  onAddChild={handleAddChild}
+                  onDeleteChild={handleDeleteChild}
+                />
+              ))}
+          </React.Fragment>
         ))}
 
       <StAddChildButton
