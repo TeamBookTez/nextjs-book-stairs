@@ -96,6 +96,15 @@ export default function Index() {
     setIsDrawerdefault(true);
   };
 
+  // --------------------------------------------------------------------------
+
+  // 뒤로 가기 막기
+  const preventGoBack = () => {
+    history.pushState(null, "", location.href);
+    toggleExitModal();
+  };
+
+  // 새로고침 막기
   const preventClose = (e: BeforeUnloadEvent) => {
     e.preventDefault();
     e.returnValue = ""; //deprecated
@@ -103,11 +112,18 @@ export default function Index() {
 
   useEffect(() => {
     (() => {
+      // 뒤로 가기 막기
+      history.pushState(null, "", location.href);
+      window.addEventListener("popstate", preventGoBack);
+      // 새로고침 막기
       window.addEventListener("beforeunload", preventClose);
     })();
 
     return () => {
+      window.removeEventListener("popstate", preventGoBack);
       window.removeEventListener("beforeunload", preventClose);
+
+      handleCloseDrawer();
     };
   }, []);
 
@@ -116,10 +132,8 @@ export default function Index() {
       <PreNote
         isLogin={isLogin}
         reviewId={reviewId}
-        toggleExitModal={toggleExitModal}
         handleOpenStepUpModal={handleOpenStepUpModal}
         handleOpenDrawer={handleOpenDrawer}
-        handleCloseDrawer={handleCloseDrawer}
         isPreventedPreNote={isPreventedPreNote}
         handlePrevent={handlePrevent}
         handleNavIndex={handleNavIndex}

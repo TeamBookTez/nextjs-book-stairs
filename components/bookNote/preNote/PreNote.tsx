@@ -26,10 +26,8 @@ import PreNoteThirdArticle from "./PreNoteThirdArticle";
 interface PreNoteProps {
   isLogin: boolean;
   reviewId: string;
-  toggleExitModal: () => void;
   handleOpenStepUpModal: (i: StepUpNDrawerIdx) => void;
   handleOpenDrawer: (i: StepUpNDrawerIdx) => void;
-  handleCloseDrawer: () => void;
   isPreventedPreNote: boolean;
   handlePrevent: (shouldPrevent: boolean) => void;
   handleNavIndex: (idx: BookNotePathKey) => void;
@@ -49,10 +47,8 @@ export default function PreNote(props: PreNoteProps) {
   const {
     isLogin,
     reviewId,
-    toggleExitModal,
     handleOpenStepUpModal,
     handleOpenDrawer,
-    handleCloseDrawer,
     isPreventedPreNote,
     handlePrevent,
     handleNavIndex,
@@ -111,23 +107,6 @@ export default function PreNote(props: PreNoteProps) {
       }
     }
   }, [savingProgress.isPending]);
-
-  // --------------------------------------------------------------------------
-
-  const preventGoBack = () => {
-    history.pushState(null, "", location.href);
-    toggleExitModal();
-  };
-
-  useEffect(() => {
-    history.pushState(null, "", location.href);
-    window.addEventListener("popstate", preventGoBack);
-
-    return () => {
-      window.removeEventListener("popstate", preventGoBack);
-      handleCloseDrawer();
-    };
-  }, []);
 
   // --------------------------------------------------------------------------
 

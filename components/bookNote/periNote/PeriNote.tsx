@@ -173,6 +173,8 @@ export default function PeriNote(props: PeriNoteProps) {
     }
   }, [data.answerThree]);
 
+  // --------------------------------------------------------------------------
+
   if (isLoading) return <Loading />;
 
   return (
