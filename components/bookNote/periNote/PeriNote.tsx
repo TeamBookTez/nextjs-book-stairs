@@ -183,7 +183,7 @@ export default function PeriNote(props: PeriNoteProps) {
       const _savingProgress = { isPending: false, isError: false };
 
       try {
-        patchBookNote(`/review/${reviewId}/peri`, data);
+        patchBookNote(`/review/${reviewId}/peri`, { ...data, answerThree: saveStatelessPeriNoteData() });
       } catch {
         _savingProgress.isError = true;
       } finally {
