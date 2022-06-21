@@ -127,6 +127,10 @@ export default function Index() {
     };
   }, []);
 
+  useEffect(() => {
+    console.log(savingProgress);
+  }, [savingProgress]);
+
   const bookNoteComponent =
     navIndex === "pre" ? (
       <PreNote
@@ -141,7 +145,13 @@ export default function Index() {
         handleSavingProgress={handleSavingProgress}
       />
     ) : (
-      <PeriNote reviewId={reviewId} handleOpenStepUpModal={handleOpenStepUpModal} handleOpenDrawer={handleOpenDrawer} />
+      <PeriNote
+        reviewId={reviewId}
+        handleOpenStepUpModal={handleOpenStepUpModal}
+        handleOpenDrawer={handleOpenDrawer}
+        savingProgress={savingProgress}
+        handleSavingProgress={handleSavingProgress}
+      />
     );
 
   if (isLoginLoading) return <Loading />;

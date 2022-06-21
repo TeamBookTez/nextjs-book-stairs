@@ -29,6 +29,7 @@ export default function Navigation(props: NavigationProps) {
 
     handleSavingProgress({ isPending: true, isError: false });
     handleNavIndex(idx);
+    handleSavingProgress({ isPending: false, isError: false });
   };
 
   return (

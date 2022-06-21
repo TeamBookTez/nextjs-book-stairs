@@ -15,8 +15,9 @@ import styled from "@emotion/styled";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
+import { patchBookNote } from "../../../core/api";
 import { StepUpNDrawerIdx } from "../../../pages/book-note/[reviewId]";
-import { PeriNoteData, UseForm } from "../../../types/bookNote";
+import { PeriNoteData, SavingProgress, UseForm } from "../../../types/bookNote";
 import { deepCopyTree, getNodeByPath } from "../../../util/bookNoteTree";
 import useFetchBookNote from "../../../util/hooks/useFetchBookNote";
 import { Loading } from "../../common";
@@ -30,6 +31,8 @@ interface PeriNoteProps {
   reviewId: string;
   handleOpenStepUpModal: (i: StepUpNDrawerIdx) => void;
   handleOpenDrawer: (i: StepUpNDrawerIdx) => void;
+  savingProgress: SavingProgress;
+  handleSavingProgress: (obj: SavingProgress) => void;
 }
 
 const initialPeriNoteData: PeriNoteData = {
@@ -48,7 +51,7 @@ const initialPeriNoteData: PeriNoteData = {
 };
 
 export default function PeriNote(props: PeriNoteProps) {
-  const { reviewId, handleOpenStepUpModal, handleOpenDrawer } = props;
+  const { reviewId, handleOpenStepUpModal, handleOpenDrawer, savingProgress, handleSavingProgress } = props;
 
   const { data, setData, isLoading } = useFetchBookNote<PeriNoteData>(`/review/${reviewId}/peri`, initialPeriNoteData);
 
@@ -172,6 +175,22 @@ export default function PeriNote(props: PeriNoteProps) {
       }
     }
   }, [data.answerThree]);
+
+  // 네비게이션 바 클릭 시 or 저장하기 버튼 클릭 시 isPending: true
+  // 처음 data 를 fetch 하기 전 initialData 가 곧바로 저장되는 현상을 막아줌
+  useEffect(() => {
+    if (data !== initialPeriNoteData && savingProgress.isPending === true) {
+      const _savingProgress = { isPending: false, isError: false };
+
+      try {
+        patchBookNote(`/review/${reviewId}/peri`, data);
+      } catch {
+        _savingProgress.isError = true;
+      } finally {
+        handleSavingProgress(_savingProgress);
+      }
+    }
+  }, [savingProgress.isPending]);
 
   // --------------------------------------------------------------------------
 
