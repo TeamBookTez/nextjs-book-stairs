@@ -1,3 +1,12 @@
+/*
+마지막 편집자: 22-06-20 joohaem
+변경사항 및 참고:
+  - path: [0, 0], [0, 1], [1, 0], ...
+    
+고민점:
+  - 
+*/
+
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import React, { useEffect, useRef } from "react";
