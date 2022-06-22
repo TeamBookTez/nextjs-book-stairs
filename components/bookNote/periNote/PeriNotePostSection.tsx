@@ -13,6 +13,10 @@ interface PeriNotePostSectionProps {
   isPreventedPeriNoteComplete: boolean;
 }
 
+interface BookDetailResponse {
+  bookData: BookDetailData;
+}
+
 export default function PeriNotePostSection(props: PeriNotePostSectionProps) {
   const { reviewId, saveStatelessPeriNoteData, isPreventedPeriNoteComplete } = props;
 
@@ -31,7 +35,7 @@ export default function PeriNotePostSection(props: PeriNotePostSectionProps) {
     patchBookNote(`/review/${reviewId}/peri`, {
       answerThree: dataToPatch,
       reviewSt: 4,
-    }).then((res) => {
+    }).then((res: BookDetailResponse) => {
       setBookDetailData(res.bookData);
       SetIsOpenSubmitModal(true);
     });
