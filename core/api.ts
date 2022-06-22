@@ -31,7 +31,7 @@ export const patchUserWithdraw = (key: string) => {
 export const patchBookNote = async (key: string, body: PreNoteData | PeriNoteData) => {
   const { data } = await baseInstance.patch(key, body);
 
-  return data.data;
+  return data;
 };
 
 export const deleteData = (key: string) => {
