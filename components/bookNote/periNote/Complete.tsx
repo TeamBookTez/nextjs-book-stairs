@@ -7,11 +7,12 @@ import { StBookModalWrapper } from "../../common/styled/BookModalWrapper";
 import { DefaultButton } from "../../common/styled/Button";
 
 interface CompleteProps {
+  reviewId: string;
   bookDetailData: BookDetailData;
 }
 
 export default function Complete(props: CompleteProps) {
-  const { bookDetailData } = props;
+  const { reviewId, bookDetailData } = props;
 
   const { author, publicationDt, thumbnail, title, translator } = bookDetailData;
 
@@ -37,7 +38,7 @@ export default function Complete(props: CompleteProps) {
           <Link href="/main" passHref>
             <StMainButton type="button">메인으로</StMainButton>
           </Link>
-          <Link href="/detail" passHref>
+          <Link href={`/book-note/${reviewId}/detail`} passHref>
             <StCompleteButton type="button">북노트 확인</StCompleteButton>
           </Link>
         </StButtonWrapper>

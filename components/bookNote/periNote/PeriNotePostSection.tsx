@@ -52,7 +52,7 @@ export default function PeriNotePostSection(props: PeriNotePostSectionProps) {
         작성 완료
       </StSubmitButton>
 
-      {isOpenSubmitModal && <Complete bookDetailData={bookDetailData} />}
+      {isOpenSubmitModal && <Complete reviewId={reviewId} bookDetailData={bookDetailData} />}
     </>
   );
 }
