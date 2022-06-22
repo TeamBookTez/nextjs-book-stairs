@@ -16,6 +16,18 @@ export default function Complete(props: CompleteProps) {
 
   const { author, publicationDt, thumbnail, title, translator } = bookDetailData;
 
+  const customTranslator =
+    translator &&
+    (translator.length === 1 ? (
+      <StTranslator>{translator[0]} 옮김</StTranslator>
+    ) : (
+      translator.length >= 2 && (
+        <StTranslator>
+          {translator[0]} 외 {translator.length - 1}명 옮김
+        </StTranslator>
+      )
+    ));
+
   return (
     <StCompleteWrapper>
       <StAniWrapper>
@@ -24,14 +36,7 @@ export default function Complete(props: CompleteProps) {
         <StTitle>{title}</StTitle>
         <StSubWrapper>
           <StAuthor>{author.join(" ")} 지음</StAuthor>
-          {translator &&
-            (translator.length === 1 ? (
-              <StTranslator>{translator[0]} 옮김</StTranslator>
-            ) : translator.length >= 2 ? (
-              <StTranslator>
-                {translator[0]} 외 {translator.length - 1}명 옮김
-              </StTranslator>
-            ) : null)}
+          {customTranslator}
         </StSubWrapper>
         <StDate>{publicationDt} 출간</StDate>
         <StButtonWrapper>
