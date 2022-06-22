@@ -3,21 +3,27 @@ import styled from "@emotion/styled";
 import { useState } from "react";
 
 import { patchBookNote } from "../../../core/api";
-import { PeriNoteData, PeriNoteTreeNode } from "../../../types/bookNote";
+import { BookDetailData, PeriNoteTreeNode } from "../../../types/bookNote";
 import { DefaultButton } from "../../common/styled/Button";
+import { Complete } from ".";
 
 interface PeriNotePostSectionProps {
   reviewId: string;
-  bookData: PeriNoteData;
-  setBookData: React.Dispatch<React.SetStateAction<PeriNoteData>>;
   saveStatelessPeriNoteData: () => PeriNoteTreeNode;
   isPreventedPeriNoteComplete: boolean;
 }
 
 export default function PeriNotePostSection(props: PeriNotePostSectionProps) {
-  const { reviewId, bookData, setBookData, saveStatelessPeriNoteData, isPreventedPeriNoteComplete } = props;
+  const { reviewId, saveStatelessPeriNoteData, isPreventedPeriNoteComplete } = props;
 
   const [isOpenSubmitModal, SetIsOpenSubmitModal] = useState<boolean>(false);
+  const [bookDetailData, setBookDetailData] = useState<BookDetailData>({
+    author: [""],
+    publicationDt: "",
+    thumbnail: "",
+    title: "",
+    translator: [""],
+  });
 
   const submitPeriNote = () => {
     const dataToPatch = saveStatelessPeriNoteData();
@@ -26,7 +32,7 @@ export default function PeriNotePostSection(props: PeriNotePostSectionProps) {
       answerThree: dataToPatch,
       reviewSt: 4,
     }).then((res) => {
-      setBookData(res.bookData);
+      setBookDetailData(res.bookData);
       SetIsOpenSubmitModal(true);
     });
   };
@@ -42,7 +48,7 @@ export default function PeriNotePostSection(props: PeriNotePostSectionProps) {
         작성 완료
       </StSubmitButton>
 
-      {/* {isOpenSubmitModal && <Complete bookData={bookData} />} */}
+      {isOpenSubmitModal && <Complete bookDetailData={bookDetailData} />}
     </>
   );
 }

@@ -31,6 +31,14 @@ export interface PreNoteData {
   finishSt?: boolean;
 }
 
+export interface BookDetailData {
+  author: string[];
+  publicationDt: string;
+  thumbnail: string;
+  title: string;
+  translator: string[];
+}
+
 type StaticImageData = {
   src: string;
   height: number;

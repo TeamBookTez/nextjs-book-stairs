@@ -240,8 +240,6 @@ export default function PeriNote(props: PeriNoteProps) {
 
       <PeriNotePostSection
         reviewId={reviewId}
-        bookData={data}
-        setBookData={setData}
         saveStatelessPeriNoteData={saveStatelessPeriNoteData}
         isPreventedPeriNoteComplete={isPreventedPeriNote.isCompleted}
       />
