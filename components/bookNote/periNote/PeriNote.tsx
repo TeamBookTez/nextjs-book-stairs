@@ -22,7 +22,7 @@ import { deepCopyTree, getNodeByPath } from "../../../util/bookNoteTree";
 import useFetchBookNote from "../../../util/hooks/useFetchBookNote";
 import { Loading } from "../../common";
 import { DefaultButton } from "../../common/styled/Button";
-import { HeaderLabel } from ".";
+import { HeaderLabel, PeriNotePostSection } from ".";
 import ChildQANode from "./ChildQANode";
 import TopAnswerContainer from "./TopAnswerContainer";
 import TopQuestionContainer from "./TopQuestionContainer";
@@ -200,7 +200,6 @@ export default function PeriNote(props: PeriNoteProps) {
     <StNoteForm onClick={toggleMenu}>
       <HeaderLabel handleOpenStepUpModal={handleOpenStepUpModal} handleOpenDrawer={handleOpenDrawer} />
 
-      {/* 컴포넌트 분리 */}
       {data.answerThree.children.map((topQuestionNode, topQuestionIdx) => (
         <React.Fragment key={`questionList-${topQuestionIdx}`}>
           <TopQuestionContainer
@@ -239,15 +238,13 @@ export default function PeriNote(props: PeriNoteProps) {
         질문 리스트 추가
       </StAddChildButton>
 
-      {/* 컴포넌트 분리 */}
-      {/* type을 submit으로 변경하면 페이지를 이동하는 것에 초점을 둬서 제대로 작동하지 않음  */}
-      {/* <StSubmitButton
-        type="button"  
-        onClick={submitPeriNote}
-        disabled={isPreventedPeriNote.isCompleted}
-        id="btn_complete_reading">
-        작성 완료
-      </StSubmitButton> */}
+      <PeriNotePostSection
+        reviewId={reviewId}
+        bookData={data}
+        setBookData={setData}
+        saveStatelessPeriNoteData={saveStatelessPeriNoteData}
+        isPreventedPeriNoteComplete={isPreventedPeriNote.isCompleted}
+      />
     </StNoteForm>
   );
 }
@@ -271,27 +268,6 @@ const StAddChildButton = styled(DefaultButton)<{ disabled: boolean }>`
   width: 100%;
   color: ${({ theme, disabled }) => (disabled ? theme.colors.white500 : theme.colors.gray100)};
   ${({ theme }) => theme.fonts.button}
-
-  ${({ disabled }) =>
-    disabled &&
-    css`
-      &:hover {
-        cursor: default;
-      }
-    `}
-`;
-
-const StSubmitButton = styled(DefaultButton)<{ disabled: boolean }>`
-  margin-top: 6rem;
-  margin-left: auto;
-  border-radius: 1rem;
-
-  width: 32.5rem;
-  height: 5.6rem;
-  ${({ theme }) => theme.fonts.button}
-
-  background-color: ${({ disabled, theme }) => (disabled ? theme.colors.white400 : theme.colors.orange100)};
-  color: ${({ disabled, theme }) => (disabled ? theme.colors.gray300 : theme.colors.white)};
 
   ${({ disabled }) =>
     disabled &&
