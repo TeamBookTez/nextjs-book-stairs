@@ -1,3 +1,16 @@
+/*
+마지막 편집자: 22-06-23 joohaem
+변경사항 및 참고:
+  - To. 규민 ))
+    handleSubmit에서, 독서 중으로 넘어갈 때 질문리스트를 업데이트 시키기 위해
+    peri patch도 동시에 이루어집니다
+    하지만 이를 통합시켜서 patch 시킬 수 있는 API 가 따로 있다는 거!
+    --> https://www.notion.so/3649c9da08354c90b90c4ad1ab6a287e
+    
+고민점:
+  - 
+*/
+
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import Image from "next/image";
