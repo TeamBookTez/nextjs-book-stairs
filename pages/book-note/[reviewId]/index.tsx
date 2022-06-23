@@ -127,10 +127,6 @@ export default function Index() {
     };
   }, []);
 
-  useEffect(() => {
-    console.log(savingProgress);
-  }, [savingProgress]);
-
   const bookNoteComponent =
     navIndex === "pre" ? (
       <PreNote
