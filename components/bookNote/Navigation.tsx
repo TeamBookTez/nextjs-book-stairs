@@ -13,22 +13,23 @@ import { BookNotePathKey, SavingProgress } from "../../types/bookNote";
 
 interface NavigationProps {
   navIndex: BookNotePathKey;
-  isPrevented: boolean;
+  isPreventedPreNote: boolean;
   handleNavIndex: (idx: BookNotePathKey) => void;
   handleSavingProgress: (obj: SavingProgress) => void;
   onSetDrawerAsDefault: () => void;
 }
 
 export default function Navigation(props: NavigationProps) {
-  const { navIndex, isPrevented, handleNavIndex, handleSavingProgress, onSetDrawerAsDefault } = props;
+  const { navIndex, isPreventedPreNote, handleNavIndex, handleSavingProgress, onSetDrawerAsDefault } = props;
 
   const onClickNavList = (idx: BookNotePathKey) => {
     onSetDrawerAsDefault();
 
-    if (idx === "peri" && isPrevented) return;
+    if (idx === "peri" && isPreventedPreNote) return;
 
     handleSavingProgress({ isPending: true, isError: false });
     handleNavIndex(idx);
+    handleSavingProgress({ isPending: false, isError: false });
   };
 
   return (

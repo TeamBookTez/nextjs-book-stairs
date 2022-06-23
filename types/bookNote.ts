@@ -1,3 +1,5 @@
+import { UseFormRegister, UseFormSetFocus } from "react-hook-form";
+
 const bookNotePathKey = {
   pre: "pre",
   peri: "peri",
@@ -6,7 +8,7 @@ const bookNotePathKey = {
 export type BookNotePathKey = typeof bookNotePathKey[keyof typeof bookNotePathKey];
 
 export interface PeriNoteTreeNode {
-  type: string;
+  type: "Root" | "question" | "answer";
   content: string;
   children: PeriNoteTreeNode[];
 }
@@ -29,6 +31,14 @@ export interface PreNoteData {
   finishSt?: boolean;
 }
 
+export interface BookDetailData {
+  author: string[];
+  publicationDt: string;
+  thumbnail: string;
+  title: string;
+  translator: string[];
+}
+
 type StaticImageData = {
   src: string;
   height: number;
@@ -49,4 +59,13 @@ export interface StepUpContent {
 export interface SavingProgress {
   isPending: boolean;
   isError: boolean;
+}
+
+// react-hook-form의 useForm type (string of path)
+export interface UseForm {
+  [key: string]: string;
+}
+export interface FormController {
+  register: UseFormRegister<UseForm>;
+  setFocus: UseFormSetFocus<UseForm>;
 }

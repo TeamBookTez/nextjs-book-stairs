@@ -11,13 +11,9 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { useEffect, useState } from "react";
-import { useRecoilValue } from "recoil";
 
 import { patchBookNote } from "../../../core/api";
-import { navigatingBookInfoState } from "../../../core/atom";
-import LocalStorage from "../../../core/localStorage";
 import { StepUpNDrawerIdx } from "../../../pages/book-note/[reviewId]";
-import { NavigatingBookInfoState } from "../../../types/bookcase";
 import { BookNotePathKey, PreNoteData, SavingProgress } from "../../../types/bookNote";
 import useFetchBookNote from "../../../util/hooks/useFetchBookNote";
 import { Loading } from "../../common";
@@ -29,11 +25,10 @@ import PreNoteThirdArticle from "./PreNoteThirdArticle";
 
 interface PreNoteProps {
   isLogin: boolean;
-  toggleExitModal: () => void;
+  reviewId: string;
   handleOpenStepUpModal: (i: StepUpNDrawerIdx) => void;
   handleOpenDrawer: (i: StepUpNDrawerIdx) => void;
-  handleCloseDrawer: () => void;
-  isPrevented: boolean;
+  isPreventedPreNote: boolean;
   handlePrevent: (shouldPrevent: boolean) => void;
   handleNavIndex: (idx: BookNotePathKey) => void;
   savingProgress: SavingProgress;
@@ -51,25 +46,17 @@ const initialPreNoteData: PreNoteData = {
 export default function PreNote(props: PreNoteProps) {
   const {
     isLogin,
-    toggleExitModal,
+    reviewId,
     handleOpenStepUpModal,
     handleOpenDrawer,
-    handleCloseDrawer,
-    isPrevented,
+    isPreventedPreNote,
     handlePrevent,
     handleNavIndex,
     savingProgress,
     handleSavingProgress,
   } = props;
 
-  const navigatingBookInfo = useRecoilValue<NavigatingBookInfoState>(navigatingBookInfoState);
-  const { reviewId } = navigatingBookInfo;
-
-  const { data, setData, isLoading } = useFetchBookNote<PreNoteData>(
-    LocalStorage.getItem("booktez-token"),
-    `/review/${reviewId}/pre`,
-    initialPreNoteData,
-  );
+  const { data, setData, isLoading } = useFetchBookNote<PreNoteData>(`/review/${reviewId}/pre`, initialPreNoteData);
 
   const [isFilled, setIsFilled] = useState<boolean>(false);
   const [isFilledOnlyThree, setIsFilledOnlyThree] = useState<boolean>(false);
@@ -85,7 +72,7 @@ export default function PreNote(props: PreNoteProps) {
   };
 
   useEffect(() => {
-    if (data.reviewSt > 2) {
+    if (data && data.reviewSt > 2) {
       handlePrevent(false);
       setIsFilled(true);
       setIsFilledOnlyThree(true);
@@ -93,10 +80,10 @@ export default function PreNote(props: PreNoteProps) {
       handlePrevent(true);
     }
 
-    if (data.answerOne && data.answerTwo && !data.questionList.includes("")) {
+    if (data && data.answerOne && data.answerTwo && !data.questionList.includes("")) {
       setIsFilled(true);
       setIsFilledOnlyThree(true);
-    } else if (!data.questionList.includes("")) {
+    } else if (data && !data.questionList.includes("")) {
       setIsFilled(false);
       setIsFilledOnlyThree(true);
     } else {
@@ -123,23 +110,6 @@ export default function PreNote(props: PreNoteProps) {
 
   // --------------------------------------------------------------------------
 
-  const preventGoBack = () => {
-    history.pushState(null, "", location.href);
-    toggleExitModal();
-  };
-
-  useEffect(() => {
-    history.pushState(null, "", location.href);
-    window.addEventListener("popstate", preventGoBack);
-
-    return () => {
-      window.removeEventListener("popstate", preventGoBack);
-      handleCloseDrawer();
-    };
-  }, []);
-
-  // --------------------------------------------------------------------------
-
   if (isLoading) return <Loading />;
 
   return (
@@ -153,7 +123,7 @@ export default function PreNote(props: PreNoteProps) {
           onClickOpenDrawer={() => handleOpenDrawer(1)}>
           <StTextarea
             placeholder="답변을 입력해주세요."
-            value={data.answerOne}
+            value={data && data.answerOne}
             onChange={(e) => handleChangeReview("answerOne", e.target.value)}
           />
         </PreNoteFormContainer>
@@ -164,7 +134,7 @@ export default function PreNote(props: PreNoteProps) {
           onClickOpenDrawer={() => handleOpenDrawer(2)}>
           <StTextarea
             placeholder="답변을 입력해주세요."
-            value={data.answerTwo}
+            value={data && data.answerTwo}
             onChange={(e) => handleChangeReview("answerTwo", e.target.value)}
           />
         </PreNoteFormContainer>
@@ -175,9 +145,9 @@ export default function PreNote(props: PreNoteProps) {
             onClickStepUpBtn={() => handleOpenStepUpModal(3)}
             onClickOpenDrawer={() => handleOpenDrawer(3)}>
             <PreNoteThirdArticle
-              questionList={data.questionList}
+              questionList={data && data.questionList}
               onChangeReview={handleChangeReview}
-              isPrevented={isPrevented}
+              isPreventedPreNote={isPreventedPreNote}
               isFilledOnlyThree={isFilledOnlyThree}
             />
           </PreNoteFormContainer>

@@ -16,12 +16,12 @@ const preNoteData: PreNoteData = {
 interface PreNoteThirdArticleProps {
   questionList: string[];
   onChangeReview: <K extends keyof typeof preNoteData, V extends typeof preNoteData[K]>(key: K, value: V) => void;
-  isPrevented: boolean;
+  isPreventedPreNote: boolean;
   isFilledOnlyThree: boolean;
 }
 
 export default function PreNoteThirdArticle(props: PreNoteThirdArticleProps) {
-  const { questionList, onChangeReview, isPrevented, isFilledOnlyThree } = props;
+  const { questionList, onChangeReview, isPreventedPreNote, isFilledOnlyThree } = props;
 
   const [isAdded, setIsAdded] = useState<boolean>(false);
 
@@ -57,12 +57,12 @@ export default function PreNoteThirdArticle(props: PreNoteThirdArticleProps) {
             idx={idx}
             onChangeValue={handleChange}
             onDelete={handleDelete}
-            isPrevented={isPrevented}
+            isPreventedPreNote={isPreventedPreNote}
             isAdded={isAdded}
             onAddInput={handleAddInput}
           />
         ))}
-      {isPrevented && (
+      {isPreventedPreNote && (
         <StAddButton type="button" disabled={!isFilledOnlyThree} onClick={handleAddInput}>
           + 질문추가
         </StAddButton>

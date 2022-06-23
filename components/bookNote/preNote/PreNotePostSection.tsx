@@ -1,11 +1,14 @@
 /*
-마지막 편집자: 22-06-15 joohaem
+마지막 편집자: 22-06-23 joohaem
 변경사항 및 참고:
+  - To. 규민 ))
+    handleSubmit에서, 독서 중으로 넘어갈 때 질문리스트를 업데이트 시키기 위해
+    peri patch도 동시에 이루어집니다
+    하지만 이를 통합시켜서 patch 시킬 수 있는 API 가 따로 있다는 거!
+    --> https://www.notion.so/3649c9da08354c90b90c4ad1ab6a287e
+    
+고민점:
   - 
-  
-  고민점:
-  - 
-
 */
 
 import { css } from "@emotion/react";
@@ -17,7 +20,7 @@ import { useRecoilValue } from "recoil";
 import { patchBookNote } from "../../../core/api";
 import { navigatingBookInfoState } from "../../../core/atom";
 import { ImgPreBook } from "../../../public/assets/images";
-import { BookNotePathKey, PreNoteData } from "../../../types/bookNote";
+import { BookNotePathKey, PeriNoteTreeNode, PreNoteData } from "../../../types/bookNote";
 import { DefaultButton } from "../../common/styled/Button";
 import {
   StBtnCancel,
@@ -47,9 +50,30 @@ export default function PreNotePostSection(props: PreNotePostSectionProps) {
   const handleSubmit = async () => {
     try {
       if (bookNoteData.reviewSt === 2) {
-        // 독서 전 상태라면, 독서 중 상태로 변경
+        // 독서 전 상태라면, 독서 중 상태로 변경하고 질문리스트를 독서 중으로 넘겨준다
         await patchBookNote(`/review/${reviewId}/pre`, { ...bookNoteData, reviewSt: 3 });
+
+        const questionFromPre: PeriNoteTreeNode[] = [];
+
+        bookNoteData.questionList.map((content) => {
+          questionFromPre.push({
+            type: "question",
+            content,
+            children: [{ type: "answer", content: "", children: [] }],
+          });
+        });
+
+        await patchBookNote(`review/${reviewId}/peri`, {
+          answerThree: {
+            type: "Root",
+            content: "root",
+            children: questionFromPre,
+          },
+          reviewSt: 3,
+          finishSt: false,
+        });
       } else {
+        // 독서 전 상태가 아니라면, 독서 전 데이터만 수정한다
         await patchBookNote(`/review/${reviewId}/pre`, bookNoteData);
       }
 

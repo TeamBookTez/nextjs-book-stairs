@@ -14,7 +14,7 @@ export default function Banner() {
           <br />
           북스테어즈를 똑똑하게 사용하는 방법을 보여드릴게요.
         </StContent>
-        <Link href="/book-note/detail-example">
+        <Link href="/book-note/example">
           <StExampleLink>적용 사례</StExampleLink>
         </Link>
       </div>

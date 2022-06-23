@@ -34,7 +34,7 @@ export default function ExitModal(props: ExitModalProps) {
   const { onClickCancelBtn } = props;
 
   const navigatingBookInfo = useRecoilValue(navigatingBookInfoState);
-  const { fromUrl } = navigatingBookInfo;
+  const { reviewId, fromSt } = navigatingBookInfo;
 
   return (
     <StPopUpWrapper>
@@ -47,7 +47,12 @@ export default function ExitModal(props: ExitModalProps) {
             취소
           </StBtnCancel>
           <StBtnDelete type="button">
-            <StLink href={fromUrl} passHref>
+            <StLink
+              href={{
+                pathname: fromSt,
+                query: { reviewId },
+              }}
+              passHref>
               나가기
             </StLink>
           </StBtnDelete>

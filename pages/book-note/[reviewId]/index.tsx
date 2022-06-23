@@ -15,6 +15,7 @@
 import { css, keyframes } from "@emotion/react";
 import styled from "@emotion/styled";
 import { useEffect, useState } from "react";
+import { useRecoilValue } from "recoil";
 
 import {
   BookNoteHeader,
@@ -28,7 +29,9 @@ import PeriNote from "../../../components/bookNote/periNote/PeriNote";
 import { PreNote } from "../../../components/bookNote/preNote";
 import { Loading } from "../../../components/common";
 import { StBookModalWrapper } from "../../../components/common/styled/BookModalWrapper";
+import { navigatingBookInfoState } from "../../../core/atom";
 import { periNoteStepUp, stepUpContentArray } from "../../../core/bookNote/exampleData";
+import { NavigatingBookInfoState } from "../../../types/bookcase";
 import { BookNotePathKey, SavingProgress } from "../../../types/bookNote";
 import useUser from "../../../util/hooks/useUser";
 
@@ -36,11 +39,12 @@ export type StepUpNDrawerIdx = 1 | 2 | 3 | 4;
 
 export default function Index() {
   const { isLogin, isLoginLoading } = useUser();
+  const { reviewId } = useRecoilValue<NavigatingBookInfoState>(navigatingBookInfoState);
 
   const [navIndex, setNavIndex] = useState<BookNotePathKey>("pre");
 
   const [savingProgress, setSavingProgress] = useState<SavingProgress>({ isPending: false, isError: false });
-  const [isPrevented, setIsPrevented] = useState<boolean>(false);
+  const [isPreventedPreNote, setIsPreventedPreNote] = useState<boolean>(false);
 
   const [isOpenedExitModal, setIsOpenExitModal] = useState<boolean>(false);
 
@@ -55,10 +59,10 @@ export default function Index() {
     setNavIndex(idx);
   };
 
-  // reviewSt가 2라면 peri로 이동할 수 없게 하기
+  // reviewSt가 2라면 peri로 navigate 할 수 없게 하기
   // 모든 답변이 채워지지 않으면 다음 단계로 이동할 수 없게 하기
   const handlePrevent = (shouldPrevent: boolean) => {
-    setIsPrevented(shouldPrevent);
+    setIsPreventedPreNote(shouldPrevent);
   };
 
   const handleSavingProgress = (obj: SavingProgress) => {
@@ -92,6 +96,15 @@ export default function Index() {
     setIsDrawerdefault(true);
   };
 
+  // --------------------------------------------------------------------------
+
+  // 뒤로 가기 막기
+  const preventGoBack = () => {
+    history.pushState(null, "", location.href);
+    toggleExitModal();
+  };
+
+  // 새로고침 막기
   const preventClose = (e: BeforeUnloadEvent) => {
     e.preventDefault();
     e.returnValue = ""; //deprecated
@@ -99,11 +112,18 @@ export default function Index() {
 
   useEffect(() => {
     (() => {
+      // 뒤로 가기 막기
+      history.pushState(null, "", location.href);
+      window.addEventListener("popstate", preventGoBack);
+      // 새로고침 막기
       window.addEventListener("beforeunload", preventClose);
     })();
 
     return () => {
+      window.removeEventListener("popstate", preventGoBack);
       window.removeEventListener("beforeunload", preventClose);
+
+      handleCloseDrawer();
     };
   }, []);
 
@@ -111,18 +131,23 @@ export default function Index() {
     navIndex === "pre" ? (
       <PreNote
         isLogin={isLogin}
-        toggleExitModal={toggleExitModal}
+        reviewId={reviewId}
         handleOpenStepUpModal={handleOpenStepUpModal}
         handleOpenDrawer={handleOpenDrawer}
-        handleCloseDrawer={handleCloseDrawer}
-        isPrevented={isPrevented}
+        isPreventedPreNote={isPreventedPreNote}
         handlePrevent={handlePrevent}
         handleNavIndex={handleNavIndex}
         savingProgress={savingProgress}
         handleSavingProgress={handleSavingProgress}
       />
     ) : (
-      <PeriNote handleOpenStepUpModal={handleOpenStepUpModal} handleOpenDrawer={handleOpenDrawer} />
+      <PeriNote
+        reviewId={reviewId}
+        handleOpenStepUpModal={handleOpenStepUpModal}
+        handleOpenDrawer={handleOpenDrawer}
+        savingProgress={savingProgress}
+        handleSavingProgress={handleSavingProgress}
+      />
     );
 
   if (isLoginLoading) return <Loading />;
@@ -132,7 +157,7 @@ export default function Index() {
       <BookNoteHeader onClickExitBtn={toggleExitModal}>
         <Navigation
           navIndex={navIndex}
-          isPrevented={isPrevented}
+          isPreventedPreNote={isPreventedPreNote}
           handleNavIndex={handleNavIndex}
           handleSavingProgress={handleSavingProgress}
           onSetDrawerAsDefault={handleDrawerDefault}

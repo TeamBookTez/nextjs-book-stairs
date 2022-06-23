@@ -4,7 +4,7 @@
   - 후에 관리가 불편하다면, 파일을 폴더로 묶어 page 별로 나누는 것 고려해주십시오!
     
 고민점:
-  - 
+  - patchBookNote return type 을 지정할까나 ~ 싶습니다
 */
 import axios from "axios";
 import useSWR from "swr";
@@ -31,7 +31,7 @@ export const patchUserWithdraw = (key: string) => {
 export const patchBookNote = async (key: string, body: PreNoteData | PeriNoteData) => {
   const { data } = await baseInstance.patch(key, body);
 
-  return data.data;
+  return data;
 };
 
 export const deleteData = (key: string) => {
