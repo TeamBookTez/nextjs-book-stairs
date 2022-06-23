@@ -47,7 +47,7 @@ export default function ChildQANode(props: ChildQANodeProps) {
   }, [formController.setFocus]);
 
   // 후에 레이아웃 문제에 대비하여 4뎁스 제한
-  if (path.length > 10) return <></>;
+  if (path.length > 10) return null;
 
   return (
     <>
@@ -72,7 +72,7 @@ export default function ChildQANode(props: ChildQANodeProps) {
           )}
           <StMore className="icn_more" />
           <StMenuWrapper>
-            {!isQuestion && (
+            {!isQuestion && path.length < 10 && (
               <StMenuBtn type="button" onClick={() => onAddChild(path, index)}>
                 꼬리질문 추가
               </StMenuBtn>
