@@ -123,7 +123,7 @@ export default function PreNote(props: PreNoteProps) {
           onClickOpenDrawer={() => handleOpenDrawer(1)}>
           <StTextarea
             placeholder="답변을 입력해주세요."
-            value={data.answerOne}
+            value={data && data.answerOne}
             onChange={(e) => handleChangeReview("answerOne", e.target.value)}
           />
         </PreNoteFormContainer>
@@ -134,7 +134,7 @@ export default function PreNote(props: PreNoteProps) {
           onClickOpenDrawer={() => handleOpenDrawer(2)}>
           <StTextarea
             placeholder="답변을 입력해주세요."
-            value={data.answerTwo}
+            value={data && data.answerTwo}
             onChange={(e) => handleChangeReview("answerTwo", e.target.value)}
           />
         </PreNoteFormContainer>
@@ -145,7 +145,7 @@ export default function PreNote(props: PreNoteProps) {
             onClickStepUpBtn={() => handleOpenStepUpModal(3)}
             onClickOpenDrawer={() => handleOpenDrawer(3)}>
             <PreNoteThirdArticle
-              questionList={data.questionList}
+              questionList={data && data.questionList}
               onChangeReview={handleChangeReview}
               isPreventedPreNote={isPreventedPreNote}
               isFilledOnlyThree={isFilledOnlyThree}
