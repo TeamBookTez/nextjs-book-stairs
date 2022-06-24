@@ -6,6 +6,7 @@
     peri patch도 동시에 이루어집니다
     하지만 이를 통합시켜서 patch 시킬 수 있는 API 가 따로 있다는 거!
     --> https://www.notion.so/3649c9da08354c90b90c4ad1ab6a287e
+    --> 대충 테스트 해봤을 때, reviewSt 변경이 제대로 안 되는 것 같은데 나중에 확인 부탁드립니다 !
     
 고민점:
   - 
@@ -82,7 +83,7 @@ export default function PreNotePostSection(props: PreNotePostSectionProps) {
       setIsOpenedModal(false);
       handleNavIndex("peri");
     } catch (err) {
-      console.log(err); // 토스트 알림이 필요할랑가 ..
+      // 에러 알림이 필요할랑가 ..
     }
   };
 
