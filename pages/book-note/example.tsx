@@ -32,7 +32,9 @@ export default function Example() {
   return (
     <StNoteModalWrapper>
       <Link href="/main" passHref>
-        <StIcCancelWhite />
+        <div>
+          <StIcCancelWhite />
+        </div>
       </Link>
       <StBookTitleUp>{reviewData?.bookTitle}</StBookTitleUp>
       <DetailArticleWrapper title="독서 전 단계">

@@ -70,7 +70,9 @@ export default function Detail() {
       <StNoteModalWrapper>
         {isPopUp || (
           <Link href={fromUrl} passHref>
-            <StIcCancelWhite />
+            <div>
+              <StIcCancelWhite />
+            </div>
           </Link>
         )}
         <StBookTitle>{reviewData?.bookTitle}</StBookTitle>
