@@ -8,7 +8,7 @@ import {
   ImgPreNoteStepUp22,
   ImgPreNoteStepUp23,
 } from "../../public/assets/images";
-import { StepUpContent } from "../../types/bookNote";
+import { PeriNoteTreeNode, StepUpContent } from "../../types/bookNote";
 
 const preNoteStepUp1 = [
   {
@@ -96,7 +96,15 @@ export const periNoteStepUp = [
   },
 ];
 
-export const reviewData = {
+interface ReviewData {
+  bookTitle: string;
+  answerOne: string;
+  answerTwo: string;
+  questionList: string[];
+  answerThree: PeriNoteTreeNode;
+}
+
+export const reviewData: ReviewData = {
   bookTitle: "나는 왜 이 일을 하는가?",
   answerOne:
     "상황에 따라 변하는 '동기'를 한 곳에 잡아 두고 싶다\n앞으로의 모든 업무에 대해 내가 이 일을 왜 하는지 명확하게 할 수 있는 힌트를 얻고 싶다.",
