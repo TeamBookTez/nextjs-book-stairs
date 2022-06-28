@@ -62,7 +62,7 @@ const StQuestion = styled.h3`
 const StFirstQuestion = styled(StQuestion)`
   margin-top: 4.6rem;
 
-  &:first-child {
+  &:first-of-type {
     margin-top: 0;
   }
 `;

@@ -118,7 +118,7 @@ const StBtnWrapper = styled.div`
       cursor: pointer;
     }
   }
-  & > svg:not(:first-child) {
+  & > svg:not(:first-of-type) {
     margin-left: 1.4rem;
   }
 `;

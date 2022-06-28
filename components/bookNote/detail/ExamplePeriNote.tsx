@@ -74,7 +74,7 @@ const StFirstQuestion = styled(StQuestion)`
   font-size: 1.8rem;
   font-weight: 500;
 
-  &:first-child {
+  &:first-of-type {
     margin-top: 0;
   }
 `;
