@@ -18,6 +18,8 @@ export default function ExamplePeriNote(props: ExamplePreNoteProps) {
   const handleToggle = (e: React.MouseEvent<SVGSVGElement, MouseEvent>) => {
     const questionElement = e.currentTarget.closest("h3")?.nextElementSibling;
 
+    console.log(questionElement);
+
     if (questionElement === null || questionElement === undefined) return;
     if (!(questionElement instanceof HTMLElement)) return;
 
