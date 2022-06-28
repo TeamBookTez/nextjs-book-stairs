@@ -30,35 +30,31 @@ export default function Example() {
   if (isLoginLoading) return <Loading />;
 
   return (
-    <>
-      <>
-        <StNoteModalWrapper>
-          <Link href="/main" passHref>
-            <StIcCancelWhite />
-          </Link>
-          <StBookTitleUp>{reviewData?.bookTitle}</StBookTitleUp>
-          <DetailArticleWrapper title="독서 전 단계">
-            <ExamplePreNoteLabeling
-              answerOne={reviewData?.answerOne}
-              answerTwo={reviewData?.answerTwo}
-              questionList={reviewData?.questionList}
-            />
-          </DetailArticleWrapper>
-          {isLogin && (
-            <StMarginTop>
-              <DetailArticleWrapperLabeling title="독서 중 단계" handlePeriCarousel={handleOpenedStepUpCarousel}>
-                <ExamplePeriNote answerThree={reviewData?.answerThree} />
-              </DetailArticleWrapperLabeling>
-            </StMarginTop>
-          )}
-          {isOpenedStepUpModal && (
-            <StStepModalWrapper>
-              <StepUpLayout stepUpContent={periNoteStepUp} handleCloseStepUpModal={handleOpenedStepUpCarousel} />
-            </StStepModalWrapper>
-          )}
-        </StNoteModalWrapper>
-      </>
-    </>
+    <StNoteModalWrapper>
+      <Link href="/main" passHref>
+        <StIcCancelWhite />
+      </Link>
+      <StBookTitleUp>{reviewData?.bookTitle}</StBookTitleUp>
+      <DetailArticleWrapper title="독서 전 단계">
+        <ExamplePreNoteLabeling
+          answerOne={reviewData?.answerOne}
+          answerTwo={reviewData?.answerTwo}
+          questionList={reviewData?.questionList}
+        />
+      </DetailArticleWrapper>
+      {isLogin && (
+        <StMarginTop>
+          <DetailArticleWrapperLabeling title="독서 중 단계" handlePeriCarousel={handleOpenedStepUpCarousel}>
+            <ExamplePeriNote answerThree={reviewData?.answerThree} />
+          </DetailArticleWrapperLabeling>
+        </StMarginTop>
+      )}
+      {isOpenedStepUpModal && (
+        <StStepModalWrapper>
+          <StepUpLayout stepUpContent={periNoteStepUp} handleCloseStepUpModal={handleOpenedStepUpCarousel} />
+        </StStepModalWrapper>
+      )}
+    </StNoteModalWrapper>
   );
 }
 

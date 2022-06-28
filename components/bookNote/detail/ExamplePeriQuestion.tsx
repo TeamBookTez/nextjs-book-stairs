@@ -30,11 +30,11 @@ export default function ExamplePeriQuestion(props: ExamplePeriQuestionProps) {
         </>
       ) : (
         <>
-          <StQuestion>
+          <StChildQuestion>
             <LabelQuestion bgColor={labelColor} />
             {node.content ? node.content : "질문"}
             <StIcToggle onClick={onToggle} />
-          </StQuestion>
+          </StChildQuestion>
           <div>
             {node.children.map((n, i) => (
               <ExamplePeriQuestion key={i} node={n} path={[...path, i]} onToggle={onToggle} />
@@ -69,5 +69,21 @@ const StAnswer = styled.h4`
 
     border-radius: 1rem;
     background-color: ${({ theme }) => theme.colors.gray400};
+  }
+`;
+
+const StChildQuestion = styled(StQuestion)`
+  height: 3.1rem;
+
+  display: flex;
+  align-items: center;
+
+  margin-top: 2.3rem !important;
+
+  font-size: 1.8rem;
+  font-weight: 500;
+
+  &:first-child {
+    margin-top: 0;
   }
 `;

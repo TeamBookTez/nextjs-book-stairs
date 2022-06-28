@@ -64,7 +64,15 @@ const StExampleWrapper = styled.article`
 `;
 
 const StFirstQuestion = styled(StQuestion)`
+  height: 3.1rem;
+
+  display: flex;
+  align-items: center;
+
   margin-top: 4.6rem;
+
+  font-size: 1.8rem;
+  font-weight: 500;
 
   &:first-child {
     margin-top: 0;
