@@ -8,7 +8,7 @@ import {
   ImgPreNoteStepUp22,
   ImgPreNoteStepUp23,
 } from "../../public/assets/images";
-import { PeriNoteTreeNode, StepUpContent } from "../../types/bookNote";
+import { PeriNoteTreeNode, ReviewData, StepUpContent } from "../../types/bookNote";
 
 const preNoteStepUp1 = [
   {
@@ -95,14 +95,6 @@ export const periNoteStepUp = [
     imgAlt: "꼬리질문을 생성하는 이미지",
   },
 ];
-
-interface ReviewData {
-  bookTitle: string;
-  answerOne: string;
-  answerTwo: string;
-  questionList: string[];
-  answerThree: PeriNoteTreeNode;
-}
 
 export const reviewData: ReviewData = {
   bookTitle: "나는 왜 이 일을 하는가?",
