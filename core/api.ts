@@ -13,6 +13,7 @@ import { KAKAOParams, Response } from "../types";
 import { BookcaseInfo } from "../types/bookcase";
 import { PeriNoteData, PreNoteData } from "../types/bookNote";
 import { UserData } from "../types/login";
+import { IsValid } from "../types/signup";
 import { baseInstance, kakaoInstance } from "./axios";
 import LocalStorage from "./localStorage";
 
@@ -66,4 +67,12 @@ export const login = async (loginFormData: UserData) => {
       // });
     }
   }
+};
+
+export const checkIsValid = async (index: string, key: string) => {
+  const urlPath = `/auth/${index}?${index}=${key}`;
+
+  const { data, message }: Response<IsValid> = await baseInstance.get(urlPath);
+
+  return { isValid: data.isValid, message };
 };
