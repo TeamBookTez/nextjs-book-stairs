@@ -45,7 +45,7 @@ export function useGetBookInfo(key: string) {
   console.log(data, error);
 
   return {
-    bookcaseInfo: data?.data.books,
+    bookcaseInfo: data?.data?.books,
     isLoading: !error && !data,
     isError: error,
   };
