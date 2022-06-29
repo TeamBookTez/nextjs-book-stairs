@@ -1,14 +1,15 @@
 import styled from "@emotion/styled";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 
 import { useGetBookInfo } from "../../core/api";
+import { BookcaseInfo } from "../../types/bookcase";
+import { BookCard } from "../bookcase";
 import { Empty, Loading } from "../common";
 
 export default function RecentBooks() {
-  const [isAnyBooks, setIsAnyBooks] = useState<boolean>(false);
   const { bookcaseInfo, isLoading } = useGetBookInfo("/book");
+  const isNotEmpty = bookcaseInfo !== undefined && bookcaseInfo?.length > 0;
 
   const isWideDesktopScreen = useMediaQuery({
     query: "(min-width: 1920px) ",
@@ -18,42 +19,31 @@ export default function RecentBooks() {
   });
   const cntRecentBooks = isWideWideDesktopScreen ? 8 : isWideDesktopScreen ? 6 : 5;
 
-  useEffect(() => {
-    if (bookcaseInfo && bookcaseInfo?.length) {
-      setIsAnyBooks(true);
-    } else {
-      setIsAnyBooks(false);
-    }
-  }, [bookcaseInfo]);
-
   if (isLoading) {
     return <Loading />;
   } else {
     return (
       <section>
-        <>
-          <StHeader>
-            <StHeading3>최근 작성한 북노트</StHeading3>
-            {isAnyBooks && (
-              <Link href="/main/bookcase">
-                <StLink>전체보기</StLink>
-              </Link>
-            )}
-          </StHeader>
-          <StBookWrapper isdefault={!isAnyBooks}>
-            {isAnyBooks ? (
-              bookcaseInfo &&
-              bookcaseInfo
-                .slice(0, cntRecentBooks)
-                .map(
-                  (tempInfo, idx) =>
-                    /*<BookCard key={idx 말고 id 값} bookcaseInfo={tempInfo} pathKey="/book" />*/ "북카드",
-                )
-            ) : (
-              <Empty />
-            )}
-          </StBookWrapper>
-        </>
+        <StHeader>
+          <StHeading3>최근 작성한 북노트</StHeading3>
+          {isNotEmpty && (
+            <Link href="/main/bookcase">
+              <StLink>전체보기</StLink>
+            </Link>
+          )}
+        </StHeader>
+        <StBookWrapper isdefault={!isNotEmpty}>
+          {isNotEmpty ? (
+            bookcaseInfo &&
+            bookcaseInfo
+              .slice(0, cntRecentBooks)
+              .map((bookInfo: BookcaseInfo) => (
+                <BookCard key={bookInfo.reviewId} bookcaseInfo={bookInfo} navIndex={"/main"} />
+              ))
+          ) : (
+            <Empty />
+          )}
+        </StBookWrapper>
       </section>
     );
   }
