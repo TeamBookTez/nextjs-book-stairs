@@ -20,11 +20,10 @@ interface MyInfo {
 }
 
 export default function useUserInfo() {
-  const { data, error } = useSWR<Response<MyInfo>>("/user/myInfo", baseInstance.get);
+  const { data, isValidating } = useSWR<Response<MyInfo>>("/user/myInfo", baseInstance.get);
 
   return {
     userInfo: data?.data,
-    isLoading: !error && !data?.data,
-    isError: error,
+    isLoading: isValidating,
   };
 }
