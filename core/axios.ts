@@ -9,8 +9,16 @@ const baseInstance = axios.create({
   baseURL: `${BASE_URL}`,
   headers: {
     "Content-Type": "application/json",
-    Authorization: LocalStorage.getItem("booktez-token"),
   },
+});
+
+baseInstance.interceptors.request.use((config) => {
+  const headers = {
+    ...config.headers,
+    Authorization: LocalStorage.getItem("booktez-token"),
+  };
+
+  return { ...config, headers };
 });
 
 baseInstance.interceptors.response.use(
