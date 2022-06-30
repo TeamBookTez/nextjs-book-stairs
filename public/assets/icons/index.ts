@@ -39,6 +39,7 @@ export { default as IcRightArrow } from "./rightArrowIcon.svg";
 export { default as IcSave } from "./saveIcon.svg";
 export { default as IcSearch } from "./searchIcon.svg";
 export { default as IcSight } from "./sightIcon.svg";
+export { default as IcSignupChecking } from "./signupCheckingIcon.svg";
 export { default as IcTitleLogo } from "./titleLogoIcon.svg";
 export { default as IcToBe } from "./toBeIcon.svg";
 export { default as IcToggle } from "./toggleIcon.svg";

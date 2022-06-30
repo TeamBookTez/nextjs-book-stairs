@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import { useSWRConfig } from "swr";
 
 import { login } from "../../core/api";
-import { UserData } from "../../types/login";
+import { UseFormDataType } from "../../types/signup";
 import { emailErrorPatterns, passwordErrorPatterns } from "../../util/check";
 import { AlertLabel } from "../common";
 import { DefaultButton } from "../common/styled/Button";
@@ -22,7 +22,7 @@ export default function LoginForm() {
     handleSubmit,
     setError,
     formState: { errors, isDirty },
-  } = useForm<UserData>({
+  } = useForm<UseFormDataType>({
     mode: "onSubmit",
     defaultValues: {
       email: "",
@@ -32,10 +32,22 @@ export default function LoginForm() {
 
   const { mutate } = useSWRConfig();
 
-  const submitForm = async (loginFormData: UserData) => {
-    await login(loginFormData);
-    mutate("/auth/check");
-    router.push("/main");
+  const submitForm = async (loginFormData: UseFormDataType) => {
+    const res = await login(loginFormData);
+
+    if (res) {
+      const { isLogin, errorField, errorMessage } = res;
+
+      if (isLogin) {
+        mutate("/auth/check");
+        router.push("/main");
+      } else {
+        setError(errorField, {
+          type: "server",
+          message: errorMessage,
+        });
+      }
+    }
   };
 
   const toggleSightPwd = (isSight: boolean) => {

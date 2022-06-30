@@ -1,7 +1,7 @@
 /*
-마지막 편집자: 22-06-14 soryeongk
+마지막 편집자: 22-06-30 soryeongk
 변경사항 및 참고:
-  - 로그인했는데, 또 로그인으로 찾아오는 경우에, 다른 아이디로 접속하려는 것일 수 있으니 로그아웃을 유도할까ㅏ 그냥 리디렉션시키는건 좀 정없어보여서 ㅎ
+  - 이미 로그인한 유저에게 로그아웃이나 하셈~ 하고 10초 뒤에 리디렉션,,뭐 이런거 어때.. 나중에 ㅎ
     
 고민점:
   - 
@@ -23,31 +23,28 @@ export default function Login() {
     setIsAniTime(true);
   };
 
-  return (
-    <>
-      {isLoginLoading ? (
-        <Loading />
-      ) : (
-        <>
-          <StPageWrapper>
-            <LoginNavSection isAniTime={isAniTime} onAniChange={handleAni} />
-            <StMainWrapper isAniTime={isAniTime}>
-              <StArticle>
-                <StH2>이미 서재가 있으신가요?</StH2>
-                <StH3>
-                  북스테어즈에 로그인하고
-                  <br />
-                  서재에서 독서를 이어가세요.
-                </StH3>
-                <LoginForm />
-                <StContact href="mailto:bookstairs.official@gmail.com">이메일/비밀번호를 잊어버리셨다면?</StContact>
-              </StArticle>
-            </StMainWrapper>
-          </StPageWrapper>
-        </>
-      )}
-    </>
-  );
+  if (isLogin) {
+    return <div>이미 로그인 하셨습니다~</div>;
+  } else if (isLoginLoading) {
+    return <Loading />;
+  } else
+    return (
+      <StPageWrapper>
+        <LoginNavSection isAniTime={isAniTime} onAniChange={handleAni} />
+        <StMainWrapper isAniTime={isAniTime}>
+          <StArticle>
+            <StH2>이미 서재가 있으신가요?</StH2>
+            <StH3>
+              북스테어즈에 로그인하고
+              <br />
+              서재에서 독서를 이어가세요.
+            </StH3>
+            <LoginForm />
+            <StContact href="mailto:bookstairs.official@gmail.com">이메일/비밀번호를 잊어버리셨다면?</StContact>
+          </StArticle>
+        </StMainWrapper>
+      </StPageWrapper>
+    );
 }
 
 const StPageWrapper = styled.div`

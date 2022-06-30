@@ -1,7 +1,6 @@
 import styled from "@emotion/styled";
 
 import { IcAlert } from "../../public/assets/icons";
-
 interface AlertLabelProps {
   message: string | undefined;
 }

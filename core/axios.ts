@@ -21,16 +21,9 @@ baseInstance.interceptors.request.use((config) => {
   return { ...config, headers };
 });
 
-baseInstance.interceptors.response.use(
-  (response) => {
-    return response.data;
-  },
-  (error) => {
-    if (axios.isAxiosError(error)) {
-      return error.response?.data;
-    }
-  },
-);
+baseInstance.interceptors.response.use((response) => {
+  return response.data;
+});
 
 const kakaoInstance = axios.create({
   baseURL: "https://dapi.kakao.com",
