@@ -206,22 +206,3 @@ const StTextarea = styled.textarea`
     ${({ theme }) => theme.fonts.body4}
   }
 `;
-
-const StNextBtn = styled(DefaultButton)`
-  width: 32.5rem;
-
-  margin-top: 10rem;
-  padding: 1.6rem 13rem;
-
-  border-radius: 1rem;
-
-  background-color: ${({ disabled, theme }) => (disabled ? theme.colors.white400 : theme.colors.orange100)};
-  color: ${({ disabled, theme }) => (disabled ? theme.colors.gray300 : theme.colors.white)};
-  ${({ theme }) => theme.fonts.button};
-
-  ${({ disabled }) =>
-    disabled &&
-    css`
-      cursor: default;
-    `}
-`;
