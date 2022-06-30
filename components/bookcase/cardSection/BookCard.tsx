@@ -45,7 +45,7 @@ export default function BookCard(props: BookCardProps) {
       <StBookCard onClick={moveBookNoteHandler}>
         <StImgWrapper>
           <StBookCardImgWrapper>
-            <Image src={thumbnail} alt={`도서 ${title}의 이미지`} />
+            <Image width={205} height={300} src={thumbnail} alt={`도서 ${title}의 이미지`} />
           </StBookCardImgWrapper>
         </StImgWrapper>
         <StTextWrapper>
