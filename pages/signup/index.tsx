@@ -6,6 +6,7 @@
   - autoLoginAfterSignup과 login을 통합해야합니다.
   - 너무 복잡합니다. 유지보수를 위한 유지보수가 필요합니다..
   - Error404 페이지가 필요할까욤?
+  - 회원가입 완료 후 Welcome 페이지로 넘어가야함
     
 고민점:
   - 
@@ -71,10 +72,11 @@ export default function Signup() {
 
       console.log("res, userData", res, userData);
       if (res.status === 201) {
-        const errorData = await login({ email: userData.email, password });
+        const res = await login({ email: userData.email, password });
 
-        if (errorData === null) {
-          router.push("/welcome");
+        console.log("res", res);
+        if (res) {
+          router.push("/signup/welcome");
         }
       }
     } catch (error) {

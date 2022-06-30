@@ -57,6 +57,8 @@ export const login = async (loginFormData: UserData) => {
     const { data } = await baseInstance.post("/auth/login", loginFormData);
 
     LocalStorage.setUserSession(data.token, data.nickname, data.email);
+
+    return data;
   } catch (err) {
     if (axios.isAxiosError(err)) {
       // const errorData: AxiosResponse = err.response?.data;
