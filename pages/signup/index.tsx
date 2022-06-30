@@ -2,17 +2,14 @@
 마지막 편집자: 22-06-29 soryeongk
 변경사항 및 참고:
   - bookNote/preNote/LinkToSignUpSection.tsx 에서 해당 경로를 참조합니다
-    폴더구조가 바뀔 시 이 경로도 수정해주어야 합니다
-  - autoLoginAfterSignup과 login을 통합해야합니다.
+    폴더구조가 바뀔 시 이 경로도 수정해주어야 합니다.
   - 너무 복잡합니다. 유지보수를 위한 유지보수가 필요합니다..
   - Error404 페이지가 필요할까욤?
-  - 회원가입 완료 후 Welcome 페이지로 넘어가야함
     
 고민점:
   - 
 */
 import styled from "@emotion/styled";
-import axios from "axios";
 import { AnimatePresence, motion } from "framer-motion";
 import { useRouter } from "next/router";
 import { useState } from "react";
@@ -21,8 +18,7 @@ import { useForm } from "react-hook-form";
 import { NavHeader } from "../../components/common";
 import { StSignupHeading2, StSignupImage, StSignupParagraph } from "../../components/common/styled/Signup";
 import { SignupForm } from "../../components/signup";
-import { checkIsValid, login } from "../../core/api";
-import { baseInstance } from "../../core/axios";
+import { checkIsValid, signup } from "../../core/api";
 import LocalStorage from "../../core/localStorage";
 import { ImgSignupFirst, ImgSignupSecond, ImgSignupThird } from "../../public/assets/images";
 import theme from "../../styles/theme";
@@ -67,25 +63,16 @@ export default function Signup() {
 
   // 넥제 옮기면서 로그인도 함수로 빼내기 - error 처리만 각각 달리할 수 있도록
   const autoLoginAfterSignup = async (password: string) => {
-    try {
-      const res = await baseInstance.post("/auth/signup", { ...userData, password });
+    const res = await signup(userData, password);
 
-      console.log("res, userData", res, userData);
-      if (res.status === 201) {
-        const res = await login({ email: userData.email, password });
-
-        console.log("res", res);
-        if (res) {
-          router.push("/signup/welcome");
-        }
-      }
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        console.log(error);
-        // setError(formDataKeyIndex, {
-        //   type: "server",
-        //   message: error.response?.data.message,
-        // });
+    if (res) {
+      if (res.isLogin) {
+        router.push("/signup/welcome");
+      } else {
+        setError(formDataKeyIndex, {
+          type: "server",
+          message: res.errorMessage,
+        });
       }
     }
   };
