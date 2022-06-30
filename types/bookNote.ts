@@ -69,3 +69,11 @@ export interface FormController {
   register: UseFormRegister<UseForm>;
   setFocus: UseFormSetFocus<UseForm>;
 }
+
+export interface ReviewData {
+  bookTitle: string;
+  answerOne: string;
+  answerTwo: string;
+  questionList: string[];
+  answerThree: PeriNoteTreeNode;
+}

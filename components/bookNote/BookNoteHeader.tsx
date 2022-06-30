@@ -4,6 +4,7 @@ import { useRecoilValue } from "recoil";
 
 import { navigatingBookInfoState } from "../../core/atom";
 import { IcCancelWhite } from "../../public/assets/icons";
+import { StIcCancelWhite } from "./styled/DetailBookNote.styled";
 
 interface BookNoteHeaderProps {
   onClickExitBtn: () => void;
@@ -24,20 +25,6 @@ export default function BookNoteHeader(props: BookNoteHeaderProps) {
     </>
   );
 }
-
-const StIcCancelWhite = styled(IcCancelWhite)`
-  position: absolute;
-  top: 3.2rem;
-  left: 2.4rem;
-  z-index: 20;
-
-  width: 4.8rem;
-  height: 4.8rem;
-
-  &:hover {
-    cursor: pointer;
-  }
-`;
 
 const StNavWrapper = styled.div`
   position: relative;

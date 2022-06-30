@@ -34,7 +34,7 @@ export default function ExitModal(props: ExitModalProps) {
   const { onClickCancelBtn } = props;
 
   const navigatingBookInfo = useRecoilValue(navigatingBookInfoState);
-  const { reviewId, fromSt } = navigatingBookInfo;
+  const { reviewId, fromUrl } = navigatingBookInfo;
 
   return (
     <StPopUpWrapper>
@@ -49,7 +49,7 @@ export default function ExitModal(props: ExitModalProps) {
           <StBtnDelete type="button">
             <StLink
               href={{
-                pathname: fromSt,
+                pathname: fromUrl,
                 query: { reviewId },
               }}
               passHref>
