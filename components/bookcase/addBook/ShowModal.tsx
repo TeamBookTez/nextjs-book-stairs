@@ -1,12 +1,157 @@
-/*
-마지막 편집자: 22-06-15 joohaem
-변경사항 및 참고:
-  - atom 사용하여 그대로 setNavigatingBookInfo(tempNavigatingBookInfo) 부탁드립니다 !
-    
-고민점:
-  - 
-*/
+import styled from "@emotion/styled";
+import Image from "next/image";
+import { useNavigate } from "react-router-dom";
+import { useRecoilState } from "recoil";
 
-export default function ShowModal() {
-  return <div>ShowModal</div>;
+import { navigatingBookInfoState } from "../../../core/atom";
+import { baseInstance } from "../../../core/axios";
+import { BookInfo } from "../../../pages/bookcase/add-book";
+import { IcCancelBlack } from "../../../public/assets/icons";
+import { DefaultButton } from "../../common/styled/Button";
+import { PublishDate } from "./BookInfoWrapper";
+
+interface ShowModalProps {
+  bookInfo: BookInfo;
+  publishDate: PublishDate;
+  onToggleModal: () => void;
 }
+
+export default function ShowModal(props: ShowModalProps) {
+  const { bookInfo, publishDate, onToggleModal } = props;
+  const { thumbnail, title, authors, translators } = bookInfo;
+
+  const [navigatingBookInfo, setNavigatingBookInfo] = useRecoilState(navigatingBookInfoState);
+
+  const publicationDt = `${publishDate["year"]}년 ${publishDate["month"]}월 ${publishDate["date"]}일`;
+
+  const bookData = { ...bookInfo, publicationDt, author: authors, translator: translators };
+
+  const _token = localStorage.getItem("booktez-token");
+  const userToken = _token ? _token : "";
+
+  const navigate = useNavigate();
+
+  const postAddBooks = async () => {
+    const { data } = await baseInstance.post("/book", bookData);
+
+    if (!userToken) {
+      const { isbn, thumbnail, title, authors, translators, publicationDt } = bookData;
+
+      sessionStorage.setItem(
+        "booktez-bookData",
+        JSON.stringify({
+          isbn,
+          thumbnail,
+          title,
+          author: authors,
+          translator: translators,
+          publicationDt,
+        }),
+      );
+    }
+
+    const tempNavigatingBookInfo = {
+      ...navigatingBookInfo,
+      reviewId: data.data.reviewId,
+      title,
+      fromUrl: "/main/add-book",
+    };
+
+    setNavigatingBookInfo(tempNavigatingBookInfo);
+    navigate("/book-note");
+  };
+
+  const participantInfo = (participants: string[], inCharge: "지음" | "옮김") => {
+    return participants.length > 2
+      ? `${participants[0]} 외 ${participants.length - 1}명`
+      : `${participants[0]} ${participants[1]}` + inCharge;
+  };
+
+  return (
+    <>
+      <StIcCancel onClick={onToggleModal} />
+      {thumbnail ? (
+        <StModalThumbnail src={thumbnail} alt="책 표지" />
+      ) : (
+        <StModalThumbnail
+          src="https://bookstairs-bucket.s3.ap-northeast-2.amazonaws.com/defaultBookImg.png"
+          alt="책 표지"
+        />
+      )}
+      <StModalTitle>{title}</StModalTitle>
+      <StModalLabelWrapper>
+        <StModalLabel>{participantInfo(authors, "지음")}</StModalLabel>
+        {translators.length > 0 && (
+          <StModalLabel>
+            <StDivideLine>|</StDivideLine>
+            {participantInfo(translators, "옮김")}
+          </StModalLabel>
+        )}
+      </StModalLabelWrapper>
+      <StModalDate>{publicationDt} 출간</StModalDate>
+      <StWriteBtn onClick={postAddBooks} id="start_reading_book">
+        독서 시작
+      </StWriteBtn>
+    </>
+  );
+}
+
+const StModalThumbnail = styled(Image)`
+  margin-bottom: 3.5rem;
+
+  border: 0.2rem solid ${({ theme }) => theme.colors.white400};
+  border-radius: 1.6rem;
+
+  width: 20.5rem;
+  height: 30rem;
+`;
+
+const StModalTitle = styled.strong`
+  margin-bottom: 0.5rem;
+
+  ${({ theme }) => theme.fonts.header0};
+`;
+
+const StModalLabelWrapper = styled.div`
+  display: flex;
+  margin-bottom: 2.1rem;
+`;
+
+const StModalLabel = styled.p`
+  color: ${({ theme }) => theme.colors.gray400};
+  ${({ theme }) => theme.fonts.body0};
+`;
+
+const StDivideLine = styled.span`
+  margin: 0 0.5rem;
+`;
+
+const StModalDate = styled.p`
+  margin-bottom: 2.8rem;
+
+  color: ${({ theme }) => theme.colors.white500};
+  ${({ theme }) => theme.fonts.body2};
+`;
+
+const StWriteBtn = styled(DefaultButton)`
+  width: 16.6rem;
+  height: 5.6rem;
+
+  border-radius: 1rem;
+
+  ${({ theme }) => theme.fonts.button};
+`;
+
+const StIcCancel = styled(IcCancelBlack)`
+  position: absolute;
+  top: 3.2rem;
+  left: 2.4rem;
+  z-index: 20;
+
+  width: 4.8rem;
+  height: 4.8rem;
+
+  &:hover {
+    cursor: pointer;
+  }
+`;

@@ -91,3 +91,21 @@ export const checkIsValid = async (index: string, key: string) => {
 
   return { isValid: data.isValid, message };
 };
+
+export const checkIsBookExist = async (isbn: string) => {
+  try {
+    const { data } = await baseInstance.get(`/book/exist/${isbn}`);
+
+    if (data.success) {
+      return { isError: false, isExist: data.data.isExist, message: data.message };
+    } else {
+      // 통신에는 성공했으나 에러가 난 경우
+      // 에러 메시지 받아서 토스트 띄울 수 있도록 추후 변경 예정
+      return { isError: true, isExist: false, message: data.message };
+    }
+  } catch (err) {
+    // 통신에 실패한 경우
+
+    return { isError: true, isExist: false, message: "네트워크를 확인해주세요" };
+  }
+};
