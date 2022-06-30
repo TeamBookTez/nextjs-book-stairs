@@ -24,7 +24,7 @@ export const StPopUp = styled.article`
   background-color: ${({ theme }) => theme.colors.white};
 `;
 
-export const StQuestion = styled.p`
+export const StQuestion = styled.h3`
   margin-top: 0.5rem;
 
   ${({ theme }) => theme.fonts.header3}
