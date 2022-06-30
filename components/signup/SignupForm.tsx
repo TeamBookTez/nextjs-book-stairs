@@ -25,21 +25,17 @@ interface SignupFormProps {
 export default function SignupForm(props: SignupFormProps) {
   const { register, errors, keyData, keyIndex, isAgree, isDirty, onToggleIsAgreeCondition } = props;
 
-  const passwordForm = () => {
-    const userFixedEmail = LocalStorage.getItem("booktez-email");
+  const PasswordForm = (
+    <>
+      <StEmailFixed>{LocalStorage.getItem("booktez-email")}</StEmailFixed>
+      <PasswordInput register={register} keyIndex={keyIndex} />
+      <StPassword2Input>
+        <PasswordInput register={register} keyIndex="password2" />
+      </StPassword2Input>
+    </>
+  );
 
-    return (
-      <>
-        <StEmailFixed>{userFixedEmail}</StEmailFixed>
-        <PasswordInput register={register} keyIndex={keyIndex} />
-        <StPassword2Input>
-          <PasswordInput register={register} keyIndex="password2" />
-        </StPassword2Input>
-      </>
-    );
-  };
-
-  const agreeConditionBox = (
+  const AgreeConditionBox = (
     <StAgreeConditionBox htmlFor="signupAgree" onClick={onToggleIsAgreeCondition}>
       <StIcSignupChecking isagree={isAgree} />
       <p>개인정보 수집 및 이용 약관에 동의합니다.</p>
@@ -50,13 +46,13 @@ export default function SignupForm(props: SignupFormProps) {
     <>
       <LabelHidden htmlFor={keyIndex}>{keyData[keyIndex]}</LabelHidden>
       {keyIndex === "password" ? (
-        passwordForm()
+        PasswordForm
       ) : (
         <Input {...register(keyIndex, errorPatterns[keyIndex])} placeholder={`${keyData[keyIndex]}을 입력해 주세요`} />
       )}
       {errors[keyIndex]?.message && <AlertLabel message={errors[keyIndex].message} />}
 
-      {keyIndex === "email" && agreeConditionBox}
+      {keyIndex === "email" && AgreeConditionBox}
 
       <StNextStepBtn disabled={!isDirty} type="submit">
         다음 계단
