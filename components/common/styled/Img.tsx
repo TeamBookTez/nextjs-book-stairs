@@ -22,4 +22,5 @@ export const StBookCardImgWrapper = styled(ImageWrapper)`
   border-radius: 1.4rem;
 
   object-fit: cover;
+  background-size: cover;
 `;
