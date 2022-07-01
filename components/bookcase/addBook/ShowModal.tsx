@@ -1,6 +1,5 @@
 import styled from "@emotion/styled";
-import Image from "next/image";
-import { useNavigate } from "react-router-dom";
+import { useRouter } from "next/router";
 import { useRecoilState } from "recoil";
 
 import { navigatingBookInfoState } from "../../../core/atom";
@@ -8,6 +7,7 @@ import { baseInstance } from "../../../core/axios";
 import { BookInfo } from "../../../pages/bookcase/add-book";
 import { IcCancelBlack } from "../../../public/assets/icons";
 import { DefaultButton } from "../../common/styled/Button";
+import { ImageWrapper } from "../../common/styled/Img";
 import { PublishDate } from "./BookInfoWrapper";
 
 interface ShowModalProps {
@@ -29,7 +29,7 @@ export default function ShowModal(props: ShowModalProps) {
   const _token = localStorage.getItem("booktez-token");
   const userToken = _token ? _token : "";
 
-  const navigate = useNavigate();
+  const router = useRouter();
 
   const postAddBooks = async () => {
     const { data } = await baseInstance.post("/book", bookData);
@@ -52,32 +52,44 @@ export default function ShowModal(props: ShowModalProps) {
 
     const tempNavigatingBookInfo = {
       ...navigatingBookInfo,
-      reviewId: data.data.reviewId,
+      reviewId: data.reviewId,
       title,
       fromUrl: "/main/add-book",
     };
 
     setNavigatingBookInfo(tempNavigatingBookInfo);
-    navigate("/book-note");
+    router.push(`/book-note/${data.reviewId}`);
   };
 
   const participantInfo = (participants: string[], inCharge: "지음" | "옮김") => {
-    return participants.length > 2
-      ? `${participants[0]} 외 ${participants.length - 1}명`
-      : `${participants[0]} ${participants[1]}` + inCharge;
+    console.log("participants.length", participants.length);
+    let result = "";
+
+    switch (participants.length) {
+      case 0:
+        return "";
+      case 1:
+        result = `${participants[0]} `;
+        break;
+      case 2:
+        result = `${participants[0]} ${participants[1]} `;
+        break;
+      default:
+        result = `${participants[0]} 외 ${participants.length - 1}명 `;
+    }
+    console.log("result", result);
+
+    return result + inCharge;
   };
 
   return (
     <>
       <StIcCancel onClick={onToggleModal} />
-      {thumbnail ? (
-        <StModalThumbnail src={thumbnail} alt="책 표지" />
-      ) : (
-        <StModalThumbnail
-          src="https://bookstairs-bucket.s3.ap-northeast-2.amazonaws.com/defaultBookImg.png"
-          alt="책 표지"
-        />
-      )}
+      <StModalThumbnail
+        thumbnail={
+          thumbnail ? thumbnail : "https://bookstairs-bucket.s3.ap-northeast-2.amazonaws.com/defaultBookImg.png"
+        }
+      />
       <StModalTitle>{title}</StModalTitle>
       <StModalLabelWrapper>
         <StModalLabel>{participantInfo(authors, "지음")}</StModalLabel>
@@ -96,7 +108,7 @@ export default function ShowModal(props: ShowModalProps) {
   );
 }
 
-const StModalThumbnail = styled(Image)`
+const StModalThumbnail = styled(ImageWrapper)`
   margin-bottom: 3.5rem;
 
   border: 0.2rem solid ${({ theme }) => theme.colors.white400};
