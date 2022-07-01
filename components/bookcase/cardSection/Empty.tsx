@@ -1,10 +1,10 @@
 import styled from "@emotion/styled";
-import Image from "next/image";
 import Link from "next/link";
 
 import { ImgEmptyBook } from "../../../public/assets/images";
 import { BookcasePathKey } from "../../../types/bookcase";
 import { DefaultButton } from "../../common/styled/Button";
+import { ImageWrapper } from "../../common/styled/Img";
 
 interface EmptyProps {
   navIndex: BookcasePathKey;
@@ -18,7 +18,7 @@ export default function Empty(props: EmptyProps) {
   return (
     <StArticle>
       <StImgWrapper>
-        <Image src={ImgEmptyBook} alt="빈 폴더 이미지" />
+        <StImage thumbnail={ImgEmptyBook.src} />
       </StImgWrapper>
       <StH3>{isNavIndexDefaultOrPre ? "아직 읽은 책이 없어요." : "이 단계의 책이 없어요."}</StH3>
 
@@ -48,6 +48,11 @@ const StImgWrapper = styled.div`
   height: 16.6rem;
 
   margin-bottom: 1.1rem;
+`;
+
+const StImage = styled(ImageWrapper)`
+  width: 28.4rem;
+  height: 16.6rem;
 `;
 
 const StH3 = styled.h3`

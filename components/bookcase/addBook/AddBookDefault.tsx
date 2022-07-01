@@ -1,12 +1,12 @@
 import styled from "@emotion/styled";
-import Image from "next/image";
 
 import { ImgAddBooksSearch } from "../../../public/assets/images";
+import { ImageWrapper } from "../../common/styled/Img";
 
 export default function AddBookDefault() {
   return (
     <StWrapper>
-      <StImgAddBookSearch src={ImgAddBooksSearch} alt="그래픽 이미지입니다" width={248} height={246} />
+      <StImgAddBookSearch thumbnail={ImgAddBooksSearch.src} />
       <StH3>
         어떤 책을 읽으시나요? <br></br>
         북스테어즈와 독서를 해봐요!
@@ -26,8 +26,11 @@ const StWrapper = styled.section`
   margin: 0 4rem 0 4rem;
 `;
 
-const StImgAddBookSearch = styled(Image)`
+const StImgAddBookSearch = styled(ImageWrapper)`
   margin-bottom: 6.6rem;
+
+  width: 24.8rem;
+  height: 24.6rem;
 `;
 
 const StH3 = styled.h3`

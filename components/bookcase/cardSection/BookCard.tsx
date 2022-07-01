@@ -1,5 +1,4 @@
 import styled from "@emotion/styled";
-import Image from "next/image";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useSetRecoilState } from "recoil";
@@ -43,11 +42,7 @@ export default function BookCard(props: BookCardProps) {
   return (
     <StCardWrapper>
       <StBookCard onClick={moveBookNoteHandler}>
-        <StImgWrapper>
-          <StBookCardImgWrapper>
-            <Image width={205} height={300} src={thumbnail} alt={`도서 ${title}의 이미지`} />
-          </StBookCardImgWrapper>
-        </StImgWrapper>
+        <StImgWrapper thumbnail={thumbnail} />
         <StTextWrapper>
           <StTitleWrapper>
             <StCardTitle>{title}</StCardTitle>
@@ -100,7 +95,7 @@ const StBookCard = styled.article`
   }
 `;
 
-const StImgWrapper = styled.div`
+const StImgWrapper = styled(StBookCardImgWrapper)`
   width: 20.5rem;
   height: 30rem;
 

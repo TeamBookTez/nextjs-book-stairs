@@ -1,12 +1,12 @@
 import styled from "@emotion/styled";
-import Image from "next/image";
 
 import { GifLoading } from "../../public/assets/images";
+import { ImageWrapper } from "./styled/Img";
 
 export default function Loading() {
   return (
     <StLoadingWrapper>
-      <Image src={GifLoading} alt="로딩 중" width="200" height="200" />
+      <StImage thumbnail={GifLoading.src} />
     </StLoadingWrapper>
   );
 }
@@ -24,4 +24,9 @@ const StLoadingWrapper = styled.div`
 
   border-radius: 2rem;
   background-color: white;
+`;
+
+const StImage = styled(ImageWrapper)`
+  width: 20rem;
+  height: 20rem;
 `;

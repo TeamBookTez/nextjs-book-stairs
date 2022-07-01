@@ -1,8 +1,8 @@
 import styled from "@emotion/styled";
-import Image from "next/image";
 import Link from "next/link";
 
 import { ImgMainBanner } from "../../public/assets/images";
+import { ImageWrapper } from "../common/styled/Img";
 
 export default function Banner() {
   return (
@@ -19,7 +19,7 @@ export default function Banner() {
         </Link>
       </div>
       <StImageWrapper>
-        <Image src={ImgMainBanner} width="485" height="254" alt="일러스트" />
+        <StImage thumbnail={ImgMainBanner.src} />
       </StImageWrapper>
     </StWrapper>
   );
@@ -73,4 +73,9 @@ const StImageWrapper = styled.div`
   bottom: 0;
   right: 0;
   object-fit: cover;
+`;
+
+const StImage = styled(ImageWrapper)`
+  width: 48.5rem;
+  height: 25.4rem;
 `;

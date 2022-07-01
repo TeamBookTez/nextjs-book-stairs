@@ -1,10 +1,10 @@
 import styled from "@emotion/styled";
-import Image from "next/image";
 import React from "react";
 
 import { IcEditProfile } from "../../public/assets/icons";
 import { ImgMypageBanner, ImgUser } from "../../public/assets/images";
 import { UserInfo } from "../../types/myPage";
+import { ImageWrapper } from "../common/styled/Img";
 
 interface TopBannerProps {
   userInfo: UserInfo | undefined;
@@ -19,7 +19,7 @@ export default function TopBanner(props: TopBannerProps) {
     <StBanner bannerImage={ImgMypageBanner.src}>
       <StProfile>
         <StProfileImgBox>
-          <StUserImg src={isLogin ? userInfo.img : ImgUser} alt="유저" width={172} height={172} />
+          <StUserImg thumbnail={isLogin ? userInfo.img : ImgUser.src} />
           {isLogin && (
             <>
               <StIcEditProfile htmlFor="input-file">
@@ -92,9 +92,12 @@ const StFileInput = styled.input`
   display: none;
 `;
 
-const StUserImg = styled(Image)`
+const StUserImg = styled(ImageWrapper)`
   border: 0.6rem solid ${({ theme }) => theme.colors.white};
   border-radius: 50%;
+
+  width: 17.2rem;
+  height: 17.2rem;
 `;
 
 const StProfileContent = styled.div`

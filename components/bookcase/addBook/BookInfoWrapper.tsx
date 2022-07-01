@@ -3,6 +3,7 @@ import { useCallback, useEffect, useState } from "react";
 
 import { BookInfo } from "../../../pages/bookcase/add-book";
 import { escapeHtml } from "../../../util/escape";
+import { StBookCardImgWrapper } from "../../common/styled/Img";
 import ModalWrapper from "./ModalWrapper";
 import ShowModal from "./ShowModal";
 
@@ -35,10 +36,6 @@ export default function BookInfoWrapper(props: BookInfoWrapperProps) {
     setIsModalOpen(!isModalOpen);
   }, [isModalOpen]);
 
-  const clickBookCard = () => {
-    onClickBookCard(book.isbn);
-  };
-
   useEffect(() => {
     if (selectedBookIsbn !== "" && selectedBookIsbn === isbn) {
       toggleModal();
@@ -48,11 +45,12 @@ export default function BookInfoWrapper(props: BookInfoWrapperProps) {
 
   return (
     <>
-      <StArticle
-        onClick={clickBookCard}
-        thumbnail={
-          thumbnail ? thumbnail : "https://bookstairs-bucket.s3.ap-northeast-2.amazonaws.com/defaultBookImg.png"
-        }>
+      <StArticle onClick={() => onClickBookCard(book.isbn)}>
+        <StThumbnailWrapper
+          thumbnail={
+            thumbnail ? thumbnail : "https://bookstairs-bucket.s3.ap-northeast-2.amazonaws.com/defaultBookImg.png"
+          }
+        />
         <StInfoWrapper>
           <InfoTitle>{title}</InfoTitle>
           <InfoLabelWrapper>
@@ -81,18 +79,12 @@ export default function BookInfoWrapper(props: BookInfoWrapperProps) {
   );
 }
 
-const StArticle = styled.article<{ thumbnail: string }>`
+const StArticle = styled.article`
   display: flex;
   padding: 1.6rem 8.1rem 1.6rem 1.6rem;
 
   border-radius: 1.6rem;
-  padding-left: 12.1rem;
   height: 20.1rem;
-
-  background-image: ${({ thumbnail }) => thumbnail};
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: contain;
 
   &:hover {
     background-color: ${({ theme }) => theme.colors.orange200};
@@ -100,11 +92,8 @@ const StArticle = styled.article<{ thumbnail: string }>`
   }
 `;
 
-const StThumbnailWrapper = styled.div`
-  object-fit: cover;
-
+const StThumbnailWrapper = styled(StBookCardImgWrapper)`
   margin-right: 1.6rem;
-
   border-radius: 0.8rem;
 
   width: 12.1rem;
@@ -117,6 +106,7 @@ const StInfoWrapper = styled.div`
   justify-content: space-between;
 
   padding-top: 1.5rem;
+  width: 100%;
 `;
 
 const InfoTitle = styled.strong`
