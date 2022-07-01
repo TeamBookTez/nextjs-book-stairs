@@ -13,13 +13,11 @@ interface EmptyProps {
 export default function Empty(props: EmptyProps) {
   const { navIndex } = props;
 
-  const isNavIndexDefaultOrPre = navIndex === "/book" || navIndex === "/book/pre";
+  const isNavIndexDefaultOrPre = navIndex === "/book";
 
   return (
     <StArticle>
-      <StImgWrapper>
-        <StImage thumbnail={ImgEmptyBook.src} />
-      </StImgWrapper>
+      <StImage thumbnail={ImgEmptyBook.src} />
       <StH3>{isNavIndexDefaultOrPre ? "아직 읽은 책이 없어요." : "이 단계의 책이 없어요."}</StH3>
 
       <StParagraph>
@@ -43,14 +41,9 @@ const StArticle = styled.article`
   height: 32.7rem;
 `;
 
-const StImgWrapper = styled.div`
-  width: 28.4rem
-  height: 16.6rem;
-
-  margin-bottom: 1.1rem;
-`;
-
 const StImage = styled(ImageWrapper)`
+  margin-bottom: 1.1rem;
+
   width: 28.4rem;
   height: 16.6rem;
 `;
