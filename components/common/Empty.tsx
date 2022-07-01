@@ -38,7 +38,7 @@ const StArticle = styled.article`
 `;
 
 const StImg = styled(ImageWrapper)`
-  width: 28.4rem
+  width: 28.4rem;
   height: 16.6rem;
 
   margin-bottom: 1.1rem;
