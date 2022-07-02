@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
-import Image from "next/image";
 
 import { ImgLandingBookcase } from "../../public/assets/images";
+import { ImageWrapper } from "../common/styled/Img";
 import { StLandingSectionH2, StLandingSectionWrapper } from "../common/styled/Landing";
 
 export default function LandingValidation() {
@@ -18,7 +18,7 @@ export default function LandingValidation() {
           내가 읽은 책들을 모두 흡수해보세요.
         </StParagraph>
       </div>
-      <StImgLandingBookcase src={ImgLandingBookcase} alt="서재 이미지" />
+      <StImgLandingBookcase thumbnail={ImgLandingBookcase.src} />
     </StSection>
   );
 }
@@ -31,7 +31,7 @@ const StParagraph = styled.p`
   ${({ theme }) => theme.fonts.body00}
 `;
 
-const StImgLandingBookcase = styled(Image)`
+const StImgLandingBookcase = styled(ImageWrapper)`
   width: 58.3rem;
   height: 46.7rem;
 `;

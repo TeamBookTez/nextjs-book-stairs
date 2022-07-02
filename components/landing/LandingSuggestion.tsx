@@ -1,13 +1,13 @@
 import styled from "@emotion/styled";
-import Image from "next/image";
 
 import { ImgLanding02 } from "../../public/assets/images";
+import { ImageWrapper } from "../common/styled/Img";
 import { StLandingSectionH2, StLandingSectionWrapper } from "../common/styled/Landing";
 
 export default function LandingThree() {
   return (
     <StLandingSectionWrapper>
-      <StImgLanding02 src={ImgLanding02} alt="여기는 또 어떤 이미지가 들어갈까요?" />
+      <StImage thumbnail={ImgLanding02.src} />
       <div>
         <StLandingSectionH2>차별화 된 독서 방법을 제안합니다.</StLandingSectionH2>
         <StParagraph>
@@ -19,7 +19,7 @@ export default function LandingThree() {
   );
 }
 
-const StImgLanding02 = styled(Image)`
+const StImage = styled(ImageWrapper)`
   width: 55.6rem;
   height: 90rem;
 `;

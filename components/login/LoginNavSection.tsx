@@ -1,12 +1,12 @@
 import { css, keyframes } from "@emotion/react";
 import styled from "@emotion/styled";
-import Image from "next/image";
 import { useRouter } from "next/router";
 
 import { ImgLogin } from "../../public/assets/images";
 import theme from "../../styles/theme";
 import { NavHeader } from "../common";
 import { DefaultButton } from "../common/styled/Button";
+import { ImageWrapper } from "../common/styled/Img";
 
 interface SignupNavProps {
   isAniTime: boolean;
@@ -37,7 +37,7 @@ export default function SignupNav(props: SignupNavProps) {
           <br />
           서재에 북노트를 쌓아보세요!
         </StH3>
-        <StImage src={ImgLogin} alt="북테즈 이미지" width={259} height={185} />
+        <StImage thumbnail={ImgLogin.src} />
         <StSignupBtn type="button" onClick={handleGoSignupBtn} className="btn_signup">
           회원가입
         </StSignupBtn>
@@ -83,8 +83,11 @@ const StArticle = styled.article`
   align-items: center;
 `;
 
-const StImage = styled(Image)`
+const StImage = styled(ImageWrapper)`
   margin-bottom: 5.3rem;
+
+  width: 25.9rem;
+  height: 18.5rem;
 `;
 
 const StH2 = styled.h2`

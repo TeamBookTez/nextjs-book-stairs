@@ -1,9 +1,9 @@
 import styled from "@emotion/styled";
-import Image from "next/image";
 import Link from "next/link";
 
 import { ImgLanding01 } from "../../public/assets/images";
 import { DefaultButton } from "../common/styled/Button";
+import { ImageWrapper } from "../common/styled/Img";
 
 export default function LandingInfo() {
   return (
@@ -19,7 +19,7 @@ export default function LandingInfo() {
             <StButton id="cta_top">북스테어즈 시작</StButton>
           </Link>
         </StArticle>
-        <StImgLanding01 src={ImgLanding01} alt="여긴 어떤 이미지가 들어갈까요?" />
+        <StImgLanding01 thumbnail={ImgLanding01.src} />
       </StWrapper>
     </>
   );
@@ -48,7 +48,7 @@ const StButton = styled(DefaultButton)`
   ${({ theme }) => theme.fonts.header3}
 `;
 
-const StImgLanding01 = styled(Image)`
+const StImgLanding01 = styled(ImageWrapper)`
   width: 75.4rem;
   height: 76.1rem;
 `;

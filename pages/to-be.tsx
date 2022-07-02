@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
-import Image from "next/image";
 
+import { ImageWrapper } from "../components/common/styled/Img";
 import { MainLayout } from "../components/layout";
 import { MainHeader } from "../components/main";
 import { ImgDevice } from "../public/assets/images";
@@ -11,7 +11,7 @@ export default function toBe() {
   return (
     <MainLayout header={mainHeader}>
       <StSection>
-        <Starticle>
+        <StArticle>
           <div>
             <StPreface>
               <StLine></StLine> 다음 계단
@@ -33,8 +33,8 @@ export default function toBe() {
             rel="noopener noreferrer">
             응원과 피드백 하러 가기
           </StAnchor>
-        </Starticle>
-        <Image src={ImgDevice} alt="기기 사진" width="618" height="572" />
+        </StArticle>
+        <StImage thumbnail={ImgDevice.src} />
       </StSection>
     </MainLayout>
   );
@@ -55,7 +55,7 @@ const StSection = styled.section`
   }
 `;
 
-const Starticle = styled.article`
+const StArticle = styled.article`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -109,4 +109,9 @@ const StAnchor = styled.a`
   background-color: ${({ theme }) => theme.colors.orange100};
   color: ${({ theme }) => theme.colors.white};
   ${({ theme }) => theme.fonts.button}
+`;
+
+const StImage = styled(ImageWrapper)`
+  width: 61.8rem;
+  height: 57.2rem;
 `;

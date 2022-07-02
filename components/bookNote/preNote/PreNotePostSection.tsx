@@ -15,7 +15,6 @@
 
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
-import Image from "next/image";
 import { useState } from "react";
 import { useRecoilValue } from "recoil";
 
@@ -24,6 +23,7 @@ import { navigatingBookInfoState } from "../../../core/atom";
 import { ImgPreBook } from "../../../public/assets/images";
 import { BookNotePathKey, PeriNoteTreeNode, PreNoteData } from "../../../types/bookNote";
 import { DefaultButton } from "../../common/styled/Button";
+import { ImageWrapper } from "../../common/styled/Img";
 import {
   StBtnCancel,
   StBtnDelete,
@@ -100,7 +100,7 @@ export default function PreNotePostSection(props: PreNotePostSectionProps) {
       {isOpenedModal && (
         <StPopUpWrapper>
           <StPopUp>
-            <StImg src={ImgPreBook} alt="독서 전 단계 완료" />
+            <StImg thumbnail={ImgPreBook.src} />
             <StQuestion>독서 전 단계를 완료하셨나요?</StQuestion>
             <StDetail>질문리스트와 함께 본격적으로 책을 펼쳐봐요!</StDetail>
             <StBtnWrapper>
@@ -135,6 +135,9 @@ const StNextBtn = styled(DefaultButton)<{ disabled: boolean }>`
     `}
 `;
 
-const StImg = styled(Image)`
+const StImg = styled(ImageWrapper)`
   margin-bottom: 1.3rem;
+
+  width: 14.1rem;
+  height: 14rem;
 `;

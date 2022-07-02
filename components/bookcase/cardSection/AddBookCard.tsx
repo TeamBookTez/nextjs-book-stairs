@@ -1,5 +1,4 @@
 import styled from "@emotion/styled";
-import Image from "next/image";
 import Link from "next/link";
 
 import { ImgAddBooks } from "../../../public/assets/images";
@@ -11,11 +10,7 @@ export default function AddBookCard() {
     <>
       <StAddCard>
         <StContent>
-          <StImgWrapper>
-            <StBookCardImgWrapper>
-              <Image src={ImgAddBooks} alt="다음 책을 쌓아볼까요?" />
-            </StBookCardImgWrapper>
-          </StImgWrapper>
+          <StImgWrapper thumbnail={ImgAddBooks.src} />
           <StCardHeader>다음 책을 읽어볼까요?</StCardHeader>
           <StCardDesc>또 하나의 지혜를 쌓아보세요.</StCardDesc>
           <Link href="/bookcase/add-book" passHref>
@@ -47,7 +42,7 @@ const StContent = styled.div`
   background-color: ${({ theme }) => theme.colors.white200};
 `;
 
-const StImgWrapper = styled.div`
+const StImgWrapper = styled(StBookCardImgWrapper)`
   width: 13.6rem;
   height: 9.6rem;
   margin-bottom: 2rem;

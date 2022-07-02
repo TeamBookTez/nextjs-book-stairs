@@ -10,12 +10,12 @@
 */
 
 import styled from "@emotion/styled";
-import Image from "next/image";
 import Link from "next/link";
 import { useRecoilValue } from "recoil";
 
 import { navigatingBookInfoState } from "../../core/atom";
 import { ImgExit } from "../../public/assets/images";
+import { ImageWrapper } from "../common/styled/Img";
 import {
   StBtnCancel,
   StBtnDelete,
@@ -39,7 +39,7 @@ export default function ExitModal(props: ExitModalProps) {
   return (
     <StPopUpWrapper>
       <StPopUp>
-        <StImg src={ImgExit} alt="페이지 나가기" />
+        <StImg thumbnail={ImgExit.src} />
         <StQuestion>현재 페이지에서 나가시겠어요?</StQuestion>
         <StDetail>변경사항이 저장되지 않을 수도 있어요!</StDetail>
         <StBtnWrapper>
@@ -62,8 +62,11 @@ export default function ExitModal(props: ExitModalProps) {
   );
 }
 
-const StImg = styled(Image)`
+const StImg = styled(ImageWrapper)`
   margin-bottom: 1.2rem;
+
+  width: 19.2rem;
+  height: 12.6rem;
 `;
 
 const StLink = styled(Link)`
