@@ -16,7 +16,7 @@ export default function Bookcase() {
   const navigatingBookInfo = useRecoilValue(navigatingBookInfoState);
   const { fromSt } = navigatingBookInfo;
 
-  const { isLogin, isLoginLoading } = useUser();
+  const { isLogin } = useUser();
   const [navIndex, setNavIndex] = useState<BookcasePathKey>(fromSt);
   const { bookcaseInfo, isLoading, isError } = useGetBookInfo(navIndex);
 
@@ -28,19 +28,13 @@ export default function Bookcase() {
 
   return (
     <MainLayout header={mainHeader}>
-      {isLoginLoading ? (
+      <Navigation navIndex={navIndex} onChangeNavIndex={handleChangeNavIndex} />
+      {isLoading ? (
         <Loading />
+      ) : !bookcaseInfo || isError || bookcaseInfo.length === 0 ? (
+        <NoCards navIndex={navIndex} />
       ) : (
-        <>
-          <Navigation navIndex={navIndex} onChangeNavIndex={handleChangeNavIndex} />
-          {isLoading ? (
-            <Loading />
-          ) : !bookcaseInfo || isError || bookcaseInfo.length === 0 ? (
-            <NoCards navIndex={navIndex} />
-          ) : (
-            <Cards navIndex={navIndex} bookcaseInfo={bookcaseInfo} />
-          )}
-        </>
+        <Cards navIndex={navIndex} bookcaseInfo={bookcaseInfo} />
       )}
     </MainLayout>
   );
