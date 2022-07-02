@@ -3,7 +3,6 @@ import React from "react";
 import { useRecoilValue } from "recoil";
 
 import { navigatingBookInfoState } from "../../core/atom";
-import { IcCancelWhite } from "../../public/assets/icons";
 import { StIcCancelWhite } from "./styled/DetailBookNote.styled";
 
 interface BookNoteHeaderProps {
