@@ -95,6 +95,7 @@ const StFileInput = styled.input`
 const StUserImg = styled(ImageWrapper)`
   border: 0.6rem solid ${({ theme }) => theme.colors.white};
   border-radius: 50%;
+  background-size: cover;
 
   width: 17.2rem;
   height: 17.2rem;
