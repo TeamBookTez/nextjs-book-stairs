@@ -18,11 +18,11 @@ interface IsLogin {
 }
 
 export default function useUser() {
-  const { data, isValidating } = useSWR<Response<IsLogin>>("/auth/check", baseInstance.get, {
+  const { data, error } = useSWR<Response<IsLogin>>("/auth/check", baseInstance.get, {
     revalidateOnFocus: false,
   });
 
-  if (data === undefined) return { isLogin: false, isLoginLoading: isValidating };
+  if (data === undefined) return { isLogin: false, isLoginLoading: !error && !data };
 
-  return { isLogin: data.data.isLogin, isLoginLoading: isValidating };
+  return { isLogin: data.data.isLogin, isLoginLoading: !error && !data };
 }
