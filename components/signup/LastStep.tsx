@@ -13,6 +13,7 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 
 import { baseInstance } from "../../core/axios";
+import LocalStorage from "../../core/localStorage";
 import { ImgSignUpFinish } from "../../public/assets/images";
 import { Loading } from "../common";
 import { DefaultButton } from "../common/styled/Button";
@@ -23,7 +24,7 @@ export default function LastStep() {
 
   const router = useRouter();
 
-  const nickname = localStorage.getItem("booktez-nickname");
+  const nickname = LocalStorage.getItem("booktez-nickname");
 
   const addBookReview = async () => {
     const tempBookData = sessionStorage.getItem("booktez-bookData");

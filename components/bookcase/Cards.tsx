@@ -1,14 +1,7 @@
 import styled from "@emotion/styled";
 
 import { BookcaseInfo, BookcasePathKey } from "../../types/bookcase";
-import { Loading } from "../common";
-import { AddBookCard, BookCard, NoCards } from ".";
-
-interface BookcaseFetchStatus {
-  bookcaseInfo: BookcaseInfo[];
-  isLoading: boolean;
-  isError: boolean;
-}
+import { AddBookCard, BookCard } from ".";
 
 interface CardsProps {
   navIndex: BookcasePathKey;

@@ -7,8 +7,6 @@
   - 
   
 */
-
-import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { useEffect, useState } from "react";
 
@@ -17,7 +15,6 @@ import { StepUpNDrawerIdx } from "../../../pages/book-note/[reviewId]";
 import { BookNotePathKey, PreNoteData, SavingProgress } from "../../../types/bookNote";
 import useFetchBookNote from "../../../util/hooks/useFetchBookNote";
 import { Loading } from "../../common";
-import { DefaultButton } from "../../common/styled/Button";
 import LinkToSignUpSection from "./LinkToSignUpSection";
 import PreNoteFormContainer from "./PreNoteFormContainer";
 import PreNotePostSection from "./PreNotePostSection";
