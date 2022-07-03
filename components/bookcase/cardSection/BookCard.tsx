@@ -36,7 +36,11 @@ export default function BookCard(props: BookCardProps) {
     const tempNavigatingBookInfo = { reviewId, title, fromUrl: router.pathname, fromSt: navIndex };
 
     setNavigatingBookInfo(tempNavigatingBookInfo);
-    router.push(`book-note/${reviewId}`);
+    if (navIndex === "/book/post") {
+      router.push(`book-note/${reviewId}/detail`);
+    } else {
+      router.push(`book-note/${reviewId}`);
+    }
   };
 
   return (
