@@ -8,17 +8,17 @@ import referralLinkList from "../../util/referralLinkList";
 import { BookComment } from ".";
 
 interface ServiceContentProps {
+  isLogin: boolean;
   userInfo: UserInfo | undefined;
   children: React.ReactNode;
 }
 
 export default function ServiceContent(props: ServiceContentProps) {
-  const { userInfo, children } = props;
-  const isLogin = userInfo !== undefined;
+  const { isLogin, userInfo, children } = props;
 
   return (
     <StWrapper>
-      {isLogin && (
+      {isLogin && userInfo && (
         <StCountBook>
           <StImgWrapper>
             <Image src={ImgReadNum} alt="읽은 책 수" />

@@ -10,13 +10,13 @@ import { DefaultButton } from "../common/styled/Button";
 import { TopBanner } from ".";
 
 interface UserContentProps {
+  isLogin: boolean;
   userInfo: UserInfo | undefined;
   onImageChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export default function UserContent(props: UserContentProps) {
-  const { userInfo, onImageChange } = props;
-  const isLogin = userInfo !== undefined;
+  const { isLogin, userInfo, onImageChange } = props;
 
   const router = useRouter();
   const { mutate } = useSWRConfig();
@@ -45,7 +45,7 @@ export default function UserContent(props: UserContentProps) {
 
   return (
     <StWrapper>
-      <TopBanner userInfo={userInfo} onImageChange={onImageChange} />
+      <TopBanner isLogin={isLogin} userInfo={userInfo} onImageChange={onImageChange} />
       {isLogin ? logoutBtn : loginBtn}
     </StWrapper>
   );

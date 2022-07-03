@@ -7,20 +7,20 @@ import { UserInfo } from "../../types/myPage";
 import { ImageWrapper } from "../common/styled/Img";
 
 interface TopBannerProps {
+  isLogin: boolean;
   userInfo: UserInfo | undefined;
   onImageChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export default function TopBanner(props: TopBannerProps) {
-  const { userInfo, onImageChange } = props;
-  const isLogin = userInfo !== undefined;
+  const { isLogin, userInfo, onImageChange } = props;
 
   return (
     <StBanner bannerImage={ImgMypageBanner.src}>
       <StProfile>
         <StProfileImgBox>
-          <StUserImg thumbnail={isLogin ? userInfo.img : ImgUser.src} />
-          {isLogin && (
+          <StUserImg thumbnail={!isLogin || !userInfo ? ImgUser.src : userInfo.img} />
+          {isLogin && userInfo && (
             <>
               <StIcEditProfile htmlFor="input-file">
                 <StIcEditProfileImg />
@@ -34,7 +34,7 @@ export default function TopBanner(props: TopBannerProps) {
             </>
           )}
         </StProfileImgBox>
-        {isLogin && (
+        {isLogin && userInfo && (
           <StProfileContent>
             <StUserName>{userInfo.nickname}</StUserName>
             <StEmail>{userInfo.email}</StEmail>

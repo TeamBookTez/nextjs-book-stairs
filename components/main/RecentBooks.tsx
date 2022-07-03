@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import Link from "next/link";
+import { useMemo } from "react";
 import { useMediaQuery } from "react-responsive";
 
 import { useGetBookInfo } from "../../core/api";
@@ -8,8 +9,10 @@ import { BookCard } from "../bookcase";
 import { Empty, Loading } from "../common";
 
 export default function RecentBooks() {
-  const { bookcaseInfo, isLoading } = useGetBookInfo("/book");
-  const isNotEmpty = bookcaseInfo !== undefined && bookcaseInfo?.length > 0;
+  const { bookcaseInfo, isLoading, isError } = useGetBookInfo("/book");
+  const isNotEmpty = useMemo(() => {
+    return !isError && bookcaseInfo !== undefined && bookcaseInfo?.length > 0;
+  }, [isError, bookcaseInfo]);
 
   const isWideDesktopScreen = useMediaQuery({
     query: "(min-width: 1920px) ",
