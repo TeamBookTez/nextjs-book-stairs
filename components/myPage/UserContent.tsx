@@ -25,6 +25,8 @@ export default function UserContent(props: UserContentProps) {
     LocalStorage.clearUserSession();
 
     mutate("/auth/check");
+    mutate("/user/myInfo");
+    mutate("/book");
 
     router.push("/main");
   };
