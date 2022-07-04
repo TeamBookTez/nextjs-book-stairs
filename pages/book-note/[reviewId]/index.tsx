@@ -14,7 +14,6 @@
 import { css, keyframes } from "@emotion/react";
 import styled from "@emotion/styled";
 import { useEffect, useState } from "react";
-import { flushSync } from "react-dom";
 import { useRecoilValue } from "recoil";
 
 import {
@@ -66,11 +65,7 @@ export default function Index() {
   };
 
   const handleSavingProgress = (obj: SavingProgress) => {
-    // 토스트가 사라지기 전에 네비게이션이 이동했을 때 저장되지 않는 버그를 막기 위해 flushSync
-    // flushSync로 감싸게 되면 해당 setState에 대해서는 state batch를 막아줌
-    flushSync(() => {
-      setSavingProgress({ ...obj });
-    });
+    setSavingProgress({ ...obj });
   };
 
   const toggleExitModal = () => {
@@ -113,10 +108,6 @@ export default function Index() {
     e.preventDefault();
     e.returnValue = ""; //deprecated
   };
-
-  useEffect(() => {
-    console.log("savingProgress", savingProgress);
-  }, [savingProgress]);
 
   useEffect(() => {
     (() => {
