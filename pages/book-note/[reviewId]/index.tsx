@@ -1,5 +1,5 @@
 /*
-마지막 편집자: 22-06-13 joohaem
+마지막 편집자: 22-07-04 soryeongk
 변경사항 및 참고:
   - savingProgress ::
     isPending이 true 일 때 저장하기가 실행됩니다
@@ -14,6 +14,7 @@
 import { css, keyframes } from "@emotion/react";
 import styled from "@emotion/styled";
 import { useEffect, useState } from "react";
+import { flushSync } from "react-dom";
 import { useRecoilValue } from "recoil";
 
 import {
@@ -42,7 +43,7 @@ export default function Index() {
 
   const [navIndex, setNavIndex] = useState<BookNotePathKey>("pre");
 
-  const [savingProgress, setSavingProgress] = useState<SavingProgress>({ isPending: false, isError: false });
+  const [savingProgress, setSavingProgress] = useState<SavingProgress>({ isPending: true, isError: false });
   const [isPreventedPreNote, setIsPreventedPreNote] = useState<boolean>(false);
 
   const [isOpenedExitModal, setIsOpenExitModal] = useState<boolean>(false);
@@ -65,7 +66,11 @@ export default function Index() {
   };
 
   const handleSavingProgress = (obj: SavingProgress) => {
-    setSavingProgress({ ...obj });
+    // 토스트가 사라지기 전에 네비게이션이 이동했을 때 저장되지 않는 버그를 막기 위해 flushSync
+    // flushSync로 감싸게 되면 해당 setState에 대해서는 state batch를 막아줌
+    flushSync(() => {
+      setSavingProgress({ ...obj });
+    });
   };
 
   const toggleExitModal = () => {
@@ -108,6 +113,10 @@ export default function Index() {
     e.preventDefault();
     e.returnValue = ""; //deprecated
   };
+
+  useEffect(() => {
+    console.log("savingProgress", savingProgress);
+  }, [savingProgress]);
 
   useEffect(() => {
     (() => {
