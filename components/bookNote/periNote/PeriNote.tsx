@@ -61,10 +61,10 @@ export default function PeriNote(props: PeriNoteProps) {
 
   const handleAddChild = (path: number[], currentIndex?: number) => {
     // currentIndex가 있으면 "answer", 없으면 "question" 추가
-    const newRoot = currentIndex ? saveStatelessPeriNoteData() : deepCopyTree(data.answerThree);
+    const newRoot = currentIndex !== undefined ? saveStatelessPeriNoteData() : deepCopyTree(data.answerThree);
     const current = getNodeByPath(newRoot, path);
 
-    if (currentIndex) {
+    if (currentIndex !== undefined) {
       current.children.splice(currentIndex + 1, 0, {
         type: "answer",
         content: "",
