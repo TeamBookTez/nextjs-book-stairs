@@ -25,6 +25,11 @@ export default function useFetchBookNote<T>(key: string, initialState: T) {
         setIsLoading(false);
       }
     })();
+
+    return function cleanup() {
+      setData(initialState);
+      setIsLoading(false);
+    };
   }, []);
 
   return { data, setData, isLoading };
