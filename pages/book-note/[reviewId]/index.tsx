@@ -51,7 +51,7 @@ export default function Index() {
 
   const [stepUpNDrawerIdx, setStepUpNDrawerIdx] = useState<StepUpNDrawerIdx>(1);
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
-  const [isDrawerdefault, setIsDrawerdefault] = useState(true);
+  const [isDefaultDrawer, setIsDefaultDrawer] = useState(true);
   const drawerWidthValue = navIndex === "peri" ? 60 : 39;
 
   const handleNavIndex = (idx: BookNotePathKey) => {
@@ -82,7 +82,7 @@ export default function Index() {
   };
 
   const handleOpenDrawer = (i: StepUpNDrawerIdx) => {
-    setIsDrawerdefault(false);
+    setIsDefaultDrawer(false);
     setIsDrawerOpen(true);
     setStepUpNDrawerIdx(i);
   };
@@ -91,8 +91,8 @@ export default function Index() {
     setIsDrawerOpen(false);
   };
 
-  const handleDrawerDefault = () => {
-    setIsDrawerdefault(true);
+  const handleDefaultDrawer = () => {
+    setIsDefaultDrawer(true);
   };
 
   // --------------------------------------------------------------------------
@@ -155,14 +155,14 @@ export default function Index() {
   if (isLoginLoading) return <Loading />;
 
   return (
-    <StBookNoteContainer isopen={isDrawerOpen} isdefault={isDrawerdefault} width={drawerWidthValue}>
+    <StBookNoteContainer isopen={isDrawerOpen} isdefault={isDefaultDrawer} width={drawerWidthValue}>
       <BookNoteHeader onClickExitBtn={toggleExitModal}>
         <Navigation
           navIndex={navIndex}
           isPreventedPreNote={isPreventedPreNote}
           handleNavIndex={handleNavIndex}
           handleSavingProgress={handleSavingProgress}
-          onSetDrawerAsDefault={handleDrawerDefault}
+          onSetDrawerAsDefault={handleDefaultDrawer}
         />
         {isLogin && (
           <SavePoint navIndex={navIndex} savingProgress={savingProgress} handleSavingProgress={handleSavingProgress} />
