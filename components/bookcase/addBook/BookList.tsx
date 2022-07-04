@@ -1,7 +1,9 @@
 import styled from "@emotion/styled";
 import { useState } from "react";
+import { useSetRecoilState } from "recoil";
 
 import { checkIsBookExist } from "../../../core/api";
+import { navigatingBookInfoState } from "../../../core/atom";
 import { BookInfo } from "../../../pages/bookcase/add-book";
 import useToast from "../../../util/hooks/useToast";
 import AlertToast from "./AlertToast";
@@ -21,6 +23,8 @@ export interface ServerError {
 
 export default function BookList(props: BookListProps) {
   const { isLogin, books } = props;
+
+  const setNavigatingBookInfo = useSetRecoilState(navigatingBookInfoState);
 
   const { isToastAlertTime, setIsToastAlertTime } = useToast();
   const [selectedBookIsbn, setSelectedBookIsbn] = useState<string>("");
@@ -55,6 +59,7 @@ export default function BookList(props: BookListProps) {
       } else {
         // 모든 상황을 통과
         setSelectedBookIsbn(isbn);
+        setNavigatingBookInfo((current) => ({ ...current, reviewSt: 2 }));
       }
     });
   };
