@@ -62,7 +62,6 @@ export default function ShowModal(props: ShowModalProps) {
   };
 
   const participantInfo = (participants: string[], inCharge: "지음" | "옮김") => {
-    console.log("participants.length", participants.length);
     let result = "";
 
     switch (participants.length) {
@@ -77,7 +76,6 @@ export default function ShowModal(props: ShowModalProps) {
       default:
         result = `${participants[0]} 외 ${participants.length - 1}명 `;
     }
-    console.log("result", result);
 
     return result + inCharge;
   };
