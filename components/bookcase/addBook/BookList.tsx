@@ -22,8 +22,7 @@ export interface ServerError {
 export default function BookList(props: BookListProps) {
   const { isLogin, books } = props;
 
-  // default is false
-  const [alertToastOpen, setAlertToastOpen] = useState<boolean>(false);
+  const { isToastAlertTime, setIsToastAlertTime } = useToast();
   const [selectedBookIsbn, setSelectedBookIsbn] = useState<string>("");
   const [isServerError, setIsServerError] = useState<ServerError>({
     error: false,
@@ -32,7 +31,7 @@ export default function BookList(props: BookListProps) {
   });
 
   const closeAlertToast = () => {
-    setAlertToastOpen(false);
+    setIsToastAlertTime(false);
   };
 
   const resetSelectedBookIsbn = () => {
@@ -52,15 +51,13 @@ export default function BookList(props: BookListProps) {
       if (isError || isExist) {
         // 에러가 존재할 경우
         // 에러 토스트 띄우기 - 모종의 이유로 실패한 경우
-        setAlertToastOpen(true);
+        setIsToastAlertTime(true);
       } else {
         // 모든 상황을 통과
         setSelectedBookIsbn(isbn);
       }
     });
   };
-
-  useToast();
 
   if (books.length === 0) return <BookEmpty />;
 
@@ -75,7 +72,7 @@ export default function BookList(props: BookListProps) {
           onResetSelectedBookIsbn={resetSelectedBookIsbn}
         />
       ))}
-      {alertToastOpen ? <AlertToast onCloseAlertToast={closeAlertToast} isServerError={isServerError} /> : null}
+      {isToastAlertTime ? <AlertToast onCloseAlertToast={closeAlertToast} isServerError={isServerError} /> : null}
     </StListWrapper>
   );
 }
