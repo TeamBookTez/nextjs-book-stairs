@@ -26,40 +26,39 @@ const Landing: NextPage = () => {
   const router = useRouter();
   const { isLogin, isLoginLoading } = useUser();
 
-  if (isLogin) router.push("/main");
+  if (isLoginLoading) {
+    return <Loading />;
+  } else if (isLogin) {
+    router.push("/main");
 
-  return (
-    <>
-      {isLoginLoading ? (
-        <Loading />
-      ) : (
-        <>
-          <Mobile>
-            <MobileLandingHeader />
-            <MobileLandingInfo />
-            <MobileLandingMotivation />
-            <MobileLandingSuggestion />
-            <MobileLandingExperiment />
-            <MobileLandingValidation />
-            <MobileLandingFooter />
-          </Mobile>
-          <Desktop>
-            <StLandingWrapper>
-              <LandingHeader />
-              <StMain>
-                <LandingInfo />
-                <LandingMotivation />
-                <LandingSuggestion />
-                <LandingExperiment />
-                <LandingValidation />
-              </StMain>
-            </StLandingWrapper>
-            <LandingFooter />
-          </Desktop>
-        </>
-      )}
-    </>
-  );
+    return null;
+  } else
+    return (
+      <>
+        <Mobile>
+          <MobileLandingHeader />
+          <MobileLandingInfo />
+          <MobileLandingMotivation />
+          <MobileLandingSuggestion />
+          <MobileLandingExperiment />
+          <MobileLandingValidation />
+          <MobileLandingFooter />
+        </Mobile>
+        <Desktop>
+          <StLandingWrapper>
+            <LandingHeader />
+            <StMain>
+              <LandingInfo />
+              <LandingMotivation />
+              <LandingSuggestion />
+              <LandingExperiment />
+              <LandingValidation />
+            </StMain>
+          </StLandingWrapper>
+          <LandingFooter />
+        </Desktop>
+      </>
+    );
 };
 
 const StMain = styled.main`
