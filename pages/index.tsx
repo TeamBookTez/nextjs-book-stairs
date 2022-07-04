@@ -18,7 +18,7 @@ import {
   MobileLandingSuggestion,
   MobileLandingValidation,
 } from "../components/landing";
-import MobileLandingMotivation from "../components/landing/MobileLandingMotivatoin";
+import MobileLandingMotivation from "../components/landing/MobileLandingMotivation";
 import { Desktop, Mobile } from "../util/hooks/useMediaQuery";
 import useUser from "../util/hooks/useUser";
 
