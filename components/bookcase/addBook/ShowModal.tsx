@@ -54,7 +54,7 @@ export default function ShowModal(props: ShowModalProps) {
       ...navigatingBookInfo,
       reviewId: data.reviewId,
       title,
-      fromUrl: "/main/add-book",
+      fromUrl: "/bookcase/add-book",
     };
 
     setNavigatingBookInfo(tempNavigatingBookInfo);
