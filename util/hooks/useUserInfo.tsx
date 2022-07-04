@@ -22,10 +22,15 @@ interface MyInfo {
 }
 
 export default function useUserInfo() {
-  const { data, isValidating } = useSWR<Response<MyInfo>>("/user/myInfo", baseInstance.get);
+  const { data, error } = useSWR<Response<MyInfo>>("/user/myInfo", baseInstance.get, {
+    errorRetryCount: 3,
+  });
+
+  console.log("data, error", data, error);
 
   return {
     userInfo: data?.data,
-    isLoading: isValidating,
+    isLoading: !error && !data,
+    isError: error,
   };
 }

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { useSWRConfig } from "swr";
 
 import { Loading } from "../components/common";
@@ -9,8 +9,10 @@ import { baseInstance } from "../core/axios";
 import useUserInfo from "../util/hooks/useUserInfo";
 
 export default function MyPage() {
-  const { userInfo, isLoading } = useUserInfo();
-  const isLogin = userInfo !== undefined;
+  const { userInfo, isLoading, isError } = useUserInfo();
+  const isLogin = useMemo(() => {
+    return !isError && userInfo !== undefined;
+  }, [isError, userInfo]);
 
   const { mutate } = useSWRConfig();
 
@@ -39,8 +41,10 @@ export default function MyPage() {
         <Loading />
       ) : (
         <>
-          <UserContent userInfo={userInfo} onImageChange={handleImageChange} />
-          <ServiceContent userInfo={userInfo}>{isLogin && <WithdrawContent />}</ServiceContent>
+          <UserContent isLogin={isLogin} userInfo={userInfo} onImageChange={handleImageChange} />
+          <ServiceContent isLogin={isLogin} userInfo={userInfo}>
+            {isLogin && <WithdrawContent />}
+          </ServiceContent>
         </>
       )}
     </MainLayout>

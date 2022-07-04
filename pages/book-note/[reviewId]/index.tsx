@@ -1,5 +1,5 @@
 /*
-마지막 편집자: 22-06-13 joohaem
+마지막 편집자: 22-07-04 soryeongk
 변경사항 및 참고:
   - savingProgress ::
     isPending이 true 일 때 저장하기가 실행됩니다
@@ -7,9 +7,8 @@
     isPending이 false가 되고, isError가 false 일 때 저장 완료 토스트가 n초간 나옵니다
 
 고민점:
-  - url 을 state 관리로 바꿈으로써,
-    useEffect로
-    bookcaseInfo 의 reviewSt 를 통해 pre, peri 를 나누어주어야 함 (원래는 통합)
+  - recoil persist로 관리되고 있는 아이들을 모두 localStorage로 바꿀 수는 없을까?
+    localStorage로 대체함으로써 package를 하나라도 덜고 싶습니다..
 */
 
 import { css, keyframes } from "@emotion/react";
@@ -39,11 +38,11 @@ export type StepUpNDrawerIdx = 1 | 2 | 3 | 4;
 
 export default function Index() {
   const { isLogin, isLoginLoading } = useUser();
-  const { reviewId } = useRecoilValue<NavigatingBookInfoState>(navigatingBookInfoState);
+  const { reviewId, reviewSt } = useRecoilValue<NavigatingBookInfoState>(navigatingBookInfoState);
 
   const [navIndex, setNavIndex] = useState<BookNotePathKey>("pre");
 
-  const [savingProgress, setSavingProgress] = useState<SavingProgress>({ isPending: false, isError: false });
+  const [savingProgress, setSavingProgress] = useState<SavingProgress>({ isPending: true, isError: false });
   const [isPreventedPreNote, setIsPreventedPreNote] = useState<boolean>(false);
 
   const [isOpenedExitModal, setIsOpenExitModal] = useState<boolean>(false);
@@ -52,7 +51,7 @@ export default function Index() {
 
   const [stepUpNDrawerIdx, setStepUpNDrawerIdx] = useState<StepUpNDrawerIdx>(1);
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
-  const [isDrawerdefault, setIsDrawerdefault] = useState(true);
+  const [isDefaultDrawer, setIsDefaultDrawer] = useState(true);
   const drawerWidthValue = navIndex === "peri" ? 60 : 39;
 
   const handleNavIndex = (idx: BookNotePathKey) => {
@@ -83,7 +82,7 @@ export default function Index() {
   };
 
   const handleOpenDrawer = (i: StepUpNDrawerIdx) => {
-    setIsDrawerdefault(false);
+    setIsDefaultDrawer(false);
     setIsDrawerOpen(true);
     setStepUpNDrawerIdx(i);
   };
@@ -92,8 +91,8 @@ export default function Index() {
     setIsDrawerOpen(false);
   };
 
-  const handleDrawerDefault = () => {
-    setIsDrawerdefault(true);
+  const handleDefaultDrawer = () => {
+    setIsDefaultDrawer(true);
   };
 
   // --------------------------------------------------------------------------
@@ -112,6 +111,9 @@ export default function Index() {
 
   useEffect(() => {
     (() => {
+      const index = reviewSt === 2 ? "pre" : "peri";
+
+      setNavIndex(index);
       // 뒤로 가기 막기
       history.pushState(null, "", location.href);
       window.addEventListener("popstate", preventGoBack);
@@ -153,14 +155,14 @@ export default function Index() {
   if (isLoginLoading) return <Loading />;
 
   return (
-    <StBookNoteContainer isopen={isDrawerOpen} isdefault={isDrawerdefault} width={drawerWidthValue}>
+    <StBookNoteContainer isopen={isDrawerOpen} isdefault={isDefaultDrawer} width={drawerWidthValue}>
       <BookNoteHeader onClickExitBtn={toggleExitModal}>
         <Navigation
           navIndex={navIndex}
           isPreventedPreNote={isPreventedPreNote}
           handleNavIndex={handleNavIndex}
           handleSavingProgress={handleSavingProgress}
-          onSetDrawerAsDefault={handleDrawerDefault}
+          onSetDrawerAsDefault={handleDefaultDrawer}
         />
         {isLogin && (
           <SavePoint navIndex={navIndex} savingProgress={savingProgress} handleSavingProgress={handleSavingProgress} />

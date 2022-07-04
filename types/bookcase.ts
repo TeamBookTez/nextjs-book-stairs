@@ -13,6 +13,7 @@ export interface NavigatingBookInfoState {
   title: string;
   fromUrl: string;
   fromSt: BookcasePathKey;
+  reviewSt?: 2 | 3 | 4;
 }
 
 export interface BookcaseInfo {

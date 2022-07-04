@@ -16,15 +16,7 @@ import { useRecoilValue } from "recoil";
 import { navigatingBookInfoState } from "../../core/atom";
 import { ImgExit } from "../../public/assets/images";
 import { ImageWrapper } from "../common/styled/Img";
-import {
-  StBtnCancel,
-  StBtnDelete,
-  StBtnWrapper,
-  StDetail,
-  StPopUp,
-  StPopUpWrapper,
-  StQuestion,
-} from "../common/styled/PopUp";
+import { StBtnCancel, StBtnWrapper, StDetail, StPopUp, StPopUpWrapper, StQuestion } from "../common/styled/PopUp";
 
 interface ExitModalProps {
   onClickCancelBtn: () => void;
@@ -34,7 +26,7 @@ export default function ExitModal(props: ExitModalProps) {
   const { onClickCancelBtn } = props;
 
   const navigatingBookInfo = useRecoilValue(navigatingBookInfoState);
-  const { reviewId, fromUrl } = navigatingBookInfo;
+  const { fromUrl } = navigatingBookInfo;
 
   return (
     <StPopUpWrapper>
@@ -46,16 +38,9 @@ export default function ExitModal(props: ExitModalProps) {
           <StBtnCancel type="button" onClick={onClickCancelBtn}>
             취소
           </StBtnCancel>
-          <StBtnDelete type="button">
-            <StLink
-              href={{
-                pathname: fromUrl,
-                query: { reviewId },
-              }}
-              passHref>
-              나가기
-            </StLink>
-          </StBtnDelete>
+          <Link href={fromUrl} passHref>
+            <StLink>나가기</StLink>
+          </Link>
         </StBtnWrapper>
       </StPopUp>
     </StPopUpWrapper>
@@ -69,11 +54,21 @@ const StImg = styled(ImageWrapper)`
   height: 12.6rem;
 `;
 
-const StLink = styled(Link)`
+const StLink = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
 
-  width: 100%;
-  height: 100%;
+  border-radius: 0.8rem;
+
+  ${({ theme }) => theme.fonts.button}
+  color: ${({ theme }) => theme.colors.white};
+  background-color: ${({ theme }) => theme.colors.orange100};
+
+  color: ${({ theme }) => theme.colors.white};
+
+  width: 8rem;
+  height: 4.6rem;
+
+  cursor: pointer;
 `;

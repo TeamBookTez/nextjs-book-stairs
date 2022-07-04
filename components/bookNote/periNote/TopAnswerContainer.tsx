@@ -42,7 +42,7 @@ export default function TopAnswerContainer(props: TopAnswerContainerProps) {
   const handleKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
       // add answer (+ index 추가 인자)
-      onAddChild(path, index);
+      onAddChild(path.slice(0, -1), index);
     }
   };
 

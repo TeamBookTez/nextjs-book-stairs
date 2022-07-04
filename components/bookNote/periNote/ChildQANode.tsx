@@ -37,7 +37,7 @@ export default function ChildQANode(props: ChildQANodeProps) {
       e.preventDefault();
       // 꼬리질문과 답변은 자신의 아래에 추가하는 것이 아닌 자신의 부모의 children에 추가해야함
       if (isQuestion) onAddChild(path.slice(0, -1));
-      else onAddChild(path.slice(0, -1), index);
+      else onAddChild(path.slice(0, -1), index + 1);
     }
   };
 
@@ -66,14 +66,14 @@ export default function ChildQANode(props: ChildQANodeProps) {
             onKeyPress={addChildByEnter}
           />
           {isQuestion && (
-            <StAddAnswerButton type="button" onClick={() => onAddChild(path, index)}>
+            <StAddAnswerButton type="button" onClick={() => onAddChild(path, index + 1)}>
               답변
             </StAddAnswerButton>
           )}
           <StMore className="icn_more" />
           <StMenuWrapper>
             {!isQuestion && path.length < 10 && (
-              <StMenuBtn type="button" onClick={() => onAddChild(path, index)}>
+              <StMenuBtn type="button" onClick={() => onAddChild(path)}>
                 꼬리질문 추가
               </StMenuBtn>
             )}

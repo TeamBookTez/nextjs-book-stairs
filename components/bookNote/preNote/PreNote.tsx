@@ -1,12 +1,3 @@
-/*
-마지막 편집자: 22-06-10 joohaem
-변경사항 및 참고:
-  - 모듈 import 가 많아지네요 ! indexing 작업도 해야겠습니다 하하
-    
-고민점:
-  - 
-  
-*/
 import styled from "@emotion/styled";
 import { useEffect, useState } from "react";
 
@@ -15,10 +6,7 @@ import { StepUpNDrawerIdx } from "../../../pages/book-note/[reviewId]";
 import { BookNotePathKey, PreNoteData, SavingProgress } from "../../../types/bookNote";
 import useFetchBookNote from "../../../util/hooks/useFetchBookNote";
 import { Loading } from "../../common";
-import LinkToSignUpSection from "./LinkToSignUpSection";
-import PreNoteFormContainer from "./PreNoteFormContainer";
-import PreNotePostSection from "./PreNotePostSection";
-import PreNoteThirdArticle from "./PreNoteThirdArticle";
+import { LinkToSignUpSection, PreNoteFormContainer, PreNotePostSection, PreNoteThirdArticle } from ".";
 
 interface PreNoteProps {
   isLogin: boolean;

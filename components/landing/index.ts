@@ -11,6 +11,6 @@ export { default as MobileLandingExperiment } from "./MobileLandingExperiment";
 export { default as MobileLandingFooter } from "./MobileLandingFooter";
 export { default as MobileLandingHeader } from "./MobileLandingHeader";
 export { default as MobileLandingInfo } from "./MobileLandingInfo";
-export { default as MobileLandingMotivatoin } from "./MobileLandingMotivatoin";
+export { default as MobileLandingMotivation } from "./MobileLandingMotivation";
 export { default as MobileLandingSuggestion } from "./MobileLandingSuggestion";
 export { default as MobileLandingValidation } from "./MobileLandingValidation";
