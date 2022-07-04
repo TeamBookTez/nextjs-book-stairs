@@ -16,6 +16,7 @@ export const navigatingBookInfoState = atom<NavigatingBookInfoState>({
     title: "북노오오오오오트으으으으",
     fromUrl: "/main",
     fromSt: "/main",
+    reviewSt: 2,
   },
   effects_UNSTABLE: [persistAtom],
 });

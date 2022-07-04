@@ -39,7 +39,7 @@ export type StepUpNDrawerIdx = 1 | 2 | 3 | 4;
 
 export default function Index() {
   const { isLogin, isLoginLoading } = useUser();
-  const { reviewId } = useRecoilValue<NavigatingBookInfoState>(navigatingBookInfoState);
+  const { reviewId, reviewSt } = useRecoilValue<NavigatingBookInfoState>(navigatingBookInfoState);
 
   const [navIndex, setNavIndex] = useState<BookNotePathKey>("pre");
 
@@ -112,6 +112,9 @@ export default function Index() {
 
   useEffect(() => {
     (() => {
+      const index = reviewSt === 2 ? "pre" : "peri";
+
+      setNavIndex(index);
       // 뒤로 가기 막기
       history.pushState(null, "", location.href);
       window.addEventListener("popstate", preventGoBack);
