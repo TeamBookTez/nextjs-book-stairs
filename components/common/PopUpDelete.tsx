@@ -24,7 +24,10 @@ export default function PopUpDelete(props: PopUpDeleteProps) {
     await deleteData(`/review/${reviewId}`);
 
     onTogglePopUp();
-    mutate(navIndex);
+
+    const mutateKey = navIndex === "/main" ? "/book" : navIndex;
+
+    mutate(mutateKey);
 
     if (router.pathname === "/book-note/detail-book-note") {
       router.push("/main/bookcase");
