@@ -52,7 +52,7 @@ export default function AddBook() {
     setDebounceQuery(tempQuery);
   };
 
-  const mainHeader = <MainHeader pageName="책추가" />;
+  const mainHeader = <MainHeader pageName="책추가" isLogin={isLogin} />;
 
   return (
     <>
