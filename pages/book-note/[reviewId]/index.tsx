@@ -7,9 +7,8 @@
     isPending이 false가 되고, isError가 false 일 때 저장 완료 토스트가 n초간 나옵니다
 
 고민점:
-  - url 을 state 관리로 바꿈으로써,
-    useEffect로
-    bookcaseInfo 의 reviewSt 를 통해 pre, peri 를 나누어주어야 함 (원래는 통합)
+  - recoil persist로 관리되고 있는 아이들을 모두 localStorage로 바꿀 수는 없을까?
+    localStorage로 대체함으로써 package를 하나라도 덜고 싶습니다..
 */
 
 import { css, keyframes } from "@emotion/react";
