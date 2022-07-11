@@ -10,7 +10,21 @@ const nextConfig = {
     config.module.rules.push({
       test: /\.svg$/,
       issuer: /\.[jt]sx?$/,
-      use: ["@svgr/webpack"],
+      loader: "@svgr/webpack",
+      options: {
+        prettier: false,
+        svgo: true,
+        svgoConfig: {
+          plugins: [
+            {
+              name: "preset-default",
+              params: {
+                overrides: { removeViewBox: false },
+              },
+            },
+          ],
+        },
+      },
     });
     return config;
   },
