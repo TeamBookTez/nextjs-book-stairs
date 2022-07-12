@@ -226,6 +226,7 @@ export default function PeriNote(props: PeriNoteProps) {
                   index={childQAIdx}
                   node={childQANode}
                   onAddChild={handleAddChild}
+                  onSetContent={handleSetContent}
                   onDeleteChild={handleDeleteChild}
                   formController={{ register, setFocus }}
                 />
