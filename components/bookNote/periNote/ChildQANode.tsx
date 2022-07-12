@@ -9,11 +9,12 @@
 
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import reactTextareaAutosize from "react-textarea-autosize";
 
 import { labelColorList } from "../../../core/bookNote/childNodeLabelColor";
 import { FormController, PeriNoteTreeNode } from "../../../types/bookNote";
+import useUpdatePeriNote from "../../../util/hooks/useUpdatePeriNote";
 import { StAddAnswerButton, StMenuBtn } from "../../common/styled/Button";
 import { StMoreIcon } from "../../common/styled/Icon";
 import { StMenuWrapper } from "../../common/styled/MenuWrapper";
@@ -23,11 +24,13 @@ interface ChildQANodeProps {
   index: number;
   node: PeriNoteTreeNode;
   onAddChild: (path: number[], index?: number) => void;
+  onSetContent: (value: string, path: number[]) => void;
   onDeleteChild: (path: number[]) => void;
   formController: FormController;
 }
 export default function ChildQANode(props: ChildQANodeProps) {
-  const { path, index, node, onAddChild, onDeleteChild, formController } = props;
+  const { path, index, node, onAddChild, onSetContent, onDeleteChild, formController } = props;
+  const { urgentQuery, setUrgentQuery } = useUpdatePeriNote(node.content, path, onSetContent);
   const isQuestion = node.type === "question";
   const inputKey = `${path.join(",")}`;
   const labelColor = labelColorList[(path.length - 1) % 10];
@@ -38,6 +41,12 @@ export default function ChildQANode(props: ChildQANodeProps) {
       // 꼬리질문과 답변은 자신의 아래에 추가하는 것이 아닌 자신의 부모의 children에 추가해야함
       if (isQuestion) onAddChild(path.slice(0, -1));
       else onAddChild(path.slice(0, -1), index + 1);
+    }
+  };
+
+  const handleContent = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    if (e.target.value !== "\n") {
+      setUrgentQuery(e.target.value);
     }
   };
 
@@ -62,7 +71,9 @@ export default function ChildQANode(props: ChildQANodeProps) {
           <StInput
             {...formController.register(inputKey)}
             defaultValue={node.content}
+            value={urgentQuery}
             placeholder={`${isQuestion ? "질문" : "답변"}을 입력해주세요.`}
+            onChange={handleContent}
             onKeyPress={addChildByEnter}
           />
           {isQuestion && (
@@ -93,6 +104,7 @@ export default function ChildQANode(props: ChildQANodeProps) {
               node={node}
               onAddChild={onAddChild}
               onDeleteChild={onDeleteChild}
+              onSetContent={onSetContent}
               formController={formController}
             />
           ))}
