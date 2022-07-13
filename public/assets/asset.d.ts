@@ -14,11 +14,11 @@ declare module "*.png";
 declare module "*.jpeg";
 declare module "*.gif";
 
-declare module "*.svg" {
-  import React from "react";
+// declare module "*.svg" {
+//   import React from "react";
 
-  const src: string;
+//   const src: string;
 
-  export const ReactComponent: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
-  export default src;
-}
+//   export const ReactComponent: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
+//   export default src;
+// }
