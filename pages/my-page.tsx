@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React from "react";
 import { useSWRConfig } from "swr";
 
 import { Loading } from "../components/common";
@@ -10,9 +10,7 @@ import useUserInfo from "../util/hooks/useUserInfo";
 
 export default function MyPage() {
   const { userInfo, isLoading, isError } = useUserInfo();
-  const isLogin = useMemo(() => {
-    return !isError && userInfo !== undefined;
-  }, [isError, userInfo]);
+  const isLogin = !isError && userInfo !== undefined;
 
   const { mutate } = useSWRConfig();
 

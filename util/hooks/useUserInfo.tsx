@@ -26,8 +26,6 @@ export default function useUserInfo() {
     errorRetryCount: 3,
   });
 
-  console.log("data, error", data, error);
-
   return {
     userInfo: data?.data,
     isLoading: !error && !data,

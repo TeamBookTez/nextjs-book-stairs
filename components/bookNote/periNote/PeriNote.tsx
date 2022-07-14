@@ -8,8 +8,8 @@
     
 고민점:
   - 로그인 loading -> initial data 표시 -> fetching loading 단계로 로딩이 이루어지는데, 통합이 필요할 것 같습니다,!
+    => 기획에서 별 얘기 없으면 해결된 것
 */
-
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import React, { useEffect, useState } from "react";
@@ -22,10 +22,7 @@ import { deepCopyTree, getNodeByPath } from "../../../util/bookNoteTree";
 import useFetchBookNote from "../../../util/hooks/useFetchBookNote";
 import { Loading } from "../../common";
 import { DefaultButton } from "../../common/styled/Button";
-import { HeaderLabel, PeriNotePostSection } from ".";
-import ChildQANode from "./ChildQANode";
-import TopAnswerContainer from "./TopAnswerContainer";
-import TopQuestionContainer from "./TopQuestionContainer";
+import { ChildQANode, HeaderLabel, PeriNotePostSection, TopAnswerContainer, TopQuestionContainer } from ".";
 
 interface PeriNoteProps {
   reviewId: string;
@@ -128,6 +125,7 @@ export default function PeriNote(props: PeriNoteProps) {
     setData({ ...data, answerThree: newRoot });
   };
 
+  // 규민아 이거 ref로 바꿀 수 있을까?
   function toggleMenu(e: React.MouseEvent<HTMLFormElement, MouseEvent>) {
     // as를 없애고 싶다
     const targetElement = e.target as HTMLElement;
@@ -226,6 +224,7 @@ export default function PeriNote(props: PeriNoteProps) {
                   index={childQAIdx}
                   node={childQANode}
                   onAddChild={handleAddChild}
+                  onSetContent={handleSetContent}
                   onDeleteChild={handleDeleteChild}
                   formController={{ register, setFocus }}
                 />
