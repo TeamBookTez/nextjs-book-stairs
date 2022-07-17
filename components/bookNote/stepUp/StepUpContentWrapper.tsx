@@ -2,6 +2,7 @@ import styled from "@emotion/styled";
 import Image from "next/image";
 
 import { StepUpContent } from "../../../types/bookNote";
+import { imageLoader } from "../../../util/imageLoader";
 
 interface StepUpContentWrapperProps {
   content: StepUpContent;
@@ -14,7 +15,7 @@ export default function StepUpContentWrapper(props: StepUpContentWrapperProps) {
     <>
       <StLeftWrapper>
         <StImgWrapper>
-          <Image src={content.imgUrl} alt={content.imgAlt} />
+          <Image src={content.imgUrl} alt={content.imgAlt} layout="fill" loader={imageLoader} />
         </StImgWrapper>
         <StLifeQuotes>{content.lifeQuote}</StLifeQuotes>
         {content.public && <StPublic>- {content.public} -</StPublic>}
@@ -39,15 +40,12 @@ const StLeftWrapper = styled.div`
 `;
 
 const StImgWrapper = styled.div`
-  width: 31.6rem;
-  height: 33.2rem;
+  position: relative;
 
   margin-bottom: 2rem;
 
-  & > img {
-    width: 100%;
-    height: 100%;
-  }
+  width: 31.6rem;
+  height: 33.2rem;
 `;
 
 const StLifeQuotes = styled.p`
@@ -65,6 +63,7 @@ const StRightWrapper = styled.div`
   flex-direction: column;
   justify-content: center;
 `;
+
 const StHeader = styled.h3`
   margin-bottom: 2.4rem;
 

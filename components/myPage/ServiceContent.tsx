@@ -2,8 +2,8 @@ import styled from "@emotion/styled";
 import Image from "next/image";
 import React from "react";
 
-import ImgReadNum from "../../public/assets/images/mypageReadImage.png";
 import { UserInfo } from "../../types/myPage";
+import { imageLoader } from "../../util/imageLoader";
 import referralLinkList from "../../util/referralLinkList";
 import { BookComment } from ".";
 
@@ -25,6 +25,7 @@ export default function ServiceContent(props: ServiceContentProps) {
               src="https://bookstairs-bucket.s3.ap-northeast-2.amazonaws.com/mypageReadImage.png"
               alt="읽은 책 수"
               layout="fill"
+              loader={imageLoader}
             />
           </StImgWrapper>
           <StContentWrapper>
