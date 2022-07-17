@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import Image from "next/image";
 import React from "react";
 
-import { ImgReadNum } from "../../public/assets/images";
+import ImgReadNum from "../../public/assets/images/mypageReadImage.png";
 import { UserInfo } from "../../types/myPage";
 import referralLinkList from "../../util/referralLinkList";
 import { BookComment } from ".";
@@ -21,7 +21,7 @@ export default function ServiceContent(props: ServiceContentProps) {
       {isLogin && userInfo && (
         <StCountBook>
           <StImgWrapper>
-            <Image src="/mypageReadImage.png" alt="읽은 책 수" layout="fill" />
+            <Image src={ImgReadNum} alt="읽은 책 수" layout="fill" />
           </StImgWrapper>
           <StContentWrapper>
             <BookComment reviewCount={userInfo.reviewCount} />
