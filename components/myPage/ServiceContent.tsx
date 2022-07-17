@@ -21,7 +21,12 @@ export default function ServiceContent(props: ServiceContentProps) {
       {isLogin && userInfo && (
         <StCountBook>
           <StImgWrapper>
-            <Image src={ImgReadNum} alt="읽은 책 수" layout="fill" />
+            <Image
+              src="https://bookstairs-bucket.s3.ap-northeast-2.amazonaws.com/mypageReadImage.png"
+              alt="읽은 책 수"
+              width={211}
+              height={163}
+            />
           </StImgWrapper>
           <StContentWrapper>
             <BookComment reviewCount={userInfo.reviewCount} />
