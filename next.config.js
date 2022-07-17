@@ -5,6 +5,7 @@ module.exports = withImages();
 const { BASE_URL, NEXT_PUBLIC_IMAGES_DOMAIN, NEXT_PUBLIC_KAKAO_IMAGES_DOMAIN } = process.env;
 
 const nextConfig = {
+  basePath: "/",
   reactStrictMode: true,
   env: {
     BASE_URL: BASE_URL,
@@ -32,7 +33,7 @@ const nextConfig = {
     return config;
   },
   images: {
-    domains: [NEXT_PUBLIC_IMAGES_DOMAIN, NEXT_PUBLIC_KAKAO_IMAGES_DOMAIN],
+    domains: ["./public", NEXT_PUBLIC_IMAGES_DOMAIN, NEXT_PUBLIC_KAKAO_IMAGES_DOMAIN],
   },
 };
 
