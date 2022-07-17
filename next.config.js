@@ -1,6 +1,3 @@
-const withImages = require("next-images");
-module.exports = withImages();
-
 /** @type {import('next').NextConfig} */
 const { BASE_URL, NEXT_PUBLIC_IMAGES_DOMAIN, NEXT_PUBLIC_KAKAO_IMAGES_DOMAIN } = process.env;
 
