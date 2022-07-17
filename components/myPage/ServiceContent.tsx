@@ -21,7 +21,7 @@ export default function ServiceContent(props: ServiceContentProps) {
       {isLogin && userInfo && (
         <StCountBook>
           <StImgWrapper>
-            <Image src={ImgReadNum} alt="읽은 책 수" />
+            <Image src={ImgReadNum.src} alt="읽은 책 수" />
           </StImgWrapper>
           <StContentWrapper>
             <BookComment reviewCount={userInfo.reviewCount} />

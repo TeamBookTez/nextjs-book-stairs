@@ -52,7 +52,7 @@ export interface StepUpContent {
   public: string;
   header: string;
   desc: string;
-  imgUrl: StaticImageData;
+  imgUrl: string;
   imgAlt: string;
 }
 
