@@ -21,7 +21,7 @@ export default function ServiceContent(props: ServiceContentProps) {
       {isLogin && userInfo && (
         <StCountBook>
           <StImgWrapper>
-            <Image src={ImgReadNum.src} alt="읽은 책 수" />
+            <Image src={ImgReadNum.src} alt="읽은 책 수" layout="fill" />
           </StImgWrapper>
           <StContentWrapper>
             <BookComment reviewCount={userInfo.reviewCount} />
@@ -70,17 +70,14 @@ const StCountBook = styled.article`
 `;
 
 const StImgWrapper = styled.div`
+  position: relative;
+
   width: 21.1rem;
   height: 16.3rem;
 
   margin-bottom: 2.5rem;
 
   border-radius: 2rem 2rem 0 0;
-
-  & > img {
-    width: 100%;
-    height: 100%;
-  }
 `;
 
 const StContentWrapper = styled.div`
