@@ -13,6 +13,10 @@ interface ServiceContentProps {
   children: React.ReactNode;
 }
 
+const loaderProp = ({ src }: { src: string }) => {
+  return src;
+};
+
 export default function ServiceContent(props: ServiceContentProps) {
   const { isLogin, userInfo, children } = props;
 
@@ -25,6 +29,7 @@ export default function ServiceContent(props: ServiceContentProps) {
               src="https://bookstairs-bucket.s3.ap-northeast-2.amazonaws.com/mypageReadImage.png"
               alt="읽은 책 수"
               layout="fill"
+              loader={loaderProp}
             />
           </StImgWrapper>
           <StContentWrapper>
