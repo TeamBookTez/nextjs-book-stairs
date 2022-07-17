@@ -39,13 +39,6 @@ export interface BookDetailData {
   translator: string[];
 }
 
-type StaticImageData = {
-  src: string;
-  height: number;
-  width: number;
-  placeholder?: string;
-};
-
 export interface StepUpContent {
   id: number;
   lifeQuote: string;
@@ -65,6 +58,7 @@ export interface SavingProgress {
 export interface UseForm {
   [key: string]: string;
 }
+
 export interface FormController {
   register: UseFormRegister<UseForm>;
   setFocus: UseFormSetFocus<UseForm>;
