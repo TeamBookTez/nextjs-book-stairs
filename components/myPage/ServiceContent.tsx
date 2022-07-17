@@ -13,10 +13,6 @@ interface ServiceContentProps {
   children: React.ReactNode;
 }
 
-const loaderProp = ({ src }: { src: string }) => {
-  return src;
-};
-
 export default function ServiceContent(props: ServiceContentProps) {
   const { isLogin, userInfo, children } = props;
 
@@ -30,7 +26,6 @@ export default function ServiceContent(props: ServiceContentProps) {
               alt="읽은 책 수"
               width={211}
               height={163}
-              loader={loaderProp}
             />
           </StImgWrapper>
           <StContentWrapper>
