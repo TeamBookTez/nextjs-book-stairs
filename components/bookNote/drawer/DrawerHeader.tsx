@@ -1,8 +1,8 @@
+import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 
 import { IcBooks, IcLeftArrow } from "../../../public/assets/icons";
 import { ImgDrawer, ImgDrawerSmall } from "../../../public/assets/images";
-import { ImageWrapper } from "../../common/styled/Img";
 
 interface DrawerHeaderProps {
   stepUpNDrawerIdx: number;
@@ -13,20 +13,16 @@ export default function DrawerHeader(props: DrawerHeaderProps) {
   const { stepUpNDrawerIdx, onCloseDrawer } = props;
 
   return (
-    <>
+    <header>
       <StIcWrapper>
         <StIcLeftArrow onClick={onCloseDrawer} />
       </StIcWrapper>
-      {stepUpNDrawerIdx === 4 ? (
-        <StImg thumbnail={ImgDrawer.src} width={"53.4rem"} height={"12.5rem"} />
-      ) : (
-        <StImg thumbnail={ImgDrawerSmall.src} width={"32.4rem"} height={"11.9rem"} />
-      )}
+      <StImgWrapper idx={stepUpNDrawerIdx} />
       <StTitleWrapper>
         <IcBooks />
         나는 왜 이 일을 하는가?
       </StTitleWrapper>
-    </>
+    </header>
   );
 }
 
@@ -41,12 +37,28 @@ const StIcLeftArrow = styled(IcLeftArrow)`
   }
 `;
 
-const StImg = styled(ImageWrapper)<{ width: string; height: string }>`
+const StImgWrapper = styled.div<{ idx: number }>`
+  position: relative;
+
   margin-bottom: 3.8rem;
   border-radius: 1.6rem;
 
-  width: ${({ width }) => width};
-  height: ${({ height }) => height};
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+
+  ${({ idx }) =>
+    idx === 4
+      ? css`
+          width: 53.4rem;
+          height: 12.5rem;
+          background-image: url(${ImgDrawer.src});
+        `
+      : css`
+          width: 32.4rem;
+          height: 11.9rem;
+          background-image: url(${ImgDrawerSmall.src});
+        `}
 `;
 
 const StTitleWrapper = styled.header`
