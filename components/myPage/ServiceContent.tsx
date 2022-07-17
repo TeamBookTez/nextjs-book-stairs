@@ -24,8 +24,7 @@ export default function ServiceContent(props: ServiceContentProps) {
             <Image
               src="https://bookstairs-bucket.s3.ap-northeast-2.amazonaws.com/mypageReadImage.png"
               alt="읽은 책 수"
-              width={211}
-              height={163}
+              layout="fill"
             />
           </StImgWrapper>
           <StContentWrapper>
