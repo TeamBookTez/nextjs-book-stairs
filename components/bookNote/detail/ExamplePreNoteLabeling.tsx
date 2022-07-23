@@ -76,7 +76,7 @@ export default function ExamplePreNoteLabeling(props: ExamplePreNoteLabelingProp
       {openModal && (
         <StStepModalWrapper>
           <StepUpLayout
-            handleCloseStepUpModal={() => setOpenModal(!openModal)}
+            onClickModalCancel={() => setOpenModal(!openModal)}
             stepUpContent={stepUpContentArray[idx - 1]}
           />
         </StStepModalWrapper>

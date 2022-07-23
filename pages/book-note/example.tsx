@@ -53,7 +53,7 @@ export default function Example() {
       )}
       {isStepUpModalOpen && (
         <StStepModalWrapper>
-          <StepUpLayout stepUpContent={periNoteStepUp} handleCloseStepUpModal={handleOpenedStepUpCarousel} />
+          <StepUpLayout stepUpContent={periNoteStepUp} onClickModalCancel={handleOpenedStepUpCarousel} />
         </StStepModalWrapper>
       )}
     </StNoteModalWrapper>
