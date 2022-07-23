@@ -1527,6 +1527,13 @@
   dependencies:
     glob "7.1.7"
 
+"@next/eslint-plugin-next@^12.2.3":
+  version "12.2.3"
+  resolved "https://registry.yarnpkg.com/@next/eslint-plugin-next/-/eslint-plugin-next-12.2.3.tgz#63726691aac6a7f01b64190a0323d590a0e8154d"
+  integrity sha512-B2e8Yg1MpuLsGxhCx4rU8/Tcnr5wFmCx1O2eyLXBPnaCcsFXfGCo067ujagtDLtWASL3GNgzg78U1SB0dbc38A==
+  dependencies:
+    glob "7.1.7"
+
 "@next/swc-android-arm-eabi@12.2.2":
   version "12.2.2"
   resolved "https://registry.yarnpkg.com/@next/swc-android-arm-eabi/-/swc-android-arm-eabi-12.2.2.tgz#f6c4111e6371f73af6bf80c9accb3d96850a92cd"

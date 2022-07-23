@@ -15,7 +15,8 @@
     "plugin:import/typescript",
     "plugin:prettier/recommended", // 추가
     "plugin:jsx-a11y/recommended", // 추가
-    "plugin:react-hooks/recommended" // 추가
+    "plugin:react-hooks/recommended", // 추가
+    "plugin:@next/next/recommended"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
