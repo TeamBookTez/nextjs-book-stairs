@@ -13,7 +13,7 @@
 
 import { css, keyframes } from "@emotion/react";
 import styled from "@emotion/styled";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useRecoilValue } from "recoil";
 
 import {
@@ -96,8 +96,8 @@ export default function Index() {
 
   usePreventExit(reviewSt, toggleExitModal, setNavIndex, handleCloseDrawer);
 
-  const bookNoteComponent =
-    navIndex === "pre" ? (
+  const bookNoteComponent = useMemo(() => {
+    return navIndex === "pre" ? (
       <PreNote
         isLogin={isLogin}
         reviewId={reviewId}
@@ -118,6 +118,7 @@ export default function Index() {
         handleSavingProgress={handleSavingProgress}
       />
     );
+  }, [navIndex]);
 
   if (isLoginLoading) return <Loading />;
 
