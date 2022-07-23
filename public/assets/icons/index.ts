@@ -2,7 +2,6 @@ export { default as Ic404 } from "./404Icon.svg";
 export { default as IcAlert } from "./alertIcon.svg";
 export { default as IcBin } from "./binIcon.svg";
 export { default as IcBookcase } from "./bookcaseIcon.svg";
-export { default as IcBooks } from "./booksIcon.svg";
 export { default as IcCancel } from "./cancelIcon.svg";
 export { default as IcCancelBlack } from "./cancelIconBlack.svg";
 export { default as IcCancelWhite } from "./cancelIconWhite.svg";
