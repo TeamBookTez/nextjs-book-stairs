@@ -14,6 +14,7 @@
 import { css, keyframes } from "@emotion/react";
 import styled from "@emotion/styled";
 import { useEffect, useMemo, useState } from "react";
+import { flushSync } from "react-dom";
 import { useRecoilValue } from "recoil";
 
 import {
@@ -94,6 +95,20 @@ export default function Index() {
     setDrawerOpenStatus((current) => ({ ...current, isDefault: true }));
   };
 
+  const handleClickNavList = (idx: BookNotePathKey) => {
+    handleDefaultDrawer();
+
+    if (idx === "peri" && isPreventedPreNote) return;
+
+    // 토스트가 사라지기 전에 네비게이션이 이동했을 때 저장되지 않는 버그를 막기 위해 flushSync
+    // flushSync로 감싸게 되면 해당 setState에 대해서는 state batch를 막아줌
+    flushSync(() => {
+      handleSavingProgress({ isPending: true, isError: false });
+    });
+    handleNavIndex(idx);
+    handleSavingProgress({ isPending: false, isError: false });
+  };
+
   usePreventExit(reviewSt, toggleExitModal, setNavIndex, handleCloseDrawer);
 
   const bookNoteComponent = useMemo(() => {
@@ -125,13 +140,7 @@ export default function Index() {
   return (
     <StBookNoteContainer openstatus={drawerOpenStatus} width={drawerWidthValue}>
       <BookNoteHeader onClickExitBtn={toggleExitModal}>
-        <Navigation
-          navIndex={navIndex}
-          isPreventedPreNote={isPreventedPreNote}
-          handleNavIndex={handleNavIndex}
-          handleSavingProgress={handleSavingProgress}
-          onSetDrawerAsDefault={handleDefaultDrawer}
-        />
+        <Navigation navIndex={navIndex} onClickNavList={handleClickNavList} />
         {isLogin && (
           <SavePoint navIndex={navIndex} savingProgress={savingProgress} handleSavingProgress={handleSavingProgress} />
         )}

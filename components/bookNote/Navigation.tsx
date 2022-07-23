@@ -1,41 +1,23 @@
 /*
 마지막 편집자: 22-06-11 joohaem
 변경사항 및 참고:
-  - 
-    
+  -
+
 고민점:
   - sibling 컴포넌트 북노트의 data를 저장하기 기능을 추가해야 함
 */
 
 import styled from "@emotion/styled";
-import { flushSync } from "react-dom";
 
-import { BookNotePathKey, SavingProgress } from "../../types/bookNote";
+import { BookNotePathKey } from "../../types/bookNote";
 
 interface NavigationProps {
   navIndex: BookNotePathKey;
-  isPreventedPreNote: boolean;
-  handleNavIndex: (idx: BookNotePathKey) => void;
-  handleSavingProgress: (obj: SavingProgress) => void;
-  onSetDrawerAsDefault: () => void;
+  onClickNavList: (idx: BookNotePathKey) => void;
 }
 
 export default function Navigation(props: NavigationProps) {
-  const { navIndex, isPreventedPreNote, handleNavIndex, handleSavingProgress, onSetDrawerAsDefault } = props;
-
-  const onClickNavList = (idx: BookNotePathKey) => {
-    onSetDrawerAsDefault();
-
-    if (idx === "peri" && isPreventedPreNote) return;
-
-    // 토스트가 사라지기 전에 네비게이션이 이동했을 때 저장되지 않는 버그를 막기 위해 flushSync
-    // flushSync로 감싸게 되면 해당 setState에 대해서는 state batch를 막아줌
-    flushSync(() => {
-      handleSavingProgress({ isPending: true, isError: false });
-    });
-    handleNavIndex(idx);
-    handleSavingProgress({ isPending: false, isError: false });
-  };
+  const { navIndex, onClickNavList } = props;
 
   return (
     <StNav>
