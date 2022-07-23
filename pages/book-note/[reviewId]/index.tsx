@@ -94,39 +94,7 @@ export default function Index() {
     setDrawerOpenStatus((current) => ({ ...current, isDefault: true }));
   };
 
-  // --------------------------------------------------------------------------
-
-  // 뒤로 가기 막기
-  const preventGoBack = () => {
-    history.pushState(null, "", location.href);
-    toggleExitModal();
-  };
-
-  // 새로고침 막기
-  const preventClose = (e: BeforeUnloadEvent) => {
-    e.preventDefault();
-    e.returnValue = ""; //deprecated
-  };
-
-  useEffect(() => {
-    (() => {
-      const index = reviewSt === 2 ? "pre" : "peri";
-
-      setNavIndex(index);
-      // 뒤로 가기 막기
-      history.pushState(null, "", location.href);
-      window.addEventListener("popstate", preventGoBack);
-      // 새로고침 막기
-      window.addEventListener("beforeunload", preventClose);
-    })();
-
-    return () => {
-      window.removeEventListener("popstate", preventGoBack);
-      window.removeEventListener("beforeunload", preventClose);
-
-      handleCloseDrawer();
-    };
-  }, []);
+  usePreventExit(reviewSt, toggleExitModal, setNavIndex, handleCloseDrawer);
 
   const bookNoteComponent =
     navIndex === "pre" ? (
@@ -246,3 +214,42 @@ const StStepModalWrapper = styled(StBookModalWrapper)`
 
   background-color: rgba(55, 56, 62, 0.8);
 `;
+
+const usePreventExit = (
+  reviewSt: 2 | 3 | 4 | undefined,
+  toggleExitModal: () => void,
+  handleNavIndex: (idx: BookNotePathKey) => void,
+  handleCloseDrawer: () => void,
+) => {
+  // 뒤로 가기 막기
+  const preventGoBack = () => {
+    history.pushState(null, "", location.href);
+    toggleExitModal();
+  };
+
+  // 새로고침 막기
+  const preventClose = (e: BeforeUnloadEvent) => {
+    e.preventDefault();
+    e.returnValue = ""; //deprecated
+  };
+
+  useEffect(() => {
+    (() => {
+      const index = reviewSt === 2 ? "pre" : "peri";
+
+      handleNavIndex(index);
+      // 뒤로 가기 막기
+      history.pushState(null, "", location.href);
+      window.addEventListener("popstate", preventGoBack);
+      // 새로고침 막기
+      window.addEventListener("beforeunload", preventClose);
+    })();
+
+    return () => {
+      window.removeEventListener("popstate", preventGoBack);
+      window.removeEventListener("beforeunload", preventClose);
+
+      handleCloseDrawer();
+    };
+  }, []);
+};
