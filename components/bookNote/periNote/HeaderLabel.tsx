@@ -1,12 +1,12 @@
 import styled from "@emotion/styled";
 
-import { StepUpNDrawerIdx } from "../../../pages/book-note/[reviewId]";
+import { StepUpAndDrawerIdx } from "../../../pages/book-note/[reviewId]";
 import ExampleDrawerBtn from "../ExampleDrawerBtn";
 import StepUpBtn from "../StepUpBtn";
 
 interface HeaderLabelProps {
-  handleOpenStepUpModal: (i: StepUpNDrawerIdx) => void;
-  handleOpenDrawer: (i: StepUpNDrawerIdx) => void;
+  handleOpenStepUpModal: (i: StepUpAndDrawerIdx) => void;
+  handleOpenDrawer: (i: StepUpAndDrawerIdx) => void;
 }
 
 export default function HeaderLabel(props: HeaderLabelProps) {

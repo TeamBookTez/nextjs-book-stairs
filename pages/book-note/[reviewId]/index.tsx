@@ -34,7 +34,7 @@ import { NavigatingBookInfoState } from "../../../types/bookcase";
 import { BookNotePathKey, SavingProgress } from "../../../types/bookNote";
 import useUser from "../../../util/hooks/useUser";
 
-export type StepUpNDrawerIdx = 1 | 2 | 3 | 4;
+export type StepUpAndDrawerIdx = 1 | 2 | 3 | 4;
 
 export default function Index() {
   const { isLogin, isLoginLoading } = useUser();
@@ -49,7 +49,7 @@ export default function Index() {
 
   const [isOpenedStepUpModal, setIsOpenStepUpModal] = useState<boolean>(false);
 
-  const [stepUpNDrawerIdx, setStepUpNDrawerIdx] = useState<StepUpNDrawerIdx>(1);
+  const [stepUpAndDrawerIdx, setStepUpAndDrawerIdx] = useState<StepUpAndDrawerIdx>(1);
   const [drawerOpenStatus, setDrawerOpenStatus] = useState({ isOpened: false, isDefault: true });
 
   const drawerWidthValue = navIndex === "peri" ? 60 : 39;
@@ -72,18 +72,18 @@ export default function Index() {
     setIsOpenExitModal((prevIsOpened) => !prevIsOpened);
   };
 
-  const handleOpenStepUpModal = (i: StepUpNDrawerIdx) => {
+  const handleOpenStepUpModal = (i: StepUpAndDrawerIdx) => {
     setIsOpenStepUpModal(true);
-    setStepUpNDrawerIdx(i);
+    setStepUpAndDrawerIdx(i);
   };
 
   const handleCloseStepUpModal = () => {
     setIsOpenStepUpModal(false);
   };
 
-  const handleOpenDrawer = (i: StepUpNDrawerIdx) => {
+  const handleOpenDrawer = (i: StepUpAndDrawerIdx) => {
     setDrawerOpenStatus({ isOpened: true, isDefault: false });
-    setStepUpNDrawerIdx(i);
+    setStepUpAndDrawerIdx(i);
   };
 
   const handleCloseDrawer = () => {
@@ -171,14 +171,14 @@ export default function Index() {
       {bookNoteComponent}
 
       {drawerOpenStatus.isOpened && (
-        <DrawerWrapper stepUpNDrawerIdx={stepUpNDrawerIdx} onCloseDrawer={handleCloseDrawer} />
+        <DrawerWrapper stepUpAndDrawerIdx={stepUpAndDrawerIdx} onCloseDrawer={handleCloseDrawer} />
       )}
       {isOpenedExitModal && <ExitModal onClickCancelBtn={toggleExitModal} />}
       {isOpenedStepUpModal && (
         <StStepModalWrapper>
           <StepUpLayout
             handleCloseStepUpModal={handleCloseStepUpModal}
-            stepUpContent={navIndex === "pre" ? stepUpContentArray[stepUpNDrawerIdx - 1] : periNoteStepUp}
+            stepUpContent={navIndex === "pre" ? stepUpContentArray[stepUpAndDrawerIdx - 1] : periNoteStepUp}
           />
         </StStepModalWrapper>
       )}

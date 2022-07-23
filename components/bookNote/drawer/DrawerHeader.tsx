@@ -7,19 +7,19 @@ import { ImgDrawer, ImgDrawerSmall } from "../../../public/assets/images";
 import { imageLoader } from "../../../util/imageLoader";
 
 interface DrawerHeaderProps {
-  stepUpNDrawerIdx: number;
+  stepUpAndDrawerIdx: number;
   onCloseDrawer: () => void;
 }
 
 export default function DrawerHeader(props: DrawerHeaderProps) {
-  const { stepUpNDrawerIdx, onCloseDrawer } = props;
+  const { stepUpAndDrawerIdx, onCloseDrawer } = props;
 
   return (
     <header>
       <StIcWrapper>
         <StIcLeftArrow onClick={onCloseDrawer} />
       </StIcWrapper>
-      <StImgWrapper idx={stepUpNDrawerIdx} />
+      <StImgWrapper idx={stepUpAndDrawerIdx} />
       <StTitleWrapper>
         <StIconWrapper>
           <Image

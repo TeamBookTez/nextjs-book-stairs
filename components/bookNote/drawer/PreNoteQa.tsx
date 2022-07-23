@@ -7,15 +7,15 @@ export interface QaPair {
 }
 
 interface DrawerPreProps {
-  stepUpNDrawerIdx: number;
+  stepUpAndDrawerIdx: number;
 }
 
 export default function DrawerPre(props: DrawerPreProps) {
-  const { stepUpNDrawerIdx } = props;
+  const { stepUpAndDrawerIdx } = props;
 
   const qaPair: QaPair = { question: "", answer: [""] };
 
-  switch (stepUpNDrawerIdx) {
+  switch (stepUpAndDrawerIdx) {
     case 1:
       qaPair.question = "1. 이 책에 어떤 기대를 하고 계신가요?";
       qaPair.answer = [
@@ -40,9 +40,9 @@ export default function DrawerPre(props: DrawerPreProps) {
   return (
     <>
       <StQuestionWrapper>{qaPair.question}</StQuestionWrapper>
-      <StAnswerWrapper isQ3={stepUpNDrawerIdx === 3}>
+      <StAnswerWrapper isQ3={stepUpAndDrawerIdx === 3}>
         {qaPair.answer.map((answer, i) => {
-          if (stepUpNDrawerIdx === 3) {
+          if (stepUpAndDrawerIdx === 3) {
             return <StList key={`ex-answer-${i}`}>{answer}</StList>;
           } else {
             return answer;

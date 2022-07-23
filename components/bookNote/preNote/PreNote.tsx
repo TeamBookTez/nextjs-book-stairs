@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import { useEffect, useState } from "react";
 
 import { patchBookNote } from "../../../core/api";
-import { StepUpNDrawerIdx } from "../../../pages/book-note/[reviewId]";
+import { StepUpAndDrawerIdx } from "../../../pages/book-note/[reviewId]";
 import { BookNotePathKey, PreNoteData, SavingProgress } from "../../../types/bookNote";
 import useFetchBookNote from "../../../util/hooks/useFetchBookNote";
 import { Loading } from "../../common";
@@ -11,8 +11,8 @@ import { LinkToSignUpSection, PreNoteFormContainer, PreNotePostSection, PreNoteT
 interface PreNoteProps {
   isLogin: boolean;
   reviewId: string;
-  handleOpenStepUpModal: (i: StepUpNDrawerIdx) => void;
-  handleOpenDrawer: (i: StepUpNDrawerIdx) => void;
+  handleOpenStepUpModal: (i: StepUpAndDrawerIdx) => void;
+  handleOpenDrawer: (i: StepUpAndDrawerIdx) => void;
   isPreventedPreNote: boolean;
   handlePrevent: (shouldPrevent: boolean) => void;
   handleNavIndex: (idx: BookNotePathKey) => void;

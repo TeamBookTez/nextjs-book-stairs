@@ -5,7 +5,7 @@
 
   - toggleMenu 살펴보기 (더보기 메뉴 DOM 접근?) / StMoreIcon (.icn_more) - StMenuWrapper (.isPriQ)
   - deepCopyTree --> immer.js 로 변경
-    
+
 고민점:
   - 로그인 loading -> initial data 표시 -> fetching loading 단계로 로딩이 이루어지는데, 통합이 필요할 것 같습니다,!
     => 기획에서 별 얘기 없으면 해결된 것
@@ -16,7 +16,7 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 import { patchBookNote } from "../../../core/api";
-import { StepUpNDrawerIdx } from "../../../pages/book-note/[reviewId]";
+import { StepUpAndDrawerIdx } from "../../../pages/book-note/[reviewId]";
 import { PeriNoteData, SavingProgress, UseForm } from "../../../types/bookNote";
 import { deepCopyTree, getNodeByPath } from "../../../util/bookNoteTree";
 import useFetchBookNote from "../../../util/hooks/useFetchBookNote";
@@ -26,8 +26,8 @@ import { ChildQANode, HeaderLabel, PeriNotePostSection, TopAnswerContainer, TopQ
 
 interface PeriNoteProps {
   reviewId: string;
-  handleOpenStepUpModal: (i: StepUpNDrawerIdx) => void;
-  handleOpenDrawer: (i: StepUpNDrawerIdx) => void;
+  handleOpenStepUpModal: (i: StepUpAndDrawerIdx) => void;
+  handleOpenDrawer: (i: StepUpAndDrawerIdx) => void;
   savingProgress: SavingProgress;
   handleSavingProgress: (obj: SavingProgress) => void;
 }

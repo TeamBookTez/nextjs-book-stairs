@@ -7,14 +7,14 @@ import PeriNoteExample from "./PeriNoteExample";
 import PreNoteQa from "./PreNoteQa";
 
 interface DrawerWrapperProps {
-  stepUpNDrawerIdx: number;
+  stepUpAndDrawerIdx: number;
   onCloseDrawer: () => void;
 }
 
 export default function DrawerWrapper(props: DrawerWrapperProps) {
-  const { stepUpNDrawerIdx, onCloseDrawer } = props;
+  const { stepUpAndDrawerIdx, onCloseDrawer } = props;
 
-  const drawerWidth = stepUpNDrawerIdx === 4 ? 60 : 39;
+  const drawerWidth = stepUpAndDrawerIdx === 4 ? 60 : 39;
 
   return (
     <AnimatePresence>
@@ -23,10 +23,10 @@ export default function DrawerWrapper(props: DrawerWrapperProps) {
         initial={{ transform: `translateX(${drawerWidth}rem)` }}
         animate={{ transform: "translateX(0rem)" }}
         exit={{ transform: `translateX(${drawerWidth}rem)` }}
-        stepupndraweridx={stepUpNDrawerIdx}>
-        <DrawerHeader stepUpNDrawerIdx={stepUpNDrawerIdx} onCloseDrawer={onCloseDrawer} />
-        <StArticle stepupndraweridx={stepUpNDrawerIdx}>
-          {stepUpNDrawerIdx === 4 ? <PeriNoteExample /> : <PreNoteQa stepUpNDrawerIdx={stepUpNDrawerIdx} />}
+        stepupndraweridx={stepUpAndDrawerIdx}>
+        <DrawerHeader stepUpAndDrawerIdx={stepUpAndDrawerIdx} onCloseDrawer={onCloseDrawer} />
+        <StArticle stepupndraweridx={stepUpAndDrawerIdx}>
+          {stepUpAndDrawerIdx === 4 ? <PeriNoteExample /> : <PreNoteQa stepUpAndDrawerIdx={stepUpAndDrawerIdx} />}
         </StArticle>
       </StDrawerWrapper>
     </AnimatePresence>
