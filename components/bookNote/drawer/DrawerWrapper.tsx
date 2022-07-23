@@ -23,9 +23,9 @@ export default function DrawerWrapper(props: DrawerWrapperProps) {
         initial={{ transform: `translateX(${drawerWidth}rem)` }}
         animate={{ transform: "translateX(0rem)" }}
         exit={{ transform: `translateX(${drawerWidth}rem)` }}
-        stepUpNDrawerIdx={stepUpNDrawerIdx}>
+        stepupndraweridx={stepUpNDrawerIdx}>
         <DrawerHeader stepUpNDrawerIdx={stepUpNDrawerIdx} onCloseDrawer={onCloseDrawer} />
-        <StArticle stepUpNDrawerIdx={stepUpNDrawerIdx}>
+        <StArticle stepupndraweridx={stepUpNDrawerIdx}>
           {stepUpNDrawerIdx === 4 ? <PeriNoteExample /> : <PreNoteQa stepUpNDrawerIdx={stepUpNDrawerIdx} />}
         </StArticle>
       </StDrawerWrapper>
@@ -33,7 +33,7 @@ export default function DrawerWrapper(props: DrawerWrapperProps) {
   );
 }
 
-const StDrawerWrapper = styled(motion.section)<{ stepUpNDrawerIdx: number }>`
+const StDrawerWrapper = styled(motion.section)<{ stepupndraweridx: number }>`
   overflow-y: scroll;
   overflow-x: hidden;
 
@@ -52,8 +52,8 @@ const StDrawerWrapper = styled(motion.section)<{ stepUpNDrawerIdx: number }>`
   padding: 3.3rem 3.3rem 5.4rem 3.3rem;
   background-color: ${({ theme }) => theme.colors.white};
 
-  width: ${({ stepUpNDrawerIdx }) => (stepUpNDrawerIdx === 4 ? "60rem" : "39rem")};
-  /* height: ${({ stepUpNDrawerIdx }) => (stepUpNDrawerIdx === 4 ? "141.5rem" : "90rem")}; */
+  width: ${({ stepupndraweridx }) => (stepupndraweridx === 4 ? "60rem" : "39rem")};
+  /* height: ${({ stepupndraweridx }) => (stepupndraweridx === 4 ? "141.5rem" : "90rem")}; */
   min-height: 100vh;
 
   & > svg {
@@ -64,22 +64,22 @@ const StDrawerWrapper = styled(motion.section)<{ stepUpNDrawerIdx: number }>`
   }
 `;
 
-const StArticle = styled.article<{ stepUpNDrawerIdx: number }>`
+const StArticle = styled.article<{ stepupndraweridx: number }>`
   height: 100%;
 
   display: flex;
   flex-direction: column;
-  ${({ stepUpNDrawerIdx }) =>
-    stepUpNDrawerIdx === 4
+  ${({ stepupndraweridx }) =>
+    stepupndraweridx === 4
       ? css`
           align-items: flex-start;
         `
       : ""}
 
   border-radius: 2rem;
-  padding: ${({ stepUpNDrawerIdx }) => (stepUpNDrawerIdx === 4 ? "4rem 1.5rem" : "3.2rem")};
+  padding: ${({ stepupndraweridx }) => (stepupndraweridx === 4 ? "4rem 1.5rem" : "3.2rem")};
   background-color: ${({ theme }) => theme.colors.white200};
 
-  width: ${({ stepUpNDrawerIdx }) => (stepUpNDrawerIdx === 4 ? "53.4rem" : "32.4rem")};
-  min-height: ${({ stepUpNDrawerIdx }) => (stepUpNDrawerIdx === 4 ? "104.3rem" : "53.4rem")};
+  width: ${({ stepupndraweridx }) => (stepupndraweridx === 4 ? "53.4rem" : "32.4rem")};
+  min-height: ${({ stepupndraweridx }) => (stepupndraweridx === 4 ? "104.3rem" : "53.4rem")};
 `;

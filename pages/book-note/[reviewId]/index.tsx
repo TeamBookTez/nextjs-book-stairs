@@ -51,7 +51,6 @@ export default function Index() {
 
   const [stepUpNDrawerIdx, setStepUpNDrawerIdx] = useState<StepUpNDrawerIdx>(1);
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
-  const [isDefaultDrawer, setIsDefaultDrawer] = useState(true);
   const drawerWidthValue = navIndex === "peri" ? 60 : 39;
 
   const handleNavIndex = (idx: BookNotePathKey) => {
@@ -82,7 +81,6 @@ export default function Index() {
   };
 
   const handleOpenDrawer = (i: StepUpNDrawerIdx) => {
-    setIsDefaultDrawer(false);
     setIsDrawerOpen(true);
     setStepUpNDrawerIdx(i);
   };
@@ -92,7 +90,7 @@ export default function Index() {
   };
 
   const handleDefaultDrawer = () => {
-    setIsDefaultDrawer(true);
+    handleCloseDrawer();
   };
 
   // --------------------------------------------------------------------------
@@ -155,7 +153,7 @@ export default function Index() {
   if (isLoginLoading) return <Loading />;
 
   return (
-    <StBookNoteContainer isopen={isDrawerOpen} isdefault={isDefaultDrawer} width={drawerWidthValue}>
+    <StBookNoteContainer isopen={isDrawerOpen} width={drawerWidthValue}>
       <BookNoteHeader onClickExitBtn={toggleExitModal}>
         <Navigation
           navIndex={navIndex}
@@ -209,7 +207,6 @@ const boostwidth = (width: number) => keyframes`
 
 const StBookNoteContainer = styled.main<{
   isopen: boolean;
-  isdefault: boolean;
   width: number;
 }>`
   position: relative;
@@ -222,14 +219,13 @@ const StBookNoteContainer = styled.main<{
 
   min-height: 100vh;
 
-  ${({ isopen, isdefault, width }) =>
+  ${({ isopen, width }) =>
     isopen
       ? css`
           animation: ${reducewidth(width)} 300ms linear 1;
           animation-fill-mode: forwards;
         `
-      : !isdefault &&
-        css`
+      : css`
           animation: ${boostwidth(width)} 300ms linear 1;
           animation-fill-mode: forwards;
         `}
