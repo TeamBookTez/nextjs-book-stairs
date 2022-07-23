@@ -44,11 +44,10 @@ export default function Index() {
   const [navIndex, setNavIndex] = useState<BookNotePathKey>("pre");
 
   const [savingProgress, setSavingProgress] = useState<SavingProgress>({ isPending: true, isError: false });
+
   const [isPreventedPreNote, setIsPreventedPreNote] = useState<boolean>(false);
-
-  const [isOpenedExitModal, setIsOpenExitModal] = useState<boolean>(false);
-
-  const [isOpenedStepUpModal, setIsOpenStepUpModal] = useState<boolean>(false);
+  const [isExitModalOpen, setIsExitModalOpen] = useState<boolean>(false);
+  const [isStepUpModalOpen, setIsStepUpModalOpen] = useState<boolean>(false);
 
   const [stepUpAndDrawerIdx, setStepUpAndDrawerIdx] = useState<StepUpAndDrawerIdx>(1);
   const [drawerOpenStatus, setDrawerOpenStatus] = useState({ isOpened: false, isDefault: true });
@@ -70,16 +69,16 @@ export default function Index() {
   };
 
   const toggleExitModal = () => {
-    setIsOpenExitModal((prevIsOpened) => !prevIsOpened);
+    setIsExitModalOpen((prevIsOpened) => !prevIsOpened);
   };
 
   const handleOpenStepUpModal = (i: StepUpAndDrawerIdx) => {
-    setIsOpenStepUpModal(true);
+    setIsStepUpModalOpen(true);
     setStepUpAndDrawerIdx(i);
   };
 
   const handleCloseStepUpModal = () => {
-    setIsOpenStepUpModal(false);
+    setIsStepUpModalOpen(false);
   };
 
   const handleOpenDrawer = (i: StepUpAndDrawerIdx) => {
@@ -151,11 +150,11 @@ export default function Index() {
       {drawerOpenStatus.isOpened && (
         <DrawerWrapper stepUpAndDrawerIdx={stepUpAndDrawerIdx} onCloseDrawer={handleCloseDrawer} />
       )}
-      {isOpenedExitModal && <ExitModal onClickCancelBtn={toggleExitModal} />}
-      {isOpenedStepUpModal && (
+      {isExitModalOpen && <ExitModal onClickCancelBtn={toggleExitModal} />}
+      {isStepUpModalOpen && (
         <StStepModalWrapper>
           <StepUpLayout
-            handleCloseStepUpModal={handleCloseStepUpModal}
+            onClickModalCancel={handleCloseStepUpModal}
             stepUpContent={navIndex === "pre" ? stepUpContentArray[stepUpAndDrawerIdx - 1] : periNoteStepUp}
           />
         </StStepModalWrapper>

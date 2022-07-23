@@ -20,11 +20,11 @@ import { periNoteStepUp, reviewData } from "../../core/bookNote/exampleData";
 import useUser from "../../util/hooks/useUser";
 
 export default function Example() {
-  const [isOpenedStepUpModal, setIsOpenedStepUpModal] = useState(false);
+  const [isStepUpModalOpen, setIsOpenedStepUpModal] = useState(false);
   const { isLogin, isLoginLoading } = useUser();
 
   const handleOpenedStepUpCarousel = () => {
-    setIsOpenedStepUpModal(!isOpenedStepUpModal);
+    setIsOpenedStepUpModal(!isStepUpModalOpen);
   };
 
   if (isLoginLoading) return <Loading />;
@@ -51,7 +51,7 @@ export default function Example() {
           </DetailArticleWrapperLabeling>
         </StMarginTop>
       )}
-      {isOpenedStepUpModal && (
+      {isStepUpModalOpen && (
         <StStepModalWrapper>
           <StepUpLayout stepUpContent={periNoteStepUp} handleCloseStepUpModal={handleOpenedStepUpCarousel} />
         </StStepModalWrapper>
