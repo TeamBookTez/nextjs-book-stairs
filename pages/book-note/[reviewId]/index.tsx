@@ -50,7 +50,8 @@ export default function Index() {
   const [isOpenedStepUpModal, setIsOpenStepUpModal] = useState<boolean>(false);
 
   const [stepUpNDrawerIdx, setStepUpNDrawerIdx] = useState<StepUpNDrawerIdx>(1);
-  const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
+  const [drawerOpenStatus, setDrawerOpenStatus] = useState({ isOpened: false, isDefault: true });
+
   const drawerWidthValue = navIndex === "peri" ? 60 : 39;
 
   const handleNavIndex = (idx: BookNotePathKey) => {
@@ -81,16 +82,16 @@ export default function Index() {
   };
 
   const handleOpenDrawer = (i: StepUpNDrawerIdx) => {
-    setIsDrawerOpen(true);
+    setDrawerOpenStatus({ isOpened: true, isDefault: false });
     setStepUpNDrawerIdx(i);
   };
 
   const handleCloseDrawer = () => {
-    setIsDrawerOpen(false);
+    setDrawerOpenStatus((current) => ({ ...current, isOpened: false }));
   };
 
   const handleDefaultDrawer = () => {
-    handleCloseDrawer();
+    setDrawerOpenStatus((current) => ({ ...current, isDefault: true }));
   };
 
   // --------------------------------------------------------------------------
@@ -153,7 +154,7 @@ export default function Index() {
   if (isLoginLoading) return <Loading />;
 
   return (
-    <StBookNoteContainer isopen={isDrawerOpen} width={drawerWidthValue}>
+    <StBookNoteContainer openstatus={drawerOpenStatus} width={drawerWidthValue}>
       <BookNoteHeader onClickExitBtn={toggleExitModal}>
         <Navigation
           navIndex={navIndex}
@@ -169,7 +170,9 @@ export default function Index() {
 
       {bookNoteComponent}
 
-      {isDrawerOpen && <DrawerWrapper stepUpNDrawerIdx={stepUpNDrawerIdx} onCloseDrawer={handleCloseDrawer} />}
+      {drawerOpenStatus.isOpened && (
+        <DrawerWrapper stepUpNDrawerIdx={stepUpNDrawerIdx} onCloseDrawer={handleCloseDrawer} />
+      )}
       {isOpenedExitModal && <ExitModal onClickCancelBtn={toggleExitModal} />}
       {isOpenedStepUpModal && (
         <StStepModalWrapper>
@@ -206,7 +209,10 @@ const boostwidth = (width: number) => keyframes`
 `;
 
 const StBookNoteContainer = styled.main<{
-  isopen: boolean;
+  openstatus: {
+    isOpened: boolean;
+    isDefault: boolean;
+  };
   width: number;
 }>`
   position: relative;
@@ -219,13 +225,14 @@ const StBookNoteContainer = styled.main<{
 
   min-height: 100vh;
 
-  ${({ isopen, width }) =>
-    isopen
+  ${({ openstatus, width }) =>
+    openstatus.isOpened
       ? css`
           animation: ${reducewidth(width)} 300ms linear 1;
           animation-fill-mode: forwards;
         `
-      : css`
+      : !openstatus.isDefault &&
+        css`
           animation: ${boostwidth(width)} 300ms linear 1;
           animation-fill-mode: forwards;
         `}
