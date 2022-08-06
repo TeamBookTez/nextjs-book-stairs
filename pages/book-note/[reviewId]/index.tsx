@@ -110,8 +110,8 @@ export default function Index() {
 
   usePreventExit(reviewSt, toggleExitModal, setNavIndex, handleCloseDrawer);
 
-  const bookNoteComponent = useMemo(() => {
-    return navIndex === "pre" ? (
+  const bookNoteComponent =
+    navIndex === "pre" ? (
       <PreNote
         isLogin={isLogin}
         reviewId={reviewId}
@@ -132,7 +132,6 @@ export default function Index() {
         handleSavingProgress={handleSavingProgress}
       />
     );
-  }, [navIndex]);
 
   if (isLoginLoading) return <Loading />;
 
