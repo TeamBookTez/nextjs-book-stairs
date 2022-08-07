@@ -38,7 +38,7 @@ export const deleteData = (key: string) => {
   return baseInstance.delete(key);
 };
 
-export function useGetBookInfo(key: string) {
+export const useGetBookInfo = (key: string) => {
   const urlKey = key === "/main" ? "/book" : key;
   const { data, error } = useSWR<Response<{ books: BookcaseInfo[] }>>(urlKey, baseInstance.get);
 
@@ -47,7 +47,7 @@ export function useGetBookInfo(key: string) {
     isLoading: !error && !data,
     isError: error,
   };
-}
+};
 
 export const signup = async (userData: UseFormDataType, password: string) => {
   try {

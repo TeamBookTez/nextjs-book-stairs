@@ -126,7 +126,7 @@ export default function PeriNote(props: PeriNoteProps) {
   };
 
   // 규민아 이거 ref로 바꿀 수 있을까?
-  function toggleMenu(e: React.MouseEvent<HTMLFormElement, MouseEvent>) {
+  const toggleMenu = (e: React.MouseEvent<HTMLFormElement, MouseEvent>) => {
     // as를 없애고 싶다
     const targetElement = e.target as HTMLElement;
 
@@ -152,7 +152,7 @@ export default function PeriNote(props: PeriNoteProps) {
       miniMenu.style.display = "none";
       miniMenu.classList.remove("open");
     }
-  }
+  };
 
   useEffect(() => {
     // 모든 질문 리스트가 지워졌을 경우에는 질문 리스트 추가만 가능하게 하고, 작성완료는 불가하게 함
