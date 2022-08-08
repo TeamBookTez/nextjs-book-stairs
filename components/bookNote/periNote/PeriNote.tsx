@@ -18,7 +18,7 @@ import { useForm } from "react-hook-form";
 import { patchBookNote } from "../../../core/api";
 import { StepUpAndDrawerIdx } from "../../../pages/book-note/[reviewId]";
 import { PeriNoteData, SavingProgress, UseForm } from "../../../types/bookNote";
-import { deepCopyTree, getNodeByPath } from "../../../util/bookNoteTree";
+import { deepCopyTree, getNodeByPath, initialPeriNoteData } from "../../../util/bookNoteTree";
 import useFetchBookNote from "../../../util/hooks/useFetchBookNote";
 import { Loading } from "../../common";
 import { DefaultButton } from "../../common/styled/Button";
@@ -32,21 +32,6 @@ interface PeriNoteProps {
   handleSavingProgress: (obj: SavingProgress) => void;
 }
 
-const initialPeriNoteData: PeriNoteData = {
-  answerThree: {
-    type: "Root",
-    content: "root",
-    children: [
-      {
-        type: "question",
-        content: "",
-        children: [{ type: "answer", content: "", children: [] }],
-      },
-    ],
-  },
-  reviewSt: 3,
-};
-
 export default function PeriNote(props: PeriNoteProps) {
   const { reviewId, handleOpenStepUpModal, handleOpenDrawer, savingProgress, handleSavingProgress } = props;
 
@@ -59,6 +44,7 @@ export default function PeriNote(props: PeriNoteProps) {
   const handleAddChild = (path: number[], currentIndex?: number) => {
     // currentIndex가 있으면 "answer", 없으면 "question" 추가
     const isAddAnswer = currentIndex !== undefined;
+
     const newRoot = isAddAnswer ? saveStatelessPeriNoteData() : deepCopyTree(data.answerThree);
     const current = getNodeByPath(newRoot, path);
 
