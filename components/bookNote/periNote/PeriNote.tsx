@@ -45,23 +45,23 @@ export default function PeriNote(props: PeriNoteProps) {
 
   const [isPreventedPeriNote, setIsPreventedPeriNote] = useState({ addQuestion: true, isCompleted: true });
 
-  const handleAddChild = (path: number[], currentIndex?: number) => {
+  const handleAddChild = (pathStack: number[], currentIndex?: number) => {
     // currentIndex가 있으면 "answer", 없으면 "question" 추가
     const isAddAnswer = currentIndex !== undefined;
 
     const newRoot = isAddAnswer ? saveStatelessPeriNoteData() : deepCopyTree(periNoteData.answerThree);
-    const current = getTargetNodeByPath(newRoot, path);
+    const target = getTargetNodeByPath(newRoot, pathStack);
 
-    console.log(current);
+    console.log(target);
 
     if (isAddAnswer) {
-      current.children.splice(currentIndex + 1, 0, {
+      target.children.splice(currentIndex + 1, 0, {
         type: "answer",
         content: "",
         children: [],
       });
     } else {
-      current.children.push({
+      target.children.push({
         type: "question",
         content: "",
         children: [
@@ -77,20 +77,20 @@ export default function PeriNote(props: PeriNoteProps) {
     setPeriNoteData({ ...periNoteData, answerThree: newRoot });
   };
 
-  const handleDeleteChild = (path: number[]) => {
+  const handleDeleteChild = (pathStack: number[]) => {
     const newRoot = deepCopyTree(periNoteData.answerThree);
     // 삭제할 때는 자신의 부모를 찾아서 children을 제거
-    const parent = getTargetNodeByPath(newRoot, path.slice(0, -1));
+    const parent = getTargetNodeByPath(newRoot, pathStack.slice(0, -1));
 
-    parent.children.splice(path[path.length - 1], 1);
+    parent.children.splice(pathStack[pathStack.length - 1], 1);
     setPeriNoteData({ ...periNoteData, answerThree: newRoot });
   };
 
-  const handleSetContent = (value: string, path: number[]) => {
+  const handleSetContent = (value: string, pathStack: number[]) => {
     const newRoot = deepCopyTree(periNoteData.answerThree);
-    const current = getTargetNodeByPath(newRoot, path);
+    const target = getTargetNodeByPath(newRoot, pathStack);
 
-    current.content = value;
+    target.content = value;
 
     setPeriNoteData({ ...periNoteData, answerThree: newRoot });
   };
@@ -106,13 +106,13 @@ export default function PeriNote(props: PeriNoteProps) {
       const value = obj[key];
       const pathKey = key.split(",").map((k) => parseInt(k));
 
-      const current = getTargetNodeByPath(newRoot, pathKey);
+      const target = getTargetNodeByPath(newRoot, pathKey);
 
-      current.content = value;
+      target.content = value;
     });
 
     // periNoteData state에도 저장
-    setPeriNoteData((current) => ({ ...current, answerThree: newRoot }));
+    setPeriNoteData((target) => ({ ...target, answerThree: newRoot }));
 
     return newRoot;
   };
@@ -196,7 +196,7 @@ export default function PeriNote(props: PeriNoteProps) {
       {periNoteData.answerThree.children.map((topQuestionNode, topQuestionIdx) => (
         <React.Fragment key={`questionList-${topQuestionIdx}`}>
           <TopQuestionContainer
-            path={[topQuestionIdx]}
+            pathStack={[topQuestionIdx]}
             node={topQuestionNode}
             onAddTopAnswer={handleAddChild}
             onDeleteChild={handleDeleteChild}
@@ -206,7 +206,7 @@ export default function PeriNote(props: PeriNoteProps) {
             <TopAnswerContainer
               key={`topAnswerContainer-${topAnswerIdx}`}
               index={topAnswerIdx}
-              path={[topQuestionIdx, topAnswerIdx]}
+              pathStack={[topQuestionIdx, topAnswerIdx]}
               node={topAnswerNode}
               onAddChild={handleAddChild}
               onDeleteChild={handleDeleteChild}
@@ -214,7 +214,7 @@ export default function PeriNote(props: PeriNoteProps) {
               {topAnswerNode.children.map((childQANode, childQAIdx) => (
                 <ChildQANode
                   key={`childQANode-${childQAIdx}`}
-                  path={[topQuestionIdx, topAnswerIdx, childQAIdx]}
+                  pathStack={[topQuestionIdx, topAnswerIdx, childQAIdx]}
                   index={childQAIdx}
                   node={childQANode}
                   onAddChild={handleAddChild}
