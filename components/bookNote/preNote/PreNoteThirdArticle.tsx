@@ -2,10 +2,10 @@ import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import React, { useState } from "react";
 
-import { PreNoteData } from "../../../types/bookNote";
+import { IPreNoteData } from "../../../types/bookNote";
 import InputQuestion from "./InputQuestion";
 
-const preNoteData: PreNoteData = {
+const preNoteData: IPreNoteData = {
   answerOne: "",
   answerTwo: "",
   questionList: [""],

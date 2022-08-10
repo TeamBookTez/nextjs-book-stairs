@@ -21,7 +21,7 @@ import { useRecoilValue } from "recoil";
 import { patchBookNote } from "../../../core/api";
 import { navigatingBookInfoState } from "../../../core/atom";
 import { ImgPreBook } from "../../../public/assets/images";
-import { BookNotePathKey, PeriNoteTreeNode, PreNoteData } from "../../../types/bookNote";
+import { BookNotePathKey, IPreNoteData, PeriNoteTreeNode } from "../../../types/bookNote";
 import { DefaultButton } from "../../common/styled/Button";
 import { ImageWrapper } from "../../common/styled/Img";
 import {
@@ -35,7 +35,7 @@ import {
 } from "../../common/styled/PopUp";
 
 interface PreNotePostSectionProps {
-  bookNoteData: PreNoteData;
+  bookNoteData: IPreNoteData;
   isFilled: boolean;
   handlePrevent: (shouldPrevent: boolean) => void;
   handleNavIndex: (idx: BookNotePathKey) => void;

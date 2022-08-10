@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 
 import { patchBookNote } from "../../../core/api";
 import { StepUpAndDrawerIdx } from "../../../pages/book-note/[reviewId]";
-import { BookNotePathKey, PreNoteData, SavingProgress } from "../../../types/bookNote";
+import { BookNotePathKey, IPreNoteData, SavingProgress } from "../../../types/bookNote";
 import useFetchBookNote from "../../../util/hooks/useFetchBookNote";
 import { Loading } from "../../common";
 import { LinkToSignUpSection, PreNoteFormContainer, PreNotePostSection, PreNoteThirdArticle } from ".";
@@ -20,7 +20,7 @@ interface PreNoteProps {
   handleSavingProgress: (obj: SavingProgress) => void;
 }
 
-const initialPreNoteData: PreNoteData = {
+const initialPreNoteData: IPreNoteData = {
   answerOne: "",
   answerTwo: "",
   questionList: [""],
@@ -41,7 +41,7 @@ export default function PreNote(props: PreNoteProps) {
     handleSavingProgress,
   } = props;
 
-  const { data, setData, isLoading } = useFetchBookNote<PreNoteData>(`/review/${reviewId}/pre`, initialPreNoteData);
+  const { data, setData, isLoading } = useFetchBookNote<IPreNoteData>(`/review/${reviewId}/pre`, initialPreNoteData);
 
   const [isFilled, setIsFilled] = useState<boolean>(false);
   const [isFilledOnlyThree, setIsFilledOnlyThree] = useState<boolean>(false);

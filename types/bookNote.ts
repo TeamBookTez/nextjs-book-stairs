@@ -18,12 +18,12 @@ export interface PeriNoteTreeNode {
 //   reviewSt: number;
 // }
 
-export interface PeriNoteData {
+export interface IPeriNoteData {
   answerThree: PeriNoteTreeNode;
   reviewSt: 2 | 3 | 4;
 }
 
-export interface PreNoteData {
+export interface IPreNoteData {
   answerOne: string;
   answerTwo: string;
   questionList: string[];

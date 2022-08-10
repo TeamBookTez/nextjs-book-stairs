@@ -7,9 +7,9 @@
 - deepCopyTree --> immer.js 라이브러리로 치환 예정입니다
 */
 
-import { PeriNoteData, PeriNoteTreeNode } from "../types/bookNote";
+import { IPeriNoteData, PeriNoteTreeNode } from "../types/bookNote";
 
-export const initialPeriNoteData: PeriNoteData = {
+export const initialPeriNoteData: IPeriNoteData = {
   answerThree: {
     type: "Root",
     content: "root",
@@ -24,6 +24,7 @@ export const initialPeriNoteData: PeriNoteData = {
   reviewSt: 3,
 };
 
+// 재귀 함수
 export const deepCopyTree = (root: PeriNoteTreeNode): PeriNoteTreeNode => {
   const newRoot = {
     type: root.type,
