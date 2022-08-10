@@ -21,7 +21,7 @@ import { StMenuWrapper } from "../../common/styled/MenuWrapper";
 interface TopAnswerContainerProps {
   index: number;
   pathStack: number[];
-  node: PeriNoteTreeNode;
+  topAnswerNode: PeriNoteTreeNode;
   onAddChild: (pathStack: number[], index?: number) => void;
   onDeleteChild: (pathStack: number[]) => void;
   onSetContent: (value: string, pathStack: number[]) => void;
@@ -29,7 +29,7 @@ interface TopAnswerContainerProps {
 }
 
 export default function TopAnswerContainer(props: TopAnswerContainerProps) {
-  const { index, pathStack, node, onAddChild, onDeleteChild, onSetContent, children } = props;
+  const { index, pathStack, topAnswerNode, onAddChild, onDeleteChild, onSetContent, children } = props;
 
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -41,6 +41,7 @@ export default function TopAnswerContainer(props: TopAnswerContainerProps) {
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
       // add answer (+ index 추가 인자)
       onAddChild(pathStack.slice(0, -1), index);
     }
@@ -52,17 +53,17 @@ export default function TopAnswerContainer(props: TopAnswerContainerProps) {
     }
   }, []);
 
-  if (node.type !== "answer") return <></>;
+  if (topAnswerNode.type !== "answer") return <></>;
 
   return (
     <StAnswerWrapper>
-      <StFieldset hasborder={node.children.length > 0}>
+      <StFieldset hasborder={topAnswerNode.children.length > 0}>
         <legend>
           <StAnswerIcon />
         </legend>
         <StInput
           ref={textAreaRef}
-          value={node.content}
+          value={topAnswerNode.content}
           placeholder={"답변을 입력해주세요."}
           onChange={handleChangeSetContent}
           onKeyPress={handleKeyPress}

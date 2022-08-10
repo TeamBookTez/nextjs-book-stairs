@@ -22,16 +22,16 @@ import { StMenuWrapper } from "../../common/styled/MenuWrapper";
 interface ChildQANodeProps {
   pathStack: number[];
   index: number;
-  node: PeriNoteTreeNode;
+  childQANode: PeriNoteTreeNode;
   onAddChild: (pathStack: number[], index?: number) => void;
   onSetContent: (value: string, pathStack: number[]) => void;
   onDeleteChild: (pathStack: number[]) => void;
   formController: FormController;
 }
 export default function ChildQANode(props: ChildQANodeProps) {
-  const { pathStack, index, node, onAddChild, onSetContent, onDeleteChild, formController } = props;
-  const { urgentQuery, setUrgentQuery } = useUpdatePeriNote(node.content, pathStack, onSetContent);
-  const isQuestion = node.type === "question";
+  const { pathStack, index, childQANode, onAddChild, onSetContent, onDeleteChild, formController } = props;
+  const { urgentQuery, setUrgentQuery } = useUpdatePeriNote(childQANode.content, pathStack, onSetContent);
+  const isQuestion = childQANode.type === "question";
   const inputKey = `${pathStack.join(",")}`;
   const labelColor = labelColorList[(pathStack.length - 1) % 10];
 
@@ -70,7 +70,7 @@ export default function ChildQANode(props: ChildQANodeProps) {
         <StInputWrapper isquestion={isQuestion}>
           <StInput
             {...formController.register(inputKey)}
-            defaultValue={node.content}
+            defaultValue={childQANode.content}
             value={urgentQuery}
             placeholder={`${isQuestion ? "질문" : "답변"}을 입력해주세요.`}
             onChange={handleContent}
@@ -95,13 +95,13 @@ export default function ChildQANode(props: ChildQANodeProps) {
         </StInputWrapper>
       </StFieldset>
       <StFieldWrapper isquestion={isQuestion}>
-        {node.children &&
-          node.children.map((node, i) => (
+        {childQANode.children &&
+          childQANode.children.map((childQANode, i) => (
             <ChildQANode
               key={`childQANode-${i}`}
               pathStack={[...pathStack, i]}
               index={i}
-              node={node}
+              childQANode={childQANode}
               onAddChild={onAddChild}
               onDeleteChild={onDeleteChild}
               onSetContent={onSetContent}

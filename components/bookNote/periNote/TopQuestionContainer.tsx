@@ -19,17 +19,17 @@ import { StMenuWrapper } from "../../common/styled/MenuWrapper";
 
 interface TopQuestionContainerProps {
   pathStack: number[];
-  node: PeriNoteTreeNode;
+  topQuestionNode: PeriNoteTreeNode;
   onAddTopAnswer: (pathStack: number[], currentIndex: number) => void;
   onDeleteChild: (pathStack: number[]) => void;
   onSetContent: (value: string, pathStack: number[]) => void;
 }
 
 export default function TopQuestionContainer(props: TopQuestionContainerProps) {
-  const { pathStack, node, onAddTopAnswer, onDeleteChild, onSetContent } = props;
+  const { pathStack, topQuestionNode, onAddTopAnswer, onDeleteChild, onSetContent } = props;
 
   // 큰 답변 추가시 사용되는 index는 현재 큰질문의 index가 아닌 답변의 개수
-  const currentIndex = node.children.length - 1;
+  const currentIndex = topQuestionNode.children.length - 1;
 
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -46,12 +46,12 @@ export default function TopQuestionContainer(props: TopQuestionContainerProps) {
   };
 
   useEffect(() => {
-    if (textAreaRef.current) {
+    if (topQuestionNode.content === "" && textAreaRef.current) {
       textAreaRef.current.focus();
     }
   }, []);
 
-  if (node.type !== "question") return <></>;
+  if (topQuestionNode.type !== "question") return <></>;
 
   return (
     <StArticle>
@@ -61,7 +61,7 @@ export default function TopQuestionContainer(props: TopQuestionContainerProps) {
         </legend>
         <StInput
           ref={textAreaRef}
-          value={node.content}
+          value={topQuestionNode.content}
           placeholder="질문을 입력해주세요."
           onChange={handleContent}
           onKeyPress={handleKeyPress}

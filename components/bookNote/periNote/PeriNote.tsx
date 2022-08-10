@@ -48,11 +48,8 @@ export default function PeriNote(props: PeriNoteProps) {
   const handleAddChild = (pathStack: number[], currentIndex?: number) => {
     // currentIndex가 있으면 "answer", 없으면 "question" 추가
     const isAddAnswer = currentIndex !== undefined;
-
     const newRoot = isAddAnswer ? saveStatelessPeriNoteData() : deepCopyTree(periNoteData.answerThree);
     const target = getTargetNodeByPath(newRoot, pathStack);
-
-    console.log(target);
 
     if (isAddAnswer) {
       target.children.splice(currentIndex + 1, 0, {
@@ -197,7 +194,7 @@ export default function PeriNote(props: PeriNoteProps) {
         <React.Fragment key={`questionList-${topQuestionIdx}`}>
           <TopQuestionContainer
             pathStack={[topQuestionIdx]}
-            node={topQuestionNode}
+            topQuestionNode={topQuestionNode}
             onAddTopAnswer={handleAddChild}
             onDeleteChild={handleDeleteChild}
             onSetContent={handleSetContent}
@@ -207,7 +204,7 @@ export default function PeriNote(props: PeriNoteProps) {
               key={`topAnswerContainer-${topAnswerIdx}`}
               index={topAnswerIdx}
               pathStack={[topQuestionIdx, topAnswerIdx]}
-              node={topAnswerNode}
+              topAnswerNode={topAnswerNode}
               onAddChild={handleAddChild}
               onDeleteChild={handleDeleteChild}
               onSetContent={handleSetContent}>
@@ -216,7 +213,7 @@ export default function PeriNote(props: PeriNoteProps) {
                   key={`childQANode-${childQAIdx}`}
                   pathStack={[topQuestionIdx, topAnswerIdx, childQAIdx]}
                   index={childQAIdx}
-                  node={childQANode}
+                  childQANode={childQANode}
                   onAddChild={handleAddChild}
                   onDeleteChild={handleDeleteChild}
                   onSetContent={handleSetContent}
