@@ -35,7 +35,8 @@ export const deepCopyTree = (root: PeriNoteTreeNode): PeriNoteTreeNode => {
   return newRoot;
 };
 
-export const getNodeByPath = (rootNode: PeriNoteTreeNode, pathIndices: number[]): PeriNoteTreeNode => {
+// rootNode와 map으로부터 생성되는 idx를 배열에 넣어, 노드 경로를 탐색하고 타깃 노드(꼬리질문 삭제, 답변 추가 등 선택)가 무엇인지 찾기
+export const getTargetNodeByPath = (rootNode: PeriNoteTreeNode, pathIndices: number[]): PeriNoteTreeNode => {
   if (rootNode === undefined) {
     throw new Error("something wrong getting rootNode by pathIndices");
   }
@@ -44,5 +45,5 @@ export const getNodeByPath = (rootNode: PeriNoteTreeNode, pathIndices: number[])
     return rootNode;
   }
 
-  return getNodeByPath(rootNode.children[pathIndices[0]], pathIndices.slice(1));
+  return getTargetNodeByPath(rootNode.children[pathIndices[0]], pathIndices.slice(1));
 };

@@ -18,7 +18,7 @@ import { useForm } from "react-hook-form";
 import { patchBookNote } from "../../../core/api";
 import { StepUpAndDrawerIdx } from "../../../pages/book-note/[reviewId]";
 import { IPeriNoteData, SavingProgress, UseForm } from "../../../types/bookNote";
-import { deepCopyTree, getNodeByPath, initialPeriNoteData } from "../../../util/bookNoteTree";
+import { deepCopyTree, getTargetNodeByPath, initialPeriNoteData } from "../../../util/bookNoteTree";
 import useFetchBookNote from "../../../util/hooks/useFetchBookNote";
 import { Loading } from "../../common";
 import { DefaultButton } from "../../common/styled/Button";
@@ -50,7 +50,7 @@ export default function PeriNote(props: PeriNoteProps) {
     const isAddAnswer = currentIndex !== undefined;
 
     const newRoot = isAddAnswer ? saveStatelessPeriNoteData() : deepCopyTree(periNoteData.answerThree);
-    const current = getNodeByPath(newRoot, path);
+    const current = getTargetNodeByPath(newRoot, path);
 
     console.log(current);
 
@@ -80,7 +80,7 @@ export default function PeriNote(props: PeriNoteProps) {
   const handleDeleteChild = (path: number[]) => {
     const newRoot = deepCopyTree(periNoteData.answerThree);
     // 삭제할 때는 자신의 부모를 찾아서 children을 제거
-    const parent = getNodeByPath(newRoot, path.slice(0, -1));
+    const parent = getTargetNodeByPath(newRoot, path.slice(0, -1));
 
     parent.children.splice(path[path.length - 1], 1);
     setPeriNoteData({ ...periNoteData, answerThree: newRoot });
@@ -88,7 +88,7 @@ export default function PeriNote(props: PeriNoteProps) {
 
   const handleSetContent = (value: string, path: number[]) => {
     const newRoot = deepCopyTree(periNoteData.answerThree);
-    const current = getNodeByPath(newRoot, path);
+    const current = getTargetNodeByPath(newRoot, path);
 
     current.content = value;
 
@@ -106,7 +106,7 @@ export default function PeriNote(props: PeriNoteProps) {
       const value = obj[key];
       const pathKey = key.split(",").map((k) => parseInt(k));
 
-      const current = getNodeByPath(newRoot, pathKey);
+      const current = getTargetNodeByPath(newRoot, pathKey);
 
       current.content = value;
     });
