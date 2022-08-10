@@ -52,6 +52,8 @@ export default function PeriNote(props: PeriNoteProps) {
     const newRoot = isAddAnswer ? saveStatelessPeriNoteData() : deepCopyTree(periNoteData.answerThree);
     const current = getNodeByPath(newRoot, path);
 
+    console.log(current);
+
     if (isAddAnswer) {
       current.children.splice(currentIndex + 1, 0, {
         type: "answer",
@@ -71,6 +73,24 @@ export default function PeriNote(props: PeriNoteProps) {
         ],
       });
     }
+
+    setPeriNoteData({ ...periNoteData, answerThree: newRoot });
+  };
+
+  const handleDeleteChild = (path: number[]) => {
+    const newRoot = deepCopyTree(periNoteData.answerThree);
+    // 삭제할 때는 자신의 부모를 찾아서 children을 제거
+    const parent = getNodeByPath(newRoot, path.slice(0, -1));
+
+    parent.children.splice(path[path.length - 1], 1);
+    setPeriNoteData({ ...periNoteData, answerThree: newRoot });
+  };
+
+  const handleSetContent = (value: string, path: number[]) => {
+    const newRoot = deepCopyTree(periNoteData.answerThree);
+    const current = getNodeByPath(newRoot, path);
+
+    current.content = value;
 
     setPeriNoteData({ ...periNoteData, answerThree: newRoot });
   };
@@ -95,24 +115,6 @@ export default function PeriNote(props: PeriNoteProps) {
     setPeriNoteData((current) => ({ ...current, answerThree: newRoot }));
 
     return newRoot;
-  };
-
-  const handleSetContent = (value: string, path: number[]) => {
-    const newRoot = deepCopyTree(periNoteData.answerThree);
-    const current = getNodeByPath(newRoot, path);
-
-    current.content = value;
-
-    setPeriNoteData({ ...periNoteData, answerThree: newRoot });
-  };
-
-  const handleDeleteChild = (path: number[]) => {
-    const newRoot = deepCopyTree(periNoteData.answerThree);
-    // 삭제할 때는 자신의 부모를 찾아서 children을 제거
-    const parent = getNodeByPath(newRoot, path.slice(0, -1));
-
-    parent.children.splice(path[path.length - 1], 1);
-    setPeriNoteData({ ...periNoteData, answerThree: newRoot });
   };
 
   // 규민아 이거 ref로 바꿀 수 있을까?
@@ -216,8 +218,8 @@ export default function PeriNote(props: PeriNoteProps) {
                   index={childQAIdx}
                   node={childQANode}
                   onAddChild={handleAddChild}
-                  onSetContent={handleSetContent}
                   onDeleteChild={handleDeleteChild}
+                  onSetContent={handleSetContent}
                   formController={{ register, setFocus }}
                 />
               ))}
