@@ -41,7 +41,6 @@ export default function TopAnswerContainer(props: TopAnswerContainerProps) {
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
       // add answer (+ index 추가 인자)
       onAddChild(pathStack.slice(0, -1), index);
     }
@@ -50,6 +49,7 @@ export default function TopAnswerContainer(props: TopAnswerContainerProps) {
   useEffect(() => {
     if (textAreaRef.current) {
       textAreaRef.current.focus();
+      console.log(topAnswerNode);
     }
   }, []);
 

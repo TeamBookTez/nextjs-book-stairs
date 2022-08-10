@@ -45,14 +45,14 @@ export default function PeriNote(props: PeriNoteProps) {
 
   const [isPreventedPeriNote, setIsPreventedPeriNote] = useState({ addQuestion: true, isCompleted: true });
 
-  const handleAddChild = (pathStack: number[], currentIndex?: number) => {
+  const handleAddChild = (pathStack: number[], curChildIdx?: number) => {
     // currentIndex가 있으면 "answer", 없으면 "question" 추가
-    const isAddAnswer = currentIndex !== undefined;
+    const isAddAnswer = curChildIdx !== undefined;
     const newRoot = isAddAnswer ? saveStatelessPeriNoteData() : deepCopyTree(periNoteData.answerThree);
     const target = getTargetNodeByPath(newRoot, pathStack);
 
     if (isAddAnswer) {
-      target.children.splice(currentIndex + 1, 0, {
+      target.children.splice(curChildIdx + 1, 0, {
         type: "answer",
         content: "",
         children: [],

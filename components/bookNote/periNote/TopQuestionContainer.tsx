@@ -8,7 +8,7 @@
 */
 
 import styled from "@emotion/styled";
-import { useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import reactTextareaAutosize from "react-textarea-autosize";
 
 import { IcPeriQuestion } from "../../../public/assets/icons";
@@ -34,9 +34,7 @@ export default function TopQuestionContainer(props: TopQuestionContainerProps) {
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
   const handleContent = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    if (e.target.value !== "\n") {
-      onSetContent(e.target.value, pathStack);
-    }
+    onSetContent(e.target.value, pathStack);
   };
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -46,7 +44,7 @@ export default function TopQuestionContainer(props: TopQuestionContainerProps) {
   };
 
   useEffect(() => {
-    if (topQuestionNode.content === "" && textAreaRef.current) {
+    if (textAreaRef.current) {
       textAreaRef.current.focus();
     }
   }, []);
