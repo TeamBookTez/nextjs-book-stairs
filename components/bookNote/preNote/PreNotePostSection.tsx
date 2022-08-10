@@ -35,14 +35,14 @@ import {
 } from "../../common/styled/PopUp";
 
 interface PreNotePostSectionProps {
-  bookNoteData: IPreNoteData;
+  preNoteData: IPreNoteData;
   isFilled: boolean;
   handlePrevent: (shouldPrevent: boolean) => void;
   handleNavIndex: (idx: BookNotePathKey) => void;
 }
 
 export default function PreNotePostSection(props: PreNotePostSectionProps) {
-  const { isFilled, bookNoteData, handlePrevent, handleNavIndex } = props;
+  const { isFilled, preNoteData, handlePrevent, handleNavIndex } = props;
 
   const navigatingBookInfo = useRecoilValue(navigatingBookInfoState);
   const { reviewId } = navigatingBookInfo;
@@ -51,13 +51,13 @@ export default function PreNotePostSection(props: PreNotePostSectionProps) {
 
   const handleSubmit = async () => {
     try {
-      if (bookNoteData.reviewSt === 2) {
+      if (preNoteData.reviewSt === 2) {
         // 독서 전 상태라면, 독서 중 상태로 변경하고 질문리스트를 독서 중으로 넘겨준다
-        await patchBookNote(`/review/${reviewId}/pre`, { ...bookNoteData, reviewSt: 3 });
+        await patchBookNote(`/review/${reviewId}/pre`, { ...preNoteData, reviewSt: 3 });
 
         const questionFromPre: PeriNoteTreeNode[] = [];
 
-        bookNoteData.questionList.map((content) => {
+        preNoteData.questionList.map((content) => {
           questionFromPre.push({
             type: "question",
             content,
@@ -76,7 +76,7 @@ export default function PreNotePostSection(props: PreNotePostSectionProps) {
         });
       } else {
         // 독서 전 상태가 아니라면, 독서 전 데이터만 수정한다
-        await patchBookNote(`/review/${reviewId}/pre`, bookNoteData);
+        await patchBookNote(`/review/${reviewId}/pre`, preNoteData);
       }
 
       // flushsync 필요하면 사용해야 함!
@@ -92,7 +92,7 @@ export default function PreNotePostSection(props: PreNotePostSectionProps) {
     <>
       <StNextBtn
         type="button"
-        disabled={!isFilled || bookNoteData.questionList.length === 0}
+        disabled={!isFilled || preNoteData.questionList.length === 0}
         onClick={() => setIsOpenedModal(true)}>
         다음 계단
       </StNextBtn>

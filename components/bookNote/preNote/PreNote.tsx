@@ -41,23 +41,30 @@ export default function PreNote(props: PreNoteProps) {
     handleSavingProgress,
   } = props;
 
-  const { data, setData, isLoading } = useFetchBookNote<IPreNoteData>(`/review/${reviewId}/pre`, initialPreNoteData);
+  const {
+    data: preNoteData,
+    setData: setPreNoteData,
+    isLoading,
+  } = useFetchBookNote<IPreNoteData>(`/review/${reviewId}/pre`, initialPreNoteData);
 
   const [isFilled, setIsFilled] = useState<boolean>(false);
   const [isFilledOnlyThree, setIsFilledOnlyThree] = useState<boolean>(false);
 
-  const handleChangeReview = <K extends keyof typeof data, V extends typeof data[K]>(key: K, value: V): void => {
-    setData((currentNote) => {
-      const newData = { ...currentNote };
+  const handleChangeReview = <K extends keyof typeof preNoteData, V extends typeof preNoteData[K]>(
+    key: K,
+    value: V,
+  ): void => {
+    setPreNoteData((currentNote) => {
+      const newPreNoteData = { ...currentNote };
 
-      newData[key] = value;
+      newPreNoteData[key] = value;
 
-      return newData;
+      return newPreNoteData;
     });
   };
 
   useEffect(() => {
-    if (data && data.reviewSt > 2) {
+    if (preNoteData && preNoteData.reviewSt > 2) {
       handlePrevent(false);
       setIsFilled(true);
       setIsFilledOnlyThree(true);
@@ -65,26 +72,26 @@ export default function PreNote(props: PreNoteProps) {
       handlePrevent(true);
     }
 
-    if (data && data.answerOne && data.answerTwo && !data.questionList.includes("")) {
+    if (preNoteData && preNoteData.answerOne && preNoteData.answerTwo && !preNoteData.questionList.includes("")) {
       setIsFilled(true);
       setIsFilledOnlyThree(true);
-    } else if (data && !data.questionList.includes("")) {
+    } else if (preNoteData && !preNoteData.questionList.includes("")) {
       setIsFilled(false);
       setIsFilledOnlyThree(true);
     } else {
       setIsFilled(false);
       setIsFilledOnlyThree(false);
     }
-  }, [data]);
+  }, [preNoteData]);
 
   // 네비게이션 바 클릭 시 or 저장하기 버튼 클릭 시 isPending: true
-  // 처음 data 를 fetch 하기 전 initialData 가 곧바로 저장되는 현상을 막아줌
+  // 처음 preNoteData 를 fetch 하기 전 initialData 가 곧바로 저장되는 현상을 막아줌
   useEffect(() => {
-    if (data !== initialPreNoteData && savingProgress.isPending === true) {
+    if (preNoteData !== initialPreNoteData && savingProgress.isPending === true) {
       const _savingProgress = { isPending: false, isError: false };
 
       try {
-        patchBookNote(`/review/${reviewId}/pre`, data);
+        patchBookNote(`/review/${reviewId}/pre`, preNoteData);
       } catch {
         _savingProgress.isError = true;
       } finally {
@@ -108,7 +115,7 @@ export default function PreNote(props: PreNoteProps) {
           onClickOpenDrawer={() => handleOpenDrawer(1)}>
           <StTextarea
             placeholder="답변을 입력해주세요."
-            value={data && data.answerOne}
+            value={preNoteData && preNoteData.answerOne}
             onChange={(e) => handleChangeReview("answerOne", e.target.value)}
           />
         </PreNoteFormContainer>
@@ -119,7 +126,7 @@ export default function PreNote(props: PreNoteProps) {
           onClickOpenDrawer={() => handleOpenDrawer(2)}>
           <StTextarea
             placeholder="답변을 입력해주세요."
-            value={data && data.answerTwo}
+            value={preNoteData && preNoteData.answerTwo}
             onChange={(e) => handleChangeReview("answerTwo", e.target.value)}
           />
         </PreNoteFormContainer>
@@ -130,7 +137,7 @@ export default function PreNote(props: PreNoteProps) {
             onClickStepUpBtn={() => handleOpenStepUpModal(3)}
             onClickOpenDrawer={() => handleOpenDrawer(3)}>
             <PreNoteThirdArticle
-              questionList={data && data.questionList}
+              questionList={preNoteData && preNoteData.questionList}
               onChangeReview={handleChangeReview}
               isPreventedPreNote={isPreventedPreNote}
               isFilledOnlyThree={isFilledOnlyThree}
@@ -142,7 +149,7 @@ export default function PreNote(props: PreNoteProps) {
       </StFormWrapper>
 
       <PreNotePostSection
-        bookNoteData={data}
+        preNoteData={preNoteData}
         isFilled={isFilled}
         handlePrevent={handlePrevent}
         handleNavIndex={handleNavIndex}

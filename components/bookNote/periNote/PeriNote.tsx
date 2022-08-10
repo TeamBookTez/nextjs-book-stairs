@@ -35,7 +35,11 @@ interface PeriNoteProps {
 export default function PeriNote(props: PeriNoteProps) {
   const { reviewId, handleOpenStepUpModal, handleOpenDrawer, savingProgress, handleSavingProgress } = props;
 
-  const { data, setData, isLoading } = useFetchBookNote<IPeriNoteData>(`/review/${reviewId}/peri`, initialPeriNoteData);
+  const {
+    data: periNoteData,
+    setData: setPeriNoteData,
+    isLoading,
+  } = useFetchBookNote<IPeriNoteData>(`/review/${reviewId}/peri`, initialPeriNoteData);
 
   const { getValues, register, setFocus } = useForm<UseForm>();
 
@@ -45,7 +49,7 @@ export default function PeriNote(props: PeriNoteProps) {
     // currentIndex가 있으면 "answer", 없으면 "question" 추가
     const isAddAnswer = currentIndex !== undefined;
 
-    const newRoot = isAddAnswer ? saveStatelessPeriNoteData() : deepCopyTree(data.answerThree);
+    const newRoot = isAddAnswer ? saveStatelessPeriNoteData() : deepCopyTree(periNoteData.answerThree);
     const current = getNodeByPath(newRoot, path);
 
     if (isAddAnswer) {
@@ -68,7 +72,7 @@ export default function PeriNote(props: PeriNoteProps) {
       });
     }
 
-    setData({ ...data, answerThree: newRoot });
+    setPeriNoteData({ ...periNoteData, answerThree: newRoot });
   };
 
   // add answer 혹은 save(submit) 시에 useForm으로 관리했던 객체 업데이트
@@ -76,7 +80,7 @@ export default function PeriNote(props: PeriNoteProps) {
     const obj = getValues();
 
     const keys = Object.keys(obj);
-    const newRoot = deepCopyTree(data.answerThree);
+    const newRoot = deepCopyTree(periNoteData.answerThree);
 
     keys.map((key) => {
       const value = obj[key];
@@ -87,28 +91,28 @@ export default function PeriNote(props: PeriNoteProps) {
       current.content = value;
     });
 
-    // data state에도 저장
-    setData((current) => ({ ...current, answerThree: newRoot }));
+    // periNoteData state에도 저장
+    setPeriNoteData((current) => ({ ...current, answerThree: newRoot }));
 
     return newRoot;
   };
 
   const handleSetContent = (value: string, path: number[]) => {
-    const newRoot = deepCopyTree(data.answerThree);
+    const newRoot = deepCopyTree(periNoteData.answerThree);
     const current = getNodeByPath(newRoot, path);
 
     current.content = value;
 
-    setData({ ...data, answerThree: newRoot });
+    setPeriNoteData({ ...periNoteData, answerThree: newRoot });
   };
 
   const handleDeleteChild = (path: number[]) => {
-    const newRoot = deepCopyTree(data.answerThree);
+    const newRoot = deepCopyTree(periNoteData.answerThree);
     // 삭제할 때는 자신의 부모를 찾아서 children을 제거
     const parent = getNodeByPath(newRoot, path.slice(0, -1));
 
     parent.children.splice(path[path.length - 1], 1);
-    setData({ ...data, answerThree: newRoot });
+    setPeriNoteData({ ...periNoteData, answerThree: newRoot });
   };
 
   // 규민아 이거 ref로 바꿀 수 있을까?
@@ -142,13 +146,15 @@ export default function PeriNote(props: PeriNoteProps) {
 
   useEffect(() => {
     // 모든 질문 리스트가 지워졌을 경우에는 질문 리스트 추가만 가능하게 하고, 작성완료는 불가하게 함
-    if (!data.answerThree.children.length) {
+    if (!periNoteData.answerThree.children.length) {
       setIsPreventedPeriNote({ addQuestion: false, isCompleted: true });
     } else {
       // 질문이 모두 채워져 있으면 addQuestion의 isPrevented를 false
-      if (data.answerThree.children.every((nodeList) => nodeList.content !== "")) {
+      if (periNoteData.answerThree.children.every((nodeList) => nodeList.content !== "")) {
         // 질문이 모두 채워진 상태에서 답변이 채워지면 모두 false
-        if (data.answerThree.children.every((nodeList) => nodeList.children.every((node) => node.content !== ""))) {
+        if (
+          periNoteData.answerThree.children.every((nodeList) => nodeList.children.every((node) => node.content !== ""))
+        ) {
           setIsPreventedPeriNote({ addQuestion: false, isCompleted: false });
         } else {
           // 답변만 비워있으면 isCompleted만 true
@@ -159,16 +165,16 @@ export default function PeriNote(props: PeriNoteProps) {
         setIsPreventedPeriNote({ addQuestion: true, isCompleted: true });
       }
     }
-  }, [data.answerThree]);
+  }, [periNoteData.answerThree]);
 
   // 네비게이션 바 클릭 시 or 저장하기 버튼 클릭 시 isPending: true
-  // 처음 data 를 fetch 하기 전 initialData 가 곧바로 저장되는 현상을 막아줌
+  // 처음 periNoteData 를 fetch 하기 전 initialData 가 곧바로 저장되는 현상을 막아줌
   useEffect(() => {
-    if (data !== initialPeriNoteData && savingProgress.isPending === true) {
+    if (periNoteData !== initialPeriNoteData && savingProgress.isPending === true) {
       const _savingProgress = { isPending: false, isError: false };
 
       try {
-        patchBookNote(`/review/${reviewId}/peri`, { ...data, answerThree: saveStatelessPeriNoteData() });
+        patchBookNote(`/review/${reviewId}/peri`, { ...periNoteData, answerThree: saveStatelessPeriNoteData() });
       } catch {
         _savingProgress.isError = true;
       } finally {
@@ -185,7 +191,7 @@ export default function PeriNote(props: PeriNoteProps) {
     <StNoteForm onClick={toggleMenu}>
       <HeaderLabel handleOpenStepUpModal={handleOpenStepUpModal} handleOpenDrawer={handleOpenDrawer} />
 
-      {data.answerThree.children.map((topQuestionNode, topQuestionIdx) => (
+      {periNoteData.answerThree.children.map((topQuestionNode, topQuestionIdx) => (
         <React.Fragment key={`questionList-${topQuestionIdx}`}>
           <TopQuestionContainer
             path={[topQuestionIdx]}
