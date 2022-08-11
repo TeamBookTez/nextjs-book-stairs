@@ -12,7 +12,7 @@
 */
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 
 import { patchBookNote } from "../../../core/api";
@@ -42,6 +42,8 @@ export default function PeriNote(props: PeriNoteProps) {
   } = useFetchBookNote<IPeriNoteData>(`/review/${reviewId}/peri`, initialPeriNoteData);
 
   const { getValues, register, setFocus } = useForm<UseForm>();
+
+  const textAreaRef = useRef<HTMLTextAreaElement[]>([]);
 
   const [isPreventedPeriNote, setIsPreventedPeriNote] = useState({ addQuestion: true, isCompleted: true });
 
@@ -182,6 +184,14 @@ export default function PeriNote(props: PeriNoteProps) {
     }
   }, [savingProgress.isPending]);
 
+  useEffect(() => {
+    if (textAreaRef.current) {
+      console.log(textAreaRef);
+      // 여기서 조건처리로 큰질문 & 답변에 대한 처리를 해줄 예정입니다.
+      // focus를 어떻게 쓰면 좋을지 생각중입니다.
+    }
+  });
+
   // --------------------------------------------------------------------------
 
   if (isLoading) return <Loading />;
@@ -193,6 +203,7 @@ export default function PeriNote(props: PeriNoteProps) {
       {periNoteData.answerThree.children.map((topQuestionNode, topQuestionIdx) => (
         <React.Fragment key={`questionList-${topQuestionIdx}`}>
           <TopQuestionContainer
+            inheritRef={textAreaRef}
             pathStack={[topQuestionIdx]}
             topQuestionNode={topQuestionNode}
             onAddTopAnswer={handleAddChild}
@@ -202,6 +213,7 @@ export default function PeriNote(props: PeriNoteProps) {
           {topQuestionNode.children.map((topAnswerNode, topAnswerIdx) => (
             <TopAnswerContainer
               key={`topAnswerContainer-${topAnswerIdx}`}
+              inheritRef={textAreaRef}
               index={topAnswerIdx}
               pathStack={[topQuestionIdx, topAnswerIdx]}
               topAnswerNode={topAnswerNode}

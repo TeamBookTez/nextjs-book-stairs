@@ -9,7 +9,7 @@
 
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import reactTextareaAutosize from "react-textarea-autosize";
 
 import { IcPeriAnswer } from "../../../public/assets/icons";
@@ -20,6 +20,7 @@ import { StMenuWrapper } from "../../common/styled/MenuWrapper";
 
 interface TopAnswerContainerProps {
   index: number;
+  inheritRef: any;
   pathStack: number[];
   topAnswerNode: PeriNoteTreeNode;
   onAddChild: (pathStack: number[], index?: number) => void;
@@ -29,9 +30,7 @@ interface TopAnswerContainerProps {
 }
 
 export default function TopAnswerContainer(props: TopAnswerContainerProps) {
-  const { index, pathStack, topAnswerNode, onAddChild, onDeleteChild, onSetContent, children } = props;
-
-  const textAreaRef = useRef<HTMLTextAreaElement>(null);
+  const { index, inheritRef, pathStack, topAnswerNode, onAddChild, onDeleteChild, onSetContent, children } = props;
 
   const handleChangeSetContent = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     if (e.target.value !== "\n") {
@@ -46,13 +45,6 @@ export default function TopAnswerContainer(props: TopAnswerContainerProps) {
     }
   };
 
-  useEffect(() => {
-    if (textAreaRef.current) {
-      textAreaRef.current.focus();
-      console.log(topAnswerNode);
-    }
-  }, []);
-
   if (topAnswerNode.type !== "answer") return <></>;
 
   return (
@@ -62,7 +54,7 @@ export default function TopAnswerContainer(props: TopAnswerContainerProps) {
           <StAnswerIcon />
         </legend>
         <StInput
-          ref={textAreaRef}
+          ref={(elem) => inheritRef.current[pathStack[0]].push(elem)}
           value={topAnswerNode.content}
           placeholder={"답변을 입력해주세요."}
           onChange={handleChangeSetContent}

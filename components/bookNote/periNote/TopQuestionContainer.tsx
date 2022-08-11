@@ -8,7 +8,7 @@
 */
 
 import styled from "@emotion/styled";
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import reactTextareaAutosize from "react-textarea-autosize";
 
 import { IcPeriQuestion } from "../../../public/assets/icons";
@@ -19,6 +19,7 @@ import { StMenuWrapper } from "../../common/styled/MenuWrapper";
 
 interface TopQuestionContainerProps {
   pathStack: number[];
+  inheritRef: any;
   topQuestionNode: PeriNoteTreeNode;
   onAddTopAnswer: (pathStack: number[], currentIndex: number) => void;
   onDeleteChild: (pathStack: number[]) => void;
@@ -26,15 +27,15 @@ interface TopQuestionContainerProps {
 }
 
 export default function TopQuestionContainer(props: TopQuestionContainerProps) {
-  const { pathStack, topQuestionNode, onAddTopAnswer, onDeleteChild, onSetContent } = props;
+  const { pathStack, inheritRef, topQuestionNode, onAddTopAnswer, onDeleteChild, onSetContent } = props;
 
   // 큰 답변 추가시 사용되는 index는 현재 큰질문의 index가 아닌 답변의 개수
   const currentIndex = topQuestionNode.children.length - 1;
 
-  const textAreaRef = useRef<HTMLTextAreaElement>(null);
-
   const handleContent = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    onSetContent(e.target.value, pathStack);
+    if (e.target.value !== "\n") {
+      onSetContent(e.target.value, pathStack);
+    }
   };
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -42,12 +43,6 @@ export default function TopQuestionContainer(props: TopQuestionContainerProps) {
       onAddTopAnswer(pathStack, currentIndex);
     }
   };
-
-  useEffect(() => {
-    if (textAreaRef.current) {
-      textAreaRef.current.focus();
-    }
-  }, []);
 
   if (topQuestionNode.type !== "question") return <></>;
 
@@ -58,7 +53,7 @@ export default function TopQuestionContainer(props: TopQuestionContainerProps) {
           <StQuestionIcon />
         </legend>
         <StInput
-          ref={textAreaRef}
+          ref={(elem) => (inheritRef.current[pathStack[0]] = [elem])}
           value={topQuestionNode.content}
           placeholder="질문을 입력해주세요."
           onChange={handleContent}
