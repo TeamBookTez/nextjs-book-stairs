@@ -54,7 +54,7 @@ export default function TopAnswerContainer(props: TopAnswerContainerProps) {
           <StAnswerIcon />
         </legend>
         <StInput
-          ref={(elem) => inheritRef.current[pathStack[0]].push(elem)}
+          ref={(elem) => (inheritRef.current[pathStack[0]][pathStack[1] + 1] = elem)}
           value={topAnswerNode.content}
           placeholder={"답변을 입력해주세요."}
           onChange={handleChangeSetContent}

@@ -186,9 +186,7 @@ export default function PeriNote(props: PeriNoteProps) {
 
   useEffect(() => {
     if (textAreaRef.current) {
-      console.log(textAreaRef);
-      // 여기서 조건처리로 큰질문 & 답변에 대한 처리를 해줄 예정입니다.
-      // focus를 어떻게 쓰면 좋을지 생각중입니다.
+      console.log(textAreaRef.current);
     }
   });
 
