@@ -43,7 +43,7 @@ export default function PeriNote(props: PeriNoteProps) {
 
   const { getValues, register, setFocus } = useForm<UseForm>();
 
-  const textAreaRef = useRef<HTMLTextAreaElement[]>([]);
+  const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
   const [isPreventedPeriNote, setIsPreventedPeriNote] = useState({ addQuestion: true, isCompleted: true });
 
@@ -185,9 +185,8 @@ export default function PeriNote(props: PeriNoteProps) {
   }, [savingProgress.isPending]);
 
   useEffect(() => {
-    if (textAreaRef.current) {
-      console.log(textAreaRef.current);
-    }
+    // console.log(textAreaRef.current[0][0]);
+    // textAreaRef.current[0][1].focus();
   });
 
   // --------------------------------------------------------------------------
@@ -201,7 +200,7 @@ export default function PeriNote(props: PeriNoteProps) {
       {periNoteData.answerThree.children.map((topQuestionNode, topQuestionIdx) => (
         <React.Fragment key={`questionList-${topQuestionIdx}`}>
           <TopQuestionContainer
-            inheritRef={textAreaRef}
+            ref={textAreaRef}
             pathStack={[topQuestionIdx]}
             topQuestionNode={topQuestionNode}
             onAddTopAnswer={handleAddChild}
@@ -211,7 +210,7 @@ export default function PeriNote(props: PeriNoteProps) {
           {topQuestionNode.children.map((topAnswerNode, topAnswerIdx) => (
             <TopAnswerContainer
               key={`topAnswerContainer-${topAnswerIdx}`}
-              inheritRef={textAreaRef}
+              ref={textAreaRef}
               index={topAnswerIdx}
               pathStack={[topQuestionIdx, topAnswerIdx]}
               topAnswerNode={topAnswerNode}

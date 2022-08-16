@@ -8,7 +8,7 @@
 */
 
 import styled from "@emotion/styled";
-import React from "react";
+import React, { forwardRef } from "react";
 import reactTextareaAutosize from "react-textarea-autosize";
 
 import { IcPeriQuestion } from "../../../public/assets/icons";
@@ -19,15 +19,14 @@ import { StMenuWrapper } from "../../common/styled/MenuWrapper";
 
 interface TopQuestionContainerProps {
   pathStack: number[];
-  inheritRef: any;
   topQuestionNode: PeriNoteTreeNode;
   onAddTopAnswer: (pathStack: number[], currentIndex: number) => void;
   onDeleteChild: (pathStack: number[]) => void;
   onSetContent: (value: string, pathStack: number[]) => void;
 }
 
-export default function TopQuestionContainer(props: TopQuestionContainerProps) {
-  const { pathStack, inheritRef, topQuestionNode, onAddTopAnswer, onDeleteChild, onSetContent } = props;
+function TopQuestionContainer(props: TopQuestionContainerProps, ref: any) {
+  const { pathStack, topQuestionNode, onAddTopAnswer, onDeleteChild, onSetContent } = props;
 
   // 큰 답변 추가시 사용되는 index는 현재 큰질문의 index가 아닌 답변의 개수
   const currentIndex = topQuestionNode.children.length - 1;
@@ -53,7 +52,7 @@ export default function TopQuestionContainer(props: TopQuestionContainerProps) {
           <StQuestionIcon />
         </legend>
         <StInput
-          ref={(elem) => (inheritRef.current[pathStack[0]] = [elem])}
+          ref={ref}
           value={topQuestionNode.content}
           placeholder="질문을 입력해주세요."
           onChange={handleContent}
@@ -121,3 +120,5 @@ const StInput = styled(reactTextareaAutosize)`
     display: none;
   }
 `;
+
+export default forwardRef(TopQuestionContainer);
