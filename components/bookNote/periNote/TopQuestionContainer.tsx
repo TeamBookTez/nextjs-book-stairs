@@ -8,7 +8,7 @@
 */
 
 import styled from "@emotion/styled";
-import React, { forwardRef } from "react";
+import React, { forwardRef, useEffect } from "react";
 import reactTextareaAutosize from "react-textarea-autosize";
 
 import { IcPeriQuestion } from "../../../public/assets/icons";
@@ -52,7 +52,7 @@ function TopQuestionContainer(props: TopQuestionContainerProps, ref: any) {
           <StQuestionIcon />
         </legend>
         <StInput
-          ref={ref}
+          ref={(elem) => (ref.current[pathStack[0]] = [elem])}
           value={topQuestionNode.content}
           placeholder="질문을 입력해주세요."
           onChange={handleContent}

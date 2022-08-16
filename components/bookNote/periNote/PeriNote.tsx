@@ -43,7 +43,7 @@ export default function PeriNote(props: PeriNoteProps) {
 
   const { getValues, register, setFocus } = useForm<UseForm>();
 
-  const textAreaRef = useRef<HTMLTextAreaElement>(null);
+  const textAreaRef = useRef<HTMLTextAreaElement[]>([]);
 
   const [isPreventedPeriNote, setIsPreventedPeriNote] = useState({ addQuestion: true, isCompleted: true });
 
@@ -74,6 +74,10 @@ export default function PeriNote(props: PeriNoteProps) {
     }
 
     setPeriNoteData({ ...periNoteData, answerThree: newRoot });
+
+    if (pathStack.length === 1) {
+      textAreaRef.current[pathStack[0]][curChildIdx + 2].focus();
+    }
   };
 
   const handleDeleteChild = (pathStack: number[]) => {
@@ -183,11 +187,6 @@ export default function PeriNote(props: PeriNoteProps) {
       }
     }
   }, [savingProgress.isPending]);
-
-  useEffect(() => {
-    // console.log(textAreaRef.current[0][0]);
-    // textAreaRef.current[0][1].focus();
-  });
 
   // --------------------------------------------------------------------------
 

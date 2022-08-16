@@ -9,7 +9,7 @@
 
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
-import React, { forwardRef } from "react";
+import React, { forwardRef, ReactText, useEffect } from "react";
 import reactTextareaAutosize from "react-textarea-autosize";
 
 import { IcPeriAnswer } from "../../../public/assets/icons";
@@ -53,7 +53,7 @@ function TopAnswerContainer(props: TopAnswerContainerProps, ref: any) {
           <StAnswerIcon />
         </legend>
         <StInput
-          ref={ref}
+          ref={(elem) => (ref.current[pathStack[0]][pathStack[1] + 1] = elem)}
           value={topAnswerNode.content}
           placeholder={"답변을 입력해주세요."}
           onChange={handleChangeSetContent}
