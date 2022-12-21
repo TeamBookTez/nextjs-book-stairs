@@ -70,7 +70,6 @@ export default function ChildQANode(props: ChildQANodeProps) {
         <StInputWrapper isquestion={isQuestion}>
           <StInput
             {...formController.register(inputKey)}
-            defaultValue={node.content}
             value={urgentQuery}
             placeholder={`${isQuestion ? "질문" : "답변"}을 입력해주세요.`}
             onChange={handleContent}
