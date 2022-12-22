@@ -1,10 +1,11 @@
-import { worker } from "./browser";
-import { server } from "./server";
-
 if (typeof window === "undefined") {
-  server.listen();
+  const server = import("./server");
+
+  server.then((s) => s.server.listen());
 } else {
-  worker.start();
+  const worker = import("./browser");
+
+  worker.then((w) => w.worker.start());
 }
 
 export {};
