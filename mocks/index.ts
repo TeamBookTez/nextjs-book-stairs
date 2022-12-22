@@ -6,4 +6,5 @@ if (typeof window === "undefined") {
 } else {
   worker.start();
 }
+
 export {};

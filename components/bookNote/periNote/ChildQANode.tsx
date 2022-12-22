@@ -97,7 +97,7 @@ export default function ChildQANode(props: ChildQANodeProps) {
         {node.children &&
           node.children.map((node, i) => (
             <ChildQANode
-              key={`childQANode-${i}`}
+              key={node.id}
               path={[...path, i]}
               index={i}
               node={node}

@@ -34,13 +34,22 @@ interface PeriNoteProps {
 
 const initialPeriNoteData: PeriNoteData = {
   answerThree: {
+    id: `${Math.random()}11`,
     type: "Root",
     content: "root",
     children: [
       {
+        id: `${Math.random()}22`,
         type: "question",
         content: "",
-        children: [{ type: "answer", content: "", children: [] }],
+        children: [
+          {
+            id: `${Math.random()}33`,
+            type: "answer",
+            content: "",
+            children: [],
+          },
+        ],
       },
     ],
   },
@@ -64,16 +73,19 @@ export default function PeriNote(props: PeriNoteProps) {
 
     if (isAddAnswer) {
       current.children.splice(currentIndex + 1, 0, {
+        id: `${Math.random()}1`,
         type: "answer",
         content: "",
         children: [],
       });
     } else {
       current.children.push({
+        id: `${Math.random()}2`,
         type: "question",
         content: "",
         children: [
           {
+            id: `${Math.random()}3`,
             type: "answer",
             content: "",
             children: [],
@@ -82,20 +94,23 @@ export default function PeriNote(props: PeriNoteProps) {
       });
     }
 
-    setData({ ...data, answerThree: newRoot });
+    setData((current) => ({ ...current, answerThree: newRoot }));
   };
 
   // add answer 혹은 save(submit) 시에 useForm으로 관리했던 객체 업데이트
   const saveStatelessPeriNoteData = () => {
     const obj = getValues();
 
+    console.log("obj", obj);
+
     const keys = Object.keys(obj);
     const newRoot = deepCopyTree(data.answerThree);
 
-    keys.map((key) => {
+    keys.forEach((key) => {
       const value = obj[key];
       const pathKey = key.split(",").map((k) => parseInt(k));
 
+      // FIX :: 생성할 떄 마지막 current가 undefined가 된다
       const current = getNodeByPath(newRoot, pathKey);
 
       current.content = value;
@@ -113,7 +128,8 @@ export default function PeriNote(props: PeriNoteProps) {
 
     current.content = value;
 
-    setData({ ...data, answerThree: newRoot });
+    console.log("BUG :: id 실종 setData :: ", { ...current, answerThree: newRoot });
+    setData((current) => ({ ...current, answerThree: newRoot }));
   };
 
   const handleDeleteChild = (path: number[]) => {
@@ -122,7 +138,8 @@ export default function PeriNote(props: PeriNoteProps) {
     const parent = getNodeByPath(newRoot, path.slice(0, -1));
 
     parent.children.splice(path[path.length - 1], 1);
-    setData({ ...data, answerThree: newRoot });
+
+    setData((current) => ({ ...current, answerThree: newRoot }));
   };
 
   // 규민아 이거 ref로 바꿀 수 있을까?
@@ -200,7 +217,7 @@ export default function PeriNote(props: PeriNoteProps) {
       <HeaderLabel handleOpenStepUpModal={handleOpenStepUpModal} handleOpenDrawer={handleOpenDrawer} />
 
       {data.answerThree.children.map((topQuestionNode, topQuestionIdx) => (
-        <React.Fragment key={`questionList-${topQuestionIdx}`}>
+        <React.Fragment key={topQuestionNode.id}>
           <TopQuestionContainer
             path={[topQuestionIdx]}
             node={topQuestionNode}
@@ -208,29 +225,35 @@ export default function PeriNote(props: PeriNoteProps) {
             onDeleteChild={handleDeleteChild}
             onSetContent={handleSetContent}
           />
-          {topQuestionNode.children.map((topAnswerNode, topAnswerIdx) => (
-            <TopAnswerContainer
-              key={`topAnswerContainer-${topAnswerIdx}`}
-              index={topAnswerIdx}
-              path={[topQuestionIdx, topAnswerIdx]}
-              node={topAnswerNode}
-              onAddChild={handleAddChild}
-              onDeleteChild={handleDeleteChild}
-              onSetContent={handleSetContent}>
-              {topAnswerNode.children.map((childQANode, childQAIdx) => (
-                <ChildQANode
-                  key={`childQANode-${childQAIdx}`}
-                  path={[topQuestionIdx, topAnswerIdx, childQAIdx]}
-                  index={childQAIdx}
-                  node={childQANode}
-                  onAddChild={handleAddChild}
-                  onSetContent={handleSetContent}
-                  onDeleteChild={handleDeleteChild}
-                  formController={{ register, setFocus }}
-                />
-              ))}
-            </TopAnswerContainer>
-          ))}
+          <div>
+            ID :: {topQuestionNode.id}
+            {topQuestionNode.children.map((topAnswerNode, topAnswerIdx) => (
+              <TopAnswerContainer
+                key={topAnswerNode.id}
+                index={topAnswerIdx}
+                path={[topQuestionIdx, topAnswerIdx]}
+                node={topAnswerNode}
+                onAddChild={handleAddChild}
+                onDeleteChild={handleDeleteChild}
+                onSetContent={handleSetContent}>
+                <div>
+                  ID :: {topAnswerNode.id}
+                  {topAnswerNode.children.map((childQANode, childQAIdx) => (
+                    <ChildQANode
+                      key={childQANode.id}
+                      path={[topQuestionIdx, topAnswerIdx, childQAIdx]}
+                      index={childQAIdx}
+                      node={childQANode}
+                      onAddChild={handleAddChild}
+                      onSetContent={handleSetContent}
+                      onDeleteChild={handleDeleteChild}
+                      formController={{ register, setFocus }}
+                    />
+                  ))}
+                </div>
+              </TopAnswerContainer>
+            ))}
+          </div>
         </React.Fragment>
       ))}
 

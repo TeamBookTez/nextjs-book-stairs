@@ -11,6 +11,7 @@ import { PeriNoteTreeNode } from "../types/bookNote";
 
 export const deepCopyTree = (root: PeriNoteTreeNode): PeriNoteTreeNode => {
   const newRoot = {
+    id: root.id,
     type: root.type,
     content: root.content,
     children: root.children.map((node) => deepCopyTree(node)),
@@ -29,5 +30,10 @@ export const getNodeByPath = (node: PeriNoteTreeNode, path: number[]): PeriNoteT
     return node;
   }
 
+  console.log("------------");
+  console.log("node.children", node.children);
+  console.log("path", path);
+
+  // 다음 step의 node 찾기
   return getNodeByPath(node.children[path[0]], path.slice(1));
 };
