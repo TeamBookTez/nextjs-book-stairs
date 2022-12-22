@@ -34,17 +34,17 @@ interface PeriNoteProps {
 
 const initialPeriNoteData: PeriNoteData = {
   answerThree: {
-    id: `${Math.random()}11`,
+    id: `${Math.random()}`,
     type: "Root",
     content: "root",
     children: [
       {
-        id: `${Math.random()}22`,
+        id: `${Math.random()}`,
         type: "question",
         content: "",
         children: [
           {
-            id: `${Math.random()}33`,
+            id: `${Math.random()}`,
             type: "answer",
             content: "",
             children: [],
@@ -73,19 +73,19 @@ export default function PeriNote(props: PeriNoteProps) {
 
     if (isAddAnswer) {
       current.children.splice(currentIndex + 1, 0, {
-        id: `${Math.random()}1`,
+        id: `${Math.random()}`,
         type: "answer",
         content: "",
         children: [],
       });
     } else {
       current.children.push({
-        id: `${Math.random()}2`,
+        id: `${Math.random()}`,
         type: "question",
         content: "",
         children: [
           {
-            id: `${Math.random()}3`,
+            id: `${Math.random()}`,
             type: "answer",
             content: "",
             children: [],
@@ -128,7 +128,6 @@ export default function PeriNote(props: PeriNoteProps) {
 
     current.content = value;
 
-    console.log("BUG :: id 실종 setData :: ", { ...current, answerThree: newRoot });
     setData((current) => ({ ...current, answerThree: newRoot }));
   };
 
@@ -225,35 +224,29 @@ export default function PeriNote(props: PeriNoteProps) {
             onDeleteChild={handleDeleteChild}
             onSetContent={handleSetContent}
           />
-          <div>
-            ID :: {topQuestionNode.id}
-            {topQuestionNode.children.map((topAnswerNode, topAnswerIdx) => (
-              <TopAnswerContainer
-                key={topAnswerNode.id}
-                index={topAnswerIdx}
-                path={[topQuestionIdx, topAnswerIdx]}
-                node={topAnswerNode}
-                onAddChild={handleAddChild}
-                onDeleteChild={handleDeleteChild}
-                onSetContent={handleSetContent}>
-                <div>
-                  ID :: {topAnswerNode.id}
-                  {topAnswerNode.children.map((childQANode, childQAIdx) => (
-                    <ChildQANode
-                      key={childQANode.id}
-                      path={[topQuestionIdx, topAnswerIdx, childQAIdx]}
-                      index={childQAIdx}
-                      node={childQANode}
-                      onAddChild={handleAddChild}
-                      onSetContent={handleSetContent}
-                      onDeleteChild={handleDeleteChild}
-                      formController={{ register, setFocus }}
-                    />
-                  ))}
-                </div>
-              </TopAnswerContainer>
-            ))}
-          </div>
+          {topQuestionNode.children.map((topAnswerNode, topAnswerIdx) => (
+            <TopAnswerContainer
+              key={topAnswerNode.id}
+              index={topAnswerIdx}
+              path={[topQuestionIdx, topAnswerIdx]}
+              node={topAnswerNode}
+              onAddChild={handleAddChild}
+              onDeleteChild={handleDeleteChild}
+              onSetContent={handleSetContent}>
+              {topAnswerNode.children.map((childQANode, childQAIdx) => (
+                <ChildQANode
+                  key={childQANode.id}
+                  path={[topQuestionIdx, topAnswerIdx, childQAIdx]}
+                  index={childQAIdx}
+                  node={childQANode}
+                  onAddChild={handleAddChild}
+                  onSetContent={handleSetContent}
+                  onDeleteChild={handleDeleteChild}
+                  formController={{ register, setFocus }}
+                />
+              ))}
+            </TopAnswerContainer>
+          ))}
         </React.Fragment>
       ))}
 

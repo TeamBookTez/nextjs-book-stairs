@@ -26,11 +26,15 @@ export default function useFetchBookNote<T>(key: string, initialState: T) {
       }
     })();
 
-    return function cleanup() {
-      setData(initialState);
-      setIsLoading(false);
-    };
+    // return function cleanup() {
+    //   setData(initialState);
+    //   setIsLoading(false);
+    // };
   }, []);
+
+  useEffect(() => {
+    console.log("data :: ", data);
+  }, [data]);
 
   return { data, setData, isLoading };
 }
