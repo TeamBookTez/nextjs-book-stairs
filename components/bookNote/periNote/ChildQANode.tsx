@@ -30,6 +30,8 @@ interface ChildQANodeProps {
 }
 export default function ChildQANode(props: ChildQANodeProps) {
   const { path, index, node, onAddChild, onSetContent, onDeleteChild, formController } = props;
+
+  console.log(node.content + " :: ", path, index);
   const { urgentQuery, setUrgentQuery } = useUpdatePeriNote(node.content, path, onSetContent);
   const isQuestion = node.type === "question";
   const inputKey = `${path.join(",")}`;
@@ -40,7 +42,7 @@ export default function ChildQANode(props: ChildQANodeProps) {
       e.preventDefault();
       // 꼬리질문과 답변은 자신의 아래에 추가하는 것이 아닌 자신의 부모의 children에 추가해야함
       if (isQuestion) onAddChild(path.slice(0, -1));
-      else onAddChild(path.slice(0, -1), index + 1);
+      else onAddChild(path.slice(0, -1), index);
     }
   };
 

@@ -27,12 +27,30 @@ export const reivewHandler = [
                       {
                         id: "ㄷ",
                         type: "question",
-                        content: "",
+                        content: "질문 1",
                         children: [
                           {
                             id: "ㄹ",
                             type: "answer",
-                            content: "",
+                            content: "1111111111111111111",
+                            children: [],
+                          },
+                          {
+                            id: "ㅁ",
+                            type: "answer",
+                            content: "2222222222222222222",
+                            children: [],
+                          },
+                          {
+                            id: "ㅂ",
+                            type: "answer",
+                            content: "333333333333333333",
+                            children: [],
+                          },
+                          {
+                            id: "ㅅ",
+                            type: "answer",
+                            content: "44444444444444444444",
                             children: [],
                           },
                         ],
