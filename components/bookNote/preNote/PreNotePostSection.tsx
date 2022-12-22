@@ -59,14 +59,23 @@ export default function PreNotePostSection(props: PreNotePostSectionProps) {
 
         bookNoteData.questionList.map((content) => {
           questionFromPre.push({
+            id: `${Math.random()}`,
             type: "question",
             content,
-            children: [{ type: "answer", content: "", children: [] }],
+            children: [
+              {
+                id: `${Math.random()}`,
+                type: "answer",
+                content: "",
+                children: [],
+              },
+            ],
           });
         });
 
         await patchBookNote(`review/${reviewId}/peri`, {
           answerThree: {
+            id: `${Math.random()}`,
             type: "Root",
             content: "root",
             children: questionFromPre,

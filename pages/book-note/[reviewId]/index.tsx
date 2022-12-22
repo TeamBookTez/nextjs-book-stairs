@@ -13,7 +13,7 @@
 
 import { css, keyframes } from "@emotion/react";
 import styled from "@emotion/styled";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { flushSync } from "react-dom";
 import { useRecoilValue } from "recoil";
 

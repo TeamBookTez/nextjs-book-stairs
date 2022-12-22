@@ -34,7 +34,12 @@ export default function Detail() {
     bookTitle: "",
     answerOne: "",
     answerTwo: "",
-    answerThree: { type: "Root", content: "root", children: [] },
+    answerThree: {
+      id: `${Math.random()}`,
+      type: "Root",
+      content: "root",
+      children: [],
+    },
     questionList: [""],
   });
   const [isPopUp, setIsPopUp] = useState(false);
