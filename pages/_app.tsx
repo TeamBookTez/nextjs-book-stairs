@@ -5,6 +5,10 @@ import { RecoilRoot } from "recoil";
 import GlobalStyle, { resetStyle } from "../styles/globalStyle";
 import theme from "../styles/theme";
 
+if (process.env.NEXT_PUBLIC_API_MOCKING === "enabled") {
+  import("../mocks");
+}
+
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <RecoilRoot>
