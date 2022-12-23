@@ -14,7 +14,7 @@ import reactTextareaAutosize from "react-textarea-autosize";
 
 import { labelColorList } from "../../../core/bookNote/childNodeLabelColor";
 import { FormController, PeriNoteTreeNode } from "../../../types/bookNote";
-// import useUpdatePeriNote from "../../../util/hooks/useUpdatePeriNote";
+import useUpdatePeriNote from "../../../util/hooks/useUpdatePeriNote";
 import { StAddAnswerButton, StMenuBtn } from "../../common/styled/Button";
 import { StMoreIcon } from "../../common/styled/Icon";
 import { StMenuWrapper } from "../../common/styled/MenuWrapper";
@@ -24,6 +24,7 @@ interface ChildQANodeProps {
   index: number;
   node: PeriNoteTreeNode;
   onAddChild: (path: number[], index?: number) => void;
+  // urgentQuery 제거시, setContent 불필요
   onSetContent: (value: string, path: number[]) => void;
   onDeleteChild: (path: number[]) => void;
   formController: FormController;
@@ -31,7 +32,7 @@ interface ChildQANodeProps {
 export default function ChildQANode(props: ChildQANodeProps) {
   const { path, index, node, onAddChild, onSetContent, onDeleteChild, formController } = props;
 
-  // const { urgentQuery, setUrgentQuery } = useUpdatePeriNote(node.content, path, onSetContent);
+  const { urgentQuery, setUrgentQuery } = useUpdatePeriNote(node.content, path, onSetContent);
   const isQuestion = node.type === "question";
   const is4Depth = path.length <= 10;
   const canAddChild = path.length <= 8;
@@ -47,14 +48,15 @@ export default function ChildQANode(props: ChildQANodeProps) {
     }
   };
 
-  // const handleContent = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-  //   if (e.target.value !== "\n") {
-  //     setUrgentQuery(e.target.value);
-  //   }
-  // };
+  const handleContent = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    if (e.target.value !== "\n") {
+      setUrgentQuery(e.target.value);
+    }
+  };
 
   // 마지막 생성된 컴포넌트에 focusing
   useEffect(() => {
+    // TODO :: 북노트 수정할 때 여기서 계속 에러가 걸리네요 ...
     is4Depth && formController.setFocus(formPathKey);
   }, []);
 
@@ -77,8 +79,8 @@ export default function ChildQANode(props: ChildQANodeProps) {
             {...formController.register(formPathKey)}
             defaultValue={node.content}
             placeholder={`${isQuestion ? "질문" : "답변"}을 입력해주세요.`}
-            // value={urgentQuery}
-            // onChange={handleContent}
+            value={urgentQuery}
+            onChange={handleContent}
             onKeyPress={addChildByEnter}
           />
           {isQuestion && (
