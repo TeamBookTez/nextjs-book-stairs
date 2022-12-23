@@ -33,6 +33,7 @@ export default function ChildQANode(props: ChildQANodeProps) {
   const { path, index, node, onAddChild, onSetContent, onDeleteChild, formController } = props;
 
   const { urgentQuery, setUrgentQuery } = useUpdatePeriNote(node.content, path, onSetContent);
+  const isDeleted = node.type === "deleted";
   const isQuestion = node.type === "question";
   const is4Depth = path.length <= 10;
   const canAddChild = path.length <= 8;
@@ -56,11 +57,12 @@ export default function ChildQANode(props: ChildQANodeProps) {
 
   // 마지막 생성된 컴포넌트에 focusing
   useEffect(() => {
-    // TODO :: 북노트 수정할 때 여기서 계속 에러가 걸리네요 ...
+    if (isDeleted) return;
+
     is4Depth && formController.setFocus(formPathKey);
   }, []);
 
-  if (node.type === "deleted") return <></>;
+  if (isDeleted) return <></>;
 
   // 후에 레이아웃 문제에 대비하여 4뎁스 제한
   if (!is4Depth) return null;

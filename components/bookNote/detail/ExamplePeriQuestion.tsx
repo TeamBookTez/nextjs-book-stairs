@@ -1,3 +1,12 @@
+/*
+마지막 편집자: 22-12-23 joohaem
+변경사항 및 참고:
+  - 파일들이 헷갈려요 ... ==> detail / Example 이름 다시 짓기 + 폴더 분리
+    
+고민점:
+  - 
+*/
+
 import styled from "@emotion/styled";
 
 import { labelColorList } from "../../../core/bookNote/childNodeLabelColor";
@@ -15,7 +24,10 @@ interface ExamplePeriQuestionProps {
 export default function ExamplePeriQuestion(props: ExamplePeriQuestionProps) {
   const { node, path, onToggle } = props;
   const isAnswer = node.type === "answer";
+  const isDeleted = node.type === "deleted";
   const labelColor = labelColorList[(path.length + 1) % 10];
+
+  if (isDeleted) return <></>;
 
   return (
     <>
