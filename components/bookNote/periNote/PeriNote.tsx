@@ -70,7 +70,6 @@ export default function PeriNote(props: PeriNoteProps) {
   const handleAddChild = (path: number[], currentIndex?: number) => {
     // currentIndex가 있으면 "answer", 없으면 "question" 추가
     const isAddAnswer = currentIndex !== undefined;
-    // FIX :: const newRoot = isAddAnswer ? saveStatelessPeriNoteData() : deepCopyTree(data.answerThree);
     const newRoot = deepCopyTree(data.answerThree);
     const current = getNodeByPath(newRoot, path);
 
@@ -100,11 +99,9 @@ export default function PeriNote(props: PeriNoteProps) {
     setData((current) => ({ ...current, answerThree: newRoot }));
   };
 
-  // add answer 혹은 save(submit) 시에 useForm으로 관리했던 객체 업데이트
+  // 임시 저장 or 작성 완료 시에 Uncontrolled Input 의 "내용"을 업데이트 해주는 함수
   const saveStatelessPeriNoteData = () => {
     const obj = getValues();
-
-    console.log("obj", obj);
 
     const keys = Object.keys(obj);
     const newRoot = deepCopyTree(data.answerThree);
@@ -112,8 +109,6 @@ export default function PeriNote(props: PeriNoteProps) {
     keys.forEach((key) => {
       const value = obj[key];
       const pathKey = key.split(",").map((k) => parseInt(k));
-
-      // FIX :: 생성할 떄 마지막 current가 undefined가 된다
       const current = getNodeByPath(newRoot, pathKey);
 
       current.content = value;
