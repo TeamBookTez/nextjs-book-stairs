@@ -32,9 +32,5 @@ export default function useFetchBookNote<T>(key: string, initialState: T) {
     // };
   }, []);
 
-  useEffect(() => {
-    console.log("data :: ", data);
-  }, [data]);
-
   return { data, setData, isLoading };
 }

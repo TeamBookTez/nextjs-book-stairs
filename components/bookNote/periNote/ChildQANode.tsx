@@ -31,7 +31,6 @@ interface ChildQANodeProps {
 export default function ChildQANode(props: ChildQANodeProps) {
   const { path, index, node, onAddChild, onSetContent, onDeleteChild, formController } = props;
 
-  console.log(node.content + " :: ", path, index);
   const { urgentQuery, setUrgentQuery } = useUpdatePeriNote(node.content, path, onSetContent);
   const isQuestion = node.type === "question";
   const is4Depth = path.length <= 10;
