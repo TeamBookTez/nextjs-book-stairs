@@ -22,8 +22,7 @@ export const deepCopyTree = (root: PeriNoteTreeNode): PeriNoteTreeNode => {
 
 export const getNodeByPath = (node: PeriNoteTreeNode, path: number[]): PeriNoteTreeNode => {
   if (node === undefined) {
-    // throw new Error("something wrong getting node by path");
-    console.log("something wrong getting node by path");
+    throw new Error("something wrong getting node by path");
   }
 
   if (path.length === 0) {
