@@ -2,7 +2,6 @@
   "editor.codeActionsOnSave": {
     // ES Lint 저장 시 자동 fix 설정
     "source.fixAll.eslint": true,
-    "source.organizeImports": true
   },
   // document formatting 자동 fix 설정
   "editor.formatOnSave": true,

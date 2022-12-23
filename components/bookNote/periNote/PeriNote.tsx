@@ -15,6 +15,7 @@ import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { v4 as uuidv4 } from "uuid";
 
 import { patchBookNote } from "../../../core/api";
 import { StepUpAndDrawerIdx } from "../../../pages/book-note/[reviewId]";
@@ -35,17 +36,17 @@ interface PeriNoteProps {
 
 const initialPeriNoteData: PeriNoteData = {
   answerThree: {
-    id: `${Math.random()}`,
+    id: uuidv4(),
     type: "Root",
     content: "root",
     children: [
       {
-        id: `${Math.random()}`,
+        id: uuidv4(),
         type: "question",
         content: "",
         children: [
           {
-            id: `${Math.random()}`,
+            id: uuidv4(),
             type: "answer",
             content: "",
             children: [],
@@ -75,19 +76,19 @@ export default function PeriNote(props: PeriNoteProps) {
 
     if (isAddAnswer) {
       current.children.splice(currentIndex + 1, 0, {
-        id: `${Math.random()}`,
+        id: uuidv4(),
         type: "answer",
         content: "",
         children: [],
       });
     } else {
       current.children.push({
-        id: `${Math.random()}`,
+        id: uuidv4(),
         type: "question",
         content: "",
         children: [
           {
-            id: `${Math.random()}`,
+            id: uuidv4(),
             type: "answer",
             content: "",
             children: [],
