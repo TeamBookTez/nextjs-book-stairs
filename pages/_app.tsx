@@ -5,9 +5,9 @@ import { RecoilRoot } from "recoil";
 import GlobalStyle, { resetStyle } from "../styles/globalStyle";
 import theme from "../styles/theme";
 
-if (process.env.NODE_ENV === "development") {
-  import("../mocks");
-}
+// if (process.env.NODE_ENV === "development") {
+//   import("../mocks");
+// }
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (

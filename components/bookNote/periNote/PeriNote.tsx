@@ -134,7 +134,8 @@ export default function PeriNote(props: PeriNoteProps) {
     // 삭제할 때는 자신의 부모를 찾아서 children을 제거
     const parent = getNodeByPath(newRoot, path.slice(0, -1));
 
-    parent.children.splice(path[path.length - 1], 1);
+    // parent.children.splice(path[path.length - 1], 1);
+    parent.children[path[path.length - 1]] = { ...parent.children[path[path.length - 1]], type: "deleted" };
 
     setData((current) => ({ ...current, answerThree: newRoot }));
   };

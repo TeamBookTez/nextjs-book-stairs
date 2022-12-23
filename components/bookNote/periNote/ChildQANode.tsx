@@ -58,6 +58,8 @@ export default function ChildQANode(props: ChildQANodeProps) {
     is4Depth && formController.setFocus(formPathKey);
   }, [formController.setFocus]);
 
+  if (node.type === "deleted") return <></>;
+
   // 후에 레이아웃 문제에 대비하여 4뎁스 제한
   if (!is4Depth) return null;
 

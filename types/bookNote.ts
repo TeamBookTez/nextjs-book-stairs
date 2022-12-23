@@ -9,7 +9,7 @@ export type BookNotePathKey = typeof bookNotePathKey[keyof typeof bookNotePathKe
 
 export interface PeriNoteTreeNode {
   id: string;
-  type: "Root" | "question" | "answer";
+  type: "Root" | "question" | "answer" | "deleted";
   content: string;
   children: PeriNoteTreeNode[];
 }
