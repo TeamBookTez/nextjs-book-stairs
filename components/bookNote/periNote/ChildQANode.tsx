@@ -34,7 +34,9 @@ export default function ChildQANode(props: ChildQANodeProps) {
   console.log(node.content + " :: ", path, index);
   const { urgentQuery, setUrgentQuery } = useUpdatePeriNote(node.content, path, onSetContent);
   const isQuestion = node.type === "question";
-  const inputKey = `${path.join(",")}`;
+  const is4Depth = path.length <= 10;
+  const canAddChild = path.length <= 8;
+  const formPathKey = `${path.join(",")}`;
   const labelColor = labelColorList[(path.length - 1) % 10];
 
   const addChildByEnter = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -54,11 +56,11 @@ export default function ChildQANode(props: ChildQANodeProps) {
 
   useEffect(() => {
     // 마지막 생성된 컴포넌트에 focusing
-    path.length <= 10 && formController.setFocus(inputKey);
+    is4Depth && formController.setFocus(formPathKey);
   }, [formController.setFocus]);
 
   // 후에 레이아웃 문제에 대비하여 4뎁스 제한
-  if (path.length > 10) return null;
+  if (!is4Depth) return null;
 
   return (
     <>
@@ -71,7 +73,7 @@ export default function ChildQANode(props: ChildQANodeProps) {
         )}
         <StInputWrapper isquestion={isQuestion}>
           <StInput
-            {...formController.register(inputKey)}
+            {...formController.register(formPathKey)}
             value={urgentQuery}
             placeholder={`${isQuestion ? "질문" : "답변"}을 입력해주세요.`}
             onChange={handleContent}
@@ -84,7 +86,7 @@ export default function ChildQANode(props: ChildQANodeProps) {
           )}
           <StMore className="icn_more" />
           <StMenuWrapper>
-            {!isQuestion && path.length < 10 && (
+            {!isQuestion && canAddChild && (
               <StMenuBtn type="button" onClick={() => onAddChild(path)}>
                 꼬리질문 추가
               </StMenuBtn>
