@@ -27,7 +27,7 @@ export default function RecentBooks() {
         <StHeader>
           <StHeading3>최근 작성한 북노트</StHeading3>
           {isNotEmpty && (
-            <Link href="/main/bookcase">
+            <Link href="/bookcase" passHref>
               <StLink>전체보기</StLink>
             </Link>
           )}
