@@ -5,7 +5,7 @@
   - deepCopyTree --> immer.js 로 변경
 
 고민점:
-  - 로그인 loading -> initial data 표시 -> fetching loading 단계로 로딩이 이루어지는데, 통합이 필요할 것 같습니다,!
+  - 로그인 loading -> initial periNoteData 표시 -> fetching loading 단계로 로딩이 이루어지는데, 통합이 필요할 것 같습니다,!
     => 기획에서 별 얘기 없으면 해결된 것
   
     - useFetchBookNote 같은 함수들의 pre/peri 의 분리가 필요함 (타입지정 등을 명확히 함으로써 이후의 유지/보수가 원활해질 것)
@@ -37,7 +37,11 @@ interface PeriNoteProps {
 export default function PeriNote(props: PeriNoteProps) {
   const { reviewId, handleOpenStepUpModal, handleOpenDrawer, savingProgress, handleSavingProgress } = props;
 
-  const { data, setData, isLoading } = useFetchBookNote<PeriNoteData>(`/review/${reviewId}/peri`, initialPeriNoteData);
+  const {
+    data: periNoteData,
+    setData: setPeriNoteData,
+    isLoading,
+  } = useFetchBookNote<PeriNoteData>(`/review/${reviewId}/peri`, initialPeriNoteData);
 
   const { getValues, register, setFocus } = useForm<UseForm>();
 
@@ -46,18 +50,18 @@ export default function PeriNote(props: PeriNoteProps) {
   const handleAddChild = (pathStack: number[], currentIndex?: number) => {
     // currentIndex가 있으면 "answer", 없으면 "question" 추가
     const isAddAnswer = currentIndex !== undefined;
-    const newRoot = deepCopyTree(data.answerThree);
-    const current = getTargetNodeByPath(newRoot, pathStack);
+    const newRoot = deepCopyTree(periNoteData.answerThree);
+    const targetNode = getTargetNodeByPath(newRoot, pathStack);
 
     if (isAddAnswer) {
-      current.children.splice(currentIndex + 1, 0, {
+      targetNode.children.splice(currentIndex + 1, 0, {
         id: uuidv4(),
         type: "answer",
         content: "",
         children: [],
       });
     } else {
-      current.children.push({
+      targetNode.children.push({
         id: uuidv4(),
         type: "question",
         content: "",
@@ -72,7 +76,7 @@ export default function PeriNote(props: PeriNoteProps) {
       });
     }
 
-    setData((current) => ({ ...current, answerThree: newRoot }));
+    setPeriNoteData((current) => ({ ...current, answerThree: newRoot }));
   };
 
   // 임시 저장 or 작성 완료 시에 Uncontrolled Input 의 "내용"을 업데이트 해주는 함수
@@ -80,7 +84,7 @@ export default function PeriNote(props: PeriNoteProps) {
     const obj = getValues();
 
     const keys = Object.keys(obj);
-    const newRoot = deepCopyTree(data.answerThree);
+    const newRoot = deepCopyTree(periNoteData.answerThree);
 
     keys.forEach((key) => {
       const value = obj[key];
@@ -90,23 +94,23 @@ export default function PeriNote(props: PeriNoteProps) {
       current.content = value;
     });
 
-    // data state에도 저장
-    setData((current) => ({ ...current, answerThree: newRoot }));
+    // periNoteData state에도 저장
+    setPeriNoteData((current) => ({ ...current, answerThree: newRoot }));
 
     return newRoot;
   };
 
   const handleSetContent = (value: string, pathStack: number[]) => {
-    const newRoot = deepCopyTree(data.answerThree);
+    const newRoot = deepCopyTree(periNoteData.answerThree);
     const current = getTargetNodeByPath(newRoot, pathStack);
 
     current.content = value;
 
-    setData((current) => ({ ...current, answerThree: newRoot }));
+    setPeriNoteData((current) => ({ ...current, answerThree: newRoot }));
   };
 
   const handleDeleteChild = (pathStack: number[]) => {
-    const newRoot = deepCopyTree(data.answerThree);
+    const newRoot = deepCopyTree(periNoteData.answerThree);
     // 삭제할 때는 자신의 부모를 찾아서 children을 제거
     const parent = getTargetNodeByPath(newRoot, pathStack.slice(0, -1));
 
@@ -116,7 +120,7 @@ export default function PeriNote(props: PeriNoteProps) {
       type: "deleted",
     };
 
-    setData((current) => ({ ...current, answerThree: newRoot }));
+    setPeriNoteData((current) => ({ ...current, answerThree: newRoot }));
   };
 
   // 규민아 이거 ref로 바꿀 수 있을까?
@@ -150,13 +154,15 @@ export default function PeriNote(props: PeriNoteProps) {
 
   useEffect(() => {
     // 모든 질문 리스트가 지워졌을 경우에는 질문 리스트 추가만 가능하게 하고, 작성완료는 불가하게 함
-    if (!data.answerThree.children.length) {
+    if (!periNoteData.answerThree.children.length) {
       setIsPreventedPeriNote({ addQuestion: false, isCompleted: true });
     } else {
       // 질문이 모두 채워져 있으면 addQuestion의 isPrevented를 false
-      if (data.answerThree.children.every((nodeList) => nodeList.content !== "")) {
+      if (periNoteData.answerThree.children.every((nodeList) => nodeList.content !== "")) {
         // 질문이 모두 채워진 상태에서 답변이 채워지면 모두 false
-        if (data.answerThree.children.every((nodeList) => nodeList.children.every((node) => node.content !== ""))) {
+        if (
+          periNoteData.answerThree.children.every((nodeList) => nodeList.children.every((node) => node.content !== ""))
+        ) {
           setIsPreventedPeriNote({ addQuestion: false, isCompleted: false });
         } else {
           // 답변만 비워있으면 isCompleted만 true
@@ -167,16 +173,16 @@ export default function PeriNote(props: PeriNoteProps) {
         setIsPreventedPeriNote({ addQuestion: true, isCompleted: true });
       }
     }
-  }, [data.answerThree]);
+  }, [periNoteData.answerThree]);
 
   // 네비게이션 바 클릭 시 or 저장하기 버튼 클릭 시 isPending: true
-  // 처음 data 를 fetch 하기 전 initialData 가 곧바로 저장되는 현상을 막아줌
+  // 처음 periNoteData 를 fetch 하기 전 initialData 가 곧바로 저장되는 현상을 막아줌
   useEffect(() => {
-    if (data !== initialPeriNoteData && savingProgress.isPending === true) {
+    if (periNoteData !== initialPeriNoteData && savingProgress.isPending === true) {
       const _savingProgress = { isPending: false, isError: false };
 
       try {
-        patchBookNote(`/review/${reviewId}/peri`, { ...data, answerThree: saveStatelessPeriNoteData() });
+        patchBookNote(`/review/${reviewId}/peri`, { ...periNoteData, answerThree: saveStatelessPeriNoteData() });
       } catch {
         _savingProgress.isError = true;
       } finally {
@@ -193,7 +199,7 @@ export default function PeriNote(props: PeriNoteProps) {
     <StNoteForm onClick={toggleMenu}>
       <HeaderLabel handleOpenStepUpModal={handleOpenStepUpModal} handleOpenDrawer={handleOpenDrawer} />
 
-      {data.answerThree.children.map((topQuestionNode, topQuestionIdx) => (
+      {periNoteData.answerThree.children.map((topQuestionNode, topQuestionIdx) => (
         <React.Fragment key={topQuestionNode.id}>
           <TopQuestionContainer
             pathStack={[topQuestionIdx]}
