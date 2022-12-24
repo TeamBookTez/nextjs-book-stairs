@@ -7,7 +7,33 @@
 - deepCopyTree --> immer.js 라이브러리로 치환 예정입니다
 */
 
-import { PeriNoteTreeNode } from "../types/bookNote";
+import { v4 as uuidv4 } from "uuid";
+
+import { PeriNoteData, PeriNoteTreeNode } from "../types/bookNote";
+
+export const initialPeriNoteData: PeriNoteData = {
+  answerThree: {
+    id: uuidv4(),
+    type: "Root",
+    content: "root",
+    children: [
+      {
+        id: uuidv4(),
+        type: "question",
+        content: "",
+        children: [
+          {
+            id: uuidv4(),
+            type: "answer",
+            content: "",
+            children: [],
+          },
+        ],
+      },
+    ],
+  },
+  reviewSt: 3,
+};
 
 export const deepCopyTree = (root: PeriNoteTreeNode): PeriNoteTreeNode => {
   const newRoot = {
@@ -20,7 +46,7 @@ export const deepCopyTree = (root: PeriNoteTreeNode): PeriNoteTreeNode => {
   return newRoot;
 };
 
-export const getNodeByPath = (node: PeriNoteTreeNode, path: number[]): PeriNoteTreeNode => {
+export const getTargetNodeByPath = (node: PeriNoteTreeNode, path: number[]): PeriNoteTreeNode => {
   if (node === undefined) {
     throw new Error("something wrong getting node by path");
   }
@@ -30,5 +56,5 @@ export const getNodeByPath = (node: PeriNoteTreeNode, path: number[]): PeriNoteT
   }
 
   // 다음 step의 node 찾기
-  return getNodeByPath(node.children[path[0]], path.slice(1));
+  return getTargetNodeByPath(node.children[path[0]], path.slice(1));
 };

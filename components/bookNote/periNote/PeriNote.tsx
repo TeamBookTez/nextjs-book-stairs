@@ -20,7 +20,7 @@ import { v4 as uuidv4 } from "uuid";
 import { patchBookNote } from "../../../core/api";
 import { StepUpAndDrawerIdx } from "../../../pages/book-note/[reviewId]";
 import { PeriNoteData, SavingProgress, UseForm } from "../../../types/bookNote";
-import { deepCopyTree, getNodeByPath } from "../../../util/bookNoteTree";
+import { deepCopyTree, getTargetNodeByPath, initialPeriNoteData } from "../../../util/bookNoteTree";
 import useFetchBookNote from "../../../util/hooks/useFetchBookNote";
 import { Loading } from "../../common";
 import { DefaultButton } from "../../common/styled/Button";
@@ -33,30 +33,6 @@ interface PeriNoteProps {
   savingProgress: SavingProgress;
   handleSavingProgress: (obj: SavingProgress) => void;
 }
-
-const initialPeriNoteData: PeriNoteData = {
-  answerThree: {
-    id: uuidv4(),
-    type: "Root",
-    content: "root",
-    children: [
-      {
-        id: uuidv4(),
-        type: "question",
-        content: "",
-        children: [
-          {
-            id: uuidv4(),
-            type: "answer",
-            content: "",
-            children: [],
-          },
-        ],
-      },
-    ],
-  },
-  reviewSt: 3,
-};
 
 export default function PeriNote(props: PeriNoteProps) {
   const { reviewId, handleOpenStepUpModal, handleOpenDrawer, savingProgress, handleSavingProgress } = props;
@@ -71,7 +47,7 @@ export default function PeriNote(props: PeriNoteProps) {
     // currentIndex가 있으면 "answer", 없으면 "question" 추가
     const isAddAnswer = currentIndex !== undefined;
     const newRoot = deepCopyTree(data.answerThree);
-    const current = getNodeByPath(newRoot, pathStack);
+    const current = getTargetNodeByPath(newRoot, pathStack);
 
     if (isAddAnswer) {
       current.children.splice(currentIndex + 1, 0, {
@@ -109,7 +85,7 @@ export default function PeriNote(props: PeriNoteProps) {
     keys.forEach((key) => {
       const value = obj[key];
       const pathKey = key.split(",").map((k) => parseInt(k));
-      const current = getNodeByPath(newRoot, pathKey);
+      const current = getTargetNodeByPath(newRoot, pathKey);
 
       current.content = value;
     });
@@ -122,7 +98,7 @@ export default function PeriNote(props: PeriNoteProps) {
 
   const handleSetContent = (value: string, pathStack: number[]) => {
     const newRoot = deepCopyTree(data.answerThree);
-    const current = getNodeByPath(newRoot, pathStack);
+    const current = getTargetNodeByPath(newRoot, pathStack);
 
     current.content = value;
 
@@ -132,7 +108,7 @@ export default function PeriNote(props: PeriNoteProps) {
   const handleDeleteChild = (pathStack: number[]) => {
     const newRoot = deepCopyTree(data.answerThree);
     // 삭제할 때는 자신의 부모를 찾아서 children을 제거
-    const parent = getNodeByPath(newRoot, pathStack.slice(0, -1));
+    const parent = getTargetNodeByPath(newRoot, pathStack.slice(0, -1));
 
     // parent.children.splice(pathStack[pathStack.length - 1], 1);
     parent.children[pathStack[pathStack.length - 1]] = {
