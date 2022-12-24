@@ -67,11 +67,11 @@ export default function PeriNote(props: PeriNoteProps) {
 
   const [isPreventedPeriNote, setIsPreventedPeriNote] = useState({ addQuestion: true, isCompleted: true });
 
-  const handleAddChild = (path: number[], currentIndex?: number) => {
+  const handleAddChild = (pathStack: number[], currentIndex?: number) => {
     // currentIndex가 있으면 "answer", 없으면 "question" 추가
     const isAddAnswer = currentIndex !== undefined;
     const newRoot = deepCopyTree(data.answerThree);
-    const current = getNodeByPath(newRoot, path);
+    const current = getNodeByPath(newRoot, pathStack);
 
     if (isAddAnswer) {
       current.children.splice(currentIndex + 1, 0, {
@@ -120,22 +120,25 @@ export default function PeriNote(props: PeriNoteProps) {
     return newRoot;
   };
 
-  const handleSetContent = (value: string, path: number[]) => {
+  const handleSetContent = (value: string, pathStack: number[]) => {
     const newRoot = deepCopyTree(data.answerThree);
-    const current = getNodeByPath(newRoot, path);
+    const current = getNodeByPath(newRoot, pathStack);
 
     current.content = value;
 
     setData((current) => ({ ...current, answerThree: newRoot }));
   };
 
-  const handleDeleteChild = (path: number[]) => {
+  const handleDeleteChild = (pathStack: number[]) => {
     const newRoot = deepCopyTree(data.answerThree);
     // 삭제할 때는 자신의 부모를 찾아서 children을 제거
-    const parent = getNodeByPath(newRoot, path.slice(0, -1));
+    const parent = getNodeByPath(newRoot, pathStack.slice(0, -1));
 
-    // parent.children.splice(path[path.length - 1], 1);
-    parent.children[path[path.length - 1]] = { ...parent.children[path[path.length - 1]], type: "deleted" };
+    // parent.children.splice(pathStack[pathStack.length - 1], 1);
+    parent.children[pathStack[pathStack.length - 1]] = {
+      ...parent.children[pathStack[pathStack.length - 1]],
+      type: "deleted",
+    };
 
     setData((current) => ({ ...current, answerThree: newRoot }));
   };
@@ -217,7 +220,7 @@ export default function PeriNote(props: PeriNoteProps) {
       {data.answerThree.children.map((topQuestionNode, topQuestionIdx) => (
         <React.Fragment key={topQuestionNode.id}>
           <TopQuestionContainer
-            path={[topQuestionIdx]}
+            pathStack={[topQuestionIdx]}
             node={topQuestionNode}
             onAddTopAnswer={handleAddChild}
             onDeleteChild={handleDeleteChild}
@@ -227,7 +230,7 @@ export default function PeriNote(props: PeriNoteProps) {
             <TopAnswerContainer
               key={topAnswerNode.id}
               index={topAnswerIdx}
-              path={[topQuestionIdx, topAnswerIdx]}
+              pathStack={[topQuestionIdx, topAnswerIdx]}
               node={topAnswerNode}
               onAddChild={handleAddChild}
               onDeleteChild={handleDeleteChild}
@@ -235,7 +238,7 @@ export default function PeriNote(props: PeriNoteProps) {
               {topAnswerNode.children.map((childQANode, childQAIdx) => (
                 <ChildQANode
                   key={childQANode.id}
-                  path={[topQuestionIdx, topAnswerIdx, childQAIdx]}
+                  pathStack={[topQuestionIdx, topAnswerIdx, childQAIdx]}
                   index={childQAIdx}
                   node={childQANode}
                   onAddChild={handleAddChild}

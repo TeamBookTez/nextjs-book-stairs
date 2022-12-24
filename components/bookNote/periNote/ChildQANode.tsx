@@ -1,7 +1,7 @@
 /*
 마지막 편집자: 22-06-21 joohaem
 변경사항 및 참고:
-  - path: [0, 0, 0, ...], [0, 0, 1, ...] 
+  - pathStack: [0, 0, 0, ...], [0, 0, 1, ...] 
       
 고민점:
   - 
@@ -20,32 +20,32 @@ import { StMoreIcon } from "../../common/styled/Icon";
 import { StMenuWrapper } from "../../common/styled/MenuWrapper";
 
 interface ChildQANodeProps {
-  path: number[];
+  pathStack: number[];
   index: number;
   node: PeriNoteTreeNode;
-  onAddChild: (path: number[], index?: number) => void;
+  onAddChild: (pathStack: number[], index?: number) => void;
   // urgentQuery 제거시, setContent 불필요
-  onSetContent: (value: string, path: number[]) => void;
-  onDeleteChild: (path: number[]) => void;
+  onSetContent: (value: string, pathStack: number[]) => void;
+  onDeleteChild: (pathStack: number[]) => void;
   formController: FormController;
 }
 export default function ChildQANode(props: ChildQANodeProps) {
-  const { path, index, node, onAddChild, onSetContent, onDeleteChild, formController } = props;
+  const { pathStack, index, node, onAddChild, onSetContent, onDeleteChild, formController } = props;
 
-  const { urgentQuery, setUrgentQuery } = useUpdatePeriNote(node.content, path, onSetContent);
+  const { urgentQuery, setUrgentQuery } = useUpdatePeriNote(node.content, pathStack, onSetContent);
   const isDeleted = node.type === "deleted";
   const isQuestion = node.type === "question";
-  const is4Depth = path.length <= 10;
-  const canAddChild = path.length <= 8;
-  const formPathKey = `${path.join(",")}`;
-  const labelColor = labelColorList[(path.length - 1) % 10];
+  const is4Depth = pathStack.length <= 10;
+  const canAddChild = pathStack.length <= 8;
+  const formPathKey = `${pathStack.join(",")}`;
+  const labelColor = labelColorList[(pathStack.length - 1) % 10];
 
   const addChildByEnter = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       // 꼬리질문과 답변은 자신의 아래에 추가하는 것이 아닌 자신의 부모의 children에 추가해야함
-      if (isQuestion) onAddChild(path.slice(0, -1));
-      else onAddChild(path.slice(0, -1), index);
+      if (isQuestion) onAddChild(pathStack.slice(0, -1));
+      else onAddChild(pathStack.slice(0, -1), index);
     }
   };
 
@@ -86,18 +86,18 @@ export default function ChildQANode(props: ChildQANodeProps) {
             onKeyPress={addChildByEnter}
           />
           {isQuestion && (
-            <StAddAnswerButton type="button" onClick={() => onAddChild(path, index + 1)}>
+            <StAddAnswerButton type="button" onClick={() => onAddChild(pathStack, index + 1)}>
               답변
             </StAddAnswerButton>
           )}
           <StMore className="icn_more" />
           <StMenuWrapper>
             {!isQuestion && canAddChild && (
-              <StMenuBtn type="button" onClick={() => onAddChild(path)}>
+              <StMenuBtn type="button" onClick={() => onAddChild(pathStack)}>
                 꼬리질문 추가
               </StMenuBtn>
             )}
-            <StMenuBtn type="button" onClick={() => onDeleteChild(path)}>
+            <StMenuBtn type="button" onClick={() => onDeleteChild(pathStack)}>
               삭제
             </StMenuBtn>
           </StMenuWrapper>
@@ -108,7 +108,7 @@ export default function ChildQANode(props: ChildQANodeProps) {
           node.children.map((node, i) => (
             <ChildQANode
               key={node.id}
-              path={[...path, i]}
+              pathStack={[...pathStack, i]}
               index={i}
               node={node}
               onAddChild={onAddChild}

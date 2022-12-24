@@ -1,12 +1,3 @@
-/*
-마지막 편집자: 22-06-20 joohaem
-변경사항 및 참고:
-  - path: [0, 0], [0, 1], [1, 0], ...
-    
-고민점:
-  - 
-*/
-
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import React, { useEffect, useRef } from "react";
@@ -20,29 +11,29 @@ import { StMenuWrapper } from "../../common/styled/MenuWrapper";
 
 interface TopAnswerContainerProps {
   index: number;
-  path: number[];
+  pathStack: number[];
   node: PeriNoteTreeNode;
-  onAddChild: (path: number[], index?: number) => void;
-  onDeleteChild: (path: number[]) => void;
-  onSetContent: (value: string, path: number[]) => void;
+  onAddChild: (pathStack: number[], index?: number) => void;
+  onDeleteChild: (pathStack: number[]) => void;
+  onSetContent: (value: string, pathStack: number[]) => void;
   children: React.ReactNode;
 }
 
 export default function TopAnswerContainer(props: TopAnswerContainerProps) {
-  const { index, path, node, onAddChild, onDeleteChild, onSetContent, children } = props;
+  const { index, pathStack, node, onAddChild, onDeleteChild, onSetContent, children } = props;
 
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
   const handleChangeSetContent = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     if (e.target.value !== "\n") {
-      onSetContent(e.target.value, path);
+      onSetContent(e.target.value, pathStack);
     }
   };
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
       // add answer (+ index 추가 인자)
-      onAddChild(path.slice(0, -1), index);
+      onAddChild(pathStack.slice(0, -1), index);
     }
   };
 
@@ -69,10 +60,10 @@ export default function TopAnswerContainer(props: TopAnswerContainerProps) {
         />
         <StMore className="icn_more" />
         <StMenuWrapper menuposition="isTopOfQA">
-          <StMenuBtn type="button" onClick={() => onAddChild(path)}>
+          <StMenuBtn type="button" onClick={() => onAddChild(pathStack)}>
             꼬리질문 추가
           </StMenuBtn>
-          <StMenuBtn type="button" onClick={() => onDeleteChild(path)}>
+          <StMenuBtn type="button" onClick={() => onDeleteChild(pathStack)}>
             삭제
           </StMenuBtn>
         </StMenuWrapper>
