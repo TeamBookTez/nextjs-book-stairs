@@ -18,10 +18,10 @@ import { useForm } from "react-hook-form";
 import { v4 as uuidv4 } from "uuid";
 
 import { patchBookNote } from "../../../core/api/api";
+import usePeriNote from "../../../core/api/review/usePeriNote";
 import { StepUpAndDrawerIdx } from "../../../pages/book-note/[reviewId]";
-import { PeriNoteData, SavingProgress, UseForm } from "../../../types/bookNote";
+import { SavingProgress, UseForm } from "../../../types/bookNote";
 import { deepCopyTree, getTargetNodeByPath, initialPeriNoteData } from "../../../util/bookNoteTree";
-import useFetchBookNote from "../../../util/hooks/bookNote/useFetchBookNote";
 import { Loading } from "../../common";
 import { DefaultButton } from "../../common/styled/Button";
 import { ChildQANode, HeaderLabel, PeriNotePostSection, TopAnswerContainer, TopQuestionContainer } from ".";
@@ -37,11 +37,7 @@ interface PeriNoteProps {
 export default function PeriNote(props: PeriNoteProps) {
   const { reviewId, handleOpenStepUpModal, handleOpenDrawer, savingProgress, handleSavingProgress } = props;
 
-  const {
-    data: periNoteData,
-    setData: setPeriNoteData,
-    isLoading,
-  } = useFetchBookNote<PeriNoteData>(`/review/${reviewId}/peri`, initialPeriNoteData);
+  const { periNoteData, setPeriNoteData, isLoading } = usePeriNote(reviewId);
 
   const { getValues, register, setFocus } = useForm<UseForm>();
 

@@ -1,7 +1,7 @@
 /*
-마지막 편집자: 22-06-18 joohaem
+마지막 편집자: 22-12-29 joohaem
 변경사항 및 참고:
-  - axios type 정의 필요함
+  - usePreNote / usePeriNote 설계 후 삭제
     
 고민점:
   - 
