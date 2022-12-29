@@ -4,7 +4,8 @@
   - useFetchBookNote :: PeriNote를 axios 통신으로 패칭함 --> pre/peri 분리
     
 고민점:
-  - POST / DELETE 통신에는 SWR을 어떻게 사용하는가 ..
+  - POST / DELETE 통신에는 SWR을 어떻게 사용하는가
+  - pre/peri note를 전역적으로 관리해야 하는데, SWR 이용이 필요할지? Recoil 이용이 필요할지?
 */
 
 import { useEffect, useState } from "react";
@@ -13,7 +14,7 @@ import { PeriNoteData } from "../../../types/bookNote";
 import { initialPeriNoteData } from "../../../util/bookNoteTree";
 import { baseInstance } from "../axios";
 
-// TODO :: SWR
+// TODO :: SWR? Recoil?
 // TODO :: PATCH 통신하여 저장 toast state 관리
 // TODO :: 같은 방법으로 PreNote 작성
 export default function usePeriNote(reviewId: string) {
