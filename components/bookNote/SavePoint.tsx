@@ -14,7 +14,7 @@
 */
 
 import styled from "@emotion/styled";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 import { IcCheckSave, IcSave } from "../../public/assets/icons";
 import { BookNotePathKey, SavingProgress } from "../../types/bookNote";

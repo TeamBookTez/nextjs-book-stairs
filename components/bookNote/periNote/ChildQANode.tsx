@@ -14,7 +14,7 @@ import reactTextareaAutosize from "react-textarea-autosize";
 
 import { labelColorList } from "../../../core/bookNote/childNodeLabelColor";
 import { FormController, PeriNoteTreeNode } from "../../../types/bookNote";
-import useUpdatePeriNote from "../../../util/hooks/useUpdatePeriNote";
+import useUpdatePeriNote from "../../../util/hooks/bookNote/useUpdatePeriNote";
 import { StAddAnswerButton, StMenuBtn } from "../../common/styled/Button";
 import { StMoreIcon } from "../../common/styled/Icon";
 import { StMenuWrapper } from "../../common/styled/MenuWrapper";

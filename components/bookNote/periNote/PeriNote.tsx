@@ -21,7 +21,7 @@ import { patchBookNote } from "../../../core/api";
 import { StepUpAndDrawerIdx } from "../../../pages/book-note/[reviewId]";
 import { PeriNoteData, SavingProgress, UseForm } from "../../../types/bookNote";
 import { deepCopyTree, getTargetNodeByPath, initialPeriNoteData } from "../../../util/bookNoteTree";
-import useFetchBookNote from "../../../util/hooks/useFetchBookNote";
+import useFetchBookNote from "../../../util/hooks/bookNote/useFetchBookNote";
 import { Loading } from "../../common";
 import { DefaultButton } from "../../common/styled/Button";
 import { ChildQANode, HeaderLabel, PeriNotePostSection, TopAnswerContainer, TopQuestionContainer } from ".";

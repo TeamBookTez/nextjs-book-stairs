@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { patchBookNote } from "../../../core/api";
 import { StepUpAndDrawerIdx } from "../../../pages/book-note/[reviewId]";
 import { BookNotePathKey, PreNoteData, SavingProgress } from "../../../types/bookNote";
-import useFetchBookNote from "../../../util/hooks/useFetchBookNote";
+import useFetchBookNote from "../../../util/hooks/bookNote/useFetchBookNote";
 import { Loading } from "../../common";
 import { LinkToSignUpSection, PreNoteFormContainer, PreNotePostSection, PreNoteThirdArticle } from ".";
 
