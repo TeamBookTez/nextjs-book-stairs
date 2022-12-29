@@ -17,7 +17,7 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { v4 as uuidv4 } from "uuid";
 
-import { patchBookNote } from "../../../core/api";
+import { patchBookNote } from "../../../core/api/api";
 import { StepUpAndDrawerIdx } from "../../../pages/book-note/[reviewId]";
 import { PeriNoteData, SavingProgress, UseForm } from "../../../types/bookNote";
 import { deepCopyTree, getTargetNodeByPath, initialPeriNoteData } from "../../../util/bookNoteTree";

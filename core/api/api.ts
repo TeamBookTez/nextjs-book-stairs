@@ -6,15 +6,16 @@
 고민점:
   - patchBookNote return type 을 지정할까나 ~ 싶습니다
 */
+
 import axios from "axios";
 import useSWR from "swr";
 
-import { KAKAOParams, Response, ResponseDto } from "../types";
-import { BookcaseInfo } from "../types/bookcase";
-import { PeriNoteData, PreNoteData } from "../types/bookNote";
-import { IsValid, UseFormDataType } from "../types/signup";
+import { KAKAOParams, Response, ResponseDto } from "../../types";
+import { BookcaseInfo } from "../../types/bookcase";
+import { PeriNoteData, PreNoteData } from "../../types/bookNote";
+import { IsValid, UseFormDataType } from "../../types/signup";
+import LocalStorage from "../localStorage";
 import { baseInstance, kakaoInstance } from "./axios";
-import LocalStorage from "./localStorage";
 
 export const searchBook = (params: KAKAOParams) => {
   return kakaoInstance.get("/v3/search/book", { params });

@@ -5,7 +5,7 @@ import { Loading } from "../components/common";
 import { MainLayout } from "../components/layout";
 import { MainHeader } from "../components/main";
 import { ServiceContent, UserContent, WithdrawContent } from "../components/myPage";
-import { baseInstance } from "../core/axios";
+import { baseInstance } from "../core/api/axios";
 import useUserInfo from "../util/hooks/useUserInfo";
 
 export default function MyPage() {

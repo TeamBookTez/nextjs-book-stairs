@@ -11,7 +11,7 @@
 */
 import useSWR from "swr";
 
-import { baseInstance } from "../../core/axios";
+import { baseInstance } from "../../core/api/axios";
 import { Response } from "../../types";
 
 interface MyInfo {

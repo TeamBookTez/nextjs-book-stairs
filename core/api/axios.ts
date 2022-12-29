@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import LocalStorage from "./localStorage";
+import LocalStorage from "../localStorage";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 const KAKAO_API_KEY = process.env.NEXT_PUBLIC_KAKAO_API_KEY;
