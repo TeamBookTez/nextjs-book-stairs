@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import Link from "next/link";
 import { useMediaQuery } from "react-responsive";
 
-import { useGetBookInfo } from "../../core/api";
+import { useGetBookInfo } from "../../core/api/api";
 import { BookcaseInfo } from "../../types/bookcase";
 import { BookCard } from "../bookcase";
 import { Empty, Loading } from "../common";

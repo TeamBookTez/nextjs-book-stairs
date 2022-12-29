@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { useEffect, useState } from "react";
 
-import { patchBookNote } from "../../../core/api";
+import { patchBookNote } from "../../../core/api/api";
 import { StepUpAndDrawerIdx } from "../../../pages/book-note/[reviewId]";
 import { BookNotePathKey, PreNoteData, SavingProgress } from "../../../types/bookNote";
 import useFetchBookNote from "../../../util/hooks/bookNote/useFetchBookNote";

@@ -25,7 +25,7 @@ import {
   StNoteModalWrapper,
 } from "../../../components/bookNote/styled/DetailBookNote.styled";
 import { Loading, PopUpDelete } from "../../../components/common";
-import { getData } from "../../../core/api";
+import { getData } from "../../../core/api/api";
 import { navigatingBookInfoState } from "../../../core/atom";
 import { IcDeleteNote, IcModifyNote } from "../../../public/assets/icons";
 import { ReviewData } from "../../../types/bookNote";

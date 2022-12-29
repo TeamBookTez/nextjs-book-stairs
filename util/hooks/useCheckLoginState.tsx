@@ -1,7 +1,7 @@
 // import { useEffect, useState } from "react";
 // import { useRecoilState } from "recoil";
 
-// import { getData } from "../../core/api";
+// import { getData } from "../../core/api/api";
 // import { isLoginState } from "../../core/atom";
 
 // export default function useCheckLoginState() {

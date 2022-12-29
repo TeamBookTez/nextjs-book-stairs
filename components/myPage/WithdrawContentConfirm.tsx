@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { useState } from "react";
 
-import { patchUserWithdraw } from "../../core/api";
+import { patchUserWithdraw } from "../../core/api/api";
 import LocalStorage from "../../core/localStorage";
 import {
   StBtnCancel,

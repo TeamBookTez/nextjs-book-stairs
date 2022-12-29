@@ -19,7 +19,7 @@ import { useState } from "react";
 import { useRecoilValue } from "recoil";
 import { v4 as uuidv4 } from "uuid";
 
-import { patchBookNote } from "../../../core/api";
+import { patchBookNote } from "../../../core/api/api";
 import { navigatingBookInfoState } from "../../../core/atom";
 import { ImgPreBook } from "../../../public/assets/images";
 import { BookNotePathKey, PeriNoteTreeNode, PreNoteData } from "../../../types/bookNote";

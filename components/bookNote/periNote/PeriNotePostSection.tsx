@@ -2,7 +2,7 @@ import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { useState } from "react";
 
-import { patchBookNote } from "../../../core/api";
+import { patchBookNote } from "../../../core/api/api";
 import { BookDetailData, PeriNoteTreeNode } from "../../../types/bookNote";
 import { DefaultButton } from "../../common/styled/Button";
 import { Complete } from ".";
