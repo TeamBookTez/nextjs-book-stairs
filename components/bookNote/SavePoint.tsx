@@ -28,16 +28,10 @@ interface SavePointProps {
 
 export default function SavePoint(props: SavePointProps) {
   const { savingProgress, handleSavingProgress } = props;
-  const { setIsToastAlertTime } = useToast();
-  const [isVisible, setIsVisible] = useState<boolean>(false);
+  const { isToastAlertTime, setIsToastAlertTime } = useToast();
 
   const handleClickSaveBtn = () => {
     handleSavingProgress({ isPending: true, isError: false });
-    setIsVisible(true);
-
-    setTimeout(() => {
-      setIsVisible(false);
-    }, 2000);
   };
 
   useEffect(() => {
@@ -50,7 +44,7 @@ export default function SavePoint(props: SavePointProps) {
 
   return (
     <>
-      {isVisible && (
+      {isToastAlertTime && (
         <StSave>
           <StIcCheckSave />
           작성한 내용이 저장되었어요.

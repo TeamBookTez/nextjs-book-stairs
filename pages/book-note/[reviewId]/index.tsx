@@ -105,7 +105,7 @@ export default function Index() {
       handleSavingProgress({ isPending: true, isError: false });
     });
     handleNavIndex(idx);
-    handleSavingProgress({ isPending: false, isError: false });
+    // handleSavingProgress({ isPending: false, isError: false });
   };
 
   usePreventExit(reviewSt, toggleExitModal, setNavIndex, handleCloseDrawer);
