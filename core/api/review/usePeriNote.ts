@@ -9,16 +9,15 @@
 */
 
 import { useEffect, useState } from "react";
+import { useRecoilState } from "recoil";
 
-import { PeriNoteData } from "../../../types/bookNote";
-import { initialPeriNoteData } from "../../../util/bookNoteTree";
+import { periNoteState } from "../../atom/bookNote";
 import { baseInstance } from "../axios";
 
-// TODO :: SWR? Recoil?
 // TODO :: PATCH 통신하여 저장 toast state 관리
 // TODO :: 같은 방법으로 PreNote 작성
 export default function usePeriNote(reviewId: string) {
-  const [periNoteData, setPeriNoteData] = useState<PeriNoteData>(initialPeriNoteData);
+  const [periNoteData, setPeriNoteData] = useRecoilState(periNoteState);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
