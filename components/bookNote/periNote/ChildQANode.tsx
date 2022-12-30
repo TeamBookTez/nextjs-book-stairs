@@ -12,7 +12,7 @@ import styled from "@emotion/styled";
 import React, { useEffect } from "react";
 import reactTextareaAutosize from "react-textarea-autosize";
 
-import { labelColorList } from "../../../core/bookNote/childNodeLabelColor";
+import { labelColorList } from "../../../core/constant/bookNote/childNodeLabelColor";
 import { FormController, PeriNoteTreeNode } from "../../../types/bookNote";
 import useUpdatePeriNote from "../../../util/hooks/bookNote/useUpdatePeriNote";
 import { StAddAnswerButton, StMenuBtn } from "../../common/styled/Button";

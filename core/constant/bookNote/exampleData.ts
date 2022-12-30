@@ -9,8 +9,8 @@ import {
   ImgPreNoteStepUp21,
   ImgPreNoteStepUp22,
   ImgPreNoteStepUp23,
-} from "../../public/assets/images";
-import { ReviewData, StepUpContent } from "../../types/bookNote";
+} from "../../../public/assets/images";
+import { ReviewData, StepUpContent } from "../../../types/bookNote";
 
 const preNoteStepUp1 = [
   {

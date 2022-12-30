@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import { useRouter } from "next/router";
 import { useCallback, useState } from "react";
 
-import { stepUpContentArray } from "../../../core/bookNote/exampleData";
+import { stepUpContentArray } from "../../../core/constant/bookNote/exampleData";
 import theme from "../../../styles/theme";
 import useUser from "../../../util/hooks/useUser";
 import { LabelQuestion } from "../../common";

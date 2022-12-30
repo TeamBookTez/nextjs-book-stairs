@@ -30,7 +30,7 @@ import { PreNote } from "../../../components/bookNote/preNote";
 import { Loading } from "../../../components/common";
 import { StBookModalWrapper } from "../../../components/common/styled/BookModalWrapper";
 import { navigatingBookInfoState } from "../../../core/atom";
-import { periNoteStepUp, stepUpContentArray } from "../../../core/bookNote/exampleData";
+import { periNoteStepUp, stepUpContentArray } from "../../../core/constant/bookNote/exampleData";
 import { NavigatingBookInfoState } from "../../../types/bookcase";
 import { BookNotePathKey, SavingProgress } from "../../../types/bookNote";
 import useUser from "../../../util/hooks/useUser";

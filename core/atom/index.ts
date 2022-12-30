@@ -1,7 +1,7 @@
 import { atom } from "recoil";
 import { recoilPersist } from "recoil-persist";
 
-import { NavigatingBookInfoState } from "../types/bookcase";
+import { NavigatingBookInfoState } from "../../types/bookcase";
 const { persistAtom } = recoilPersist();
 
 export const isLoginState = atom<boolean>({

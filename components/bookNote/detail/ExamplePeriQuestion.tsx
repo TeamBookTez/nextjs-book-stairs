@@ -9,7 +9,7 @@
 
 import styled from "@emotion/styled";
 
-import { labelColorList } from "../../../core/bookNote/childNodeLabelColor";
+import { labelColorList } from "../../../core/constant/bookNote/childNodeLabelColor";
 import { PeriNoteTreeNode } from "../../../types/bookNote";
 import { LabelQuestion } from "../../common";
 import { StQuestion } from "../../common/styled/PopUp";
