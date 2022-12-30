@@ -234,11 +234,7 @@ export default function PeriNote(props: PeriNoteProps) {
         질문 리스트 추가
       </StAddChildButton>
 
-      <PeriNotePostSection
-        reviewId={reviewId}
-        saveStatelessPeriNoteData={saveStatelessPeriNoteData}
-        isPreventedPeriNoteComplete={isPreventedPeriNote.isCompleted}
-      />
+      <PeriNotePostSection reviewId={reviewId} isPreventedPeriNoteComplete={isPreventedPeriNote.isCompleted} />
     </StNoteForm>
   );
 }

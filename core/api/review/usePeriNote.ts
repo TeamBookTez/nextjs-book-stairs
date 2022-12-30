@@ -9,9 +9,11 @@
 */
 
 import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import { useRecoilState } from "recoil";
 
-import { PeriNoteTreeNode } from "../../../types/bookNote";
+import { UseForm } from "../../../types/bookNote";
+import { deepCopyTree, getTargetNodeByPath } from "../../../util/bookNoteTree";
 import { periNoteState } from "../../atom/bookNote";
 import { baseInstance } from "../axios";
 
@@ -21,9 +23,36 @@ export default function usePeriNote(reviewId: string) {
   const [periNoteData, setPeriNoteData] = useRecoilState(periNoteState);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  async function completePeriNote(dataToPatch: PeriNoteTreeNode) {
+  const { getValues } = useForm<UseForm>();
+
+  // TODO :: useCallback
+  function saveStatelessPeriNoteData() {
+    const obj = getValues();
+
+    const keys = Object.keys(obj);
+    const newRoot = deepCopyTree(periNoteData.answerThree);
+
+    keys.forEach((key) => {
+      const value = obj[key];
+      const pathKey = key.split(",").map((k) => parseInt(k));
+      const current = getTargetNodeByPath(newRoot, pathKey);
+
+      current.content = value;
+    });
+
+    // periNoteData state에도 저장
+    setPeriNoteData((current) => ({ ...current, answerThree: newRoot }));
+
+    return newRoot;
+  }
+
+  async function savePeriNote() {
+    baseInstance.patch(`/review/${reviewId}/peri`, { ...periNoteData, answerThree: saveStatelessPeriNoteData() });
+  }
+
+  async function completePeriNote() {
     const { data } = await baseInstance.patch(`/review/${reviewId}/peri`, {
-      answerThree: dataToPatch,
+      answerThree: saveStatelessPeriNoteData(),
       reviewSt: 4,
     });
 
@@ -48,5 +77,5 @@ export default function usePeriNote(reviewId: string) {
     // };
   }, []);
 
-  return { periNoteData, setPeriNoteData, isLoading, completePeriNote };
+  return { periNoteData, setPeriNoteData, isLoading, savePeriNote, completePeriNote };
 }
