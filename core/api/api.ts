@@ -29,6 +29,7 @@ export const patchUserWithdraw = (key: string) => {
   return baseInstance.patch(key);
 };
 
+// TODO :: pre/peri custom hook 구성 후 제거
 export const patchBookNote = async (key: string, body: PreNoteData | PeriNoteData) => {
   const { data } = await baseInstance.patch(key, body);
 

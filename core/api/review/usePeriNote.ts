@@ -11,6 +11,7 @@
 import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 
+import { PeriNoteTreeNode } from "../../../types/bookNote";
 import { periNoteState } from "../../atom/bookNote";
 import { baseInstance } from "../axios";
 
@@ -20,9 +21,19 @@ export default function usePeriNote(reviewId: string) {
   const [periNoteData, setPeriNoteData] = useRecoilState(periNoteState);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
+  async function completePeriNote(dataToPatch: PeriNoteTreeNode) {
+    const { data } = await baseInstance.patch(`/review/${reviewId}/peri`, {
+      answerThree: dataToPatch,
+      reviewSt: 4,
+    });
+
+    return data;
+  }
+
   useEffect(() => {
     (async function () {
       try {
+        // TODO :: SWR
         const { data } = await baseInstance.get(`/review/${reviewId}/peri`);
 
         setPeriNoteData(data);
@@ -37,5 +48,5 @@ export default function usePeriNote(reviewId: string) {
     // };
   }, []);
 
-  return { periNoteData, setPeriNoteData, isLoading };
+  return { periNoteData, setPeriNoteData, isLoading, completePeriNote };
 }
