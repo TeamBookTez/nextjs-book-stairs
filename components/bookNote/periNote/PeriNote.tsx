@@ -17,11 +17,10 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { v4 as uuidv4 } from "uuid";
 
-import { patchBookNote } from "../../../core/api/api";
 import usePeriNote from "../../../core/api/review/usePeriNote";
 import { StepUpAndDrawerIdx } from "../../../pages/book-note/[reviewId]";
-import { SavingProgress, UseForm } from "../../../types/bookNote";
-import { deepCopyTree, getTargetNodeByPath, initialPeriNoteData } from "../../../util/bookNoteTree";
+import { UseForm } from "../../../types/bookNote";
+import { deepCopyTree, getTargetNodeByPath } from "../../../util/bookNoteTree";
 import { Loading } from "../../common";
 import { DefaultButton } from "../../common/styled/Button";
 import { ChildQANode, HeaderLabel, PeriNotePostSection, TopAnswerContainer, TopQuestionContainer } from ".";
@@ -30,16 +29,14 @@ interface PeriNoteProps {
   reviewId: string;
   handleOpenStepUpModal: (i: StepUpAndDrawerIdx) => void;
   handleOpenDrawer: (i: StepUpAndDrawerIdx) => void;
-  savingProgress: SavingProgress;
-  handleSavingProgress: (obj: SavingProgress) => void;
 }
 
 export default function PeriNote(props: PeriNoteProps) {
-  const { reviewId, handleOpenStepUpModal, handleOpenDrawer, savingProgress, handleSavingProgress } = props;
+  const { reviewId, handleOpenStepUpModal, handleOpenDrawer } = props;
 
   const { periNoteData, setPeriNoteData, isLoading } = usePeriNote(reviewId);
 
-  const { getValues, register, setFocus } = useForm<UseForm>();
+  const { register, setFocus } = useForm<UseForm>();
 
   const [isPreventedPeriNote, setIsPreventedPeriNote] = useState({ addQuestion: true, isCompleted: true });
 
@@ -73,27 +70,6 @@ export default function PeriNote(props: PeriNoteProps) {
     }
 
     setPeriNoteData((current) => ({ ...current, answerThree: newRoot }));
-  };
-
-  // 임시 저장 or 작성 완료 시에 Uncontrolled Input 의 "내용"을 업데이트 해주는 함수
-  const saveStatelessPeriNoteData = () => {
-    const obj = getValues();
-
-    const keys = Object.keys(obj);
-    const newRoot = deepCopyTree(periNoteData.answerThree);
-
-    keys.forEach((key) => {
-      const value = obj[key];
-      const pathKey = key.split(",").map((k) => parseInt(k));
-      const current = getTargetNodeByPath(newRoot, pathKey);
-
-      current.content = value;
-    });
-
-    // periNoteData state에도 저장
-    setPeriNoteData((current) => ({ ...current, answerThree: newRoot }));
-
-    return newRoot;
   };
 
   const handleSetContent = (value: string, pathStack: number[]) => {
@@ -170,22 +146,6 @@ export default function PeriNote(props: PeriNoteProps) {
       }
     }
   }, [periNoteData.answerThree]);
-
-  // 네비게이션 바 클릭 시 or 저장하기 버튼 클릭 시 isPending: true
-  // 처음 periNoteData 를 fetch 하기 전 initialData 가 곧바로 저장되는 현상을 막아줌
-  useEffect(() => {
-    if (periNoteData !== initialPeriNoteData && savingProgress.isPending === true) {
-      const _savingProgress = { isPending: false, isError: false };
-
-      try {
-        patchBookNote(`/review/${reviewId}/peri`, { ...periNoteData, answerThree: saveStatelessPeriNoteData() });
-      } catch {
-        _savingProgress.isError = true;
-      } finally {
-        handleSavingProgress(_savingProgress);
-      }
-    }
-  }, [savingProgress.isPending]);
 
   // --------------------------------------------------------------------------
 

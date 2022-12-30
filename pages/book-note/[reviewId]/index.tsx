@@ -124,13 +124,7 @@ export default function Index() {
         handleSavingProgress={handleSavingProgress}
       />
     ) : (
-      <PeriNote
-        reviewId={reviewId}
-        handleOpenStepUpModal={handleOpenStepUpModal}
-        handleOpenDrawer={handleOpenDrawer}
-        savingProgress={savingProgress}
-        handleSavingProgress={handleSavingProgress}
-      />
+      <PeriNote reviewId={reviewId} handleOpenStepUpModal={handleOpenStepUpModal} handleOpenDrawer={handleOpenDrawer} />
     );
 
   if (isLoginLoading) return <Loading />;
@@ -140,7 +134,12 @@ export default function Index() {
       <BookNoteHeader onClickExitBtn={toggleExitModal}>
         <Navigation navIndex={navIndex} onClickNavList={handleClickNavList} />
         {isLogin && (
-          <SavePoint navIndex={navIndex} savingProgress={savingProgress} handleSavingProgress={handleSavingProgress} />
+          <SavePoint
+            navIndex={navIndex}
+            reviewId={reviewId}
+            savingProgress={savingProgress}
+            handleSavingProgress={handleSavingProgress}
+          />
         )}
       </BookNoteHeader>
 

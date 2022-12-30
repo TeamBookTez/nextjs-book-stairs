@@ -16,22 +16,41 @@
 import styled from "@emotion/styled";
 import { useEffect } from "react";
 
+import usePeriNote from "../../core/api/review/usePeriNote";
 import { IcCheckSave, IcSave } from "../../public/assets/icons";
 import { BookNotePathKey, SavingProgress } from "../../types/bookNote";
 import useToast from "../../util/hooks/useToast";
 
 interface SavePointProps {
   navIndex: BookNotePathKey;
+  reviewId: string;
   savingProgress: SavingProgress;
   handleSavingProgress: (obj: SavingProgress) => void;
 }
 
 export default function SavePoint(props: SavePointProps) {
-  const { savingProgress, handleSavingProgress } = props;
+  const { navIndex, reviewId, savingProgress, handleSavingProgress } = props;
   const { isToastAlertTime, setIsToastAlertTime } = useToast();
+  const { savePeriNote } = usePeriNote(reviewId);
 
-  const handleClickSaveBtn = () => {
+  const handleClickSaveBtn = async () => {
     handleSavingProgress({ isPending: true, isError: false });
+
+    try {
+      switch (navIndex) {
+        case "peri":
+          await savePeriNote();
+          break;
+
+        case "pre":
+          break;
+      }
+
+      setIsToastAlertTime(true);
+    } catch (e) {
+      // TODO :: 에러처리
+      console.log(e);
+    }
   };
 
   useEffect(() => {

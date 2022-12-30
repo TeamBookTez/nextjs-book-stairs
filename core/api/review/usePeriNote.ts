@@ -26,6 +26,7 @@ export default function usePeriNote(reviewId: string) {
   const { getValues } = useForm<UseForm>();
 
   // TODO :: useCallback
+  // 임시 저장 or 작성 완료 시에 Uncontrolled Input 의 "내용"을 업데이트 해주는 함수
   function saveStatelessPeriNoteData() {
     const obj = getValues();
 
