@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { patchBookNote } from "../../../core/api/api";
 import { StepUpAndDrawerIdx } from "../../../pages/book-note/[reviewId]";
 import { BookNotePathKey, PreNoteData, SavingProgress } from "../../../types/bookNote";
+import { initialPreNoteData } from "../../../util/bookNoteTree";
 import useFetchBookNote from "../../../util/hooks/bookNote/useFetchBookNote";
 import { Loading } from "../../common";
 import { LinkToSignUpSection, PreNoteFormContainer, PreNotePostSection, PreNoteThirdArticle } from ".";
@@ -19,14 +20,6 @@ interface PreNoteProps {
   savingProgress: SavingProgress;
   handleSavingProgress: (obj: SavingProgress) => void;
 }
-
-const initialPreNoteData: PreNoteData = {
-  answerOne: "",
-  answerTwo: "",
-  questionList: [""],
-  reviewSt: 2,
-  finishSt: false,
-};
 
 export default function PreNote(props: PreNoteProps) {
   const {
