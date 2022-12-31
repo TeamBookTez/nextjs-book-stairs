@@ -1,10 +1,7 @@
 /*
 마지막 편집자: 22-07-04 soryeongk
 변경사항 및 참고:
-  - savingProgress ::
-    isPending이 true 일 때 저장하기가 실행됩니다
-    결과에 따라 isPending이 false가 되고, isError를 조작합니다
-    isPending이 false가 되고, isError가 false 일 때 저장 완료 토스트가 n초간 나옵니다
+  - 
 
 고민점:
   - recoil persist로 관리되고 있는 아이들을 모두 localStorage로 바꿀 수는 없을까?
@@ -14,7 +11,6 @@
 import { css, keyframes } from "@emotion/react";
 import styled from "@emotion/styled";
 import { useEffect, useState } from "react";
-import { flushSync } from "react-dom";
 import { useRecoilValue } from "recoil";
 
 import {
@@ -29,10 +25,12 @@ import PeriNote from "../../../components/bookNote/periNote/PeriNote";
 import { PreNote } from "../../../components/bookNote/preNote";
 import { Loading } from "../../../components/common";
 import { StBookModalWrapper } from "../../../components/common/styled/BookModalWrapper";
+import usePeriNote from "../../../core/api/review/usePeriNote";
+import usePreNote from "../../../core/api/review/usePreNote";
 import { navigatingBookInfoState } from "../../../core/atom";
 import { periNoteStepUp, stepUpContentArray } from "../../../core/constant/bookNote/exampleData";
 import { NavigatingBookInfoState } from "../../../types/bookcase";
-import { BookNotePathKey, SavingProgress } from "../../../types/bookNote";
+import { BookNotePathKey } from "../../../types/bookNote";
 import useUser from "../../../util/hooks/useUser";
 
 export type StepUpAndDrawerIdx = 1 | 2 | 3 | 4;
@@ -41,9 +39,10 @@ export default function Index() {
   const { isLogin, isLoginLoading } = useUser();
   const { reviewId, reviewSt } = useRecoilValue<NavigatingBookInfoState>(navigatingBookInfoState);
 
-  const [navIndex, setNavIndex] = useState<BookNotePathKey>("pre");
+  const { savePeriNote } = usePeriNote(reviewId);
+  const { savePreNote } = usePreNote(reviewId);
 
-  const [savingProgress, setSavingProgress] = useState<SavingProgress>({ isPending: true, isError: false });
+  const [navIndex, setNavIndex] = useState<BookNotePathKey>("pre");
 
   const [isPreventedPreNote, setIsPreventedPreNote] = useState<boolean>(false);
   const [isExitModalOpen, setIsExitModalOpen] = useState<boolean>(false);
@@ -62,10 +61,6 @@ export default function Index() {
   // 모든 답변이 채워지지 않으면 다음 단계로 이동할 수 없게 하기
   const handlePrevent = (shouldPrevent: boolean) => {
     setIsPreventedPreNote(shouldPrevent);
-  };
-
-  const handleSavingProgress = (obj: SavingProgress) => {
-    setSavingProgress({ ...obj });
   };
 
   const toggleExitModal = () => {
@@ -94,18 +89,20 @@ export default function Index() {
     setDrawerOpenStatus((current) => ({ ...current, isDefault: true }));
   };
 
-  const handleClickNavList = (idx: BookNotePathKey) => {
+  const handleClickNavList = async (idx: BookNotePathKey) => {
     handleDefaultDrawer();
 
     if (idx === "peri" && isPreventedPreNote) return;
 
-    // 토스트가 사라지기 전에 네비게이션이 이동했을 때 저장되지 않는 버그를 막기 위해 flushSync
-    // flushSync로 감싸게 되면 해당 setState에 대해서는 state batch를 막아줌
-    flushSync(() => {
-      handleSavingProgress({ isPending: true, isError: false });
-    });
+    switch (navIndex) {
+      case "pre":
+        await savePreNote();
+        break;
+      case "peri":
+        await savePeriNote();
+        break;
+    }
     handleNavIndex(idx);
-    // handleSavingProgress({ isPending: false, isError: false });
   };
 
   usePreventExit(reviewSt, toggleExitModal, setNavIndex, handleCloseDrawer);
@@ -120,8 +117,6 @@ export default function Index() {
         isPreventedPreNote={isPreventedPreNote}
         handlePrevent={handlePrevent}
         handleNavIndex={handleNavIndex}
-        savingProgress={savingProgress}
-        handleSavingProgress={handleSavingProgress}
       />
     ) : (
       <PeriNote reviewId={reviewId} handleOpenStepUpModal={handleOpenStepUpModal} handleOpenDrawer={handleOpenDrawer} />
@@ -133,14 +128,7 @@ export default function Index() {
     <StBookNoteContainer openstatus={drawerOpenStatus} width={drawerWidthValue}>
       <BookNoteHeader onClickExitBtn={toggleExitModal}>
         <Navigation navIndex={navIndex} onClickNavList={handleClickNavList} />
-        {isLogin && (
-          <SavePoint
-            navIndex={navIndex}
-            reviewId={reviewId}
-            savingProgress={savingProgress}
-            handleSavingProgress={handleSavingProgress}
-          />
-        )}
+        {isLogin && <SavePoint navIndex={navIndex} reviewId={reviewId} />}
       </BookNoteHeader>
 
       {bookNoteComponent}

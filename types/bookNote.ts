@@ -50,11 +50,6 @@ export interface StepUpContent {
   imgAlt: string;
 }
 
-export interface SavingProgress {
-  isPending: boolean;
-  isError: boolean;
-}
-
 // react-hook-form의 useForm type (string of path)
 export interface UseForm {
   [key: string]: string;

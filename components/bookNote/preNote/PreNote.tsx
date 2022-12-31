@@ -1,11 +1,9 @@
 import styled from "@emotion/styled";
 import { useEffect, useState } from "react";
 
-import { patchPreNoteData } from "../../../core/api/api";
 import usePreNote from "../../../core/api/review/usePreNote";
 import { StepUpAndDrawerIdx } from "../../../pages/book-note/[reviewId]";
-import { BookNotePathKey, SavingProgress } from "../../../types/bookNote";
-import { initialPreNoteData } from "../../../util/bookNoteTree";
+import { BookNotePathKey } from "../../../types/bookNote";
 import { Loading } from "../../common";
 import { LinkToSignUpSection, PreNoteFormContainer, PreNotePostSection, PreNoteThirdArticle } from ".";
 
@@ -17,8 +15,6 @@ interface PreNoteProps {
   isPreventedPreNote: boolean;
   handlePrevent: (shouldPrevent: boolean) => void;
   handleNavIndex: (idx: BookNotePathKey) => void;
-  savingProgress: SavingProgress;
-  handleSavingProgress: (obj: SavingProgress) => void;
 }
 
 export default function PreNote(props: PreNoteProps) {
@@ -30,8 +26,6 @@ export default function PreNote(props: PreNoteProps) {
     isPreventedPreNote,
     handlePrevent,
     handleNavIndex,
-    savingProgress,
-    handleSavingProgress,
   } = props;
 
   const { preNoteData, setPreNoteData, isLoading } = usePreNote(reviewId);
@@ -72,24 +66,6 @@ export default function PreNote(props: PreNoteProps) {
       setIsFilledOnlyThree(false);
     }
   }, [preNoteData]);
-
-  // 네비게이션 바 클릭 시 or 저장하기 버튼 클릭 시 isPending: true
-  // 처음 preNoteData 를 fetch 하기 전 initialData 가 곧바로 저장되는 현상을 막아줌
-  useEffect(() => {
-    if (preNoteData !== initialPreNoteData && savingProgress.isPending === true) {
-      const _savingProgress = { isPending: false, isError: false };
-
-      try {
-        patchPreNoteData(reviewId, preNoteData);
-      } catch {
-        _savingProgress.isError = true;
-      } finally {
-        handleSavingProgress(_savingProgress);
-      }
-    }
-  }, [savingProgress.isPending]);
-
-  // --------------------------------------------------------------------------
 
   if (isLoading) return <Loading />;
 

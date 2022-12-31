@@ -1,65 +1,34 @@
-/*
-마지막 편집자: 22-05-27 joohaem
-변경사항 및 참고:
-  {isSave && (
-    <StSave>
-      <StIcCheckSave />
-      작성한 내용이 저장되었어요.
-    </StSave>
-  )}
-  {isLogin && <StIcSave onClick={() => setIsSave(true)} id="btn_save" />}
-    
-고민점:
-  - 
-*/
-
 import styled from "@emotion/styled";
-import { useEffect } from "react";
 
 import usePeriNote from "../../core/api/review/usePeriNote";
+import usePreNote from "../../core/api/review/usePreNote";
 import { IcCheckSave, IcSave } from "../../public/assets/icons";
-import { BookNotePathKey, SavingProgress } from "../../types/bookNote";
+import { BookNotePathKey } from "../../types/bookNote";
 import useToast from "../../util/hooks/useToast";
 
 interface SavePointProps {
   navIndex: BookNotePathKey;
   reviewId: string;
-  savingProgress: SavingProgress;
-  handleSavingProgress: (obj: SavingProgress) => void;
 }
 
 export default function SavePoint(props: SavePointProps) {
-  const { navIndex, reviewId, savingProgress, handleSavingProgress } = props;
+  const { navIndex, reviewId } = props;
   const { isToastAlertTime, setIsToastAlertTime } = useToast();
   const { savePeriNote } = usePeriNote(reviewId);
+  const { savePreNote } = usePreNote(reviewId);
 
   const handleClickSaveBtn = async () => {
-    handleSavingProgress({ isPending: true, isError: false });
-
-    try {
-      switch (navIndex) {
-        case "peri":
-          await savePeriNote();
-          break;
-
-        case "pre":
-          break;
-      }
-
-      setIsToastAlertTime(true);
-    } catch (e) {
-      // TODO :: 에러처리
-      console.log(e);
+    switch (navIndex) {
+      case "pre":
+        await savePreNote();
+        break;
+      case "peri":
+        await savePeriNote();
+        break;
     }
+
+    setIsToastAlertTime(true);
   };
-
-  useEffect(() => {
-    if (savingProgress.isPending === false && savingProgress.isError === false) {
-      setIsToastAlertTime(true);
-    } else {
-      setIsToastAlertTime(false);
-    }
-  }, [savingProgress]);
 
   return (
     <>
