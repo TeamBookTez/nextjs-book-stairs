@@ -19,7 +19,7 @@ import { useState } from "react";
 
 import usePreNote from "../../../core/api/review/usePreNote";
 import { ImgPreBook } from "../../../public/assets/images";
-import { BookNotePathKey, PreNoteData } from "../../../types/bookNote";
+import { BookNotePathKey } from "../../../types/bookNote";
 import { DefaultButton } from "../../common/styled/Button";
 import { ImageWrapper } from "../../common/styled/Img";
 import {
@@ -34,14 +34,13 @@ import {
 
 interface PreNotePostSectionProps {
   reviewId: string;
-  bookNoteData: PreNoteData;
-  isFilled: boolean;
+  isDisabledNextButton: boolean;
   handlePrevent: (shouldPrevent: boolean) => void;
   handleNavIndex: (idx: BookNotePathKey) => void;
 }
 
 export default function PreNotePostSection(props: PreNotePostSectionProps) {
-  const { reviewId, isFilled, bookNoteData, handlePrevent, handleNavIndex } = props;
+  const { reviewId, isDisabledNextButton, handlePrevent, handleNavIndex } = props;
 
   const { completePreNote } = usePreNote(reviewId);
 
@@ -62,10 +61,7 @@ export default function PreNotePostSection(props: PreNotePostSectionProps) {
 
   return (
     <>
-      <StNextBtn
-        type="button"
-        disabled={!isFilled || bookNoteData.questionList.length === 0}
-        onClick={() => setIsOpenedModal(true)}>
+      <StNextBtn type="button" disabled={isDisabledNextButton} onClick={() => setIsOpenedModal(true)}>
         다음 계단
       </StNextBtn>
 

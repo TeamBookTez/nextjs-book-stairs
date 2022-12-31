@@ -25,7 +25,6 @@ export default function usePreNote(reviewId: string) {
     if (preNoteData.reviewSt === 2) {
       // 독서 전 상태라면, 독서 중 상태로 변경하고 질문리스트를 독서 중으로 넘겨준다
       await patchPreNoteData(reviewId, { ...preNoteData, reviewSt: 3 });
-      console.log("preNoteData", preNoteData);
 
       const questionFromPre: PeriNoteTreeNode[] = [];
 

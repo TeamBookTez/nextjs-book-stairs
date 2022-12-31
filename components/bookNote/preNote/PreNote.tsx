@@ -139,8 +139,7 @@ export default function PreNote(props: PreNoteProps) {
 
       <PreNotePostSection
         reviewId={reviewId}
-        bookNoteData={preNoteData}
-        isFilled={isFilled}
+        isDisabledNextButton={!isFilled || preNoteData.questionList.length === 0}
         handlePrevent={handlePrevent}
         handleNavIndex={handleNavIndex}
       />
