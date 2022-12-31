@@ -19,7 +19,6 @@ import { periNoteState } from "../../atom/bookNote";
 import { patchPeriNoteData } from "../api";
 import { baseInstance } from "../axios";
 
-// TODO :: 같은 방법으로 PreNote 작성
 export default function usePeriNote(reviewId: string) {
   const [periNoteData, setPeriNoteData] = useRecoilState(periNoteState);
   const [isLoading, setIsLoading] = useState(true);
@@ -62,7 +61,7 @@ export default function usePeriNote(reviewId: string) {
   useEffect(() => {
     (async function () {
       try {
-        // TODO :: SWR
+        // TODO :: SWR? selector?
         const { data } = await baseInstance.get(`/review/${reviewId}/peri`);
 
         setPeriNoteData(data);

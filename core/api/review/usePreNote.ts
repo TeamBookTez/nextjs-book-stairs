@@ -69,7 +69,7 @@ export default function usePreNote(reviewId: string) {
   useEffect(() => {
     (async function () {
       try {
-        // TODO :: SWR
+        // TODO :: SWR? selector?
         const { data } = await baseInstance.get(`/review/${reviewId}/pre`);
 
         setPreNoteData(data);
