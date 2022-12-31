@@ -4,7 +4,7 @@
   - 후에 관리가 불편하다면, 파일을 폴더로 묶어 page 별로 나누는 것 고려해주십시오!
     
 고민점:
-  - patchBookNote return type 을 지정할까나 ~ 싶습니다
+  - 
 */
 
 import axios from "axios";
@@ -29,9 +29,14 @@ export const patchUserWithdraw = (key: string) => {
   return baseInstance.patch(key);
 };
 
-// TODO :: pre/peri custom hook 구성 후 제거
-export const patchBookNote = async (key: string, body: PreNoteData | PeriNoteData) => {
-  const { data } = await baseInstance.patch(key, body);
+export const patchPreNoteData = async (reviewId: string, body: PreNoteData) => {
+  const { data } = await baseInstance.patch(`/review/${reviewId}/pre`, body);
+
+  return data;
+};
+
+export const patchPeriNoteData = async (reviewId: string, body: PeriNoteData) => {
+  const { data } = await baseInstance.patch(`/review/${reviewId}/peri`, body);
 
   return data;
 };

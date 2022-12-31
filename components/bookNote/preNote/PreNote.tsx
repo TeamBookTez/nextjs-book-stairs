@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { useEffect, useState } from "react";
 
-import { patchBookNote } from "../../../core/api/api";
+import { patchPreNoteData } from "../../../core/api/api";
 import usePreNote from "../../../core/api/review/usePreNote";
 import { StepUpAndDrawerIdx } from "../../../pages/book-note/[reviewId]";
 import { BookNotePathKey, SavingProgress } from "../../../types/bookNote";
@@ -80,7 +80,7 @@ export default function PreNote(props: PreNoteProps) {
       const _savingProgress = { isPending: false, isError: false };
 
       try {
-        patchBookNote(`/review/${reviewId}/pre`, preNoteData);
+        patchPreNoteData(reviewId, preNoteData);
       } catch {
         _savingProgress.isError = true;
       } finally {
@@ -138,6 +138,7 @@ export default function PreNote(props: PreNoteProps) {
       </StFormWrapper>
 
       <PreNotePostSection
+        reviewId={reviewId}
         bookNoteData={preNoteData}
         isFilled={isFilled}
         handlePrevent={handlePrevent}

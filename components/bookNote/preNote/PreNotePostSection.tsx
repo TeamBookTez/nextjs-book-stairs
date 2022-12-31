@@ -16,13 +16,10 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { useState } from "react";
-import { useRecoilValue } from "recoil";
-import { v4 as uuidv4 } from "uuid";
 
-import { patchBookNote } from "../../../core/api/api";
-import { navigatingBookInfoState } from "../../../core/atom";
+import usePreNote from "../../../core/api/review/usePreNote";
 import { ImgPreBook } from "../../../public/assets/images";
-import { BookNotePathKey, PeriNoteTreeNode, PreNoteData } from "../../../types/bookNote";
+import { BookNotePathKey, PreNoteData } from "../../../types/bookNote";
 import { DefaultButton } from "../../common/styled/Button";
 import { ImageWrapper } from "../../common/styled/Img";
 import {
@@ -36,6 +33,7 @@ import {
 } from "../../common/styled/PopUp";
 
 interface PreNotePostSectionProps {
+  reviewId: string;
   bookNoteData: PreNoteData;
   isFilled: boolean;
   handlePrevent: (shouldPrevent: boolean) => void;
@@ -43,51 +41,15 @@ interface PreNotePostSectionProps {
 }
 
 export default function PreNotePostSection(props: PreNotePostSectionProps) {
-  const { isFilled, bookNoteData, handlePrevent, handleNavIndex } = props;
+  const { reviewId, isFilled, bookNoteData, handlePrevent, handleNavIndex } = props;
 
-  const navigatingBookInfo = useRecoilValue(navigatingBookInfoState);
-  const { reviewId } = navigatingBookInfo;
+  const { completePreNote } = usePreNote(reviewId);
 
   const [isOpenedModal, setIsOpenedModal] = useState<boolean>(false);
 
   const handleSubmit = async () => {
     try {
-      if (bookNoteData.reviewSt === 2) {
-        // 독서 전 상태라면, 독서 중 상태로 변경하고 질문리스트를 독서 중으로 넘겨준다
-        await patchBookNote(`/review/${reviewId}/pre`, { ...bookNoteData, reviewSt: 3 });
-
-        const questionFromPre: PeriNoteTreeNode[] = [];
-
-        bookNoteData.questionList.map((content) => {
-          questionFromPre.push({
-            id: uuidv4(),
-            type: "question",
-            content,
-            children: [
-              {
-                id: uuidv4(),
-                type: "answer",
-                content: "",
-                children: [],
-              },
-            ],
-          });
-        });
-
-        await patchBookNote(`review/${reviewId}/peri`, {
-          answerThree: {
-            id: uuidv4(),
-            type: "Root",
-            content: "root",
-            children: questionFromPre,
-          },
-          reviewSt: 3,
-          finishSt: false,
-        });
-      } else {
-        // 독서 전 상태가 아니라면, 독서 전 데이터만 수정한다
-        await patchBookNote(`/review/${reviewId}/pre`, bookNoteData);
-      }
+      completePreNote();
 
       // flushsync 필요하면 사용해야 함!
       handlePrevent(false);

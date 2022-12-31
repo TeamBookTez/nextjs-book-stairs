@@ -16,6 +16,7 @@ import { useRecoilState } from "recoil";
 import { UseForm } from "../../../types/bookNote";
 import { deepCopyTree, getTargetNodeByPath } from "../../../util/bookNoteTree";
 import { periNoteState } from "../../atom/bookNote";
+import { patchPeriNoteData } from "../api";
 import { baseInstance } from "../axios";
 
 // TODO :: 같은 방법으로 PreNote 작성
@@ -47,11 +48,11 @@ export default function usePeriNote(reviewId: string) {
   }
 
   async function savePeriNote() {
-    baseInstance.patch(`/review/${reviewId}/peri`, { ...periNoteData, answerThree: saveStatelessPeriNoteData() });
+    patchPeriNoteData(reviewId, { ...periNoteData, answerThree: saveStatelessPeriNoteData() });
   }
 
   async function completePeriNote() {
-    const { data } = await baseInstance.patch(`/review/${reviewId}/peri`, {
+    const { data } = await patchPeriNoteData(reviewId, {
       answerThree: saveStatelessPeriNoteData(),
       reviewSt: 4,
     });
