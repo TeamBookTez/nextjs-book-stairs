@@ -1,7 +1,7 @@
 /*
 마지막 편집자: 22-12-29 joohaem
 변경사항 및 참고:
-  - useFetchBookNote :: PeriNote를 axios 통신으로 패칭함 --> pre/peri 분리
+  - 
     
 고민점:
   - POST / DELETE 통신에는 SWR을 어떻게 사용하는가
@@ -20,7 +20,7 @@ import { baseInstance } from "../axios";
 // TODO :: 같은 방법으로 PreNote 작성
 export default function usePeriNote(reviewId: string) {
   const [periNoteData, setPeriNoteData] = useRecoilState(periNoteState);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState(true);
 
   const { getValues } = useForm<UseForm>();
 
