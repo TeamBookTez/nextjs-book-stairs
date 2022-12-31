@@ -32,6 +32,8 @@ export default function PeriNotePostSection(props: PeriNotePostSectionProps) {
   const submitPeriNote = async () => {
     const res: BookDetailResponse = await completePeriNote();
 
+    console.log(res);
+
     setBookDetailData(res.bookData);
     setIsOpenSubmitModal(true);
   };

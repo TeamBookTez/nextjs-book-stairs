@@ -47,17 +47,15 @@ export default function usePeriNote(reviewId: string) {
     return newRoot;
   }
 
-  async function savePeriNote() {
+  function savePeriNote() {
     patchPeriNoteData(reviewId, { ...periNoteData, answerThree: saveStatelessPeriNoteData() });
   }
 
-  async function completePeriNote() {
-    const { data } = await patchPeriNoteData(reviewId, {
+  function completePeriNote() {
+    return patchPeriNoteData(reviewId, {
       answerThree: saveStatelessPeriNoteData(),
       reviewSt: 4,
     });
-
-    return data;
   }
 
   // TODO :: Recoil async selector + Suspense

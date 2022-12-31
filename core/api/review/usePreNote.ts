@@ -22,8 +22,8 @@ export default function usePreNote(reviewId: string) {
   const [preNoteData, setPreNoteData] = useRecoilState(preNoteState);
   const [isLoading, setIsLoading] = useState(true);
 
-  async function savePreNote() {
-    await patchPreNoteData(reviewId, preNoteData);
+  function savePreNote() {
+    patchPreNoteData(reviewId, preNoteData);
   }
 
   async function completePreNote() {
@@ -54,7 +54,7 @@ export default function usePreNote(reviewId: string) {
       });
     });
 
-    await patchPeriNoteData(reviewId, {
+    patchPeriNoteData(reviewId, {
       answerThree: {
         id: uuidv4(),
         type: "Root",
