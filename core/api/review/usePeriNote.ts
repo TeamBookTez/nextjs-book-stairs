@@ -4,6 +4,7 @@
   - 
     
 고민점:
+  - core/api/review 에 api 함수 추상화 후에, 해당 훅을 util/hooks/bookNote로 옮김이 어떨까
   - POST / DELETE 통신에는 SWR을 어떻게 사용하는가
   - pre/peri note를 전역적으로 관리해야 하는데, SWR 이용이 필요할지? Recoil 이용이 필요할지?
 */
