@@ -17,7 +17,6 @@ import { deepCopyTree, getTargetNodeByPath } from "../../../util/bookNoteTree";
 import { periNoteState } from "../../atom/bookNote";
 import { baseInstance } from "../axios";
 
-// TODO :: PATCH 통신하여 저장 toast state 관리
 // TODO :: 같은 방법으로 PreNote 작성
 export default function usePeriNote(reviewId: string) {
   const [periNoteData, setPeriNoteData] = useRecoilState(periNoteState);
@@ -25,7 +24,6 @@ export default function usePeriNote(reviewId: string) {
 
   const { getValues } = useForm<UseForm>();
 
-  // TODO :: useCallback
   // 임시 저장 or 작성 완료 시에 Uncontrolled Input 의 "내용"을 업데이트 해주는 함수
   function saveStatelessPeriNoteData() {
     const obj = getValues();
@@ -60,6 +58,7 @@ export default function usePeriNote(reviewId: string) {
     return data;
   }
 
+  // TODO :: Recoil async selector + Suspense
   useEffect(() => {
     (async function () {
       try {
