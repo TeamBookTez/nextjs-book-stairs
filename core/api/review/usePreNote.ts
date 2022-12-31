@@ -15,10 +15,10 @@ import { v4 as uuidv4 } from "uuid";
 
 import { PeriNoteTreeNode } from "../../../types/bookNote";
 import { preNoteState } from "../../atom/bookNote";
-import { patchPeriNoteData, patchPreNoteData } from "../api";
-import { baseInstance } from "../axios";
+import { getPreNoteData, patchPeriNoteData, patchPreNoteData } from "./api";
 
 export default function usePreNote(reviewId: string) {
+  //   const [preNoteData, setPreNoteData] = useRecoilState(preNoteSelector(reviewId));
   const [preNoteData, setPreNoteData] = useRecoilState(preNoteState);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -70,7 +70,7 @@ export default function usePreNote(reviewId: string) {
     (async function () {
       try {
         // TODO :: SWR? selector?
-        const { data } = await baseInstance.get(`/review/${reviewId}/pre`);
+        const data = await getPreNoteData(reviewId);
 
         setPreNoteData(data);
       } finally {

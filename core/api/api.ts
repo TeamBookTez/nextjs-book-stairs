@@ -12,7 +12,6 @@ import useSWR from "swr";
 
 import { KAKAOParams, Response, ResponseDto } from "../../types";
 import { BookcaseInfo } from "../../types/bookcase";
-import { PeriNoteData, PreNoteData } from "../../types/bookNote";
 import { IsValid, UseFormDataType } from "../../types/signup";
 import LocalStorage from "../localStorage";
 import { baseInstance, kakaoInstance } from "./axios";
@@ -27,18 +26,6 @@ export const getData = (key: string) => {
 
 export const patchUserWithdraw = (key: string) => {
   return baseInstance.patch(key);
-};
-
-export const patchPreNoteData = async (reviewId: string, body: PreNoteData) => {
-  const { data } = await baseInstance.patch(`/review/${reviewId}/pre`, body);
-
-  return data;
-};
-
-export const patchPeriNoteData = async (reviewId: string, body: PeriNoteData) => {
-  const { data } = await baseInstance.patch(`/review/${reviewId}/peri`, body);
-
-  return data;
 };
 
 export const deleteData = (key: string) => {
