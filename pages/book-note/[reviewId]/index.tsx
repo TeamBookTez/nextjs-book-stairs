@@ -10,7 +10,7 @@
 
 import { css, keyframes } from "@emotion/react";
 import styled from "@emotion/styled";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 
 import {
@@ -126,12 +126,15 @@ export default function Index() {
 
   return (
     <StBookNoteContainer openstatus={drawerOpenStatus} width={drawerWidthValue}>
-      <BookNoteHeader onClickExitBtn={toggleExitModal}>
-        <Navigation navIndex={navIndex} onClickNavList={handleClickNavList} />
-        {isLogin && <SavePoint navIndex={navIndex} reviewId={reviewId} />}
-      </BookNoteHeader>
+      <Suspense fallback={<Loading />}>
+        {/* TODO :: ErrorBoundary */}
+        <BookNoteHeader onClickExitBtn={toggleExitModal}>
+          <Navigation navIndex={navIndex} onClickNavList={handleClickNavList} />
+          {isLogin && <SavePoint navIndex={navIndex} reviewId={reviewId} />}
+        </BookNoteHeader>
 
-      {bookNoteComponent}
+        {bookNoteComponent}
+      </Suspense>
 
       {drawerOpenStatus.isOpened && (
         <DrawerWrapper stepUpAndDrawerIdx={stepUpAndDrawerIdx} onCloseDrawer={handleCloseDrawer} />

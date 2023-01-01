@@ -14,13 +14,13 @@ import { useRecoilState } from "recoil";
 import { v4 as uuidv4 } from "uuid";
 
 import { PeriNoteTreeNode } from "../../../types/bookNote";
-import { preNoteState } from "../../atom/bookNote";
+import { preNoteSelector, preNoteState } from "../../atom/bookNote";
 import { getPreNoteData, patchPeriNoteData, patchPreNoteData } from "./api";
 
 export default function usePreNote(reviewId: string) {
-  //   const [preNoteData, setPreNoteData] = useRecoilState(preNoteSelector(reviewId));
-  const [preNoteData, setPreNoteData] = useRecoilState(preNoteState);
-  const [isLoading, setIsLoading] = useState(true);
+  const [preNoteData, setPreNoteData] = useRecoilState(preNoteSelector(reviewId));
+  // const [preNoteData, setPreNoteData] = useRecoilState(preNoteState);
+  const [isLoading, setIsLoading] = useState(false);
 
   function savePreNote() {
     patchPreNoteData(reviewId, preNoteData);
@@ -66,23 +66,23 @@ export default function usePreNote(reviewId: string) {
   }
 
   // TODO :: Recoil async selector + Suspense
-  useEffect(() => {
-    (async function () {
-      try {
-        // TODO :: SWR? selector?
-        const data = await getPreNoteData(reviewId);
+  // useEffect(() => {
+  //   (async function () {
+  //     try {
+  //       // TODO :: SWR? selector?
+  //       const data = await getPreNoteData(reviewId);
 
-        setPreNoteData(data);
-      } finally {
-        setIsLoading(false);
-      }
-    })();
+  //       setPreNoteData(data);
+  //     } finally {
+  //       setIsLoading(false);
+  //     }
+  //   })();
 
-    // return function cleanup() {
-    //   setPeriNoteData(initialState);
-    //   setIsLoading(false);
-    // };
-  }, []);
+  //   // return function cleanup() {
+  //   //   setPeriNoteData(initialState);
+  //   //   setIsLoading(false);
+  //   // };
+  // }, []);
 
   return { preNoteData, setPreNoteData, isLoading, savePreNote, completePreNote };
 }

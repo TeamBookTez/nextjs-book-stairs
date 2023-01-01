@@ -12,35 +12,32 @@ enum StateType {
   PRE_NOTE_SELECTOR = "preNoteSelector",
 }
 
-// export const preNoteSelector = atomFamily<PreNoteData, string>({
-//   key: `${StateType.PRE_NOTE_SELECTOR}/${v1()}`,
-//   default: async (reviewId) => {
-//     try {
-
-//       const data = await getPreNoteData(reviewId);
-      
-//       return data;
-//     }
-//     catch(e) {
-//       return initialPreNoteData;
-//     }
-//   },
-// });
-
-// TODO :: Suspense / ErrorBoundary(메이커스) 필요
-// TODO :: cachePolicy_UNSTABLE :: 캐시 무효화 기술 확인
-// 혹은 구독하는 atom 을 만들어, 북노트에 들어올 때 캐싱을 다시 하도록 구현
-export const preNoteSelector = selectorFamily<PreNoteData, string>({
+// TODO :: 북노트 mount or unmount 시에 refresh 필요
+export const preNoteSelector = atomFamily<PreNoteData, string>({
   key: `${StateType.PRE_NOTE_SELECTOR}/${v1()}`,
-  get: (reviewId) => async () => {
-    const data = await getPreNoteData(reviewId);
-
-    return data;
-  },
-  set: (reviewId) => ({ set }, newValue) => {
-    set(preNoteSelector(reviewId), newValue);
+  default: async (reviewId) => {
+    try {
+      const data = await getPreNoteData(reviewId);
+      
+      return data;
+    }
+    catch(e) {
+      return initialPreNoteData;
+    }
   },
 });
+
+// export const preNoteSelector = selectorFamily<PreNoteData, string>({
+//   key: `${StateType.PRE_NOTE_SELECTOR}/${v1()}`,
+//   get: (reviewId) => async () => {
+//     const data = await getPreNoteData(reviewId);
+
+//     return data;
+//   },
+//   set: (reviewId) => ({ set }, newValue) => {
+//     set(preNoteSelector(reviewId), newValue);
+//   },
+// });
 
 export const preNoteState = atom<PreNoteData>({
   key: `${StateType.PRE_NOTE_STATE}/${v1()}`,
