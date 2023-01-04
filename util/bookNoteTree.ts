@@ -9,15 +9,7 @@
 
 import { v4 as uuidv4 } from "uuid";
 
-import { PeriNoteData, PeriNoteTreeNode, PreNoteData } from "../types/bookNote";
-
-export const initialPreNoteData: PreNoteData = {
-  answerOne: "",
-  answerTwo: "",
-  questionList: [""],
-  reviewSt: 2,
-  finishSt: false,
-};
+import { PeriNoteData, PeriNoteTreeNode } from "../types/bookNote";
 
 export const initialPeriNoteData: PeriNoteData = {
   answerThree: {
