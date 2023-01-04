@@ -17,6 +17,7 @@ import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { useState } from "react";
 import { useRecoilValue } from "recoil";
+import { v4 as uuidv4 } from "uuid";
 
 import { patchBookNote } from "../../../core/api";
 import { navigatingBookInfoState } from "../../../core/atom";
@@ -59,14 +60,23 @@ export default function PreNotePostSection(props: PreNotePostSectionProps) {
 
         bookNoteData.questionList.map((content) => {
           questionFromPre.push({
+            id: uuidv4(),
             type: "question",
             content,
-            children: [{ type: "answer", content: "", children: [] }],
+            children: [
+              {
+                id: uuidv4(),
+                type: "answer",
+                content: "",
+                children: [],
+              },
+            ],
           });
         });
 
         await patchBookNote(`review/${reviewId}/peri`, {
           answerThree: {
+            id: uuidv4(),
             type: "Root",
             content: "root",
             children: questionFromPre,

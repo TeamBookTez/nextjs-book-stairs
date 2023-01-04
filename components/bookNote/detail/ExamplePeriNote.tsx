@@ -32,16 +32,20 @@ export default function ExamplePeriNote(props: ExamplePreNoteProps) {
       {answerThree.children &&
         answerThree.children.map((question, index) => (
           <React.Fragment key={index}>
-            <StFirstQuestion>
-              <LabelQuestion bgColor={theme.colors.orange000} />
-              {question.content ? question.content : "질문"}
-              <StIcToggle onClick={handleToggle} />
-            </StFirstQuestion>
-            <div>
-              {question.children.map((node, idx) => (
-                <ExamplePeriQuestion key={idx} node={node} path={[idx]} onToggle={handleToggle} />
-              ))}
-            </div>
+            {question.type !== "deleted" && (
+              <>
+                <StFirstQuestion>
+                  <LabelQuestion bgColor={theme.colors.orange000} />
+                  {question.content ? question.content : "질문"}
+                  <StIcToggle onClick={handleToggle} />
+                </StFirstQuestion>
+                <div>
+                  {question.children.map((node, idx) => (
+                    <ExamplePeriQuestion key={idx} node={node} path={[idx]} onToggle={handleToggle} />
+                  ))}
+                </div>
+              </>
+            )}
           </React.Fragment>
         ))}
     </StExampleWrapper>

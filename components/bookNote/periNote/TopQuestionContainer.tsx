@@ -1,12 +1,3 @@
-/*
-마지막 편집자: 22-06-20 joohaem
-변경사항 및 참고:
-  - path: [0], [1], [2], ...
-    
-고민점:
-  - 
-*/
-
 import styled from "@emotion/styled";
 import { useEffect, useRef } from "react";
 import reactTextareaAutosize from "react-textarea-autosize";
@@ -18,15 +9,15 @@ import { StMoreIcon } from "../../common/styled/Icon";
 import { StMenuWrapper } from "../../common/styled/MenuWrapper";
 
 interface TopQuestionContainerProps {
-  path: number[];
+  pathStack: number[];
   node: PeriNoteTreeNode;
-  onAddTopAnswer: (path: number[], currentIndex: number) => void;
-  onDeleteChild: (path: number[]) => void;
-  onSetContent: (value: string, path: number[]) => void;
+  onAddTopAnswer: (pathStack: number[], currentIndex: number) => void;
+  onDeleteChild: (pathStack: number[]) => void;
+  onSetContent: (value: string, pathStack: number[]) => void;
 }
 
 export default function TopQuestionContainer(props: TopQuestionContainerProps) {
-  const { path, node, onAddTopAnswer, onDeleteChild, onSetContent } = props;
+  const { pathStack, node, onAddTopAnswer, onDeleteChild, onSetContent } = props;
 
   // 큰 답변 추가시 사용되는 index는 현재 큰질문의 index가 아닌 답변의 개수
   const currentIndex = node.children.length - 1;
@@ -35,13 +26,13 @@ export default function TopQuestionContainer(props: TopQuestionContainerProps) {
 
   const handleContent = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     if (e.target.value !== "\n") {
-      onSetContent(e.target.value, path);
+      onSetContent(e.target.value, pathStack);
     }
   };
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
-      onAddTopAnswer(path, currentIndex);
+      onAddTopAnswer(pathStack, currentIndex);
     }
   };
 
@@ -66,12 +57,12 @@ export default function TopQuestionContainer(props: TopQuestionContainerProps) {
           onChange={handleContent}
           onKeyPress={handleKeyPress}
         />
-        <StAddAnswerButton type="button" onClick={() => onAddTopAnswer(path, currentIndex)}>
+        <StAddAnswerButton type="button" onClick={() => onAddTopAnswer(pathStack, currentIndex)}>
           답변
         </StAddAnswerButton>
         <StMoreIcon className="icn_more" />
         <StMenuWrapper menuposition="isTopOfQA">
-          <StMenuBtn type="button" onClick={() => onDeleteChild(path)}>
+          <StMenuBtn type="button" onClick={() => onDeleteChild(pathStack)}>
             삭제
           </StMenuBtn>
         </StMenuWrapper>

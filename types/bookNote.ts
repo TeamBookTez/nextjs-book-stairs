@@ -8,7 +8,8 @@ const bookNotePathKey = {
 export type BookNotePathKey = typeof bookNotePathKey[keyof typeof bookNotePathKey];
 
 export interface PeriNoteTreeNode {
-  type: "Root" | "question" | "answer";
+  id: string;
+  type: "Root" | "question" | "answer" | "deleted";
   content: string;
   children: PeriNoteTreeNode[];
 }

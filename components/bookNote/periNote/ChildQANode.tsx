@@ -1,7 +1,7 @@
 /*
 마지막 편집자: 22-06-21 joohaem
 변경사항 및 참고:
-  - path: [0, 0, 0, ...], [0, 0, 1, ...] 
+  - pathStack: [0, 0, 0, ...], [0, 0, 1, ...] 
       
 고민점:
   - 
@@ -20,27 +20,32 @@ import { StMoreIcon } from "../../common/styled/Icon";
 import { StMenuWrapper } from "../../common/styled/MenuWrapper";
 
 interface ChildQANodeProps {
-  path: number[];
+  pathStack: number[];
   index: number;
   node: PeriNoteTreeNode;
-  onAddChild: (path: number[], index?: number) => void;
-  onSetContent: (value: string, path: number[]) => void;
-  onDeleteChild: (path: number[]) => void;
+  onAddChild: (pathStack: number[], index?: number) => void;
+  // urgentQuery 제거시, setContent 불필요
+  onSetContent: (value: string, pathStack: number[]) => void;
+  onDeleteChild: (pathStack: number[]) => void;
   formController: FormController;
 }
 export default function ChildQANode(props: ChildQANodeProps) {
-  const { path, index, node, onAddChild, onSetContent, onDeleteChild, formController } = props;
-  const { urgentQuery, setUrgentQuery } = useUpdatePeriNote(node.content, path, onSetContent);
+  const { pathStack, index, node, onAddChild, onSetContent, onDeleteChild, formController } = props;
+
+  const { urgentQuery, setUrgentQuery } = useUpdatePeriNote(node.content, pathStack, onSetContent);
+  const isDeleted = node.type === "deleted";
   const isQuestion = node.type === "question";
-  const inputKey = `${path.join(",")}`;
-  const labelColor = labelColorList[(path.length - 1) % 10];
+  const is4Depth = pathStack.length <= 10;
+  const canAddChild = pathStack.length <= 8;
+  const formPathKey = `${pathStack.join(",")}`;
+  const labelColor = labelColorList[(pathStack.length - 1) % 10];
 
   const addChildByEnter = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       // 꼬리질문과 답변은 자신의 아래에 추가하는 것이 아닌 자신의 부모의 children에 추가해야함
-      if (isQuestion) onAddChild(path.slice(0, -1));
-      else onAddChild(path.slice(0, -1), index + 1);
+      if (isQuestion) onAddChild(pathStack.slice(0, -1));
+      else onAddChild(pathStack.slice(0, -1), index);
     }
   };
 
@@ -50,13 +55,17 @@ export default function ChildQANode(props: ChildQANodeProps) {
     }
   };
 
+  // 마지막 생성된 컴포넌트에 focusing
   useEffect(() => {
-    // 마지막 생성된 컴포넌트에 focusing
-    path.length <= 10 && formController.setFocus(inputKey);
-  }, [formController.setFocus]);
+    if (isDeleted) return;
+
+    is4Depth && formController.setFocus(formPathKey);
+  }, []);
+
+  if (isDeleted) return <></>;
 
   // 후에 레이아웃 문제에 대비하여 4뎁스 제한
-  if (path.length > 10) return null;
+  if (!is4Depth) return null;
 
   return (
     <>
@@ -69,26 +78,26 @@ export default function ChildQANode(props: ChildQANodeProps) {
         )}
         <StInputWrapper isquestion={isQuestion}>
           <StInput
-            {...formController.register(inputKey)}
+            {...formController.register(formPathKey)}
             defaultValue={node.content}
-            value={urgentQuery}
             placeholder={`${isQuestion ? "질문" : "답변"}을 입력해주세요.`}
+            value={urgentQuery}
             onChange={handleContent}
             onKeyPress={addChildByEnter}
           />
           {isQuestion && (
-            <StAddAnswerButton type="button" onClick={() => onAddChild(path, index + 1)}>
+            <StAddAnswerButton type="button" onClick={() => onAddChild(pathStack, index + 1)}>
               답변
             </StAddAnswerButton>
           )}
           <StMore className="icn_more" />
           <StMenuWrapper>
-            {!isQuestion && path.length < 10 && (
-              <StMenuBtn type="button" onClick={() => onAddChild(path)}>
+            {!isQuestion && canAddChild && (
+              <StMenuBtn type="button" onClick={() => onAddChild(pathStack)}>
                 꼬리질문 추가
               </StMenuBtn>
             )}
-            <StMenuBtn type="button" onClick={() => onDeleteChild(path)}>
+            <StMenuBtn type="button" onClick={() => onDeleteChild(pathStack)}>
               삭제
             </StMenuBtn>
           </StMenuWrapper>
@@ -98,8 +107,8 @@ export default function ChildQANode(props: ChildQANodeProps) {
         {node.children &&
           node.children.map((node, i) => (
             <ChildQANode
-              key={`childQANode-${i}`}
-              path={[...path, i]}
+              key={node.id}
+              pathStack={[...pathStack, i]}
               index={i}
               node={node}
               onAddChild={onAddChild}

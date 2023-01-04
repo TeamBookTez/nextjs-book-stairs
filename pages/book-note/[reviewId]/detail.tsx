@@ -15,6 +15,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
+import { v4 as uuidv4 } from "uuid";
 
 import { DetailArticleWrapper, ExamplePeriNote } from "../../../components/bookNote/detail";
 import ExamplePreNote from "../../../components/bookNote/detail/ExamplePreNote";
@@ -34,7 +35,12 @@ export default function Detail() {
     bookTitle: "",
     answerOne: "",
     answerTwo: "",
-    answerThree: { type: "Root", content: "root", children: [] },
+    answerThree: {
+      id: uuidv4(),
+      type: "Root",
+      content: "root",
+      children: [],
+    },
     questionList: [""],
   });
   const [isPopUp, setIsPopUp] = useState(false);
