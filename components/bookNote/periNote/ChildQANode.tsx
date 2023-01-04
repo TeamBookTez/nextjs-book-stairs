@@ -32,6 +32,7 @@ interface ChildQANodeProps {
 export default function ChildQANode(props: ChildQANodeProps) {
   const { pathStack, index, node, onAddChild, onSetContent, onDeleteChild, formController } = props;
 
+  // TODO :: state 제거
   const { urgentQuery, setUrgentQuery } = useUpdatePeriNote(node.content, pathStack, onSetContent);
   const isDeleted = node.type === "deleted";
   const isQuestion = node.type === "question";
