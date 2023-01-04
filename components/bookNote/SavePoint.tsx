@@ -1,56 +1,38 @@
-/*
-마지막 편집자: 22-05-27 joohaem
-변경사항 및 참고:
-  {isSave && (
-    <StSave>
-      <StIcCheckSave />
-      작성한 내용이 저장되었어요.
-    </StSave>
-  )}
-  {isLogin && <StIcSave onClick={() => setIsSave(true)} id="btn_save" />}
-    
-고민점:
-  - 
-*/
-
 import styled from "@emotion/styled";
-import { useEffect, useState } from "react";
 
+import usePeriNote from "../../core/api/review/usePeriNote";
+import usePreNote from "../../core/api/review/usePreNote";
 import { IcCheckSave, IcSave } from "../../public/assets/icons";
-import { BookNotePathKey, SavingProgress } from "../../types/bookNote";
+import { BookNotePathKey } from "../../types/bookNote";
 import useToast from "../../util/hooks/useToast";
 
 interface SavePointProps {
   navIndex: BookNotePathKey;
-  savingProgress: SavingProgress;
-  handleSavingProgress: (obj: SavingProgress) => void;
+  reviewId: string;
 }
 
 export default function SavePoint(props: SavePointProps) {
-  const { savingProgress, handleSavingProgress } = props;
-  const { setIsToastAlertTime } = useToast();
-  const [isVisible, setIsVisible] = useState<boolean>(false);
+  const { navIndex, reviewId } = props;
+  const { isToastAlertTime, setIsToastAlertTime } = useToast();
+  const { savePeriNote } = usePeriNote(reviewId);
+  const { savePreNote } = usePreNote(reviewId);
 
-  const handleClickSaveBtn = () => {
-    handleSavingProgress({ isPending: true, isError: false });
-    setIsVisible(true);
-
-    setTimeout(() => {
-      setIsVisible(false);
-    }, 2000);
-  };
-
-  useEffect(() => {
-    if (savingProgress.isPending === false && savingProgress.isError === false) {
-      setIsToastAlertTime(true);
-    } else {
-      setIsToastAlertTime(false);
+  const handleClickSaveBtn = async () => {
+    switch (navIndex) {
+      case "pre":
+        await savePreNote();
+        break;
+      case "peri":
+        await savePeriNote();
+        break;
     }
-  }, [savingProgress]);
+
+    setIsToastAlertTime(true);
+  };
 
   return (
     <>
-      {isVisible && (
+      {isToastAlertTime && (
         <StSave>
           <StIcCheckSave />
           작성한 내용이 저장되었어요.

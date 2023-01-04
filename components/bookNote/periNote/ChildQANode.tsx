@@ -12,9 +12,9 @@ import styled from "@emotion/styled";
 import React, { useEffect } from "react";
 import reactTextareaAutosize from "react-textarea-autosize";
 
-import { labelColorList } from "../../../core/bookNote/childNodeLabelColor";
+import { labelColorList } from "../../../core/constant/bookNote/childNodeLabelColor";
 import { FormController, PeriNoteTreeNode } from "../../../types/bookNote";
-import useUpdatePeriNote from "../../../util/hooks/useUpdatePeriNote";
+import useUpdatePeriNote from "../../../util/hooks/bookNote/useUpdatePeriNote";
 import { StAddAnswerButton, StMenuBtn } from "../../common/styled/Button";
 import { StMoreIcon } from "../../common/styled/Icon";
 import { StMenuWrapper } from "../../common/styled/MenuWrapper";
@@ -32,6 +32,7 @@ interface ChildQANodeProps {
 export default function ChildQANode(props: ChildQANodeProps) {
   const { pathStack, index, node, onAddChild, onSetContent, onDeleteChild, formController } = props;
 
+  // TODO :: state 제거
   const { urgentQuery, setUrgentQuery } = useUpdatePeriNote(node.content, pathStack, onSetContent);
   const isDeleted = node.type === "deleted";
   const isQuestion = node.type === "question";

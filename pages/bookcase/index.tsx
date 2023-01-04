@@ -7,7 +7,7 @@ import Navigation from "../../components/bookcase/Navigation";
 import { Loading } from "../../components/common";
 import { MainLayout } from "../../components/layout";
 import { MainHeader } from "../../components/main";
-import { useGetBookInfo } from "../../core/api";
+import { useGetBookInfo } from "../../core/api/api";
 import { navigatingBookInfoState } from "../../core/atom";
 import { BookcasePathKey } from "../../types/bookcase";
 import useUser from "../../util/hooks/useUser";

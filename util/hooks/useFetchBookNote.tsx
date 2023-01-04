@@ -9,7 +9,7 @@
 
 import { useEffect, useState } from "react";
 
-import { baseInstance } from "../../core/axios";
+import { baseInstance } from "../../core/api/axios";
 
 export default function useFetchBookNote<T>(key: string, initialState: T) {
   const [data, setData] = useState<T>(initialState);

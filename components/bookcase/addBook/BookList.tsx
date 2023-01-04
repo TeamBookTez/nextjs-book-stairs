@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import { useState } from "react";
 import { useSetRecoilState } from "recoil";
 
-import { checkIsBookExist } from "../../../core/api";
+import { checkIsBookExist } from "../../../core/api/api";
 import { navigatingBookInfoState } from "../../../core/atom";
 import { BookInfo } from "../../../pages/bookcase/add-book";
 import useToast from "../../../util/hooks/useToast";

@@ -5,7 +5,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useSWRConfig } from "swr";
 
-import { login } from "../../core/api";
+import { login } from "../../core/api/api";
 import { UseFormDataType } from "../../types/signup";
 import { emailErrorPatterns, passwordErrorPatterns } from "../../util/check";
 import { AlertLabel } from "../common";

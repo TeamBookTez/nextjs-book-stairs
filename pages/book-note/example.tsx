@@ -16,7 +16,7 @@ import {
   StStepModalWrapper,
 } from "../../components/bookNote/styled/DetailBookNote.styled";
 import { Loading } from "../../components/common";
-import { periNoteStepUp, reviewData } from "../../core/bookNote/exampleData";
+import { periNoteStepUp, reviewData } from "../../core/constant/bookNote/exampleData";
 import useUser from "../../util/hooks/useUser";
 
 export default function Example() {

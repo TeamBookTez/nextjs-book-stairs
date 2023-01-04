@@ -13,7 +13,7 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
-import { baseInstance } from "../../core/axios";
+import { baseInstance } from "../../core/api/axios";
 import LocalStorage from "../../core/localStorage";
 import { ImgSignUpFinish } from "../../public/assets/images";
 import { imageLoader } from "../../util/imageLoader";

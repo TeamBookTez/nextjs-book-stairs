@@ -18,7 +18,7 @@ import { useForm } from "react-hook-form";
 import { NavHeader } from "../../components/common";
 import { StSignupHeading2, StSignupImage, StSignupParagraph } from "../../components/common/styled/Signup";
 import { SignupForm } from "../../components/signup";
-import { checkIsValid, signup } from "../../core/api";
+import { checkIsValid, signup } from "../../core/api/api";
 import LocalStorage from "../../core/localStorage";
 import { ImgSignupFirst, ImgSignupSecond, ImgSignupThird } from "../../public/assets/images";
 import theme from "../../styles/theme";

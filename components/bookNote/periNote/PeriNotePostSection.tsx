@@ -2,14 +2,13 @@ import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { useState } from "react";
 
-import { patchBookNote } from "../../../core/api";
-import { BookDetailData, PeriNoteTreeNode } from "../../../types/bookNote";
+import usePeriNote from "../../../core/api/review/usePeriNote";
+import { BookDetailData } from "../../../types/bookNote";
 import { DefaultButton } from "../../common/styled/Button";
 import { Complete } from ".";
 
 interface PeriNotePostSectionProps {
   reviewId: string;
-  saveStatelessPeriNoteData: () => PeriNoteTreeNode;
   isPreventedPeriNoteComplete: boolean;
 }
 
@@ -18,9 +17,10 @@ interface BookDetailResponse {
 }
 
 export default function PeriNotePostSection(props: PeriNotePostSectionProps) {
-  const { reviewId, saveStatelessPeriNoteData, isPreventedPeriNoteComplete } = props;
+  const { reviewId, isPreventedPeriNoteComplete } = props;
 
-  const [isOpenSubmitModal, SetIsOpenSubmitModal] = useState<boolean>(false);
+  const { completePeriNote } = usePeriNote(reviewId);
+  const [isOpenSubmitModal, setIsOpenSubmitModal] = useState<boolean>(false);
   const [bookDetailData, setBookDetailData] = useState<BookDetailData>({
     author: [""],
     publicationDt: "",
@@ -29,16 +29,11 @@ export default function PeriNotePostSection(props: PeriNotePostSectionProps) {
     translator: [""],
   });
 
-  const submitPeriNote = () => {
-    const dataToPatch = saveStatelessPeriNoteData();
+  const submitPeriNote = async () => {
+    const res: BookDetailResponse = await completePeriNote();
 
-    patchBookNote(`/review/${reviewId}/peri`, {
-      answerThree: dataToPatch,
-      reviewSt: 4,
-    }).then((res: BookDetailResponse) => {
-      setBookDetailData(res.bookData);
-      SetIsOpenSubmitModal(true);
-    });
+    setBookDetailData(res.bookData);
+    setIsOpenSubmitModal(true);
   };
 
   return (
