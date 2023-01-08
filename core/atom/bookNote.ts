@@ -19,7 +19,15 @@ export const preNoteState = atom<PreNoteData>({
 
 export const preNoteSelector = atomFamily<PreNoteData, string>({
   key: `${StateType.PRE_NOTE_SELECTOR}/${v1()}`,
-  default: getPreNoteData,
+  default: async (reviewId) => {
+    try {
+      const data = await getPreNoteData(reviewId);
+
+      return data;
+    } catch (e) {
+      return initialPreNoteData;
+    }
+  },
 });
 
 export const periNoteState = atom<PeriNoteData>({
@@ -29,5 +37,13 @@ export const periNoteState = atom<PeriNoteData>({
 
 export const periNoteSelector = atomFamily<PeriNoteData, string>({
   key: `${StateType.PERI_NOTE_SELECTOR}/${v1()}`,
-  default: getPeriNoteData,
+  default: async (reviewId) => {
+    try {
+      const data = await getPeriNoteData(reviewId);
+
+      return data;
+    } catch (e) {
+      return initialPeriNoteData;
+    }
+  },
 });

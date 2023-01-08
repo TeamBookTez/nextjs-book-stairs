@@ -10,7 +10,7 @@
 
 import { css, keyframes } from "@emotion/react";
 import styled from "@emotion/styled";
-import { Suspense, useEffect, useState } from "react";
+import { ComponentProps, Suspense, useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 
 import {
@@ -96,10 +96,10 @@ export default function Index() {
 
     switch (navIndex) {
       case "pre":
-        await savePreNote();
+        savePreNote();
         break;
       case "peri":
-        await savePeriNote();
+        savePeriNote();
         break;
     }
     handleNavIndex(idx);
@@ -126,7 +126,7 @@ export default function Index() {
 
   return (
     <StBookNoteContainer openstatus={drawerOpenStatus} width={drawerWidthValue}>
-      <Suspense fallback={<Loading />}>
+      <SSRSafeSuspense fallback={<Loading />}>
         {/* TODO :: ErrorBoundary */}
         <BookNoteHeader onClickExitBtn={toggleExitModal}>
           <Navigation navIndex={navIndex} onClickNavList={handleClickNavList} />
@@ -134,7 +134,7 @@ export default function Index() {
         </BookNoteHeader>
 
         {bookNoteComponent}
-      </Suspense>
+      </SSRSafeSuspense>
 
       {drawerOpenStatus.isOpened && (
         <DrawerWrapper stepUpAndDrawerIdx={stepUpAndDrawerIdx} onCloseDrawer={handleCloseDrawer} />
@@ -150,6 +150,28 @@ export default function Index() {
       )}
     </StBookNoteContainer>
   );
+}
+
+type Props = ComponentProps<typeof Suspense>;
+
+export function SSRSafeSuspense({ fallback, children }: Props) {
+  const isMounted = useIsMounted();
+
+  if (isMounted) {
+    return <Suspense fallback={fallback}>{children}</Suspense>;
+  }
+
+  return <>{fallback}</>;
+}
+
+function useIsMounted() {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  return mounted;
 }
 
 const reducewidth = (width: number) => keyframes`

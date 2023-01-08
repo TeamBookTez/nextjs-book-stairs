@@ -1,8 +1,8 @@
 import styled from "@emotion/styled";
 
-import usePeriNote from "../../util/hooks/bookNote/usePeriNote";
 import { IcCheckSave, IcSave } from "../../public/assets/icons";
 import { BookNotePathKey } from "../../types/bookNote";
+import usePeriNote from "../../util/hooks/bookNote/usePeriNote";
 import usePreNote from "../../util/hooks/bookNote/usePreNote";
 import useToast from "../../util/hooks/useToast";
 
@@ -20,10 +20,10 @@ export default function SavePoint(props: SavePointProps) {
   const handleClickSaveBtn = async () => {
     switch (navIndex) {
       case "pre":
-        await savePreNote();
+        savePreNote();
         break;
       case "peri":
-        await savePeriNote();
+        savePeriNote();
         break;
     }
 
