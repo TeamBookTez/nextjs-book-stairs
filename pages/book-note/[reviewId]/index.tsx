@@ -26,11 +26,11 @@ import { PreNote } from "../../../components/bookNote/preNote";
 import { Loading } from "../../../components/common";
 import { StBookModalWrapper } from "../../../components/common/styled/BookModalWrapper";
 import usePeriNote from "../../../core/api/review/usePeriNote";
-import usePreNote from "../../../core/api/review/usePreNote";
 import { navigatingBookInfoState } from "../../../core/atom";
 import { periNoteStepUp, stepUpContentArray } from "../../../core/constant/bookNote/exampleData";
 import { NavigatingBookInfoState } from "../../../types/bookcase";
 import { BookNotePathKey } from "../../../types/bookNote";
+import usePreNote from "../../../util/hooks/bookNote/usePreNote";
 import useUser from "../../../util/hooks/useUser";
 
 export type StepUpAndDrawerIdx = 1 | 2 | 3 | 4;

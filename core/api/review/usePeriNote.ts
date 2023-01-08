@@ -17,7 +17,7 @@ import { UseForm } from "../../../types/bookNote";
 import { deepCopyTree, getTargetNodeByPath } from "../../../util/bookNoteTree";
 import { periNoteState } from "../../atom/bookNote";
 import { baseInstance } from "../axios";
-import { patchPeriNoteData } from "./api";
+import { patchPeriNoteData } from ".";
 
 export default function usePeriNote(reviewId: string) {
   const [periNoteData, setPeriNoteData] = useRecoilState(periNoteState);

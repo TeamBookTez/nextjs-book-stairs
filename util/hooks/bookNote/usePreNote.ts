@@ -4,23 +4,19 @@
   - 
     
 고민점:
-  - core/api/review 에 api 함수 추상화 후에, 해당 훅을 util/hooks/bookNote로 옮김이 어떨까
   - 독서 전/독서 중 한 번에 PATCH 하는 API :: https://www.notion.so/life-racer/3649c9da08354c90b90c4ad1ab6a287e
 
 */
 
-import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import { v4 as uuidv4 } from "uuid";
 
+import { patchPeriNoteData, patchPreNoteData } from "../../../core/api/review";
+import { preNoteSelector } from "../../../core/atom/bookNote";
 import { PeriNoteTreeNode } from "../../../types/bookNote";
-import { preNoteSelector, preNoteState } from "../../atom/bookNote";
-import { getPreNoteData, patchPeriNoteData, patchPreNoteData } from "./api";
 
 export default function usePreNote(reviewId: string) {
   const [preNoteData, setPreNoteData] = useRecoilState(preNoteSelector(reviewId));
-  // const [preNoteData, setPreNoteData] = useRecoilState(preNoteState);
-  const [isLoading, setIsLoading] = useState(false);
 
   function savePreNote() {
     patchPreNoteData(reviewId, preNoteData);
@@ -65,24 +61,5 @@ export default function usePreNote(reviewId: string) {
     });
   }
 
-  // TODO :: Recoil async selector + Suspense
-  // useEffect(() => {
-  //   (async function () {
-  //     try {
-  //       // TODO :: SWR? selector?
-  //       const data = await getPreNoteData(reviewId);
-
-  //       setPreNoteData(data);
-  //     } finally {
-  //       setIsLoading(false);
-  //     }
-  //   })();
-
-  //   // return function cleanup() {
-  //   //   setPeriNoteData(initialState);
-  //   //   setIsLoading(false);
-  //   // };
-  // }, []);
-
-  return { preNoteData, setPreNoteData, isLoading, savePreNote, completePreNote };
+  return { preNoteData, setPreNoteData, savePreNote, completePreNote };
 }

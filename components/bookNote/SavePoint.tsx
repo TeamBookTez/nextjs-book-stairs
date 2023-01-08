@@ -1,9 +1,9 @@
 import styled from "@emotion/styled";
 
 import usePeriNote from "../../core/api/review/usePeriNote";
-import usePreNote from "../../core/api/review/usePreNote";
 import { IcCheckSave, IcSave } from "../../public/assets/icons";
 import { BookNotePathKey } from "../../types/bookNote";
+import usePreNote from "../../util/hooks/bookNote/usePreNote";
 import useToast from "../../util/hooks/useToast";
 
 interface SavePointProps {
