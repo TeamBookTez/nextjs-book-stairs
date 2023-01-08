@@ -10,10 +10,10 @@
 import { useForm } from "react-hook-form";
 import { useRecoilState } from "recoil";
 
+import { patchPeriNoteData } from "../../../core/api/review";
+import { periNoteSelector } from "../../../core/atom/bookNote";
 import { UseForm } from "../../../types/bookNote";
-import { deepCopyTree, getTargetNodeByPath } from "../../../util/bookNoteTree";
-import { periNoteSelector } from "../../atom/bookNote";
-import { patchPeriNoteData } from ".";
+import { deepCopyTree, getTargetNodeByPath } from "../../bookNoteTree";
 
 export default function usePeriNote(reviewId: string) {
   const [periNoteData, setPeriNoteData] = useRecoilState(periNoteSelector(reviewId));
