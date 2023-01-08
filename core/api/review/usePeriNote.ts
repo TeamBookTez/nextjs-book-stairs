@@ -4,24 +4,19 @@
   - 
     
 고민점:
-  - core/api/review 에 api 함수 추상화 후에, 해당 훅을 util/hooks/bookNote로 옮김이 어떨까
   - POST / DELETE 통신에는 SWR을 어떻게 사용하는가
-  - pre/peri note를 전역적으로 관리해야 하는데, SWR 이용이 필요할지? Recoil 이용이 필요할지?
 */
 
-import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRecoilState } from "recoil";
 
 import { UseForm } from "../../../types/bookNote";
 import { deepCopyTree, getTargetNodeByPath } from "../../../util/bookNoteTree";
-import { periNoteState } from "../../atom/bookNote";
-import { baseInstance } from "../axios";
+import { periNoteSelector } from "../../atom/bookNote";
 import { patchPeriNoteData } from ".";
 
 export default function usePeriNote(reviewId: string) {
-  const [periNoteData, setPeriNoteData] = useRecoilState(periNoteState);
-  const [isLoading, setIsLoading] = useState(true);
+  const [periNoteData, setPeriNoteData] = useRecoilState(periNoteSelector(reviewId));
 
   const { getValues } = useForm<UseForm>();
 
@@ -57,24 +52,5 @@ export default function usePeriNote(reviewId: string) {
     });
   }
 
-  // TODO :: Recoil async selector + Suspense
-  useEffect(() => {
-    (async function () {
-      try {
-        // TODO :: SWR? selector?
-        const { data } = await baseInstance.get(`/review/${reviewId}/peri`);
-
-        setPeriNoteData(data);
-      } finally {
-        setIsLoading(false);
-      }
-    })();
-
-    // return function cleanup() {
-    //   setPeriNoteData(initialState);
-    //   setIsLoading(false);
-    // };
-  }, []);
-
-  return { periNoteData, setPeriNoteData, isLoading, savePeriNote, completePeriNote };
+  return { periNoteData, setPeriNoteData, savePeriNote, completePeriNote };
 }

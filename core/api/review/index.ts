@@ -7,6 +7,12 @@ export const getPreNoteData = async (reviewId: string) => {
   return data;
 };
 
+export const getPeriNoteData = async (reviewId: string) => {
+  const { data } = await baseInstance.get(`/review/${reviewId}/peri`);
+
+  return data;
+};
+
 export const patchPreNoteData = async (reviewId: string, body: PreNoteData) => {
   const { data } = await baseInstance.patch(`/review/${reviewId}/pre`, body);
 
