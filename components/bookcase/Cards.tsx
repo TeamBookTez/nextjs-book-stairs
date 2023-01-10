@@ -1,24 +1,29 @@
 import styled from "@emotion/styled";
+import { useContext } from "react";
 
-import { BookcaseInfo, BookcasePathKey } from "../../types/bookcase";
-import { AddBookCard, BookCard } from ".";
+import { useGetBookInfo } from "../../core/api/api";
+import { BookcaseInfo } from "../../types/bookcase";
+import { BookcaseNavigationContext } from "../../util/bookcaseContext";
+import { Loading } from "../common";
+import { AddBookCard, BookCard, NoCards } from ".";
+export default function Cards() {
+  const { navIndex } = useContext(BookcaseNavigationContext);
+  const { bookcaseInfo, isLoading, isError } = useGetBookInfo();
 
-interface CardsProps {
-  navIndex: BookcasePathKey;
-  bookcaseInfo: BookcaseInfo[];
-}
-
-export default function Cards(props: CardsProps) {
-  const { navIndex, bookcaseInfo } = props;
-
-  return (
-    <StSection>
-      <AddBookCard />
-      {bookcaseInfo.map((bookcaseInfo: BookcaseInfo, idx: number) => (
-        <BookCard key={idx} bookcaseInfo={bookcaseInfo} navIndex={navIndex} />
-      ))}
-    </StSection>
-  );
+  if (isLoading) {
+    return <Loading />;
+  } else if (!bookcaseInfo || !bookcaseInfo.length || isError) {
+    return <NoCards />;
+  } else {
+    return (
+      <StSection>
+        <AddBookCard />
+        {bookcaseInfo.map((bookcaseInfo: BookcaseInfo, idx: number) => (
+          <BookCard key={idx} bookcaseInfo={bookcaseInfo} navIndex={navIndex.key} />
+        ))}
+      </StSection>
+    );
+  }
 }
 
 const StSection = styled.section`

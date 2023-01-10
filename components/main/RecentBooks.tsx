@@ -8,7 +8,7 @@ import { BookCard } from "../bookcase";
 import { Empty, Loading } from "../common";
 
 export default function RecentBooks() {
-  const { bookcaseInfo, isLoading, isError } = useGetBookInfo("/book");
+  const { bookcaseInfo, isLoading, isError } = useGetBookInfo();
   const isNotEmpty = !isError && bookcaseInfo !== undefined && bookcaseInfo?.length > 0;
 
   const isWideDesktopScreen = useMediaQuery({

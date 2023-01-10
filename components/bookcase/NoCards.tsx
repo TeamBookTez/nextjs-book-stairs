@@ -1,17 +1,11 @@
 import styled from "@emotion/styled";
 
-import { BookcasePathKey } from "../../types/bookcase";
 import Empty from "./cardSection/Empty";
 
-interface NoCardsProps {
-  navIndex: BookcasePathKey;
-}
-export default function NoCards(props: NoCardsProps) {
-  const { navIndex } = props;
-
+export default function NoCards() {
   return (
     <StDefaultSection>
-      <Empty navIndex={navIndex} />
+      <Empty />
     </StDefaultSection>
   );
 }

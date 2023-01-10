@@ -1,19 +1,16 @@
 import styled from "@emotion/styled";
 import Link from "next/link";
+import { useContext } from "react";
 
 import { ImgEmptyBook } from "../../../public/assets/images";
-import { BookcasePathKey } from "../../../types/bookcase";
+import { BookcaseNavigationContext } from "../../../util/bookcaseContext";
 import { DefaultButton } from "../../common/styled/Button";
 import { ImageWrapper } from "../../common/styled/Img";
 
-interface EmptyProps {
-  navIndex: BookcasePathKey;
-}
+export default function Empty() {
+  const { navIndex } = useContext(BookcaseNavigationContext);
 
-export default function Empty(props: EmptyProps) {
-  const { navIndex } = props;
-
-  const isNavIndexDefaultOrPre = navIndex === "/book";
+  const isNavIndexDefaultOrPre = navIndex.key === "/book";
 
   return (
     <StArticle>

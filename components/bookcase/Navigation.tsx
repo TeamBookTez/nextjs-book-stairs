@@ -1,37 +1,19 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { useViewportScroll } from "framer-motion";
-import { useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import { BookcasePathKey, bookcasePathKey } from "../../types/bookcase";
+import { BookcaseNavigationContext } from "../../util/bookcaseContext";
 
-interface NavigationProps {
-  navIndex: BookcasePathKey;
-  onChangeNavIndex: (idx: BookcasePathKey) => void;
-}
-
-export default function Navigation(props: NavigationProps) {
-  const { navIndex, onChangeNavIndex } = props;
-
+export default function Navigation() {
+  const { navIndex, changeNavIndex } = useContext(BookcaseNavigationContext);
+  const handleChangeNavIndex = (index: BookcasePathKey) => {
+    changeNavIndex?.(index);
+  };
   const [isScroll, setIsScroll] = useState<boolean>(false);
   const { scrollY } = useViewportScroll();
   const MAIN_HEADER_HEIGHT = 109;
-
-  const navUnderbarIndex = useMemo(() => {
-    switch (navIndex) {
-      case bookcasePathKey.pre:
-        return 1;
-
-      case bookcasePathKey.peri:
-        return 2;
-
-      case bookcasePathKey.post:
-        return 3;
-
-      default:
-        return 0;
-    }
-  }, [navIndex]);
 
   useEffect(() => {
     scrollY.onChange(() => {
@@ -50,13 +32,13 @@ export default function Navigation(props: NavigationProps) {
   return (
     <StNav isscroll={isScroll}>
       <StUl>
-        <StList onClick={() => onChangeNavIndex(bookcasePathKey.all)}>전체</StList>
-        <StList onClick={() => onChangeNavIndex(bookcasePathKey.pre)}>독서 전</StList>
-        <StList onClick={() => onChangeNavIndex(bookcasePathKey.peri)}>독서 중</StList>
-        <StList onClick={() => onChangeNavIndex(bookcasePathKey.post)}>독서 완료</StList>
+        <StList onClick={() => handleChangeNavIndex(bookcasePathKey.all)}>전체</StList>
+        <StList onClick={() => handleChangeNavIndex(bookcasePathKey.pre)}>독서 전</StList>
+        <StList onClick={() => handleChangeNavIndex(bookcasePathKey.peri)}>독서 중</StList>
+        <StList onClick={() => handleChangeNavIndex(bookcasePathKey.post)}>독서 완료</StList>
       </StUl>
       <StBottomLine>
-        <StOrangLine index={navUnderbarIndex} />
+        <StOrangLine index={navIndex.value} />
       </StBottomLine>
     </StNav>
   );

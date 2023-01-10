@@ -8,12 +8,14 @@
 */
 
 import axios from "axios";
+import { useContext } from "react";
 import useSWR from "swr";
 
 import { KAKAOParams, Response, ResponseDto } from "../../types";
 import { BookcaseInfo } from "../../types/bookcase";
 import { PeriNoteData, PreNoteData } from "../../types/bookNote";
 import { IsValid, UseFormDataType } from "../../types/signup";
+import { BookcaseNavigationContext } from "../../util/bookcaseContext";
 import LocalStorage from "../localStorage";
 import { baseInstance, kakaoInstance } from "./axios";
 
@@ -45,8 +47,9 @@ export const deleteData = (key: string) => {
   return baseInstance.delete(key);
 };
 
-export function useGetBookInfo(key: string) {
-  const urlKey = key === "/main" ? "/book" : key;
+export function useGetBookInfo() {
+  const { navIndex } = useContext(BookcaseNavigationContext);
+  const urlKey = navIndex.key === "/main" ? "/book" : navIndex.key;
   const { data, error } = useSWR<Response<{ books: BookcaseInfo[] }>>(urlKey, baseInstance.get);
 
   return {
