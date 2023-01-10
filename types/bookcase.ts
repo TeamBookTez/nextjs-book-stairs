@@ -1,4 +1,4 @@
-const bookcasePathKey = {
+export const bookcasePathKey = {
   default: "/main",
   all: "/book",
   pre: "/book/pre",
