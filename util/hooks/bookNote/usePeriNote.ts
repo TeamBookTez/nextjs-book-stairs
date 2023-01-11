@@ -8,7 +8,7 @@
 */
 
 import { useForm } from "react-hook-form";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValueLoadable } from "recoil";
 
 import { patchPeriNoteData } from "../../../core/api/review";
 import { periNoteSelector } from "../../../core/atom/bookNote";
@@ -17,6 +17,7 @@ import { deepCopyTree, getTargetNodeByPath } from "../../bookNoteTree";
 
 export default function usePeriNote(reviewId: string) {
   const [periNoteData, setPeriNoteData] = useRecoilState(periNoteSelector(reviewId));
+  const periNoteLoadable = useRecoilValueLoadable(periNoteSelector(reviewId));
 
   const { getValues } = useForm<UseForm>();
 
@@ -52,5 +53,5 @@ export default function usePeriNote(reviewId: string) {
     });
   }
 
-  return { periNoteData, setPeriNoteData, savePeriNote, completePeriNote };
+  return { periNoteData, periNoteLoadable, setPeriNoteData, savePeriNote, completePeriNote };
 }

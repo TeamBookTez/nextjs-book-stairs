@@ -8,7 +8,7 @@
 
 */
 
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValueLoadable } from "recoil";
 import { v4 as uuidv4 } from "uuid";
 
 import { patchPeriNoteData, patchPreNoteData } from "../../../core/api/review";
@@ -17,6 +17,7 @@ import { PeriNoteTreeNode } from "../../../types/bookNote";
 
 export default function usePreNote(reviewId: string) {
   const [preNoteData, setPreNoteData] = useRecoilState(preNoteSelector(reviewId));
+  const preNoteLoadable = useRecoilValueLoadable(preNoteSelector(reviewId));
 
   function savePreNote() {
     patchPreNoteData(reviewId, preNoteData);
@@ -61,5 +62,5 @@ export default function usePreNote(reviewId: string) {
     });
   }
 
-  return { preNoteData, setPreNoteData, savePreNote, completePreNote };
+  return { preNoteData, preNoteLoadable, setPreNoteData, savePreNote, completePreNote };
 }

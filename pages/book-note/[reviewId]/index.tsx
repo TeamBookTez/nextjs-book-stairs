@@ -10,7 +10,7 @@
 
 import { css, keyframes } from "@emotion/react";
 import styled from "@emotion/styled";
-import { ComponentProps, Suspense, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 
 import {
@@ -39,8 +39,8 @@ export default function Index() {
   const { isLogin, isLoginLoading } = useUser();
   const { reviewId, reviewSt } = useRecoilValue<NavigatingBookInfoState>(navigatingBookInfoState);
 
-  const { savePeriNote } = usePeriNote(reviewId);
-  const { savePreNote } = usePreNote(reviewId);
+  const { savePeriNote, periNoteLoadable } = usePeriNote(reviewId);
+  const { savePreNote, preNoteLoadable } = usePreNote(reviewId);
 
   const [navIndex, setNavIndex] = useState<BookNotePathKey>("pre");
 
@@ -124,17 +124,19 @@ export default function Index() {
 
   if (isLoginLoading) return <Loading />;
 
+  if (preNoteLoadable.state === "loading" || periNoteLoadable.state === "loading") return <Loading />;
+
+  if (preNoteLoadable.state === "hasError") throw preNoteLoadable.contents;
+  if (periNoteLoadable.state === "hasError") throw periNoteLoadable.contents;
+
   return (
     <StBookNoteContainer openstatus={drawerOpenStatus} width={drawerWidthValue}>
-      <SSRSafeSuspense fallback={<Loading />}>
-        {/* TODO :: ErrorBoundary */}
-        <BookNoteHeader onClickExitBtn={toggleExitModal}>
-          <Navigation navIndex={navIndex} onClickNavList={handleClickNavList} />
-          {isLogin && <SavePoint navIndex={navIndex} reviewId={reviewId} />}
-        </BookNoteHeader>
+      <BookNoteHeader onClickExitBtn={toggleExitModal}>
+        <Navigation navIndex={navIndex} onClickNavList={handleClickNavList} />
+        {isLogin && <SavePoint navIndex={navIndex} reviewId={reviewId} />}
+      </BookNoteHeader>
 
-        {bookNoteComponent}
-      </SSRSafeSuspense>
+      {bookNoteComponent}
 
       {drawerOpenStatus.isOpened && (
         <DrawerWrapper stepUpAndDrawerIdx={stepUpAndDrawerIdx} onCloseDrawer={handleCloseDrawer} />
@@ -150,28 +152,6 @@ export default function Index() {
       )}
     </StBookNoteContainer>
   );
-}
-
-type Props = ComponentProps<typeof Suspense>;
-
-export function SSRSafeSuspense({ fallback, children }: Props) {
-  const isMounted = useIsMounted();
-
-  if (isMounted) {
-    return <Suspense fallback={fallback}>{children}</Suspense>;
-  }
-
-  return <>{fallback}</>;
-}
-
-function useIsMounted() {
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  return mounted;
 }
 
 const reducewidth = (width: number) => keyframes`
