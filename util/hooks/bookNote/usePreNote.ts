@@ -8,40 +8,28 @@
 
 */
 
-import { useEffect, useState } from "react";
-import { useRecoilState } from "recoil";
+import { useEffect } from "react";
+import { useRecoilRefresher_UNSTABLE, useRecoilStateLoadable, useRecoilValue } from "recoil";
 import { v4 as uuidv4 } from "uuid";
 
-import { getPreNoteData, patchPeriNoteData, patchPreNoteData } from "../../../core/api/review";
-import { preNoteStates } from "../../../core/atom/bookNote";
-import { PeriNoteTreeNode, PreNoteData } from "../../../types/bookNote";
-import { initialPreNoteData } from "../../bookNoteTree";
-
-let preNoteFlag = false;
+import { patchPeriNoteData, patchPreNoteData } from "../../../core/api/review";
+import { preNoteSelector, preNoteState } from "../../../core/atom/bookNote";
+import { PeriNoteTreeNode } from "../../../types/bookNote";
 
 export default function usePreNote(reviewId: string) {
-  const [preNoteData, setPreNoteData] = useRecoilState(preNoteStates(reviewId));
-  const [isLoading, setIsLoading] = useState(false);
+  const [preNoteLoadable, setSyncPreNoteData] = useRecoilStateLoadable(preNoteSelector(reviewId));
+  const preNoteData = useRecoilValue(preNoteState);
+  const resetPreNoteSelector = useRecoilRefresher_UNSTABLE(preNoteSelector(reviewId));
 
   useEffect(() => {
-    (async function () {
-      if (preNoteFlag) return;
+    if (preNoteLoadable.state === "hasValue") {
+      setSyncPreNoteData(preNoteLoadable.contents);
+    }
+  }, [preNoteLoadable.state]);
 
-      setIsLoading(true);
-      try {
-        const data = await getPreNoteData(reviewId);
-
-        setUpPreNoteData(data);
-      } catch (e) {
-        console.log(e);
-      } finally {
-        setIsLoading(false);
-      }
-    })();
-  }, []);
-
-  function savePreNote() {
-    patchPreNoteData(reviewId, preNoteData);
+  async function savePreNote() {
+    await patchPreNoteData(reviewId, preNoteData);
+    resetPreNoteSelector();
   }
 
   async function completePreNote() {
@@ -72,7 +60,7 @@ export default function usePreNote(reviewId: string) {
       });
     });
 
-    patchPeriNoteData(reviewId, {
+    await patchPeriNoteData(reviewId, {
       answerThree: {
         id: uuidv4(),
         type: "Root",
@@ -81,17 +69,15 @@ export default function usePreNote(reviewId: string) {
       },
       reviewSt: 3,
     });
+
+    resetPreNoteSelector();
   }
 
-  function setUpPreNoteData(data: PreNoteData) {
-    setPreNoteData(data);
-    preNoteFlag = true;
-  }
+  return {
+    preNoteData,
 
-  function cleanUpPreNoteData() {
-    setPreNoteData(initialPreNoteData);
-    preNoteFlag = true;
-  }
-
-  return { preNoteData, isLoading, setPreNoteData, savePreNote, completePreNote, cleanUpPreNoteData };
+    setPreNoteData: setSyncPreNoteData,
+    savePreNote,
+    completePreNote,
+  };
 }

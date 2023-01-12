@@ -7,39 +7,27 @@
   - POST / DELETE 통신에는 SWR을 어떻게 사용하는가
 */
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { useRecoilState } from "recoil";
+import { useRecoilRefresher_UNSTABLE, useRecoilStateLoadable, useRecoilValue } from "recoil";
 
-import { getPeriNoteData, patchPeriNoteData } from "../../../core/api/review";
-import { periNoteStates } from "../../../core/atom/bookNote";
-import { PeriNoteData, UseForm } from "../../../types/bookNote";
-import { deepCopyTree, getTargetNodeByPath, initialPeriNoteData } from "../../bookNoteTree";
-
-let periNoteFlag = false;
+import { patchPeriNoteData } from "../../../core/api/review";
+import { periNoteSelector, periNoteState } from "../../../core/atom/bookNote";
+import { UseForm } from "../../../types/bookNote";
+import { deepCopyTree, getTargetNodeByPath } from "../../bookNoteTree";
 
 export default function usePeriNote(reviewId: string) {
-  const [periNoteData, setPeriNoteData] = useRecoilState(periNoteStates(reviewId));
-  const [isLoading, setIsLoading] = useState(false);
+  const [periNoteLoadable, setSyncPeriNoteData] = useRecoilStateLoadable(periNoteSelector(reviewId));
+  const periNoteData = useRecoilValue(periNoteState);
+  const refreshPeriNoteData = useRecoilRefresher_UNSTABLE(periNoteSelector(reviewId));
 
   const { getValues } = useForm<UseForm>();
 
   useEffect(() => {
-    (async function () {
-      if (periNoteFlag) return;
-
-      setIsLoading(true);
-      try {
-        const data = await getPeriNoteData(reviewId);
-
-        setUpPeriNoteData(data);
-      } catch (e) {
-        console.log(e);
-      } finally {
-        setIsLoading(false);
-      }
-    })();
-  }, []);
+    if (periNoteLoadable.state === "hasValue") {
+      setSyncPeriNoteData(periNoteLoadable.contents);
+    }
+  }, [periNoteLoadable.state]);
 
   // 임시 저장 or 작성 완료 시에 Uncontrolled Input 의 "내용"을 업데이트 해주는 함수
   function saveStatelessPeriNoteData() {
@@ -57,31 +45,26 @@ export default function usePeriNote(reviewId: string) {
     });
 
     // periNoteData state에도 저장
-    setPeriNoteData((current) => ({ ...current, answerThree: newRoot }));
+    setSyncPeriNoteData((current) => ({ ...current, answerThree: newRoot }));
 
     return newRoot;
   }
 
-  function savePeriNote() {
-    patchPeriNoteData(reviewId, { ...periNoteData, answerThree: saveStatelessPeriNoteData() });
+  async function savePeriNote() {
+    await patchPeriNoteData(reviewId, { ...periNoteData, answerThree: saveStatelessPeriNoteData() });
+    refreshPeriNoteData();
   }
 
-  function completePeriNote() {
-    return patchPeriNoteData(reviewId, {
+  async function completePeriNote() {
+    const response = await patchPeriNoteData(reviewId, {
       answerThree: saveStatelessPeriNoteData(),
       reviewSt: 4,
     });
+
+    refreshPeriNoteData();
+
+    return response;
   }
 
-  function setUpPeriNoteData(data: PeriNoteData) {
-    setPeriNoteData(data);
-    periNoteFlag = true;
-  }
-
-  function cleanUpPeriNoteData() {
-    setPeriNoteData(initialPeriNoteData);
-    periNoteFlag = false;
-  }
-
-  return { periNoteData, isLoading, setPeriNoteData, savePeriNote, completePeriNote, cleanUpPeriNoteData };
+  return { periNoteData, setPeriNoteData: setSyncPeriNoteData, savePeriNote, completePeriNote };
 }
