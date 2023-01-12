@@ -8,16 +8,37 @@
 
 */
 
-import { useRecoilState, useRecoilValueLoadable } from "recoil";
+import { useEffect, useState } from "react";
+import { useRecoilState } from "recoil";
 import { v4 as uuidv4 } from "uuid";
 
-import { patchPeriNoteData, patchPreNoteData } from "../../../core/api/review";
-import { preNoteSelector } from "../../../core/atom/bookNote";
-import { PeriNoteTreeNode } from "../../../types/bookNote";
+import { getPreNoteData, patchPeriNoteData, patchPreNoteData } from "../../../core/api/review";
+import { preNoteStates } from "../../../core/atom/bookNote";
+import { PeriNoteTreeNode, PreNoteData } from "../../../types/bookNote";
+import { initialPreNoteData } from "../../bookNoteTree";
+
+let preNoteFlag = false;
 
 export default function usePreNote(reviewId: string) {
-  const [preNoteData, setPreNoteData] = useRecoilState(preNoteSelector(reviewId));
-  const preNoteLoadable = useRecoilValueLoadable(preNoteSelector(reviewId));
+  const [preNoteData, setPreNoteData] = useRecoilState(preNoteStates(reviewId));
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    (async function () {
+      if (preNoteFlag) return;
+
+      setIsLoading(true);
+      try {
+        const data = await getPreNoteData(reviewId);
+
+        setUpPreNoteData(data);
+      } catch (e) {
+        console.log(e);
+      } finally {
+        setIsLoading(false);
+      }
+    })();
+  }, []);
 
   function savePreNote() {
     patchPreNoteData(reviewId, preNoteData);
@@ -62,5 +83,15 @@ export default function usePreNote(reviewId: string) {
     });
   }
 
-  return { preNoteData, preNoteLoadable, setPreNoteData, savePreNote, completePreNote };
+  function setUpPreNoteData(data: PreNoteData) {
+    setPreNoteData(data);
+    preNoteFlag = true;
+  }
+
+  function cleanUpPreNoteData() {
+    setPreNoteData(initialPreNoteData);
+    preNoteFlag = true;
+  }
+
+  return { preNoteData, isLoading, setPreNoteData, savePreNote, completePreNote, cleanUpPreNoteData };
 }

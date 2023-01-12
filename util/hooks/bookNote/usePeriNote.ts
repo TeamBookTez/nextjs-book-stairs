@@ -7,19 +7,39 @@
   - POST / DELETE 통신에는 SWR을 어떻게 사용하는가
 */
 
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useRecoilState, useRecoilValueLoadable } from "recoil";
+import { useRecoilState } from "recoil";
 
-import { patchPeriNoteData } from "../../../core/api/review";
-import { periNoteSelector } from "../../../core/atom/bookNote";
-import { UseForm } from "../../../types/bookNote";
-import { deepCopyTree, getTargetNodeByPath } from "../../bookNoteTree";
+import { getPeriNoteData, patchPeriNoteData } from "../../../core/api/review";
+import { periNoteStates } from "../../../core/atom/bookNote";
+import { PeriNoteData, UseForm } from "../../../types/bookNote";
+import { deepCopyTree, getTargetNodeByPath, initialPeriNoteData } from "../../bookNoteTree";
+
+let periNoteFlag = false;
 
 export default function usePeriNote(reviewId: string) {
-  const [periNoteData, setPeriNoteData] = useRecoilState(periNoteSelector(reviewId));
-  const periNoteLoadable = useRecoilValueLoadable(periNoteSelector(reviewId));
+  const [periNoteData, setPeriNoteData] = useRecoilState(periNoteStates(reviewId));
+  const [isLoading, setIsLoading] = useState(false);
 
   const { getValues } = useForm<UseForm>();
+
+  useEffect(() => {
+    (async function () {
+      if (periNoteFlag) return;
+
+      setIsLoading(true);
+      try {
+        const data = await getPeriNoteData(reviewId);
+
+        setUpPeriNoteData(data);
+      } catch (e) {
+        console.log(e);
+      } finally {
+        setIsLoading(false);
+      }
+    })();
+  }, []);
 
   // 임시 저장 or 작성 완료 시에 Uncontrolled Input 의 "내용"을 업데이트 해주는 함수
   function saveStatelessPeriNoteData() {
@@ -53,5 +73,15 @@ export default function usePeriNote(reviewId: string) {
     });
   }
 
-  return { periNoteData, periNoteLoadable, setPeriNoteData, savePeriNote, completePeriNote };
+  function setUpPeriNoteData(data: PeriNoteData) {
+    setPeriNoteData(data);
+    periNoteFlag = true;
+  }
+
+  function cleanUpPeriNoteData() {
+    setPeriNoteData(initialPeriNoteData);
+    periNoteFlag = false;
+  }
+
+  return { periNoteData, isLoading, setPeriNoteData, savePeriNote, completePeriNote, cleanUpPeriNoteData };
 }

@@ -39,8 +39,8 @@ export default function Index() {
   const { isLogin, isLoginLoading } = useUser();
   const { reviewId, reviewSt } = useRecoilValue<NavigatingBookInfoState>(navigatingBookInfoState);
 
-  const { savePeriNote, periNoteLoadable } = usePeriNote(reviewId);
-  const { savePreNote, preNoteLoadable } = usePreNote(reviewId);
+  const { isLoading: isPeriLoading, savePeriNote, cleanUpPeriNoteData } = usePeriNote(reviewId);
+  const { isLoading: isPreLoading, savePreNote, cleanUpPreNoteData } = usePreNote(reviewId);
 
   const [navIndex, setNavIndex] = useState<BookNotePathKey>("pre");
 
@@ -52,6 +52,13 @@ export default function Index() {
   const [drawerOpenStatus, setDrawerOpenStatus] = useState({ isOpened: false, isDefault: true });
 
   const drawerWidthValue = navIndex === "peri" ? 60 : 39;
+
+  useEffect(() => {
+    return function cleanUp() {
+      cleanUpPeriNoteData();
+      cleanUpPreNoteData();
+    };
+  }, []);
 
   const handleNavIndex = (idx: BookNotePathKey) => {
     setNavIndex(idx);
@@ -89,7 +96,7 @@ export default function Index() {
     setDrawerOpenStatus((current) => ({ ...current, isDefault: true }));
   };
 
-  const handleClickNavList = async (idx: BookNotePathKey) => {
+  const handleClickNavList = (idx: BookNotePathKey) => {
     handleDefaultDrawer();
 
     if (idx === "peri" && isPreventedPreNote) return;
@@ -122,21 +129,19 @@ export default function Index() {
       <PeriNote reviewId={reviewId} handleOpenStepUpModal={handleOpenStepUpModal} handleOpenDrawer={handleOpenDrawer} />
     );
 
-  if (isLoginLoading) return <Loading />;
-
-  if (preNoteLoadable.state === "loading" || periNoteLoadable.state === "loading") return <Loading />;
-
-  if (preNoteLoadable.state === "hasError") throw preNoteLoadable.contents;
-  if (periNoteLoadable.state === "hasError") throw periNoteLoadable.contents;
+  if (isLoginLoading || isPreLoading || isPeriLoading) return <Loading />;
 
   return (
     <StBookNoteContainer openstatus={drawerOpenStatus} width={drawerWidthValue}>
+      {/* <Suspense fallback={<Loading />}> */}
+      {/* TODO :: ErrorBoundary */}
       <BookNoteHeader onClickExitBtn={toggleExitModal}>
         <Navigation navIndex={navIndex} onClickNavList={handleClickNavList} />
         {isLogin && <SavePoint navIndex={navIndex} reviewId={reviewId} />}
       </BookNoteHeader>
 
       {bookNoteComponent}
+      {/* </Suspense> */}
 
       {drawerOpenStatus.isOpened && (
         <DrawerWrapper stepUpAndDrawerIdx={stepUpAndDrawerIdx} onCloseDrawer={handleCloseDrawer} />

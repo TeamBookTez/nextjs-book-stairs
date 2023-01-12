@@ -17,7 +17,7 @@ export default function SavePoint(props: SavePointProps) {
   const { savePeriNote } = usePeriNote(reviewId);
   const { savePreNote } = usePreNote(reviewId);
 
-  const handleClickSaveBtn = async () => {
+  const handleClickSaveBtn = () => {
     switch (navIndex) {
       case "pre":
         savePreNote();
