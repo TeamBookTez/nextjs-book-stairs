@@ -9,27 +9,32 @@
 */
 
 import { useEffect } from "react";
-import { useRecoilRefresher_UNSTABLE, useRecoilStateLoadable, useRecoilValue } from "recoil";
+import { useRecoilRefresher_UNSTABLE, useRecoilState, useRecoilValueLoadable } from "recoil";
 import { v4 as uuidv4 } from "uuid";
 
 import { patchPeriNoteData, patchPreNoteData } from "../../../core/api/review";
-import { preNoteSelector, preNoteState } from "../../../core/atom/bookNote";
+import {
+  editInitializePeriNoteSelector,
+  editInitializePreNoteSelector,
+  preNoteState,
+} from "../../../core/atom/bookNote";
 import { PeriNoteTreeNode } from "../../../types/bookNote";
 
 export default function usePreNote(reviewId: string) {
-  const [preNoteLoadable, setSyncPreNoteData] = useRecoilStateLoadable(preNoteSelector(reviewId));
-  const preNoteData = useRecoilValue(preNoteState);
-  const resetPreNoteSelector = useRecoilRefresher_UNSTABLE(preNoteSelector(reviewId));
+  const [preNoteData, setPreNoteData] = useRecoilState(preNoteState);
+  const preNoteLoadable = useRecoilValueLoadable(editInitializePreNoteSelector(reviewId));
+  const resetEditInitializePreNoteSelector = useRecoilRefresher_UNSTABLE(editInitializePreNoteSelector(reviewId));
+  const resetEditInitializePeriNoteSelector = useRecoilRefresher_UNSTABLE(editInitializePeriNoteSelector(reviewId));
 
   useEffect(() => {
     if (preNoteLoadable.state === "hasValue") {
-      setSyncPreNoteData(preNoteLoadable.contents);
+      setPreNoteData(preNoteLoadable.contents);
     }
   }, [preNoteLoadable.state]);
 
   async function savePreNote() {
     await patchPreNoteData(reviewId, preNoteData);
-    resetPreNoteSelector();
+    resetEditInitializePreNoteSelector();
   }
 
   async function completePreNote() {
@@ -44,7 +49,7 @@ export default function usePreNote(reviewId: string) {
 
     const questionFromPre: PeriNoteTreeNode[] = [];
 
-    preNoteData.questionList.map((content) => {
+    preNoteData.questionList.forEach((content) => {
       questionFromPre.push({
         id: uuidv4(),
         type: "question",
@@ -70,13 +75,14 @@ export default function usePreNote(reviewId: string) {
       reviewSt: 3,
     });
 
-    resetPreNoteSelector();
+    resetEditInitializePeriNoteSelector();
+    resetEditInitializePreNoteSelector();
   }
 
   return {
     preNoteData,
-
-    setPreNoteData: setSyncPreNoteData,
+    isPreNoteLoading: preNoteLoadable.state === "loading",
+    setPreNoteData,
     savePreNote,
     completePreNote,
   };

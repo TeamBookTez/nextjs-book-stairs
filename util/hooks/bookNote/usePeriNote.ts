@@ -9,23 +9,23 @@
 
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { useRecoilRefresher_UNSTABLE, useRecoilStateLoadable, useRecoilValue } from "recoil";
+import { useRecoilRefresher_UNSTABLE, useRecoilState, useRecoilValueLoadable } from "recoil";
 
 import { patchPeriNoteData } from "../../../core/api/review";
-import { periNoteSelector, periNoteState } from "../../../core/atom/bookNote";
+import { editInitializePeriNoteSelector, periNoteState } from "../../../core/atom/bookNote";
 import { UseForm } from "../../../types/bookNote";
 import { deepCopyTree, getTargetNodeByPath } from "../../bookNoteTree";
 
 export default function usePeriNote(reviewId: string) {
-  const [periNoteLoadable, setSyncPeriNoteData] = useRecoilStateLoadable(periNoteSelector(reviewId));
-  const periNoteData = useRecoilValue(periNoteState);
-  const refreshPeriNoteData = useRecoilRefresher_UNSTABLE(periNoteSelector(reviewId));
+  const [periNoteData, setPeriNoteData] = useRecoilState(periNoteState);
+  const periNoteLoadable = useRecoilValueLoadable(editInitializePeriNoteSelector(reviewId));
+  const refreshPeriNoteData = useRecoilRefresher_UNSTABLE(editInitializePeriNoteSelector(reviewId));
 
   const { getValues } = useForm<UseForm>();
 
   useEffect(() => {
     if (periNoteLoadable.state === "hasValue") {
-      setSyncPeriNoteData(periNoteLoadable.contents);
+      setPeriNoteData(periNoteLoadable.contents);
     }
   }, [periNoteLoadable.state]);
 
@@ -45,7 +45,7 @@ export default function usePeriNote(reviewId: string) {
     });
 
     // periNoteData state에도 저장
-    setSyncPeriNoteData((current) => ({ ...current, answerThree: newRoot }));
+    setPeriNoteData((current) => ({ ...current, answerThree: newRoot }));
 
     return newRoot;
   }
@@ -66,5 +66,11 @@ export default function usePeriNote(reviewId: string) {
     return response;
   }
 
-  return { periNoteData, setPeriNoteData: setSyncPeriNoteData, savePeriNote, completePeriNote };
+  return {
+    periNoteData,
+    isPerNoteLoading: periNoteLoadable.state === "loading",
+    setPeriNoteData,
+    savePeriNote,
+    completePeriNote,
+  };
 }

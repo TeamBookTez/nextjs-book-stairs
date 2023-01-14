@@ -10,8 +10,8 @@ import { getPeriNoteData, getPreNoteData } from "../api/review";
 enum StateType {
   PRE_NOTE_STATE = "preNoteState",
   PERI_NOTE_STATE = "periNoteState",
-  PRE_NOTE_SELECTOR = "preNoteSelector",
-  PERI_NOTE_SELECTOR = "periNoteSelector",
+  EDIT_INITIALIZE_PRE_NOTE_SELECTOR = "editInitializePreNoteSelector",
+  EDIT_INITIALIZE_PERI_NOTE_SELECTOR = "editInitializePeriNoteSelector",
 }
 
 export const preNoteState = atom<PreNoteData>({
@@ -19,23 +19,16 @@ export const preNoteState = atom<PreNoteData>({
   default: initialPreNoteData,
 });
 
-export const preNoteSelector = selectorFamily<PreNoteData, string>({
-  key: `${StateType.PRE_NOTE_SELECTOR}/${v1()}`,
+export const editInitializePreNoteSelector = selectorFamily<PreNoteData, string>({
+  key: `${StateType.EDIT_INITIALIZE_PRE_NOTE_SELECTOR}/${v1()}`,
   get:
     (reviewId) =>
     async ({}) => {
       try {
-        const data = await getPreNoteData(reviewId);
-
-        return data;
+        return await getPreNoteData(reviewId);
       } catch (e) {
         return initialPreNoteData;
       }
-    },
-  set:
-    () =>
-    ({ set }, newValue) => {
-      set(preNoteState, newValue);
     },
 });
 
@@ -44,22 +37,15 @@ export const periNoteState = atom<PeriNoteData>({
   default: initialPeriNoteData,
 });
 
-export const periNoteSelector = selectorFamily<PeriNoteData, string>({
-  key: `${StateType.PERI_NOTE_SELECTOR}/${v1()}`,
+export const editInitializePeriNoteSelector = selectorFamily<PeriNoteData, string>({
+  key: `${StateType.EDIT_INITIALIZE_PERI_NOTE_SELECTOR}/${v1()}`,
   get:
     (reviewId) =>
     async ({}) => {
       try {
-        const data = await getPeriNoteData(reviewId);
-
-        return data;
+        return await getPeriNoteData(reviewId);
       } catch (e) {
         return initialPeriNoteData;
       }
-    },
-  set:
-    () =>
-    ({ set }, newValue) => {
-      set(periNoteState, newValue);
     },
 });

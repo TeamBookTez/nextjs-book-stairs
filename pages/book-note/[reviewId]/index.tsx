@@ -10,7 +10,7 @@
 
 import { css, keyframes } from "@emotion/react";
 import styled from "@emotion/styled";
-import { Suspense, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 
 import {
@@ -39,8 +39,8 @@ export default function Index() {
   const { isLogin, isLoginLoading } = useUser();
   const { reviewId, reviewSt } = useRecoilValue<NavigatingBookInfoState>(navigatingBookInfoState);
 
-  const { savePeriNote } = usePeriNote(reviewId);
-  const { savePreNote } = usePreNote(reviewId);
+  const { savePeriNote, isPerNoteLoading } = usePeriNote(reviewId);
+  const { savePreNote, isPreNoteLoading } = usePreNote(reviewId);
 
   const [navIndex, setNavIndex] = useState<BookNotePathKey>("pre");
 
@@ -122,19 +122,16 @@ export default function Index() {
       <PeriNote reviewId={reviewId} handleOpenStepUpModal={handleOpenStepUpModal} handleOpenDrawer={handleOpenDrawer} />
     );
 
-  if (isLoginLoading) return <Loading />;
+  if (isLoginLoading || isPreNoteLoading || isPerNoteLoading) return <Loading />;
 
   return (
     <StBookNoteContainer openstatus={drawerOpenStatus} width={drawerWidthValue}>
-      <Suspense fallback={<Loading />}>
-        {/* TODO :: 에러 처리 */}
-        <BookNoteHeader onClickExitBtn={toggleExitModal}>
-          <Navigation navIndex={navIndex} onClickNavList={handleClickNavList} />
-          {isLogin && <SavePoint navIndex={navIndex} reviewId={reviewId} />}
-        </BookNoteHeader>
+      <BookNoteHeader onClickExitBtn={toggleExitModal}>
+        <Navigation navIndex={navIndex} onClickNavList={handleClickNavList} />
+        {isLogin && <SavePoint navIndex={navIndex} reviewId={reviewId} />}
+      </BookNoteHeader>
 
-        {bookNoteComponent}
-      </Suspense>
+      {bookNoteComponent}
 
       {drawerOpenStatus.isOpened && (
         <DrawerWrapper stepUpAndDrawerIdx={stepUpAndDrawerIdx} onCloseDrawer={handleCloseDrawer} />
