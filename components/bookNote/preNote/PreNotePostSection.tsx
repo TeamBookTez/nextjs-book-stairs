@@ -2,9 +2,9 @@ import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { useState } from "react";
 
-import usePreNote from "../../../core/api/review/usePreNote";
 import { ImgPreBook } from "../../../public/assets/images";
 import { BookNotePathKey } from "../../../types/bookNote";
+import usePreNote from "../../../util/hooks/bookNote/usePreNote";
 import { DefaultButton } from "../../common/styled/Button";
 import { ImageWrapper } from "../../common/styled/Img";
 import {

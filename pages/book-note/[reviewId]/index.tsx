@@ -25,12 +25,12 @@ import PeriNote from "../../../components/bookNote/periNote/PeriNote";
 import { PreNote } from "../../../components/bookNote/preNote";
 import { Loading } from "../../../components/common";
 import { StBookModalWrapper } from "../../../components/common/styled/BookModalWrapper";
-import usePeriNote from "../../../core/api/review/usePeriNote";
-import usePreNote from "../../../core/api/review/usePreNote";
 import { navigatingBookInfoState } from "../../../core/atom";
 import { periNoteStepUp, stepUpContentArray } from "../../../core/constant/bookNote/exampleData";
 import { NavigatingBookInfoState } from "../../../types/bookcase";
 import { BookNotePathKey } from "../../../types/bookNote";
+import usePeriNote from "../../../util/hooks/bookNote/usePeriNote";
+import usePreNote from "../../../util/hooks/bookNote/usePreNote";
 import useUser from "../../../util/hooks/useUser";
 
 export type StepUpAndDrawerIdx = 1 | 2 | 3 | 4;
@@ -39,8 +39,8 @@ export default function Index() {
   const { isLogin, isLoginLoading } = useUser();
   const { reviewId, reviewSt } = useRecoilValue<NavigatingBookInfoState>(navigatingBookInfoState);
 
-  const { savePeriNote } = usePeriNote(reviewId);
-  const { savePreNote } = usePreNote(reviewId);
+  const { savePeriNote, isPerNoteLoading } = usePeriNote(reviewId);
+  const { savePreNote, isPreNoteLoading } = usePreNote(reviewId);
 
   const [navIndex, setNavIndex] = useState<BookNotePathKey>("pre");
 
@@ -96,10 +96,10 @@ export default function Index() {
 
     switch (navIndex) {
       case "pre":
-        await savePreNote();
+        savePreNote();
         break;
       case "peri":
-        await savePeriNote();
+        savePeriNote();
         break;
     }
     handleNavIndex(idx);
@@ -122,7 +122,7 @@ export default function Index() {
       <PeriNote reviewId={reviewId} handleOpenStepUpModal={handleOpenStepUpModal} handleOpenDrawer={handleOpenDrawer} />
     );
 
-  if (isLoginLoading) return <Loading />;
+  if (isLoginLoading || isPreNoteLoading || isPerNoteLoading) return <Loading />;
 
   return (
     <StBookNoteContainer openstatus={drawerOpenStatus} width={drawerWidthValue}>

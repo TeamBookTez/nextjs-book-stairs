@@ -18,11 +18,10 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { v4 as uuidv4 } from "uuid";
 
-import usePeriNote from "../../../core/api/review/usePeriNote";
 import { StepUpAndDrawerIdx } from "../../../pages/book-note/[reviewId]";
 import { UseForm } from "../../../types/bookNote";
 import { deepCopyTree, getTargetNodeByPath } from "../../../util/bookNoteTree";
-import { Loading } from "../../common";
+import usePeriNote from "../../../util/hooks/bookNote/usePeriNote";
 import { DefaultButton } from "../../common/styled/Button";
 import { ChildQANode, HeaderLabel, PeriNotePostSection, TopAnswerContainer, TopQuestionContainer } from ".";
 
@@ -35,7 +34,7 @@ interface PeriNoteProps {
 export default function PeriNote(props: PeriNoteProps) {
   const { reviewId, handleOpenStepUpModal, handleOpenDrawer } = props;
 
-  const { periNoteData, setPeriNoteData, isLoading } = usePeriNote(reviewId);
+  const { periNoteData, setPeriNoteData } = usePeriNote(reviewId);
 
   const { register, setFocus } = useForm<UseForm>();
 
@@ -149,8 +148,6 @@ export default function PeriNote(props: PeriNoteProps) {
   }, [periNoteData.answerThree]);
 
   // --------------------------------------------------------------------------
-
-  if (isLoading) return <Loading />;
 
   return (
     <StNoteForm onClick={toggleMenu}>

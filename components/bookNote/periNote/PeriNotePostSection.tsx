@@ -2,8 +2,8 @@ import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { useState } from "react";
 
-import usePeriNote from "../../../core/api/review/usePeriNote";
 import { BookDetailData } from "../../../types/bookNote";
+import usePeriNote from "../../../util/hooks/bookNote/usePeriNote";
 import { DefaultButton } from "../../common/styled/Button";
 import { Complete } from ".";
 
