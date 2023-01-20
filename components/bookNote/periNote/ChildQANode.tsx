@@ -23,14 +23,28 @@ interface ChildQANodeProps {
   pathStack: number[];
   index: number;
   node: PeriNoteTreeNode;
-  onAddChild: (pathStack: number[], index?: number) => void;
+  onAddChildQuestion: (pathStack: number[]) => void;
+  onAddSiblingQuestion: (pathStack: number[], currentIndex: number) => void;
+  onAddChildAnswer: (pathStack: number[]) => void;
+  onAddSiblingAnswer: (pathStack: number[], currentIndex: number) => void;
   // urgentQuery 제거시, setContent 불필요
   onSetContent: (value: string, pathStack: number[]) => void;
   onDeleteChild: (pathStack: number[]) => void;
   formController: FormController;
 }
 export default function ChildQANode(props: ChildQANodeProps) {
-  const { pathStack, index, node, onAddChild, onSetContent, onDeleteChild, formController } = props;
+  const {
+    pathStack,
+    index,
+    node,
+    onAddChildQuestion,
+    onAddSiblingQuestion,
+    onAddChildAnswer,
+    onAddSiblingAnswer,
+    onSetContent,
+    onDeleteChild,
+    formController,
+  } = props;
 
   // TODO :: state 제거
   const { urgentQuery, setUrgentQuery } = useUpdatePeriNote(node.content, pathStack, onSetContent);
@@ -45,8 +59,8 @@ export default function ChildQANode(props: ChildQANodeProps) {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       // 꼬리질문과 답변은 자신의 아래에 추가하는 것이 아닌 자신의 부모의 children에 추가해야함
-      if (isQuestion) onAddChild(pathStack.slice(0, -1));
-      else onAddChild(pathStack.slice(0, -1), index);
+      if (isQuestion) onAddSiblingQuestion(pathStack.slice(0, -1), index);
+      else onAddSiblingAnswer(pathStack.slice(0, -1), index);
     }
   };
 
@@ -87,14 +101,14 @@ export default function ChildQANode(props: ChildQANodeProps) {
             onKeyPress={addChildByEnter}
           />
           {isQuestion && (
-            <StAddAnswerButton type="button" onClick={() => onAddChild(pathStack, index + 1)}>
+            <StAddAnswerButton type="button" onClick={() => onAddChildAnswer(pathStack)}>
               답변
             </StAddAnswerButton>
           )}
           <StMore className="icn_more" />
           <StMenuWrapper>
             {!isQuestion && canAddChild && (
-              <StMenuBtn type="button" onClick={() => onAddChild(pathStack)}>
+              <StMenuBtn type="button" onClick={() => onAddChildQuestion(pathStack)}>
                 꼬리질문 추가
               </StMenuBtn>
             )}
@@ -112,7 +126,10 @@ export default function ChildQANode(props: ChildQANodeProps) {
               pathStack={[...pathStack, i]}
               index={i}
               node={node}
-              onAddChild={onAddChild}
+              onAddSiblingQuestion={onAddSiblingQuestion}
+              onAddChildAnswer={onAddChildAnswer}
+              onAddSiblingAnswer={onAddSiblingAnswer}
+              onAddChildQuestion={onAddChildQuestion}
               onDeleteChild={onDeleteChild}
               onSetContent={onSetContent}
               formController={formController}
