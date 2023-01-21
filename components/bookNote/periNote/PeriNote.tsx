@@ -7,18 +7,13 @@
 고민점:
   - 로그인 loading -> initial periNoteData 표시 -> fetching loading 단계로 로딩이 이루어지는데, 통합이 필요할 것 같습니다,!
     => 기획에서 별 얘기 없으면 해결된 것
-  
-    - useFetchBookNote 같은 함수들의 pre/peri 의 분리가 필요함 (타입지정 등을 명확히 함으로써 이후의 유지/보수가 원활해질 것)
-    - saveStatelessPeriNoteData() 함수 호출의 정의를 명확히 해야 함 (useForm과 useFetchBookNote 데이터의 일치 시점)
 */
 
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import React, { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
 
 import { StepUpAndDrawerIdx } from "../../../pages/book-note/[reviewId]";
-import { UseForm } from "../../../types/bookNote";
 import usePeriNote from "../../../util/hooks/bookNote/usePeriNote";
 import { DefaultButton } from "../../common/styled/Button";
 import { ChildQANode, HeaderLabel, PeriNotePostSection, TopAnswerContainer, TopQuestionContainer } from ".";
@@ -32,7 +27,6 @@ interface PeriNoteProps {
 export default function PeriNote(props: PeriNoteProps) {
   const { reviewId, handleOpenStepUpModal, handleOpenDrawer } = props;
 
-  const { register, setFocus } = useForm<UseForm>();
   const [isPreventedPeriNote, setIsPreventedPeriNote] = useState({ addQuestion: true, isCompleted: true });
   const {
     periNoteData,
@@ -133,7 +127,6 @@ export default function PeriNote(props: PeriNoteProps) {
                   onAddSiblingAnswer={handleAddSiblingAnswer}
                   onSetContent={handleSetContent}
                   onDeleteChild={handleDeleteChild}
-                  formController={{ register, setFocus }}
                 />
               ))}
             </TopAnswerContainer>

@@ -9,12 +9,12 @@
 
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import reactTextareaAutosize from "react-textarea-autosize";
 
 import { labelColorList } from "../../../core/constant/bookNote/childNodeLabelColor";
-import { FormController, PeriNoteTreeNode } from "../../../types/bookNote";
-import useUpdatePeriNote from "../../../util/hooks/bookNote/useUpdatePeriNote";
+import { PeriNoteTreeNode } from "../../../types/bookNote";
+import useUpdatePeriNoteQANode from "../../../util/hooks/bookNote/useUpdatePeriNote";
 import { StAddAnswerButton, StMenuBtn } from "../../common/styled/Button";
 import { StMoreIcon } from "../../common/styled/Icon";
 import { StMenuWrapper } from "../../common/styled/MenuWrapper";
@@ -27,10 +27,8 @@ interface ChildQANodeProps {
   onAddSiblingQuestion: (pathStack: number[], currentIndex: number) => void;
   onAddChildAnswer: (pathStack: number[]) => void;
   onAddSiblingAnswer: (pathStack: number[], currentIndex: number) => void;
-  // urgentQuery 제거시, setContent 불필요
   onSetContent: (value: string, pathStack: number[]) => void;
   onDeleteChild: (pathStack: number[]) => void;
-  formController: FormController;
 }
 export default function ChildQANode(props: ChildQANodeProps) {
   const {
@@ -43,25 +41,31 @@ export default function ChildQANode(props: ChildQANodeProps) {
     onAddSiblingAnswer,
     onSetContent,
     onDeleteChild,
-    formController,
   } = props;
 
-  // TODO :: state 제거
-  const { urgentQuery, setUrgentQuery } = useUpdatePeriNote(node.content, pathStack, onSetContent);
+  const { urgentQuery, setUrgentQuery } = useUpdatePeriNoteQANode(node.content, pathStack, onSetContent);
+  const focusingInputRef = useRef<HTMLTextAreaElement>(null);
+
   const isDeleted = node.type === "deleted";
   const isQuestion = node.type === "question";
   const is4Depth = pathStack.length <= 10;
   const canAddChild = pathStack.length <= 8;
-  const formPathKey = `${pathStack.join(",")}`;
   const labelColor = labelColorList[(pathStack.length - 1) % 10];
 
+  // 마지막 생성된 컴포넌트에 focusing
+  useEffect(() => {
+    if (isDeleted) return;
+
+    is4Depth && focusingInputRef.current?.focus();
+  }, []);
+
   const addChildByEnter = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
-      // 꼬리질문과 답변은 자신의 아래에 추가하는 것이 아닌 자신의 부모의 children에 추가해야함
-      if (isQuestion) onAddSiblingQuestion(pathStack.slice(0, -1), index);
-      else onAddSiblingAnswer(pathStack.slice(0, -1), index);
-    }
+    if (e.key !== "Enter" || e.shiftKey) return;
+    e.preventDefault();
+
+    // 꼬리질문과 답변은 자신의 아래에 추가하는 것이 아닌 자신의 부모의 children에 추가해야함
+    if (isQuestion) onAddSiblingQuestion(pathStack.slice(0, -1), index);
+    else onAddSiblingAnswer(pathStack.slice(0, -1), index);
   };
 
   const handleContent = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -69,13 +73,6 @@ export default function ChildQANode(props: ChildQANodeProps) {
       setUrgentQuery(e.target.value);
     }
   };
-
-  // 마지막 생성된 컴포넌트에 focusing
-  useEffect(() => {
-    if (isDeleted) return;
-
-    is4Depth && formController.setFocus(formPathKey);
-  }, []);
 
   if (isDeleted) return <></>;
 
@@ -93,8 +90,7 @@ export default function ChildQANode(props: ChildQANodeProps) {
         )}
         <StInputWrapper isquestion={isQuestion}>
           <StInput
-            {...formController.register(formPathKey)}
-            defaultValue={node.content}
+            ref={focusingInputRef}
             placeholder={`${isQuestion ? "질문" : "답변"}을 입력해주세요.`}
             value={urgentQuery}
             onChange={handleContent}
@@ -132,7 +128,6 @@ export default function ChildQANode(props: ChildQANodeProps) {
               onAddChildQuestion={onAddChildQuestion}
               onDeleteChild={onDeleteChild}
               onSetContent={onSetContent}
-              formController={formController}
             />
           ))}
       </StFieldWrapper>

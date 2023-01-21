@@ -8,13 +8,11 @@
 */
 
 import { useEffect } from "react";
-import { useForm } from "react-hook-form";
 import { useRecoilRefresher_UNSTABLE, useRecoilState, useRecoilValueLoadable } from "recoil";
 import { v4 as uuidv4 } from "uuid";
 
 import { patchPeriNoteData } from "../../../core/api/review";
 import { editInitializePeriNoteSelector, periNoteState } from "../../../core/atom/bookNote";
-import { UseForm } from "../../../types/bookNote";
 import { deepCopyTree, getTargetNodeByPath } from "../../bookNoteTree";
 
 export default function usePeriNote(reviewId: string) {
@@ -22,43 +20,21 @@ export default function usePeriNote(reviewId: string) {
   const periNoteLoadable = useRecoilValueLoadable(editInitializePeriNoteSelector(reviewId));
   const refreshPeriNoteData = useRecoilRefresher_UNSTABLE(editInitializePeriNoteSelector(reviewId));
 
-  const { getValues } = useForm<UseForm>();
-
   useEffect(() => {
     if (periNoteLoadable.state === "hasValue") {
       setPeriNoteData(periNoteLoadable.contents);
     }
   }, [periNoteLoadable.state]);
 
-  // 임시 저장 or 작성 완료 시에 Uncontrolled Input 의 "내용"을 업데이트 해주는 함수
-  function saveStatelessPeriNoteData() {
-    const obj = getValues();
-
-    const keys = Object.keys(obj);
-    const newRoot = deepCopyTree(periNoteData.answerThree);
-
-    keys.forEach((key) => {
-      const value = obj[key];
-      const pathKey = key.split(",").map((k) => parseInt(k));
-      const current = getTargetNodeByPath(newRoot, pathKey);
-
-      current.content = value;
-    });
-
-    // periNoteData state에도 저장
-    setPeriNoteData((current) => ({ ...current, answerThree: newRoot }));
-
-    return newRoot;
-  }
-
   async function savePeriNote() {
-    await patchPeriNoteData(reviewId, { ...periNoteData, answerThree: saveStatelessPeriNoteData() });
+    await patchPeriNoteData(reviewId, periNoteData);
+
     refreshPeriNoteData();
   }
 
   async function completePeriNote() {
     const response = await patchPeriNoteData(reviewId, {
-      answerThree: saveStatelessPeriNoteData(),
+      ...periNoteData,
       reviewSt: 4,
     });
 
