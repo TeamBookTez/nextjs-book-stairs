@@ -107,6 +107,7 @@ export default function PeriNote(props: PeriNoteProps) {
           <TopQuestionContainer
             pathStack={[topQuestionIdx]}
             node={topQuestionNode}
+            onAddSiblingQuestion={handleAddSiblingQuestion}
             onAddTopAnswer={handleAddSiblingAnswer}
             onDeleteChild={handleDeleteChild}
             onSetContent={handleSetContent}

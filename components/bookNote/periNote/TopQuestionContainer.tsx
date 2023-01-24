@@ -11,13 +11,14 @@ import { StMenuWrapper } from "../../common/styled/MenuWrapper";
 interface TopQuestionContainerProps {
   pathStack: number[];
   node: PeriNoteTreeNode;
+  onAddSiblingQuestion: (pathStack: number[], currentIndex: number) => void;
   onAddTopAnswer: (pathStack: number[], currentChildrenIndex: number) => void;
   onDeleteChild: (pathStack: number[]) => void;
   onSetContent: (value: string, pathStack: number[]) => void;
 }
 
 export default function TopQuestionContainer(props: TopQuestionContainerProps) {
-  const { pathStack, node, onAddTopAnswer, onDeleteChild, onSetContent } = props;
+  const { pathStack, node, onAddSiblingQuestion, onAddTopAnswer, onDeleteChild, onSetContent } = props;
 
   // 큰 답변 추가시 사용되는 index는 현재 큰질문의 index가 아닌 답변의 개수
   const currentChildrenIndex = node.children.length - 1;
@@ -32,7 +33,7 @@ export default function TopQuestionContainer(props: TopQuestionContainerProps) {
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
-      onAddTopAnswer(pathStack, currentChildrenIndex);
+      onAddSiblingQuestion(pathStack.slice(0, -1), currentChildrenIndex);
     }
   };
 
