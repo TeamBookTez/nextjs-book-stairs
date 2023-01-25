@@ -12,18 +12,20 @@ export default function Cards() {
 
   if (isLoading) {
     return <Loading />;
-  } else if (!bookcaseInfo || !bookcaseInfo.length || isError) {
-    return <NoCards />;
-  } else {
-    return (
-      <StSection>
-        <AddBookCard />
-        {bookcaseInfo.map((bookcaseInfo: BookcaseInfo, idx: number) => (
-          <BookCard key={idx} bookcaseInfo={bookcaseInfo} navIndex={navIndex.key} />
-        ))}
-      </StSection>
-    );
   }
+
+  if (!bookcaseInfo || !bookcaseInfo.length || isError) {
+    return <NoCards />;
+  }
+
+  return (
+    <StSection>
+      <AddBookCard />
+      {bookcaseInfo.map((bookcaseInfo: BookcaseInfo, idx: number) => (
+        <BookCard key={idx} bookcaseInfo={bookcaseInfo} navIndex={navIndex.key} />
+      ))}
+    </StSection>
+  );
 }
 
 const StSection = styled.section`
