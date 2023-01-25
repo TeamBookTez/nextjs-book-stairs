@@ -1,10 +1,9 @@
 import styled from "@emotion/styled";
 import { useEffect, useState } from "react";
 
-import usePreNote from "../../../core/api/review/usePreNote";
 import { StepUpAndDrawerIdx } from "../../../pages/book-note/[reviewId]";
 import { BookNotePathKey } from "../../../types/bookNote";
-import { Loading } from "../../common";
+import usePreNote from "../../../util/hooks/bookNote/usePreNote";
 import { LinkToSignUpSection, PreNoteFormContainer, PreNotePostSection, PreNoteThirdArticle } from ".";
 
 interface PreNoteProps {
@@ -28,7 +27,7 @@ export default function PreNote(props: PreNoteProps) {
     handleNavIndex,
   } = props;
 
-  const { preNoteData, setPreNoteData, isLoading } = usePreNote(reviewId);
+  const { preNoteData, setPreNoteData } = usePreNote(reviewId);
 
   const [isFilled, setIsFilled] = useState<boolean>(false);
   const [isFilledOnlyThree, setIsFilledOnlyThree] = useState<boolean>(false);
@@ -66,8 +65,6 @@ export default function PreNote(props: PreNoteProps) {
       setIsFilledOnlyThree(false);
     }
   }, [preNoteData]);
-
-  if (isLoading) return <Loading />;
 
   return (
     <StNoteForm onSubmit={(e) => e.preventDefault()}>

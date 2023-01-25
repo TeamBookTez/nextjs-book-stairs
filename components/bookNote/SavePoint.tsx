@@ -1,9 +1,9 @@
 import styled from "@emotion/styled";
 
-import usePeriNote from "../../core/api/review/usePeriNote";
-import usePreNote from "../../core/api/review/usePreNote";
 import { IcCheckSave, IcSave } from "../../public/assets/icons";
 import { BookNotePathKey } from "../../types/bookNote";
+import usePeriNote from "../../util/hooks/bookNote/usePeriNote";
+import usePreNote from "../../util/hooks/bookNote/usePreNote";
 import useToast from "../../util/hooks/useToast";
 
 interface SavePointProps {
@@ -17,13 +17,13 @@ export default function SavePoint(props: SavePointProps) {
   const { savePeriNote } = usePeriNote(reviewId);
   const { savePreNote } = usePreNote(reviewId);
 
-  const handleClickSaveBtn = async () => {
+  const handleClickSaveBtn = () => {
     switch (navIndex) {
       case "pre":
-        await savePreNote();
+        savePreNote();
         break;
       case "peri":
-        await savePeriNote();
+        savePeriNote();
         break;
     }
 
