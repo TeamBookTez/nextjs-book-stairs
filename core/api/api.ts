@@ -2,20 +2,16 @@
 마지막 편집자: 22-04-28 joohaem
 변경사항 및 참고:
   - 후에 관리가 불편하다면, 파일을 폴더로 묶어 page 별로 나누는 것 고려해주십시오!
-    
+
 고민점:
-  - 
+  -
 */
 
 import axios from "axios";
-import { useContext } from "react";
-import useSWR from "swr";
 
 import { KAKAOParams, Response, ResponseDto } from "../../types";
-import { BookcaseInfo } from "../../types/bookcase";
 import { PeriNoteData, PreNoteData } from "../../types/bookNote";
 import { IsValid, UseFormDataType } from "../../types/signup";
-import { BookcaseNavigationContext } from "../../util/bookcaseContext";
 import LocalStorage from "../localStorage";
 import { baseInstance, kakaoInstance } from "./axios";
 
@@ -46,18 +42,6 @@ export const patchPeriNoteData = async (reviewId: string, body: PeriNoteData) =>
 export const deleteData = (key: string) => {
   return baseInstance.delete(key);
 };
-
-export function useGetBookInfo() {
-  const { navIndex } = useContext(BookcaseNavigationContext);
-  const urlKey = navIndex.key === "/main" ? "/book" : navIndex.key;
-  const { data, error } = useSWR<Response<{ books: BookcaseInfo[] }>>(urlKey, baseInstance.get);
-
-  return {
-    bookcaseInfo: data?.data?.books,
-    isLoading: !error && !data,
-    isError: error,
-  };
-}
 
 export const signup = async (userData: UseFormDataType, password: string) => {
   try {

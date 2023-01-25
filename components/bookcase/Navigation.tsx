@@ -1,13 +1,13 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { useViewportScroll } from "framer-motion";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { BookcasePathKey, bookcasePathKey } from "../../types/bookcase";
-import { BookcaseNavigationContext } from "../../util/bookcaseContext";
+import useBookcase from "../../util/hooks/useBookcase";
 
 export default function Navigation() {
-  const { navIndex, changeNavIndex } = useContext(BookcaseNavigationContext);
+  const { navIndex, changeNavIndex } = useBookcase();
   const handleChangeNavIndex = (index: BookcasePathKey) => {
     changeNavIndex?.(index);
   };

@@ -1,14 +1,12 @@
 import styled from "@emotion/styled";
-import { useContext } from "react";
 
-import { useGetBookInfo } from "../../core/api/api";
 import { BookcaseInfo } from "../../types/bookcase";
-import { BookcaseNavigationContext } from "../../util/bookcaseContext";
+import useBookcase from "../../util/hooks/useBookcase";
 import { Loading } from "../common";
 import { AddBookCard, BookCard, NoCards } from ".";
+
 export default function Cards() {
-  const { navIndex } = useContext(BookcaseNavigationContext);
-  const { bookcaseInfo, isLoading, isError } = useGetBookInfo();
+  const { navIndex, bookcaseInfo, isLoading, isError } = useBookcase();
 
   if (isLoading) {
     return <Loading />;
