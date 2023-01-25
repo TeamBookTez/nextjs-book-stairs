@@ -1,6 +1,6 @@
 import { useDeferredValue, useEffect, useState } from "react";
 
-export default function useUpdatePeriNote(
+export default function useUpdatePeriNoteQANode(
   defaultValue: string,
   path: number[],
   updateContent: (value: string, path: number[]) => void,
