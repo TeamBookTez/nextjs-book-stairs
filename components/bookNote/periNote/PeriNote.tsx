@@ -16,11 +16,9 @@ import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { v4 as uuidv4 } from "uuid";
 
 import { StepUpAndDrawerIdx } from "../../../pages/book-note/[reviewId]";
 import { UseForm } from "../../../types/bookNote";
-import { deepCopyTree, getTargetNodeByPath } from "../../../util/bookNoteTree";
 import usePeriNote from "../../../util/hooks/bookNote/usePeriNote";
 import { DefaultButton } from "../../common/styled/Button";
 import { ChildQANode, HeaderLabel, PeriNotePostSection, TopAnswerContainer, TopQuestionContainer } from ".";
@@ -34,70 +32,21 @@ interface PeriNoteProps {
 export default function PeriNote(props: PeriNoteProps) {
   const { reviewId, handleOpenStepUpModal, handleOpenDrawer } = props;
 
-  const { periNoteData, setPeriNoteData } = usePeriNote(reviewId);
-
   const { register, setFocus } = useForm<UseForm>();
-
   const [isPreventedPeriNote, setIsPreventedPeriNote] = useState({ addQuestion: true, isCompleted: true });
+  const {
+    periNoteData,
+    handleAddChildAnswer,
+    handleAddSiblingAnswer,
+    handleAddChildQuestion,
+    handleAddSiblingQuestion,
+    handleSetContent,
+    handleDeleteChild,
+  } = usePeriNote(reviewId);
 
-  const handleAddChild = (pathStack: number[], currentIndex?: number) => {
-    // currentIndex가 있으면 "answer", 없으면 "question" 추가
-    const isAddAnswer = currentIndex !== undefined;
-    const newRoot = deepCopyTree(periNoteData.answerThree);
-    const targetNode = getTargetNodeByPath(newRoot, pathStack);
-
-    if (isAddAnswer) {
-      targetNode.children.splice(currentIndex + 1, 0, {
-        id: uuidv4(),
-        type: "answer",
-        content: "",
-        children: [],
-      });
-    } else {
-      targetNode.children.push({
-        id: uuidv4(),
-        type: "question",
-        content: "",
-        children: [
-          {
-            id: uuidv4(),
-            type: "answer",
-            content: "",
-            children: [],
-          },
-        ],
-      });
-    }
-
-    setPeriNoteData((current) => ({ ...current, answerThree: newRoot }));
-  };
-
-  const handleSetContent = (value: string, pathStack: number[]) => {
-    const newRoot = deepCopyTree(periNoteData.answerThree);
-    const current = getTargetNodeByPath(newRoot, pathStack);
-
-    current.content = value;
-
-    setPeriNoteData((current) => ({ ...current, answerThree: newRoot }));
-  };
-
-  const handleDeleteChild = (pathStack: number[]) => {
-    const newRoot = deepCopyTree(periNoteData.answerThree);
-    // 삭제할 때는 자신의 부모를 찾아서 children을 제거
-    const parent = getTargetNodeByPath(newRoot, pathStack.slice(0, -1));
-
-    // parent.children.splice(pathStack[pathStack.length - 1], 1);
-    parent.children[pathStack[pathStack.length - 1]] = {
-      ...parent.children[pathStack[pathStack.length - 1]],
-      type: "deleted",
-    };
-
-    setPeriNoteData((current) => ({ ...current, answerThree: newRoot }));
-  };
-
-  // 규민아 이거 ref로 바꿀 수 있을까?
+  // TODO :: Ref 이용
   function toggleMenu(e: React.MouseEvent<HTMLFormElement, MouseEvent>) {
-    // as를 없애고 싶다
+    // TODO :: as 삭제
     const targetElement = e.target as HTMLElement;
 
     if (!targetElement.closest(".icn_more")) {
@@ -158,7 +107,8 @@ export default function PeriNote(props: PeriNoteProps) {
           <TopQuestionContainer
             pathStack={[topQuestionIdx]}
             node={topQuestionNode}
-            onAddTopAnswer={handleAddChild}
+            onAddSiblingQuestion={handleAddSiblingQuestion}
+            onAddTopAnswer={handleAddSiblingAnswer}
             onDeleteChild={handleDeleteChild}
             onSetContent={handleSetContent}
           />
@@ -168,7 +118,8 @@ export default function PeriNote(props: PeriNoteProps) {
               index={topAnswerIdx}
               pathStack={[topQuestionIdx, topAnswerIdx]}
               node={topAnswerNode}
-              onAddChild={handleAddChild}
+              onAddSiblingAnswer={handleAddSiblingAnswer}
+              onAddChildQuestion={handleAddChildQuestion}
               onDeleteChild={handleDeleteChild}
               onSetContent={handleSetContent}>
               {topAnswerNode.children.map((childQANode, childQAIdx) => (
@@ -177,7 +128,10 @@ export default function PeriNote(props: PeriNoteProps) {
                   pathStack={[topQuestionIdx, topAnswerIdx, childQAIdx]}
                   index={childQAIdx}
                   node={childQANode}
-                  onAddChild={handleAddChild}
+                  onAddChildQuestion={handleAddChildQuestion}
+                  onAddSiblingQuestion={handleAddSiblingQuestion}
+                  onAddChildAnswer={handleAddChildAnswer}
+                  onAddSiblingAnswer={handleAddSiblingAnswer}
                   onSetContent={handleSetContent}
                   onDeleteChild={handleDeleteChild}
                   formController={{ register, setFocus }}
@@ -188,7 +142,10 @@ export default function PeriNote(props: PeriNoteProps) {
         </React.Fragment>
       ))}
 
-      <StAddChildButton type="button" disabled={isPreventedPeriNote.addQuestion} onClick={() => handleAddChild([])}>
+      <StAddChildButton
+        type="button"
+        disabled={isPreventedPeriNote.addQuestion}
+        onClick={() => handleAddChildQuestion([])}>
         질문 리스트 추가
       </StAddChildButton>
 

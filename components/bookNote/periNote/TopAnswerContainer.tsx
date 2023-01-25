@@ -13,14 +13,16 @@ interface TopAnswerContainerProps {
   index: number;
   pathStack: number[];
   node: PeriNoteTreeNode;
-  onAddChild: (pathStack: number[], index?: number) => void;
+  onAddSiblingAnswer: (pathStack: number[], currentIndex: number) => void;
+  onAddChildQuestion: (pathStack: number[]) => void;
   onDeleteChild: (pathStack: number[]) => void;
   onSetContent: (value: string, pathStack: number[]) => void;
   children: React.ReactNode;
 }
 
 export default function TopAnswerContainer(props: TopAnswerContainerProps) {
-  const { index, pathStack, node, onAddChild, onDeleteChild, onSetContent, children } = props;
+  const { index, pathStack, node, onAddSiblingAnswer, onAddChildQuestion, onDeleteChild, onSetContent, children } =
+    props;
 
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -33,7 +35,7 @@ export default function TopAnswerContainer(props: TopAnswerContainerProps) {
   const handleKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
       // add answer (+ index 추가 인자)
-      onAddChild(pathStack.slice(0, -1), index);
+      onAddSiblingAnswer(pathStack.slice(0, -1), index);
     }
   };
 
@@ -60,7 +62,7 @@ export default function TopAnswerContainer(props: TopAnswerContainerProps) {
         />
         <StMore className="icn_more" />
         <StMenuWrapper menuposition="isTopOfQA">
-          <StMenuBtn type="button" onClick={() => onAddChild(pathStack)}>
+          <StMenuBtn type="button" onClick={() => onAddChildQuestion(pathStack)}>
             꼬리질문 추가
           </StMenuBtn>
           <StMenuBtn type="button" onClick={() => onDeleteChild(pathStack)}>
