@@ -11,6 +11,7 @@ export default function Navigation() {
   const handleChangeNavIndex = (index: BookcasePathKey) => {
     changeNavIndex?.(index);
   };
+
   const [isScroll, setIsScroll] = useState<boolean>(false);
   const { scrollY } = useViewportScroll();
   const MAIN_HEADER_HEIGHT = 109;

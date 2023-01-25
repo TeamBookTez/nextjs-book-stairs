@@ -9,7 +9,7 @@ import { BookcaseInfo, BookcasePathKey, bookcasePathKey } from "../../types/book
 
 type BookcaseNavigationContextType = {
   navIndex: { key: BookcasePathKey; value: number };
-  changeNavIndex?: (idx: BookcasePathKey) => void;
+  changeNavIndex?: (index: BookcasePathKey) => void;
 };
 
 export const BookcaseNavigationContext = createContext<BookcaseNavigationContextType>({
@@ -21,8 +21,8 @@ export const BookcaseNavigationProvider = ({ children }: { children: ReactNode }
   const { fromSt } = navigatingBookInfo;
   const [navIndex, setNavIndex] = useState<BookcasePathKey>(fromSt);
 
-  const changeNavIndex = (idx: BookcasePathKey) => {
-    setNavIndex(idx);
+  const changeNavIndex = (index: BookcasePathKey) => {
+    setNavIndex(index);
   };
 
   const navUnderbarIndex = useMemo(() => {
