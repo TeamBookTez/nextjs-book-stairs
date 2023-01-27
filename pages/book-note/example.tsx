@@ -11,11 +11,11 @@ import {
 } from "../../components/bookNote/detail";
 import {
   StBookTitle,
-  StIcCancelWhite,
   StNoteModalWrapper,
   StStepModalWrapper,
 } from "../../components/bookNote/styled/DetailBookNote.styled";
 import { Loading } from "../../components/common";
+import { StIcCancelWhite } from "../../components/common/styled/NoteModalWrapper";
 import { periNoteStepUp, reviewData } from "../../core/constant/bookNote/exampleData";
 import useUser from "../../util/hooks/useUser";
 

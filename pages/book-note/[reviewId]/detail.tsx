@@ -5,9 +5,9 @@
   - 북노트 독서 중 : book-note/asdf
   - 북노트 독서 후 : book-note/asdf/detail
   - 북노트 예시 페이지 : book-note/example
-    
+
 고민점:
-  - 
+  -
 */
 
 import styled from "@emotion/styled";
@@ -19,12 +19,9 @@ import { v4 as uuidv4 } from "uuid";
 
 import { DetailArticleWrapper, ExamplePeriNote } from "../../../components/bookNote/detail";
 import ExamplePreNote from "../../../components/bookNote/detail/ExamplePreNote";
-import {
-  StBookTitle,
-  StIcCancelWhite,
-  StNoteModalWrapper,
-} from "../../../components/bookNote/styled/DetailBookNote.styled";
+import { StBookTitle, StNoteModalWrapper } from "../../../components/bookNote/styled/DetailBookNote.styled";
 import { Loading, PopUpDelete } from "../../../components/common";
+import { StIcCancelWhite } from "../../../components/common/styled/NoteModalWrapper";
 import { getData } from "../../../core/api/api";
 import { navigatingBookInfoState } from "../../../core/atom";
 import { IcDeleteNote, IcModifyNote } from "../../../public/assets/icons";
