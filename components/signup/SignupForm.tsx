@@ -6,6 +6,7 @@ import LocalStorage from "../../core/localStorage";
 import { IcSignupChecking } from "../../public/assets/icons";
 import { UseFormDataType } from "../../types/signup";
 import { errorPatterns } from "../../util/check";
+import referralLinkLIst from "../../util/referralLinkList";
 import { AlertLabel } from "../common";
 import { DefaultButton } from "../common/styled/Button";
 import { Input } from "../common/styled/Input";
@@ -35,10 +36,14 @@ export default function SignupForm(props: SignupFormProps) {
     </>
   );
 
+  const linkOfCondition = referralLinkLIst[0].href;
+
   const AgreeConditionBox = (
     <StAgreeConditionBox htmlFor="signupAgree" onClick={onToggleIsAgreeCondition}>
       <StIcSignupChecking isagree={isAgree} />
-      <p>개인정보 수집 및 이용 약관에 동의합니다.</p>
+      <a href={linkOfCondition} target="_blank" rel="noopener noreferrer">
+        개인정보 수집 및 이용 약관에 동의합니다.
+      </a>
     </StAgreeConditionBox>
   );
 
@@ -54,7 +59,7 @@ export default function SignupForm(props: SignupFormProps) {
 
       {keyIndex === "email" && AgreeConditionBox}
 
-      <StNextStepBtn disabled={!isDirty} type="submit">
+      <StNextStepBtn disabled={!isDirty || !isAgree} type="submit">
         다음 계단
       </StNextStepBtn>
     </>
@@ -86,6 +91,10 @@ const StAgreeConditionBox = styled.label`
   align-items: center;
 
   margin: 1.7rem 0 0 0;
+
+  & > a {
+    text-decoration: underline;
+  }
 
   ${({ theme }) => theme.fonts.body6}
 `;

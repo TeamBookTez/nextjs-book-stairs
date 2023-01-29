@@ -112,25 +112,17 @@ export default function Signup() {
         setError("password", { type: "server", message: "비밀번호가 일치하지 않습니다." });
       }
     } else {
-      // 이메일 입력시 개인정보 취급 방침 동의를 먼저 유도
-      if (formDataKeyIndex === "email" && !isAgreeCondition) {
-        setError(formDataKeyIndex, {
-          type: "agreeCondition",
-          message: "개인정보 수집 및 이용 약관에 동의해주시기 바랍니다.",
-        });
-      } else {
-        // 서버로 데이터를 보내서 유효성 검사
-        // return: 유효한지(isValid) && 에러 메시지(message)
-        const { isValid, message } = await checkIsValid(formDataKeyIndex, key);
+      // 서버로 데이터를 보내서 유효성 검사
+      // return: 유효한지(isValid) && 에러 메시지(message)
+      const { isValid, message } = await checkIsValid(formDataKeyIndex, key);
 
-        if (isValid) {
-          setNextStep(key);
-          if (formDataKeyIndex === "email") {
-            LocalStorage.setItem("booktez-email", loginFormData["email"]);
-          }
-        } else {
-          setError(formDataKeyIndex, { type: "server", message });
+      if (isValid) {
+        setNextStep(key);
+        if (formDataKeyIndex === "email") {
+          LocalStorage.setItem("booktez-email", loginFormData["email"]);
         }
+      } else {
+        setError(formDataKeyIndex, { type: "server", message });
       }
     }
   };
