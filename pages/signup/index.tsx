@@ -78,13 +78,13 @@ export default function Signup() {
   };
 
   // 다음 단계로 이동하는 함수
-  const setNextStep = (key: string) => {
+  const setNextStep = (inputValue: string) => {
     setUserData((current) => {
-      const formData = { ...current };
+      const userData = { ...current };
 
-      formData[formDataKeyIndex] = key;
+      userData[formDataKeyIndex] = inputValue;
 
-      return formData;
+      return userData;
     });
 
     setFormDataKeyIndex((current) => {
@@ -97,34 +97,41 @@ export default function Signup() {
       return "submit";
     });
 
-    setValue(formDataKeyIndex, "");
+    setValue(formDataKeyIndex, "", { shouldDirty: true });
   };
 
   // 폼 제출 에러가 없는지 확인
   const submitForm = async (loginFormData: UseFormDataType) => {
-    const key = loginFormData[formDataKeyIndex];
+    const inputValue = loginFormData[formDataKeyIndex];
+
+    console.log(inputValue);
 
     // 비밀번호 입력까지 마치면 자동 로그인
     if (formDataKeyIndex === "password") {
       if (loginFormData["password"] === loginFormData["password2"]) {
-        autoLoginAfterSignup(key);
-      } else {
-        setError("password", { type: "server", message: "비밀번호가 일치하지 않습니다." });
-      }
-    } else {
-      // 서버로 데이터를 보내서 유효성 검사
-      // return: 유효한지(isValid) && 에러 메시지(message)
-      const { isValid, message } = await checkIsValid(formDataKeyIndex, key);
+        autoLoginAfterSignup(inputValue);
 
-      if (isValid) {
-        setNextStep(key);
-        if (formDataKeyIndex === "email") {
-          LocalStorage.setItem("booktez-email", loginFormData["email"]);
-        }
-      } else {
-        setError(formDataKeyIndex, { type: "server", message });
+        return;
       }
+      setError("password", { type: "server", message: "비밀번호가 일치하지 않습니다." });
+
+      return;
     }
+
+    // 서버로 데이터를 보내서 유효성 검사
+    // return: 유효한지(isValid) && 에러 메시지(message)
+    const { isValid, message } = await checkIsValid(formDataKeyIndex, inputValue);
+
+    if (isValid) {
+      setNextStep(inputValue);
+
+      if (formDataKeyIndex === "email") {
+        LocalStorage.setItem("booktez-email", loginFormData["email"]);
+      }
+
+      return;
+    }
+    setError(formDataKeyIndex, { type: "server", message });
   };
 
   const handleToggleIsAgreeCondition = () => {

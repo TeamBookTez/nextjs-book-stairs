@@ -26,6 +26,8 @@ interface SignupFormProps {
 export default function SignupForm(props: SignupFormProps) {
   const { register, errors, keyData, keyIndex, isAgree, isDirty, onToggleIsAgreeCondition } = props;
 
+  const linkOfCondition = referralLinkLIst[0].href;
+
   const PasswordForm = (
     <>
       <StEmailFixed>{LocalStorage.getItem("booktez-email")}</StEmailFixed>
@@ -36,11 +38,9 @@ export default function SignupForm(props: SignupFormProps) {
     </>
   );
 
-  const linkOfCondition = referralLinkLIst[0].href;
-
   const AgreeConditionBox = (
-    <StAgreeConditionBox htmlFor="signupAgree" onClick={onToggleIsAgreeCondition}>
-      <StIcSignupChecking isagree={isAgree} />
+    <StAgreeConditionBox htmlFor="signupAgree">
+      <StIcSignupChecking isagree={isAgree} onClick={onToggleIsAgreeCondition} />
       <a href={linkOfCondition} target="_blank" rel="noopener noreferrer">
         개인정보 수집 및 이용 약관에 동의합니다.
       </a>
@@ -56,9 +56,7 @@ export default function SignupForm(props: SignupFormProps) {
         <Input {...register(keyIndex, errorPatterns[keyIndex])} placeholder={`${keyData[keyIndex]}을 입력해 주세요`} />
       )}
       {errors[keyIndex]?.message && <AlertLabel message={errors[keyIndex].message} />}
-
       {keyIndex === "email" && AgreeConditionBox}
-
       <StNextStepBtn disabled={!isDirty || !isAgree} type="submit">
         다음 계단
       </StNextStepBtn>
