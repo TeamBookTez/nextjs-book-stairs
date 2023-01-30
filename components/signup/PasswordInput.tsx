@@ -24,7 +24,11 @@ export default function PasswordInput(props: PasswordInputProps) {
     <StInputPwdWrapper>
       <Input
         {...register(keyIndex, passwordErrorPatterns)}
-        placeholder="비밀번호를 입력해 주세요"
+        placeholder={
+          keyIndex === "password2"
+            ? " 비밀번호를 확인해 주세요."
+            : "영문, 숫자, 특수문자를 조합해 8자 이상 입력해 주세요."
+        }
         type={isPwdSight ? "text" : "password"}
       />
       <PwdSightIcon isPwdSight={isPwdSight} onToggleSightPwd={toggleSightPwd} />

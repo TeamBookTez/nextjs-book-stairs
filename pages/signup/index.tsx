@@ -148,7 +148,7 @@ export default function Signup() {
         // 초기화
       };
     }
-  }, [setFormDataKeyIndex]);
+  }, [formDataKeyIndex]);
 
   return (
     <>
@@ -167,10 +167,12 @@ export default function Signup() {
               <StSignupImage src={imgList[formDataKeyIndex]} alt="회원가입 첫 단계" />
               <StSignupHeading2>나만의 서재를 만드는 중이에요!</StSignupHeading2>
 
-              {formDataKeyData[formDataKeyIndex] == "닉네임" ? (
+              {formDataKeyData[formDataKeyIndex] == "이메일" ? (
+                <StSignupParagraph>당신의 {formDataKeyData[formDataKeyIndex]}을 입력해 주세요.</StSignupParagraph>
+              ) : formDataKeyData[formDataKeyIndex] == "닉네임" ? (
                 <StSignupParagraph>제가 여러분을 어떻게 부르면 될까요?</StSignupParagraph>
               ) : (
-                <StSignupParagraph>당신의 {formDataKeyData[formDataKeyIndex]}을 입력해 주세요.</StSignupParagraph>
+                <StSignupParagraph>{formDataKeyData[formDataKeyIndex]}를 설정해 주세요.</StSignupParagraph>
               )}
 
               <StForm onSubmit={handleSubmit(submitForm)}>
