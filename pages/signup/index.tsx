@@ -154,7 +154,13 @@ export default function Signup() {
             <StFormWrapper>
               <StSignupImage src={imgList[formDataKeyIndex]} alt="회원가입 첫 단계" />
               <StSignupHeading2>나만의 서재를 만드는 중이에요!</StSignupHeading2>
-              <StSignupParagraph>당신의 {formDataKeyData[formDataKeyIndex]}을 입력해 주세요.</StSignupParagraph>
+
+              {formDataKeyData[formDataKeyIndex] == "닉네임" ? (
+                <StSignupParagraph>제가 여러분을 어떻게 부르면 될까요?</StSignupParagraph>
+              ) : (
+                <StSignupParagraph>당신의 {formDataKeyData[formDataKeyIndex]}을 입력해 주세요.</StSignupParagraph>
+              )}
+
               <StForm onSubmit={handleSubmit(submitForm)}>
                 <SignupForm
                   register={register}
