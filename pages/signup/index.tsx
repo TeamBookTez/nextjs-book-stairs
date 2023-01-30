@@ -12,7 +12,7 @@
 import styled from "@emotion/styled";
 import { AnimatePresence, motion } from "framer-motion";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 import { NavHeader } from "../../components/common";
@@ -99,12 +99,9 @@ export default function Signup() {
 
     setValue(formDataKeyIndex, "", { shouldDirty: true });
   };
-
   // 폼 제출 에러가 없는지 확인
   const submitForm = async (loginFormData: UseFormDataType) => {
     const inputValue = loginFormData[formDataKeyIndex];
-
-    console.log(inputValue);
 
     // 비밀번호 입력까지 마치면 자동 로그인
     if (formDataKeyIndex === "password") {
@@ -137,6 +134,21 @@ export default function Signup() {
   const handleToggleIsAgreeCondition = () => {
     setIsAgreeCondition(!isAgreeCondition);
   };
+
+  useEffect(() => {
+    if (formDataKeyIndex == "nickname" || formDataKeyIndex == "password") {
+      const prevFormDataKeyIndex = formDataKeyIndex == "password" ? "nickname" : "email";
+
+      history.pushState(null, "", "");
+      window.onpopstate = () => {
+        setFormDataKeyIndex(prevFormDataKeyIndex);
+      };
+    } else {
+      window.onpopstate = () => {
+        // 초기화
+      };
+    }
+  }, [setFormDataKeyIndex]);
 
   return (
     <>
