@@ -99,6 +99,7 @@ export default function Signup() {
 
     setValue(formDataKeyIndex, "", { shouldDirty: true });
   };
+
   // 폼 제출 에러가 없는지 확인
   const submitForm = async (loginFormData: UseFormDataType) => {
     const inputValue = loginFormData[formDataKeyIndex];
@@ -137,15 +138,18 @@ export default function Signup() {
 
   useEffect(() => {
     if (formDataKeyIndex == "nickname" || formDataKeyIndex == "password") {
-      const prevFormDataKeyIndex = formDataKeyIndex == "password" ? "nickname" : "email";
+      const prevFormDataKeyIndex = formDataKeyIndex === "password" ? "nickname" : "email";
 
       history.pushState(null, "", "");
       window.onpopstate = () => {
         setFormDataKeyIndex(prevFormDataKeyIndex);
+        setValue(prevFormDataKeyIndex, userData[prevFormDataKeyIndex], { shouldDirty: true });
       };
-    } else {
-      window.onpopstate = () => {
-        // 초기화
+
+      return () => {
+        window.onpopstate = () => {
+          // 초기화
+        };
       };
     }
   }, [formDataKeyIndex]);
