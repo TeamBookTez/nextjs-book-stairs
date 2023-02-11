@@ -38,7 +38,7 @@ export default function PopUpDelete(props: PopUpDeleteProps) {
     <StPopUpWrapper>
       <StPopUp>
         <StImgWrapper>
-          <Image src={ImgDeletePopUp} alt="독서 전 단계 완료" />
+          <Image src={ImgDeletePopUp} alt="독서 전 단계 완료" layout="fill" />
         </StImgWrapper>
         <StQuestion>삭제하시겠어요?</StQuestion>
         <StDetail>삭제한 기록은 복구가 어려워요!</StDetail>
@@ -56,6 +56,8 @@ export default function PopUpDelete(props: PopUpDeleteProps) {
 }
 
 const StImgWrapper = styled.div`
+  position: relative;
+
   width: 12.6rem;
   height: 12.6rem;
 
