@@ -2,13 +2,13 @@ import styled from "@emotion/styled";
 import Link from "next/link";
 import { useMediaQuery } from "react-responsive";
 
-import { useGetBookInfo } from "../../core/api/api";
 import { BookcaseInfo } from "../../types/bookcase";
+import useBookcase from "../../util/hooks/useBookcase";
 import { BookCard } from "../bookcase";
 import { Empty, Loading } from "../common";
 
 export default function RecentBooks() {
-  const { bookcaseInfo, isLoading, isError } = useGetBookInfo("/book");
+  const { bookcaseInfo, isLoading, isError } = useBookcase();
   const isNotEmpty = !isError && bookcaseInfo !== undefined && bookcaseInfo?.length > 0;
 
   const isWideDesktopScreen = useMediaQuery({

@@ -1,21 +1,26 @@
 import styled from "@emotion/styled";
 
-import { BookcaseInfo, BookcasePathKey } from "../../types/bookcase";
-import { AddBookCard, BookCard } from ".";
+import { BookcaseInfo } from "../../types/bookcase";
+import useBookcase from "../../util/hooks/useBookcase";
+import { Loading } from "../common";
+import { AddBookCard, BookCard, NoCards } from ".";
 
-interface CardsProps {
-  navIndex: BookcasePathKey;
-  bookcaseInfo: BookcaseInfo[];
-}
+export default function Cards() {
+  const { navIndex, bookcaseInfo, isLoading, isError } = useBookcase();
 
-export default function Cards(props: CardsProps) {
-  const { navIndex, bookcaseInfo } = props;
+  if (isLoading) {
+    return <Loading />;
+  }
+
+  if (!bookcaseInfo || !bookcaseInfo.length || isError) {
+    return <NoCards />;
+  }
 
   return (
     <StSection>
       <AddBookCard />
       {bookcaseInfo.map((bookcaseInfo: BookcaseInfo, idx: number) => (
-        <BookCard key={idx} bookcaseInfo={bookcaseInfo} navIndex={navIndex} />
+        <BookCard key={idx} bookcaseInfo={bookcaseInfo} navIndex={navIndex.key} />
       ))}
     </StSection>
   );

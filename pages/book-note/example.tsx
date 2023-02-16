@@ -11,11 +11,11 @@ import {
 } from "../../components/bookNote/detail";
 import {
   StBookTitle,
-  StIcCancelWhite,
   StNoteModalWrapper,
   StStepModalWrapper,
 } from "../../components/bookNote/styled/DetailBookNote.styled";
 import { Loading } from "../../components/common";
+import { StIcCancelWhiteCircle } from "../../components/common/styled/NoteModalWrapper";
 import { periNoteStepUp, reviewData } from "../../core/constant/bookNote/exampleData";
 import useUser from "../../util/hooks/useUser";
 
@@ -32,7 +32,7 @@ export default function Example() {
   return (
     <StNoteModalWrapper>
       <Link href="/main" passHref>
-        <StIcCancelWhite />
+        <StIcCancelWhiteCircle />
       </Link>
       <StBookTitleUp>{reviewData?.bookTitle}</StBookTitleUp>
       <DetailArticleWrapper title="독서 전 단계">

@@ -2,16 +2,14 @@
 마지막 편집자: 22-04-28 joohaem
 변경사항 및 참고:
   - 후에 관리가 불편하다면, 파일을 폴더로 묶어 page 별로 나누는 것 고려해주십시오!
-    
+
 고민점:
-  - 
+  -
 */
 
 import axios from "axios";
-import useSWR from "swr";
 
 import { KAKAOParams, Response, ResponseDto } from "../../types";
-import { BookcaseInfo } from "../../types/bookcase";
 import { IsValid, UseFormDataType } from "../../types/signup";
 import LocalStorage from "../localStorage";
 import { baseInstance, kakaoInstance } from "./axios";
@@ -31,17 +29,6 @@ export const patchUserWithdraw = (key: string) => {
 export const deleteData = (key: string) => {
   return baseInstance.delete(key);
 };
-
-export function useGetBookInfo(key: string) {
-  const urlKey = key === "/main" ? "/book" : key;
-  const { data, error } = useSWR<Response<{ books: BookcaseInfo[] }>>(urlKey, baseInstance.get);
-
-  return {
-    bookcaseInfo: data?.data?.books,
-    isLoading: !error && !data,
-    isError: error,
-  };
-}
 
 export const signup = async (userData: UseFormDataType, password: string) => {
   try {

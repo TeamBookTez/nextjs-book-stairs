@@ -3,34 +3,18 @@ import styled from "@emotion/styled";
 import { useViewportScroll } from "framer-motion";
 import { useEffect, useState } from "react";
 
-import { BookcasePathKey } from "../../types/bookcase";
+import { BookcasePathKey, bookcasePathKey } from "../../types/bookcase";
+import useBookcase from "../../util/hooks/useBookcase";
 
-interface NavigationProps {
-  navIndex: BookcasePathKey;
-  onChangeNavIndex: (idx: BookcasePathKey) => void;
-}
-export default function Navigation(props: NavigationProps) {
-  const { navIndex, onChangeNavIndex } = props;
+export default function Navigation() {
+  const { navIndex, changeNavIndex } = useBookcase();
+  const handleChangeNavIndex = (index: BookcasePathKey) => {
+    changeNavIndex?.(index);
+  };
 
   const [isScroll, setIsScroll] = useState<boolean>(false);
   const { scrollY } = useViewportScroll();
   const MAIN_HEADER_HEIGHT = 109;
-
-  let navUnderbarIndex = 0;
-
-  switch (navIndex) {
-    case "/book/pre":
-      navUnderbarIndex = 1;
-      break;
-    case "/book/peri":
-      navUnderbarIndex = 2;
-      break;
-    case "/book/post":
-      navUnderbarIndex = 3;
-      break;
-    default:
-      navUnderbarIndex = 0;
-  }
 
   useEffect(() => {
     scrollY.onChange(() => {
@@ -49,13 +33,13 @@ export default function Navigation(props: NavigationProps) {
   return (
     <StNav isscroll={isScroll}>
       <StUl>
-        <StList onClick={() => onChangeNavIndex("/book")}>전체</StList>
-        <StList onClick={() => onChangeNavIndex("/book/pre")}>독서 전</StList>
-        <StList onClick={() => onChangeNavIndex("/book/peri")}>독서 중</StList>
-        <StList onClick={() => onChangeNavIndex("/book/post")}>독서 완료</StList>
+        <StList onClick={() => handleChangeNavIndex(bookcasePathKey.all)}>전체</StList>
+        <StList onClick={() => handleChangeNavIndex(bookcasePathKey.pre)}>독서 전</StList>
+        <StList onClick={() => handleChangeNavIndex(bookcasePathKey.peri)}>독서 중</StList>
+        <StList onClick={() => handleChangeNavIndex(bookcasePathKey.post)}>독서 완료</StList>
       </StUl>
       <StBottomLine>
-        <StOrangLine index={navUnderbarIndex} />
+        <StOrangLine index={navIndex.value} />
       </StBottomLine>
     </StNav>
   );
