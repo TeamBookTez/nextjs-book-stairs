@@ -17,11 +17,10 @@ export const isLoginState = atom<boolean>({
 export const navigatingBookInfoState = atom<NavigatingBookInfoState>({
   key: StateType.NAVIGATING_BOOK_INFO_STATE,
   default: {
-    reviewId: "62b5581c1b74916b7a94efc8",
-    title: "북노오오오오오트으으으으",
-    fromUrl: "/main",
-    fromSt: "/main",
-    reviewSt: 2,
+    reviewId: "",
+    title: "",
+    fromUrl: "",
+    fromSt: null,
   },
   effects_UNSTABLE: [persistAtom],
 });
