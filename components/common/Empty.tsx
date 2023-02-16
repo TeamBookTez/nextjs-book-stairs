@@ -1,30 +1,32 @@
 import styled from "@emotion/styled";
 import Link from "next/link";
-import { useRouter } from "next/router";
 
 import { ImgEmptyBook } from "../../public/assets/images";
 import { DefaultButton } from "./styled/Button";
 import { ImageWrapper } from "./styled/Img";
-export default function Empty() {
-  const { asPath } = useRouter();
 
+interface EmptyProps {
+  text: string;
+  buttonVisible: boolean;
+}
+
+export default function Empty({ text, buttonVisible }: EmptyProps) {
   return (
     <StArticle>
       <StImg thumbnail={ImgEmptyBook.src} />
-      <StH3>{asPath === "/bookcase" || asPath === "/main" ? "아직 읽은 책이 없어요." : "이 단계의 책이 없어요."}</StH3>
+      <StH3>{text}</StH3>
 
       <StParagraph>
         북스테어즈만의 독서법을 통해
         <br /> 지식을 얻고 독서의 매력을 느껴보세요
       </StParagraph>
-      {asPath === "/bookcase" ||
-        (asPath === "/main" && (
-          <StAddBookBtn>
-            <Link href="/bookcase/add-book">
-              <StLink>+ 책 추가</StLink>
-            </Link>
-          </StAddBookBtn>
-        ))}
+      {buttonVisible && (
+        <StAddBookBtn>
+          <Link href="/bookcase/add-book">
+            <StLink>+ 책 추가</StLink>
+          </Link>
+        </StAddBookBtn>
+      )}
     </StArticle>
   );
 }

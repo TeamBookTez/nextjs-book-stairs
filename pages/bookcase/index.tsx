@@ -17,7 +17,7 @@ export default function Bookcase() {
   const { fromSt } = navigatingBookInfo;
 
   const { isLogin } = useUser();
-  const [navIndex, setNavIndex] = useState<BookcasePathKey>(fromSt);
+  const [navIndex, setNavIndex] = useState<BookcasePathKey>(fromSt || "/book");
   const { bookcaseInfo, isLoading, isError } = useGetBookInfo(navIndex);
 
   const handleChangeNavIndex = (idx: BookcasePathKey) => {

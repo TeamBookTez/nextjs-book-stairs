@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 
 import { BookcasePathKey } from "../../types/bookcase";
-import Empty from "./cardSection/Empty";
+import { Empty } from "../common";
 
 interface NoCardsProps {
   navIndex: BookcasePathKey;
@@ -11,7 +11,10 @@ export default function NoCards(props: NoCardsProps) {
 
   return (
     <StDefaultSection>
-      <Empty navIndex={navIndex} />
+      <Empty
+        text={navIndex === "/book" ? "아직 읽은 책이 없어요." : "이 단계의 책이 없어요."}
+        buttonVisible={navIndex === "/book"}
+      />
     </StDefaultSection>
   );
 }

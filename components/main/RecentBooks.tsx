@@ -41,7 +41,7 @@ export default function RecentBooks() {
                 <BookCard key={bookInfo.reviewId} bookcaseInfo={bookInfo} navIndex={"/main"} />
               ))
           ) : (
-            <Empty />
+            <Empty text="아직 읽은 책이 없어요." buttonVisible={true} />
           )}
         </StBookWrapper>
       </section>
