@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 
 import { IcCancelWhite } from "../../../public/assets/icons";
 
-export const StIcCancelWhite = styled(IcCancelWhite)`
+export const StIcCancelWhiteCircle = styled(IcCancelWhite)`
   position: absolute;
   top: 3.2rem;
   left: 2.4rem;

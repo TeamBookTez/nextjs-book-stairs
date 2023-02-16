@@ -3,7 +3,7 @@ import React from "react";
 import { useRecoilValue } from "recoil";
 
 import { navigatingBookInfoState } from "../../core/atom";
-import { StIcCancelWhite } from "../common/styled/NoteModalWrapper";
+import { StIcCancelWhiteCircle } from "../common/styled/NoteModalWrapper";
 
 interface BookNoteHeaderProps {
   onClickExitBtn: () => void;
@@ -18,7 +18,7 @@ export default function BookNoteHeader(props: BookNoteHeaderProps) {
 
   return (
     <>
-      <StIcCancelWhite onClick={onClickExitBtn} />
+      <StIcCancelWhiteCircle onClick={onClickExitBtn} />
       <StBookTitle>{title}</StBookTitle>
       <StNavWrapper>{children}</StNavWrapper>
     </>

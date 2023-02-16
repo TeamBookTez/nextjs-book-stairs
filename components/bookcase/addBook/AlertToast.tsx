@@ -2,7 +2,7 @@ import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 
 import { IcToastAlert } from "../../../public/assets/icons";
-import { StIcCancelWhite } from "../../common/styled/NoteModalWrapper";
+import { StIcCancelWhiteCircle } from "../../common/styled/NoteModalWrapper";
 import { ServerError } from "./BookList";
 interface AlertToastProps {
   onCloseAlertToast: () => void;
@@ -74,7 +74,7 @@ const StToastSpan = styled.span`
   ${({ theme }) => theme.fonts.h5};
 `;
 
-const StIcCancel = styled(StIcCancelWhite)`
+const StIcCancel = styled(StIcCancelWhiteCircle)`
   position: static;
   width: 3.2rem;
   height: 3.2rem;

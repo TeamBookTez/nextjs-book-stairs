@@ -21,7 +21,7 @@ import { DetailArticleWrapper, ExamplePeriNote } from "../../../components/bookN
 import ExamplePreNote from "../../../components/bookNote/detail/ExamplePreNote";
 import { StBookTitle, StNoteModalWrapper } from "../../../components/bookNote/styled/DetailBookNote.styled";
 import { Loading, PopUpDelete } from "../../../components/common";
-import { StIcCancelWhite } from "../../../components/common/styled/NoteModalWrapper";
+import { StIcCancelWhiteCircle } from "../../../components/common/styled/NoteModalWrapper";
 import { getData } from "../../../core/api/api";
 import { navigatingBookInfoState } from "../../../core/atom";
 import { IcDeleteNote, IcModifyNote } from "../../../public/assets/icons";
@@ -73,7 +73,7 @@ export default function Detail() {
       <StNoteModalWrapper>
         {isPopUp || (
           <Link href={fromUrl} passHref>
-            <StIcCancelWhite />
+            <StIcCancelWhiteCircle />
           </Link>
         )}
         <StBookTitle>{reviewData?.bookTitle}</StBookTitle>
