@@ -6,6 +6,7 @@ import LocalStorage from "../../core/localStorage";
 import { IcSignupChecking } from "../../public/assets/icons";
 import { UseFormDataType } from "../../types/signup";
 import { errorPatterns } from "../../util/check";
+import referralLinkLIst from "../../util/referralLinkList";
 import { AlertLabel } from "../common";
 import { DefaultButton } from "../common/styled/Button";
 import { Input } from "../common/styled/Input";
@@ -25,6 +26,8 @@ interface SignupFormProps {
 export default function SignupForm(props: SignupFormProps) {
   const { register, errors, keyData, keyIndex, isAgree, isDirty, onToggleIsAgreeCondition } = props;
 
+  const linkOfCondition = referralLinkLIst[0].href;
+
   const PasswordForm = (
     <>
       <StEmailFixed>{LocalStorage.getItem("booktez-email")}</StEmailFixed>
@@ -36,9 +39,11 @@ export default function SignupForm(props: SignupFormProps) {
   );
 
   const AgreeConditionBox = (
-    <StAgreeConditionBox htmlFor="signupAgree" onClick={onToggleIsAgreeCondition}>
-      <StIcSignupChecking isagree={isAgree} />
-      <p>개인정보 수집 및 이용 약관에 동의합니다.</p>
+    <StAgreeConditionBox htmlFor="signupAgree">
+      <StIcSignupChecking isagree={isAgree} onClick={onToggleIsAgreeCondition} />
+      <a href={linkOfCondition} target="_blank" rel="noopener noreferrer">
+        개인정보 수집 및 이용 약관에 동의합니다.
+      </a>
     </StAgreeConditionBox>
   );
 
@@ -51,10 +56,8 @@ export default function SignupForm(props: SignupFormProps) {
         <Input {...register(keyIndex, errorPatterns[keyIndex])} placeholder={`${keyData[keyIndex]}을 입력해 주세요`} />
       )}
       {errors[keyIndex]?.message && <AlertLabel message={errors[keyIndex].message} />}
-
       {keyIndex === "email" && AgreeConditionBox}
-
-      <StNextStepBtn disabled={!isDirty} type="submit">
+      <StNextStepBtn disabled={!isDirty || !isAgree} type="submit">
         다음 계단
       </StNextStepBtn>
     </>
@@ -86,6 +89,10 @@ const StAgreeConditionBox = styled.label`
   align-items: center;
 
   margin: 1.7rem 0 0 0;
+
+  & > a {
+    text-decoration: underline;
+  }
 
   ${({ theme }) => theme.fonts.body6}
 `;

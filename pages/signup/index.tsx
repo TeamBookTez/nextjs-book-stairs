@@ -12,7 +12,7 @@
 import styled from "@emotion/styled";
 import { AnimatePresence, motion } from "framer-motion";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 import { NavHeader } from "../../components/common";
@@ -78,13 +78,13 @@ export default function Signup() {
   };
 
   // 다음 단계로 이동하는 함수
-  const setNextStep = (key: string) => {
+  const setNextStep = (inputValue: string) => {
     setUserData((current) => {
-      const formData = { ...current };
+      const userData = { ...current };
 
-      formData[formDataKeyIndex] = key;
+      userData[formDataKeyIndex] = inputValue;
 
-      return formData;
+      return userData;
     });
 
     setFormDataKeyIndex((current) => {
@@ -97,47 +97,62 @@ export default function Signup() {
       return "submit";
     });
 
-    setValue(formDataKeyIndex, "");
+    setValue(formDataKeyIndex, "", { shouldDirty: true });
   };
 
   // 폼 제출 에러가 없는지 확인
   const submitForm = async (loginFormData: UseFormDataType) => {
-    const key = loginFormData[formDataKeyIndex];
+    const inputValue = loginFormData[formDataKeyIndex];
 
     // 비밀번호 입력까지 마치면 자동 로그인
     if (formDataKeyIndex === "password") {
       if (loginFormData["password"] === loginFormData["password2"]) {
-        autoLoginAfterSignup(key);
-      } else {
-        setError("password", { type: "server", message: "비밀번호가 일치하지 않습니다." });
-      }
-    } else {
-      // 이메일 입력시 개인정보 취급 방침 동의를 먼저 유도
-      if (formDataKeyIndex === "email" && !isAgreeCondition) {
-        setError(formDataKeyIndex, {
-          type: "agreeCondition",
-          message: "개인정보 수집 및 이용 약관에 동의해주시기 바랍니다.",
-        });
-      } else {
-        // 서버로 데이터를 보내서 유효성 검사
-        // return: 유효한지(isValid) && 에러 메시지(message)
-        const { isValid, message } = await checkIsValid(formDataKeyIndex, key);
+        autoLoginAfterSignup(inputValue);
 
-        if (isValid) {
-          setNextStep(key);
-          if (formDataKeyIndex === "email") {
-            LocalStorage.setItem("booktez-email", loginFormData["email"]);
-          }
-        } else {
-          setError(formDataKeyIndex, { type: "server", message });
-        }
+        return;
       }
+      setError("password", { type: "server", message: "비밀번호가 일치하지 않습니다." });
+
+      return;
     }
+
+    // 서버로 데이터를 보내서 유효성 검사
+    // return: 유효한지(isValid) && 에러 메시지(message)
+    const { isValid, message } = await checkIsValid(formDataKeyIndex, inputValue);
+
+    if (isValid) {
+      setNextStep(inputValue);
+
+      if (formDataKeyIndex === "email") {
+        LocalStorage.setItem("booktez-email", loginFormData["email"]);
+      }
+
+      return;
+    }
+    setError(formDataKeyIndex, { type: "server", message });
   };
 
   const handleToggleIsAgreeCondition = () => {
     setIsAgreeCondition(!isAgreeCondition);
   };
+
+  useEffect(() => {
+    if (formDataKeyIndex == "nickname" || formDataKeyIndex == "password") {
+      const prevFormDataKeyIndex = formDataKeyIndex === "password" ? "nickname" : "email";
+
+      history.pushState(null, "", "");
+      window.onpopstate = () => {
+        setFormDataKeyIndex(prevFormDataKeyIndex);
+        setValue(prevFormDataKeyIndex, userData[prevFormDataKeyIndex], { shouldDirty: true });
+      };
+
+      return () => {
+        window.onpopstate = () => {
+          // 초기화
+        };
+      };
+    }
+  }, [formDataKeyIndex]);
 
   return (
     <>
@@ -155,7 +170,15 @@ export default function Signup() {
             <StFormWrapper>
               <StSignupImage src={imgList[formDataKeyIndex]} alt="회원가입 첫 단계" />
               <StSignupHeading2>나만의 서재를 만드는 중이에요!</StSignupHeading2>
-              <StSignupParagraph>당신의 {formDataKeyData[formDataKeyIndex]}을 입력해 주세요.</StSignupParagraph>
+
+              {formDataKeyData[formDataKeyIndex] == "이메일" ? (
+                <StSignupParagraph>당신의 {formDataKeyData[formDataKeyIndex]}을 입력해 주세요.</StSignupParagraph>
+              ) : formDataKeyData[formDataKeyIndex] == "닉네임" ? (
+                <StSignupParagraph>제가 여러분을 어떻게 부르면 될까요?</StSignupParagraph>
+              ) : (
+                <StSignupParagraph>{formDataKeyData[formDataKeyIndex]}를 설정해 주세요.</StSignupParagraph>
+              )}
+
               <StForm onSubmit={handleSubmit(submitForm)}>
                 <SignupForm
                   register={register}

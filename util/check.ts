@@ -1,6 +1,8 @@
 const EMAIL_REGEX =
   /^(([^<>()\].,;:\s@"]+(\.[^<>()\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
 
+const NICKNAME_REGEX = /^(?=.*[a-z0-9가-힣])[a-z0-9가-힣]{2,10}$/i;
+
 const INVALID_PWD_CHAR_LIST: { [key: string]: string } = {
   ",": "반점(,)",
   '"': '쌍따옴표(")',
@@ -33,6 +35,10 @@ const nicknameErrorPatterns: ErrorCondition = {
   required: {
     value: true,
     message: "닉네임을 입력해주세요.",
+  },
+  pattern: {
+    value: NICKNAME_REGEX,
+    message: "2-10자 이내의 영문/한글/숫자로 입력해주세요.",
   },
 };
 
