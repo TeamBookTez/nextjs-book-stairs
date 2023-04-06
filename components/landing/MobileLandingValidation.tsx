@@ -1,0 +1,26 @@
+import { IcLandingMobileFour02 } from "../../public/assets/icons";
+import { StBackgroundFour, StMobileBg, StMobileMain, StWrapperFour } from "../common/styled/MobileLanding";
+import { StH2Four, StParagraphFour } from "./MobileLandingExperiment";
+
+export default function MobileLandingValidation() {
+  return (
+    <StMobileBg>
+      <StMobileMain>
+        <StBackgroundFour>
+          <StWrapperFour>
+            <StH2Four>
+              읽을수록 쌓여가는 <br />
+              <strong>성장의 만족감을 느껴보세요.</strong>
+            </StH2Four>
+            <StParagraphFour>
+              나만의 북노트를 모아보고 내용을 재확인하며,
+              <br />
+              내가 읽은 책들을 모두 흡수해보세요.
+            </StParagraphFour>
+            <IcLandingMobileFour02 />
+          </StWrapperFour>
+        </StBackgroundFour>
+      </StMobileMain>
+    </StMobileBg>
+  );
+}
